@@ -1,15 +1,12 @@
 package au.id.teda.broadband.usage;
 
 import android.app.ActionBar;
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.NavUtils;
-import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,8 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
+public class MainActivity extends Activity implements ActionBar.TabListener {
 
+	// Static string for debug tags
+	private static final String DEBUG_TAG = MainActivity.class.getSimpleName();
+	
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the
      * sections. We use a {@link android.support.v4.app.FragmentPagerAdapter} derivative, which will
@@ -37,9 +37,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // Create the adapter that will return a fragment for each of the three primary sections
-        // of the app.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        
+        // Create the adapter that will return a fragment for each of the three primary sections of the app.
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
 
         // Set up the action bar.
         final ActionBar actionBar = getActionBar();
@@ -97,7 +97,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to one of the primary
      * sections of the app.
      */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    public class SectionsPagerAdapter extends FragmentManager {
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
