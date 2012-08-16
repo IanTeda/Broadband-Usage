@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+	<!-- Title on action bar -->
+    <string name="title_activity_main">BROADBAND USAGE</string>
+    
+    <!-- Action bar tabs -->
+    <string name="action_bar_tab_current">October 2012</string>
+    <string name="action_bar_tab_analysis">Analysis</string>
+    <string name="action_bar_tab_data_table">Data Table</string>
+
+    <!-- Options Menu -->
+    <string name="menu_settings">Settings</string>
+    <string name="menu_refresh">Refresh</string>
+    
+</resources>

@@ -6,10 +6,4 @@
     <string name="title_section1">Section 1</string>
     <string name="hello_world">Hello world!</string>
     
-    <string name="title_activity_main">OCTOBER 2012</string>
-
-    <!-- Options Menu -->
-    <string name="menu_settings">Settings</string>
-    <string name="menu_refresh">Refresh</string>
-    
 </resources>
