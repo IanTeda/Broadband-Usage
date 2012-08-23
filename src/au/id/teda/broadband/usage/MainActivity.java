@@ -33,8 +33,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // Create the adapter that will return a fragment for each of the three primary sections of the app.
-        mSectionsPagerAdapter = new SectionPagerAdapter(getSupportFragmentManager());
+        // Create the adapter that will return a fragment for each of the three primary sections
+        // of the app.
+        mSectionsPagerAdapter = new SectionPagerAdapter(getSupportFragmentManager(), this);
 
         // Set up the action bar.
         final ActionBar actionBar = getActionBar();
@@ -58,11 +59,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
             // Create a tab with text corresponding to the page title defined by the adapter.
             // Also specify this Activity object, which implements the TabListener interface, as the
-            
+            // listener for when this tab is selected.
             actionBar.addTab(
-                    actionBar.newTab() // Create a tab
-                            .setText(mSectionsPagerAdapter.getPageTitle(i)) // Set tab page title
-                            .setTabListener(this)); // listener for when this tab is selected.
+                    actionBar.newTab()
+                            .setText(mSectionsPagerAdapter.getPageTitle(i))
+                            .setTabListener(this));
         }
     }
 

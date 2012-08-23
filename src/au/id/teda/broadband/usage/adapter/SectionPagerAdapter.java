@@ -1,6 +1,6 @@
 package au.id.teda.broadband.usage.adapter;
 
-import android.content.res.Resources;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,8 +15,11 @@ import au.id.teda.broadband.usage.MainActivity.DummySectionFragment;
  */
 public class SectionPagerAdapter extends FragmentPagerAdapter {
 
-	public SectionPagerAdapter(FragmentManager fm) {
+	private final Context mContext;
+	
+	public SectionPagerAdapter(FragmentManager fm, Context context) {
 		super(fm);
+		this.mContext = context;
 	}
 
 	@Override
@@ -36,9 +39,9 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         switch (position) {
-            case 0: return Resources.getSystem().getString(R.string.action_bar_tab_current).toUpperCase();
-            case 1: return Resources.getSystem().getString(R.string.action_bar_tab_analysis).toUpperCase();
-            case 2: return Resources.getSystem().getString(R.string.action_bar_tab_data_table).toUpperCase();
+            case 0: return mContext.getString(R.string.action_bar_tab_current).toUpperCase();
+            case 1: return mContext.getString(R.string.action_bar_tab_analysis).toUpperCase();
+            case 2: return mContext.getString(R.string.action_bar_tab_data_table).toUpperCase();
         }
         return null;
     }
