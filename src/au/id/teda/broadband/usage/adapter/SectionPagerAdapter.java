@@ -1,12 +1,10 @@
 package au.id.teda.broadband.usage.adapter;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import au.id.teda.broadband.usage.R;
-import au.id.teda.broadband.usage.MainActivity.DummySectionFragment;
 
 
 /**
@@ -16,7 +14,7 @@ import au.id.teda.broadband.usage.MainActivity.DummySectionFragment;
 public class SectionPagerAdapter extends FragmentPagerAdapter {
 
 	private final Context mContext;
-	
+
 	public SectionPagerAdapter(FragmentManager fm, Context context) {
 		super(fm);
 		this.mContext = context;
@@ -24,11 +22,7 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
 
 	@Override
     public Fragment getItem(int i) {
-        Fragment fragment = new DummySectionFragment();
-        Bundle args = new Bundle();
-        args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, i + 1);
-        fragment.setArguments(args);
-        return fragment;
+		return null;
     }
 
     @Override
