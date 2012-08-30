@@ -69,6 +69,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 	public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     	// When the given tab is selected, switch to the corresponding page in the ViewPager.
     	//mViewPager.setCurrentItem(tab.getPosition());
+    	int tabSelected = tab.getPosition();
+    	Log.d(DEBUG_TAG, "onTabSelected " + tabSelected);
     }
 
     @Override

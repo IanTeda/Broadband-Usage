@@ -31,16 +31,16 @@ public class ActionBarTabsListener <T extends Fragment> implements ActionBar.Tab
    }
 
 	@Override
-	public void onTabReselected(Tab arg0, FragmentTransaction arg1) {
-		// TODO Auto-generated method stub
-		Log.d(DEBUG_TAG, "onTabUnselected");
-	}
-
-
-	@Override
 	public void onTabSelected(Tab tab, FragmentTransaction ft) {
 		// TODO Auto-generated method stub
 		Log.d(DEBUG_TAG, "onTabSelected");
+		mPager.setCurrentItem(Integer.parseInt(mTag));
+	}
+
+	@Override
+	public void onTabReselected(Tab arg0, FragmentTransaction arg1) {
+		// TODO Auto-generated method stub
+		Log.d(DEBUG_TAG, "onTabUnselected");
 	}
 
 
