@@ -22,7 +22,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 	//private static final String INFO_TAG = MainActivity.class.getSimpleName();
 
 	ActionBarHelper  mActionBarHelper;
-	private ViewPager mPager;
+	private ViewPager mViewPager;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,15 +32,25 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
     	   //setUpActionBar();
     	   
     	   // Get action bar instance
-    	   ActionBar mActionBar = getActionBar();
+    	   final ActionBar mActionBar = getActionBar();
     	   
     	   // Load action bar
     	   mActionBarHelper = new ActionBarHelper(this, mActionBar);
     	   
     	   // Load viewpager
     	   MyPagerAdapter mAdapter = new MyPagerAdapter();
-    	   mPager = (ViewPager) findViewById(R.id.pager);
-    	   mPager.setAdapter(mAdapter);
+    	   mViewPager = (ViewPager) findViewById(R.id.pager);
+    	   mViewPager.setAdapter(mAdapter);
+    	   
+    	   // When swiping between different sections, select the corresponding tab.
+           // We can also use ActionBar.Tab#select() to do this if we have a reference to the
+           // Tab.
+           mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+               @Override
+               public void onPageSelected(int position) {
+            	   mActionBar.setSelectedNavigationItem(position);
+               }
+           });
     	   
     }
        
@@ -58,13 +68,12 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
     @Override
 	public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     	// When the given tab is selected, switch to the corresponding page in the ViewPager.
-    	
+    	//mViewPager.setCurrentItem(tab.getPosition());
     }
 
     @Override
 	public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     	
-    
     }
     
     private class MyPagerAdapter extends PagerAdapter {

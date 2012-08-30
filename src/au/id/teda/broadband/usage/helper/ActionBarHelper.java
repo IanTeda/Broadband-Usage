@@ -69,5 +69,9 @@ public class ActionBarHelper {
     public void removeAllTabs() {
         mActionBar.removeAllTabs();
     }
+    
+    public void setActiveTab(int position){
+    	mActionBar.setSelectedNavigationItem(position);
+    }
 
 }
