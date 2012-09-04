@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.ActionBar.TabListener;
 import android.content.Context;
 import au.id.teda.broadband.usage.R;
+import au.id.teda.broadband.usage.adapter.TabPagerAdapter;
 
 public class ActionBarHelper {
 	
@@ -12,15 +13,22 @@ public class ActionBarHelper {
 	
 	// Context passed to the class
 	private final Context mContext;
-	// Action bar instanced passed to th class
+	
+	// Action bar instanced passed to the class
 	private final ActionBar mActionBar;
+	
+	// TabPagerAdapter
+	private final TabPagerAdapter mTabPagerAdapter;
 
-	public ActionBarHelper(Context context, ActionBar actionBar) {
+	public ActionBarHelper(Context context, ActionBar actionBar, TabPagerAdapter tabPagerAdapter) {
 		// Set context
 		this.mContext = context;
 		
 		// Set action bar instance
 		mActionBar = actionBar;
+		
+		// Set pager
+		mTabPagerAdapter = tabPagerAdapter;
 		
 		setHomeIconUp();
 		
@@ -45,25 +53,16 @@ public class ActionBarHelper {
     
     public void loadTabs(){
     	// For each of the sections in the app, add a tab to the action bar.
-        for (int i = 0; i < getActionBarTabCount(); i++) {
+        for (int i = 0; i < mTabPagerAdapter.getCount(); i++) {
             // Create a tab with text corresponding to the page title defined by the adapter.
             // Also specify this Activity object, which implements the TabListener interface, as the
             // listener for when this tab is selected.
         	mActionBar.addTab(
         			mActionBar.newTab()
-                            .setText(getPageTitle(i))
+                            .setText(mTabPagerAdapter.getPageTitle(i))
                             .setTabListener((TabListener) mContext));
         }
     	
-    }
-    
-    public CharSequence getPageTitle(int position) {
-        switch (position) {
-            case 0: return mContext.getString(R.string.action_bar_tab_current).toUpperCase();
-            case 1: return mContext.getString(R.string.action_bar_tab_analysis).toUpperCase();
-            case 2: return mContext.getString(R.string.action_bar_tab_data_table).toUpperCase();
-        }
-        return null;
     }
     
     public void removeAllTabs() {
