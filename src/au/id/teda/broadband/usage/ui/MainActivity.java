@@ -3,10 +3,12 @@ package au.id.teda.broadband.usage.ui;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -37,7 +39,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         setContentView(R.layout.activity_main);
         // Create the adapter that will return a fragment for each of the three primary sections
         // of the app.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        mSectionsPagerAdapter = new SectionsPagerAdapter();
 
         // Set up the action bar.
         final ActionBar actionBar = getActionBar();
@@ -75,8 +77,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         return true;
     }
 
-    
-
     @Override
     public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
@@ -95,26 +95,33 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to one of the primary
      * sections of the app.
      */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int i) {
-            Fragment fragment = new DummySectionFragment();
-            Bundle args = new Bundle();
-            args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, i + 1);
-            fragment.setArguments(args);
-            return fragment;
-        }
+    public class SectionsPagerAdapter extends PagerAdapter {
 
         @Override
         public int getCount() {
             return 3;
         }
 
+        public Object instantiateItem(View collection, int position) {
+            LayoutInflater inflater = (LayoutInflater) collection.getContext()
+                    .getSystemService(LAYOUT_INFLATER_SERVICE);
+            int resId = 0;
+            switch (position) {
+            case 0:
+                resId = R.layout.current;
+                break;
+            case 1:
+                resId = R.layout.anaylsis;
+                break;
+            case 2:
+                resId = R.layout.data;
+                break;
+            }
+            View view = inflater.inflate(resId, null);
+            ((ViewPager) collection).addView(view, 0);
+            return view;
+        }
+        
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
@@ -122,6 +129,21 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                 case 1: return getString(R.string.action_bar_tab_analysis).toUpperCase();
                 case 2: return getString(R.string.action_bar_tab_data_table).toUpperCase();
             }
+            return null;
+        }
+
+        @Override
+        public void destroyItem(View arg0, int arg1, Object arg2) {
+            ((ViewPager) arg0).removeView((View) arg2);
+        }
+        
+        @Override
+        public boolean isViewFromObject(View arg0, Object arg1) {
+            return arg0 == ((View) arg1);
+        }
+        
+        @Override
+        public Parcelable saveState() {
             return null;
         }
     }
