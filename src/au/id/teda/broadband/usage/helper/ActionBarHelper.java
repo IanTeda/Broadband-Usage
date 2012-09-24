@@ -3,8 +3,7 @@ package au.id.teda.broadband.usage.helper;
 import android.app.ActionBar;
 import android.app.ActionBar.TabListener;
 import android.content.Context;
-import au.id.teda.broadband.usage.R;
-import au.id.teda.broadband.usage.adapter.TabPagerAdapter;
+import au.id.teda.broadband.usage.adapter.SectionPagerAdapter;
 
 public class ActionBarHelper {
 	
@@ -18,9 +17,9 @@ public class ActionBarHelper {
 	private final ActionBar mActionBar;
 	
 	// TabPagerAdapter
-	private final TabPagerAdapter mTabPagerAdapter;
+	private final SectionPagerAdapter mSectionPagerAdapter;
 
-	public ActionBarHelper(Context context, ActionBar actionBar, TabPagerAdapter tabPagerAdapter) {
+	public ActionBarHelper(Context context, ActionBar actionBar, SectionPagerAdapter sectionPagerAdapter) {
 		// Set context
 		this.mContext = context;
 		
@@ -28,7 +27,7 @@ public class ActionBarHelper {
 		mActionBar = actionBar;
 		
 		// Set pager
-		mTabPagerAdapter = tabPagerAdapter;
+		mSectionPagerAdapter = sectionPagerAdapter;
 		
 		setHomeIconUp();
 		
@@ -53,13 +52,13 @@ public class ActionBarHelper {
     
     public void loadTabs(){
     	// For each of the sections in the app, add a tab to the action bar.
-        for (int i = 0; i < mTabPagerAdapter.getCount(); i++) {
+        for (int i = 0; i < mSectionPagerAdapter.getCount(); i++) {
             // Create a tab with text corresponding to the page title defined by the adapter.
             // Also specify this Activity object, which implements the TabListener interface, as the
             // listener for when this tab is selected.
         	mActionBar.addTab(
         			mActionBar.newTab()
-                            .setText(mTabPagerAdapter.getPageTitle(i))
+                            .setText(mSectionPagerAdapter.getPageTitle(i))
                             .setTabListener((TabListener) mContext));
         }
     	
