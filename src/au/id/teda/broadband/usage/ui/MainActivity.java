@@ -1,22 +1,20 @@
-package au.id.teda.broadband.usage;
+package au.id.teda.broadband.usage.ui;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import au.id.teda.broadband.usage.R;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
 
@@ -120,9 +118,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
-                case 0: return getString(R.string.title_section1).toUpperCase();
-                case 1: return getString(R.string.title_section2).toUpperCase();
-                case 2: return getString(R.string.title_section3).toUpperCase();
+                case 0: return getString(R.string.action_bar_tab_current).toUpperCase();
+                case 1: return getString(R.string.action_bar_tab_analysis).toUpperCase();
+                case 2: return getString(R.string.action_bar_tab_data_table).toUpperCase();
             }
             return null;
         }

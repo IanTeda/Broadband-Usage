@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import au.id.teda.broadband.usage.R;
-import au.id.teda.broadband.usage.MainActivity.DummySectionFragment;
+import au.id.teda.broadband.usage.ui.MainActivity.DummySectionFragment;
 
 
 /**
