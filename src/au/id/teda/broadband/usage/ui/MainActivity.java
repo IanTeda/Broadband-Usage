@@ -1,26 +1,15 @@
 package au.id.teda.broadband.usage.ui;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.adapter.SectionPagerAdapter;
 
-public class MainActivity extends Activity implements ActionBar.TabListener, MonthListFragment.MonthListSelectedListner {
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener, MonthListFragment.MonthListSelectedListner {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide layouts for each of the
@@ -98,8 +87,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Mon
 		// The user selected the month from the MonthListFragment
 		
 		// Capture the article fragment from the activity layout
-        AnalysisFragment articleFrag = (AnalysisFragment)
-                getFragmentManager().findFragmentById(R.id.analysis_fragment_right);
+		AnalysisFragment analysisFrag = (AnalysisFragment) getSupportFragmentManager()
+				.findFragmentById(R.id.analysis_fragment_right);
         
         if (analysisFrag != null) {
             // If article frag is available, we're in two-pane layout...
@@ -111,15 +100,15 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Mon
             // If the frag is not available, we're in the one-pane layout and must swap frags...
 
             // Create fragment and give it an argument for the selected article
-            ArticleFragment newFragment = new ArticleFragment();
+        	AnalysisFragment newFragment = new AnalysisFragment();
             Bundle args = new Bundle();
-            args.putInt(ArticleFragment.ARG_POSITION, position);
+            args.putInt(AnalysisFragment.ARG_POSITION, position);
             newFragment.setArguments(args);
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
             // Replace whatever is in the fragment_container view with this fragment,
             // and add the transaction to the back stack so the user can navigate back
-            transaction.replace(R.id.fragment_container, newFragment);
+            transaction.replace(R.id.analysis_fragment_right, newFragment);
             transaction.addToBackStack(null);
 
             // Commit the transaction
