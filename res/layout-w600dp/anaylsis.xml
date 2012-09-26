@@ -10,19 +10,20 @@
 		android:layout_height="fill_parent"
 		android:layout_weight="1" />
     
-    <!-- 
     <fragment class="au.id.teda.broadband.usage.ui.AnalysisFragment"
 		android:id="@+id/analysis_fragment_right"
 		android:layout_width="0dip"
 		android:layout_height="fill_parent"
 		android:layout_weight="3" />
-     -->
 
+	<!-- 
     <TextView 
         android:layout_width="0dip"
         android:layout_height="fill_parent"
         android:layout_weight="3" 
         android:text="Data"
         android:background="@color/blue" />
+        
+         -->
 
 </LinearLayout>

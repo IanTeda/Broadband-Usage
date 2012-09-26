@@ -10,6 +10,8 @@ import au.id.teda.broadband.usage.R;
 
 public class AnalysisFragment extends Fragment {
 	
+	private static final String DEBUG_TAG = "bbusage";
+	
     final static String ARG_POSITION = "position";
     int mCurrentPosition = -1;
 	
@@ -20,9 +22,12 @@ public class AnalysisFragment extends Fragment {
         // If activity recreated (such as from screen rotate), restore
         // the previous article selection set by onSaveInstanceState().
         // This is primarily necessary when in the two-pane layout.
+    	
+    	/**
         if (savedInstanceState != null) {
             mCurrentPosition = savedInstanceState.getInt(ARG_POSITION);
         }
+        **/
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.article_view, container, false);
@@ -36,6 +41,8 @@ public class AnalysisFragment extends Fragment {
         // onStart is a good place to do this because the layout has already been
         // applied to the fragment at this point so we can safely call the method
         // below that sets the article text.
+        
+        /**
         Bundle args = getArguments();
         if (args != null) {
             // Set article based on argument passed in
@@ -44,12 +51,12 @@ public class AnalysisFragment extends Fragment {
             // Set article based on saved instance state defined during onCreateView
             updateArticleView(mCurrentPosition);
         }
+        **/
     }
     
-    public void updateArticleView(int position) {
+    public void updateAnalysisView(String id) {
         TextView article = (TextView) getActivity().findViewById(R.id.article);
-        article.setText(Ipsum.Articles[position]);
-        mCurrentPosition = position;
+        article.setText(id);
     }
 
     @Override

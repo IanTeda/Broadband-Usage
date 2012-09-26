@@ -2,15 +2,21 @@ package au.id.teda.broadband.usage.ui;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.adapter.SectionPagerAdapter;
+import au.id.teda.broadband.usage.ui.MonthListFragment.MonthListSelectedListner;
+import au.id.teda.broadband.usage.ui.phone.AnalysisActivity;
 
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener, MonthListSelectedListner {
 
+	private static final String DEBUG_TAG = "bbusage";
+	
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide layouts for each of the
      * sections.
@@ -21,7 +27,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      * The {@link ViewPager} that will host the section contents.
      */
     ViewPager mViewPager;
-
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +66,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                             .setText(mSectionPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
+        
     }
 
     @Override
@@ -81,6 +88,32 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
+
+	@Override
+	public void onMonthSelected(String id) {
+		// The user selected the month from the MonthListFragment
+		
+		// Capture the article fragment from the activity layout
+		AnalysisFragment analysisFrag = (AnalysisFragment) getSupportFragmentManager()
+						.findFragmentById(R.id.analysis_fragment_right);
+		
+		// Check if we are on the tablet or phone
+		if (analysisFrag != null) {
+			Log.d(DEBUG_TAG, "I am a tablet");
+			
+			// Call a method in the ArticleFragment to update its content
+        	analysisFrag.updateAnalysisView(id);
+			
+		} else {
+			Log.d(DEBUG_TAG, "I am a phone");
+			
+			// Load the activity for the phone
+            Intent detailIntent = new Intent(this, AnalysisActivity.class);
+            detailIntent.putExtra(MonthListFragment.ARG_ITEM_ID, id);
+            startActivity(detailIntent);
+			
+		}
+	}
 
     /**
 	@Override
