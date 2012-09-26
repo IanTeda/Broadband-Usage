@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import au.id.teda.broadband.usage.R;
+import au.id.teda.broadband.usage.ui.AnalysisFragment;
 import au.id.teda.broadband.usage.ui.MonthListFragment;
 
 public class AnalysisActivity extends FragmentActivity {
@@ -13,17 +14,19 @@ public class AnalysisActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.article_view);
-
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        setContentView(R.layout.activity_month_detail);
         
+        Log.d(DEBUG_TAG, "AnalysisActivity onCreate(). ");
         
         if (savedInstanceState == null) {
-            Bundle arguments = new Bundle();
-            arguments.putString(MonthListFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(MonthListFragment.ARG_ITEM_ID));
+            AnalysisFragment analysis = new AnalysisFragment();
+            analysis.setArguments(getIntent().getExtras());
+
+            Log.d(DEBUG_TAG, "Intent Extras: " + getIntent().getExtras());
             
-            Log.d(DEBUG_TAG, "AnalysisActivity onCreate(). ");
+            getSupportFragmentManager().beginTransaction()
+            	.add(R.id.month_detail_container, analysis)
+            	.commit();
             
             /**
             MonthListFragment fragment = new MonthListFragment();
