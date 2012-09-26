@@ -9,7 +9,7 @@ import android.view.Menu;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.adapter.SectionPagerAdapter;
 
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener, MonthListFragment.MonthListSelectedListner {
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide layouts for each of the
@@ -82,6 +82,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
 
+    /**
 	@Override
 	public void onMonthSelected(int position) {
 		// The user selected the month from the MonthListFragment
@@ -113,8 +114,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
             // Commit the transaction
             transaction.commit();
+            
         }
         
-	}
+	}**/
 
 }

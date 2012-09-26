@@ -4,11 +4,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-    <fragment class="au.id.teda.broadband.usage.ui.MonthFragment"
+    <fragment class="au.id.teda.broadband.usage.ui.MonthListFragment"
         android:id="@+id/analysis_fragment_left"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
-		android:layout_marginTop="?android:attr/actionBarSize" 
-	/>
+		android:layout_marginTop="?android:attr/actionBarSize" />
 
 </LinearLayout>
