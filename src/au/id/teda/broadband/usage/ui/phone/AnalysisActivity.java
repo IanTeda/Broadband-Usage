@@ -5,7 +5,6 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.ui.AnalysisFragment;
-import au.id.teda.broadband.usage.ui.MonthListFragment;
 
 public class AnalysisActivity extends FragmentActivity {
 	
@@ -19,13 +18,16 @@ public class AnalysisActivity extends FragmentActivity {
         Log.d(DEBUG_TAG, "AnalysisActivity onCreate(). ");
         
         if (savedInstanceState == null) {
-            AnalysisFragment analysis = new AnalysisFragment();
-            analysis.setArguments(getIntent().getExtras());
+            AnalysisFragment analysisFragment = new AnalysisFragment();
+            //analysisFragment.setArguments(getIntent().getExtras());
 
             Log.d(DEBUG_TAG, "Intent Extras: " + getIntent().getExtras());
             
+            Bundle args = new Bundle();
+            args.putInt(ArticleFragment.ARG_POSITION, position);
+            
             getSupportFragmentManager().beginTransaction()
-            	.add(R.id.month_detail_container, analysis)
+            	.add(R.id.month_detail_container, analysisFragment)
             	.commit();
             
             /**
