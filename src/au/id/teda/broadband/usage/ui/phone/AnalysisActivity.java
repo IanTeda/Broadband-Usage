@@ -1,16 +1,28 @@
 package au.id.teda.broadband.usage.ui.phone;
 
+import android.app.ActionBar;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.view.Menu;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.ui.AnalysisFragment;
-import au.id.teda.broadband.usage.ui.BaseActivity;
 
-public class AnalysisActivity extends BaseActivity {
+public class AnalysisActivity extends FragmentActivity {
+	
+	private static final String DEBUG_TAG = "bbusage";
 	
     @Override
-	public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_month_detail);
+        
+        // Set up the action bar.
+        final ActionBar mActionBar = getActionBar();
+        // Set action bar icon for navigation
+        mActionBar.setDisplayHomeAsUpEnabled(true);
+        mActionBar.setTitle("January 2012");
+        
+        
         
         if (savedInstanceState == null) {
         	
@@ -28,5 +40,11 @@ public class AnalysisActivity extends BaseActivity {
         }
 
     }	
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.options_menu, menu);
+        return true;
+    }
 
 }

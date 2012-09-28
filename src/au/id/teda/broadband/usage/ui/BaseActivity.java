@@ -24,6 +24,8 @@ public class BaseActivity extends FragmentActivity implements ActionBar.TabListe
      */
     ViewPager mViewPager;
     
+    ActionBar mActionBar;
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +35,8 @@ public class BaseActivity extends FragmentActivity implements ActionBar.TabListe
         mSectionPagerAdapter = new SectionPagerAdapter(this);
 
         // Set up the action bar.
-        final ActionBar mActionBar = getActionBar();
+        mActionBar = getActionBar();
+        
         mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         // Set action bar icon for navigation
         mActionBar.setDisplayHomeAsUpEnabled(true);
@@ -83,6 +86,10 @@ public class BaseActivity extends FragmentActivity implements ActionBar.TabListe
 
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+    }
+    
+    public void removeAllTabs() {
+        mActionBar.removeAllTabs();
     }
 
 }
