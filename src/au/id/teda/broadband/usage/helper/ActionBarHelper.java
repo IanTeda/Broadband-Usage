@@ -71,5 +71,7 @@ public class ActionBarHelper {
     public void setActiveTab(int position){
     	mActionBar.setSelectedNavigationItem(position);
     }
-
+    
+    public void setView(int position){
+    }
 }
