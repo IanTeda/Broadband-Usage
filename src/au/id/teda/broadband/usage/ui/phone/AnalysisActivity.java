@@ -18,25 +18,20 @@ public class AnalysisActivity extends FragmentActivity {
         Log.d(DEBUG_TAG, "AnalysisActivity onCreate(). ");
         
         if (savedInstanceState == null) {
+        	
+            // Add intent values to argument bundle
+            Bundle arguments = new Bundle();
+            arguments.putString(AnalysisFragment.ARG_ITEM_ID, 
+            		getIntent().getStringExtra(AnalysisFragment.ARG_ITEM_ID));
+            
+            Log.d(DEBUG_TAG, "Argument Bundle: " + arguments);
+            
             AnalysisFragment analysisFragment = new AnalysisFragment();
-            //analysisFragment.setArguments(getIntent().getExtras());
-
-            Log.d(DEBUG_TAG, "Intent Extras: " + getIntent().getExtras());
-            
-            Bundle args = new Bundle();
-            args.putInt(ArticleFragment.ARG_POSITION, position);
-            
+            analysisFragment.setArguments(arguments);
+                        
             getSupportFragmentManager().beginTransaction()
             	.add(R.id.month_detail_container, analysisFragment)
             	.commit();
-            
-            /**
-            MonthListFragment fragment = new MonthListFragment();
-            fragment.setArguments(arguments);
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.article, fragment)
-                    .commit();
-                    **/
         }
 
     }	

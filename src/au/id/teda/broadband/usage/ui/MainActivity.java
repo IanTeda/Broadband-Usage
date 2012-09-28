@@ -109,47 +109,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			
 			// Load the activity for the phone
             Intent detailIntent = new Intent(this, AnalysisActivity.class);
-            detailIntent.putExtra(MonthListFragment.ARG_ITEM_ID, id);
+            detailIntent.putExtra(AnalysisFragment.ARG_ITEM_ID, id);
             startActivity(detailIntent);
 			
 		}
 	}
-
-    /**
-	@Override
-	public void onMonthSelected(int position) {
-		// The user selected the month from the MonthListFragment
-		
-		// Capture the article fragment from the activity layout
-		AnalysisFragment analysisFrag = (AnalysisFragment) getSupportFragmentManager()
-				.findFragmentById(R.id.analysis_fragment_right);
-        
-        if (analysisFrag != null) {
-            // If article frag is available, we're in two-pane layout...
-
-            // Call a method in the ArticleFragment to update its content
-        	analysisFrag.updateArticleView(position);
-
-        } else {
-            // If the frag is not available, we're in the one-pane layout and must swap frags...
-
-            // Create fragment and give it an argument for the selected article
-        	AnalysisFragment newFragment = new AnalysisFragment();
-            Bundle args = new Bundle();
-            args.putInt(AnalysisFragment.ARG_POSITION, position);
-            newFragment.setArguments(args);
-            android.support.v4.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-            // Replace whatever is in the fragment_container view with this fragment,
-            // and add the transaction to the back stack so the user can navigate back
-            transaction.replace(R.id.analysis_fragment_right, newFragment);
-            transaction.addToBackStack(null);
-
-            // Commit the transaction
-            transaction.commit();
-            
-        }
-        
-	}**/
-
 }
