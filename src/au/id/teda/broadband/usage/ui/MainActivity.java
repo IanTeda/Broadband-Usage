@@ -9,7 +9,9 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import au.id.teda.broadband.usage.R;
+import au.id.teda.broadband.usage.adapter.DropdownAdapter;
 import au.id.teda.broadband.usage.adapter.SectionPagerAdapter;
+import au.id.teda.broadband.usage.listener.NavigationListener;
 import au.id.teda.broadband.usage.ui.MonthListFragment.MonthListSelectedListner;
 import au.id.teda.broadband.usage.ui.phone.AnalysisActivity;
 
@@ -44,6 +46,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         // Set action bar icon for navigation
         mActionBar.setDisplayHomeAsUpEnabled(true);
 
+        // Set Actionbar Navigation dropdown
+        mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+        mActionBar.setListNavigationCallbacks(
+                new DropdownAdapter(getActionBar().getThemedContext()),
+                new NavigationListener());
+        
+        
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionPagerAdapter);
@@ -58,6 +67,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
             }
         });
 
+        /**
         // For each of the sections in the app, add a tab to the action bar.
         for (int i = 0; i < mSectionPagerAdapter.getCount(); i++) {
             // Create a tab with text corresponding to the page title defined by the adapter.
@@ -68,6 +78,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                             .setText(mSectionPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
+        **/
         
     }
 
