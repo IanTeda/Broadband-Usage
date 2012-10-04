@@ -9,7 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import au.id.teda.broadband.usage.R;
-import au.id.teda.broadband.usage.adapter.DropdownAdapter;
+import au.id.teda.broadband.usage.adapter.ActionbarSpinnerAdapter;
 import au.id.teda.broadband.usage.adapter.SectionPagerAdapter;
 import au.id.teda.broadband.usage.listener.NavigationListener;
 import au.id.teda.broadband.usage.ui.MonthListFragment.MonthListSelectedListner;
@@ -42,15 +42,18 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
         // Set up the action bar.
         final ActionBar mActionBar = getActionBar();
-        mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        //mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         // Set action bar icon for navigation
         mActionBar.setDisplayHomeAsUpEnabled(true);
 
         // Set Actionbar Navigation dropdown
         mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        mActionBar.setListNavigationCallbacks(
-                new DropdownAdapter(getActionBar().getThemedContext()),
-                new NavigationListener());
+        mActionBar.setDisplayShowTitleEnabled(false);
+        
+        ActionbarSpinnerAdapter mActionbarSpinnerAdapter = new ActionbarSpinnerAdapter(this);
+        NavigationListener mNavigationListener = new NavigationListener();
+        
+        mActionBar.setListNavigationCallbacks(mActionbarSpinnerAdapter, mNavigationListener);
         
         
         // Set up the ViewPager with the sections adapter.
