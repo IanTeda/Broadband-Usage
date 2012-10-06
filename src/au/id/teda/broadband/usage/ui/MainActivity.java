@@ -1,12 +1,12 @@
 package au.id.teda.broadband.usage.ui;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import au.id.teda.broadband.usage.R;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends Activity {
 	
 	//private static final String DEBUG_TAG = "bbusage";
 	

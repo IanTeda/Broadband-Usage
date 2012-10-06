@@ -3,12 +3,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <TextView
+    <LinearLayout
+        android:id="@+id/linearLayout1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/hello_world"
-        tools:context=".MainActivity" />
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="No Account Details Set"
+            android:textSize="24sp"
+            tools:context=".MainActivity" />
+
+        <View
+            android:id="@+id/activity_main_line"
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:background="#0099CC" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="There is currently no account details set for this application. Please log into your account."
+            android:textSize="14sp"
+            tools:context=".MainActivity" />
+    
+        <Button
+          android:id="@+id/button1"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="12dp"
+          android:text="Log In" />
+    
+    </LinearLayout>
 
 </RelativeLayout>
