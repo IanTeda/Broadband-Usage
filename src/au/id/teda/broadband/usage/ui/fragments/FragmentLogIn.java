@@ -16,10 +16,11 @@ import au.id.teda.broadband.usage.R;
 public class FragmentLogIn extends DialogFragment implements OnEditorActionListener {
 	
 	public interface FragmentLogInListner {
-        void onFinishLogInListner(String inputText);
+        void onFinishLogInListner(String username, String password);
     }
 	
-	private EditText mEditText;
+	private EditText mUserName;
+	private EditText mPassword;
 	
 	public FragmentLogIn() {
 		// Empty constructor required for DialogFragment
@@ -28,13 +29,14 @@ public class FragmentLogIn extends DialogFragment implements OnEditorActionListe
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_log_in, container);
-		mEditText = (EditText) view.findViewById(R.id.txt_your_name);
-	    getDialog().setTitle("Hello");
+		mUserName = (EditText) view.findViewById(R.id.fragment_log_in_user_name_et);
+		mPassword = (EditText) view.findViewById(R.id.fragment_log_in_password_et);
+	    getDialog().setTitle("Enter User Credentials");
 	    
 	    // Show soft keyboard automatically
-        mEditText.requestFocus();
+	    mUserName.requestFocus();
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-        mEditText.setOnEditorActionListener(this);
+        mUserName.setOnEditorActionListener(this);
 
 	    return view;
 	}
@@ -44,7 +46,7 @@ public class FragmentLogIn extends DialogFragment implements OnEditorActionListe
         if (EditorInfo.IME_ACTION_DONE == actionId) {
             // Return input text to activity
         	FragmentLogInListner activity = (FragmentLogInListner) getActivity();
-            activity.onFinishLogInListner(mEditText.getText().toString());
+            activity.onFinishLogInListner(mUserName.getText().toString(), mPassword.getText().toString());
             this.dismiss();
             return true;
         }

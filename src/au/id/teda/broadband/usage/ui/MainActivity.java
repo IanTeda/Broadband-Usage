@@ -41,8 +41,8 @@ public class MainActivity extends Activity implements FragmentLogInListner {
     }
     
 	@Override
-	public void onFinishLogInListner(String inputText) {
-		Toast.makeText(this, "Hi, " + inputText, Toast.LENGTH_SHORT).show();
+	public void onFinishLogInListner(String username, String password) {
+		Toast.makeText(this, "Hi, " + username + " with Password: " + password, Toast.LENGTH_SHORT).show();
 	}
 
 }
