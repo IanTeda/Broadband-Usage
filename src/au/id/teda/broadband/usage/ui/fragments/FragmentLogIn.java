@@ -15,6 +15,7 @@ import au.id.teda.broadband.usage.R;
 
 public class FragmentLogIn extends DialogFragment implements OnEditorActionListener {
 	
+	// Interface for passing back username and password to activity
 	public interface FragmentLogInListner {
         void onFinishLogInListner(String username, String password);
     }
@@ -24,6 +25,15 @@ public class FragmentLogIn extends DialogFragment implements OnEditorActionListe
 	
 	public FragmentLogIn() {
 		// Empty constructor required for DialogFragment
+	}
+	
+	@Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        
+        // Set dialog theme
+        setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Holo_Dialog_NoActionBar);
+        
 	}
 
 	@Override
@@ -36,7 +46,9 @@ public class FragmentLogIn extends DialogFragment implements OnEditorActionListe
 	    // Show soft keyboard automatically
 	    mUserName.requestFocus();
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-        mUserName.setOnEditorActionListener(this);
+        
+        // Close dialog when done on password
+        mPassword.setOnEditorActionListener(this);
 
 	    return view;
 	}

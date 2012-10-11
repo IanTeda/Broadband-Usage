@@ -1,7 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/edit_name"
-    android:layout_width="wrap_content" android:layout_height="wrap_content"
-    android:layout_gravity="center" android:orientation="vertical"  >
+    android:layout_width="fill_parent" 
+    android:layout_height="fill_parent"
+    android:minWidth="400dp"
+    android:layout_gravity="center" 
+    android:orientation="vertical"  >
 
     <EditText
         android:id="@+id/fragment_log_in_user_name_et"
@@ -10,8 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:drawablePadding="12dp" 
-        android:inputType="text"
-        android:hint="Username" />
+        android:inputType="textEmailAddress"
+        android:hint="@string/fragment_log_in_username_hint" />
     
     <EditText
         android:id="@+id/fragment_log_in_password_et"
@@ -20,9 +23,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:drawablePadding="12dp"
-        android:hint="Password"
+        android:hint="@string/fragment_log_in_password_hint"
         android:inputType="textPassword"
-        android:password="true"
         android:imeOptions="actionDone" />
     
     <CheckBox
@@ -30,7 +32,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:onClick="onCheckBoxClick"
-        android:text="Show password" />
+        android:onClick="onShowPasswordCheckBoxClick"
+        android:text="@string/fragment_log_in_show_pass_check_box" />
     
 </LinearLayout>

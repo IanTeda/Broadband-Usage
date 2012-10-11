@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="fragment_log_in_username_hint">Enter Username</string>
+    <string name="fragment_log_in_password_hint">Enter Password</string>
+    <string name="fragment_log_in_show_pass_check_box">Show password</string>
+    
+</resources>
