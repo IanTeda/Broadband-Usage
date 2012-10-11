@@ -15,6 +15,9 @@ public class MainActivity extends Activity implements FragmentLogInListner {
 	
 	//private static final String DEBUG_TAG = "bbusage";
 	
+	FragmentManager mFragmentManager;
+	FragmentLogIn fragmentLogInDialog;
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +27,10 @@ public class MainActivity extends Activity implements FragmentLogInListner {
         final ActionBar mActionBar = getActionBar();
         // Set action bar icon for navigation
         mActionBar.setDisplayHomeAsUpEnabled(true);
+        
+        // Load instance of fragments
+        mFragmentManager = getFragmentManager();
+        fragmentLogInDialog = new FragmentLogIn();
 
     }
 
@@ -35,14 +42,16 @@ public class MainActivity extends Activity implements FragmentLogInListner {
     
     @SuppressWarnings("unused")
 	public void onLogInClick(View button) {
-        FragmentManager fm = getFragmentManager();
-        FragmentLogIn fragmentLogInDialog = new FragmentLogIn();
-        fragmentLogInDialog.show(fm, "fragment_log_in");
+        fragmentLogInDialog.show(mFragmentManager, "fragment_log_in");
     }
     
 	@Override
 	public void onFinishLogInListner(String username, String password) {
 		Toast.makeText(this, "Hi, " + username + " with Password: " + password, Toast.LENGTH_SHORT).show();
+	}
+	
+	public void onShowPasswordCheckBoxClick (View view){
+		fragmentLogInDialog.onShowPasswordCheckBoxClickMethod(view);
 	}
 
 }

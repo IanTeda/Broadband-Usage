@@ -2,12 +2,14 @@ package au.id.teda.broadband.usage.ui.fragments;
 
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.text.method.PasswordTransformationMethod;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
@@ -64,5 +66,29 @@ public class FragmentLogIn extends DialogFragment implements OnEditorActionListe
         }
         return false;
 	}
+	
+	/**
+	 * Method for handling onClick events for the show/hide password check box
+	 * 
+	 * @param view
+	 */
+	public void onShowPasswordCheckBoxClickMethod(View view) {
+
+		// If check box is checked
+		if (((CheckBox) view).isChecked()) {
+
+			// Show password
+			mPassword.setTransformationMethod(null);
+
+		// Else check box is unchecked
+		} else {
+
+			// Hide password
+			mPassword.setTransformationMethod(new PasswordTransformationMethod());
+		}
+
+	}
+	
+	
 
 }

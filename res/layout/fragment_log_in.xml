@@ -28,7 +28,7 @@
         android:imeOptions="actionDone" />
     
     <CheckBox
-        android:id="@+id/user_pass_reveal_cbox"
+        android:id="@+id/fragment_log_in_show_pass_cbox"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
