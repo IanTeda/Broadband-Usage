@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     
-    <color name="red">#ffff0000</color>
-    <color name="blue">#838B8B00</color>
+    <color name="background">#ffffff00</color>
+    <color name="background_alt">#d3d0cb00</color>
+    <color name="base">#5f564f00</color>
+    <color name="accent">#f3574a00</color>
     
 </resources>
