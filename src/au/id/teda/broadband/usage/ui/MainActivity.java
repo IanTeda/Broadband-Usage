@@ -15,6 +15,8 @@ public class MainActivity extends Activity implements FragmentLogInListner {
 	
 	//private static final String DEBUG_TAG = "bbusage";
 	
+	// Test for github eclipse intergration
+	
 	FragmentManager mFragmentManager;
 	FragmentLogIn fragmentLogInDialog;
 	
