@@ -1,28 +1,24 @@
 package au.id.teda.broadband.usage.ui;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.MenuInflater;
-
-import android.app.FragmentManager;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import au.id.teda.broadband.usage.R;
-import au.id.teda.broadband.usage.ui.fragments.FragmentLogIn;
-import au.id.teda.broadband.usage.ui.fragments.FragmentLogIn.FragmentLogInListner;
+import au.id.teda.broadband.usage.ui.fragments.FragmentLogInDialog;
+import au.id.teda.broadband.usage.ui.fragments.FragmentLogInDialog.FragmentLogInListner;
 
-public class MainActivity extends SherlockActivity implements FragmentLogInListner {
+public class MainActivity extends SherlockFragmentActivity implements FragmentLogInListner {
 	
-	//private static final String DEBUG_TAG = "bbusage";
-	
-	// Test for github eclipse intergration
+	private static final String DEBUG_TAG = "bbusage";
 	
 	FragmentManager mFragmentManager;
-	FragmentLogIn fragmentLogInDialog;
+	FragmentLogInDialog fragmentLogInDialog;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,8 +31,8 @@ public class MainActivity extends SherlockActivity implements FragmentLogInListn
         mActionBar.setDisplayHomeAsUpEnabled(true);
         
         // Load instance of fragments
-        //mFragmentManager = getFragmentManager();
-        //fragmentLogInDialog = new FragmentLogIn();
+        mFragmentManager = getSupportFragmentManager();
+        fragmentLogInDialog = new FragmentLogInDialog();
 
     }
 
@@ -46,7 +42,6 @@ public class MainActivity extends SherlockActivity implements FragmentLogInListn
         return true;
     }
     
-    @SuppressWarnings("unused")
 	public void onLogInClick(View button) {
         fragmentLogInDialog.show(mFragmentManager, "fragment_log_in");
     }
@@ -57,7 +52,8 @@ public class MainActivity extends SherlockActivity implements FragmentLogInListn
 	}
 	
 	public void onShowPasswordCheckBoxClick (View view){
-		fragmentLogInDialog.onShowPasswordCheckBoxClickMethod(view);
+		//fragmentLogInDialog.onShowPasswordCheckBoxClickMethod(view);
+		Log.d(DEBUG_TAG, "onShowPasswordCheckBoxClick (" + view + " )");
 	}
 
 }

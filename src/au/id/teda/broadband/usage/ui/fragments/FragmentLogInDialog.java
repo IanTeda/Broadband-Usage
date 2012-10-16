@@ -1,6 +1,7 @@
 package au.id.teda.broadband.usage.ui.fragments;
 
-import android.app.DialogFragment;
+import com.actionbarsherlock.app.SherlockDialogFragment;
+
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
 import android.view.KeyEvent;
@@ -15,7 +16,7 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import au.id.teda.broadband.usage.R;
 
-public class FragmentLogIn extends DialogFragment implements OnEditorActionListener {
+public class FragmentLogInDialog extends SherlockDialogFragment implements OnEditorActionListener {
 	
 	// Interface for passing back username and password to activity
 	public interface FragmentLogInListner {
@@ -25,7 +26,7 @@ public class FragmentLogIn extends DialogFragment implements OnEditorActionListe
 	private EditText mUserName;
 	private EditText mPassword;
 	
-	public FragmentLogIn() {
+	public FragmentLogInDialog() {
 		// Empty constructor required for DialogFragment
 	}
 	
@@ -34,7 +35,7 @@ public class FragmentLogIn extends DialogFragment implements OnEditorActionListe
         super.onCreate(savedInstanceState);
         
         // Set dialog theme
-        setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Holo_Dialog_NoActionBar);
+        setStyle(SherlockDialogFragment.STYLE_NORMAL, android.R.style.Theme_Holo_Dialog_NoActionBar);
         
 	}
 
@@ -43,7 +44,6 @@ public class FragmentLogIn extends DialogFragment implements OnEditorActionListe
 		View view = inflater.inflate(R.layout.fragment_log_in, container);
 		mUserName = (EditText) view.findViewById(R.id.fragment_log_in_user_name_et);
 		mPassword = (EditText) view.findViewById(R.id.fragment_log_in_password_et);
-	    getDialog().setTitle("Enter User Credentials");
 	    
 	    // Show soft keyboard automatically
 	    mUserName.requestFocus();
