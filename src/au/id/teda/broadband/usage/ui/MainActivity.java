@@ -1,17 +1,21 @@
 package au.id.teda.broadband.usage.ui;
 
-import android.app.ActionBar;
-import android.app.Activity;
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.MenuInflater;
+
 import android.app.FragmentManager;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
+
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.ui.fragments.FragmentLogIn;
 import au.id.teda.broadband.usage.ui.fragments.FragmentLogIn.FragmentLogInListner;
 
-public class MainActivity extends Activity implements FragmentLogInListner {
+public class MainActivity extends SherlockActivity implements FragmentLogInListner {
 	
 	//private static final String DEBUG_TAG = "bbusage";
 	
@@ -26,7 +30,7 @@ public class MainActivity extends Activity implements FragmentLogInListner {
         setContentView(R.layout.activity_main);
 
         // Set up the action bar.
-        final ActionBar mActionBar = getActionBar();
+        final ActionBar mActionBar = getSupportActionBar();
         // Set action bar icon for navigation
         mActionBar.setDisplayHomeAsUpEnabled(true);
         
@@ -38,7 +42,7 @@ public class MainActivity extends Activity implements FragmentLogInListner {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.options_menu, menu);
+        getSupportMenuInflater().inflate(R.menu.options_menu, menu);
         return true;
     }
     
