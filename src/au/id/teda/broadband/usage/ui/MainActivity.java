@@ -35,8 +35,8 @@ public class MainActivity extends SherlockActivity implements FragmentLogInListn
         mActionBar.setDisplayHomeAsUpEnabled(true);
         
         // Load instance of fragments
-        mFragmentManager = getFragmentManager();
-        fragmentLogInDialog = new FragmentLogIn();
+        //mFragmentManager = getFragmentManager();
+        //fragmentLogInDialog = new FragmentLogIn();
 
     }
 
