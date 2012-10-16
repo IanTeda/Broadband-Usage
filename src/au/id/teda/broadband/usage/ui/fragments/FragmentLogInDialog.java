@@ -35,13 +35,16 @@ public class FragmentLogInDialog extends SherlockDialogFragment implements OnEdi
         super.onCreate(savedInstanceState);
         
         // Set dialog theme
-        setStyle(SherlockDialogFragment.STYLE_NORMAL, android.R.style.Theme_Holo_Dialog_NoActionBar);
+        setStyle(STYLE_NO_TITLE, android.R.style.Theme_Holo_Dialog_NoActionBar);
         
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_log_in, container);
+		// Inflate fragment view
+		View view = inflater.inflate(R.layout.fragment_log_in, container, false);
+		
+		// Set edit text reference
 		mUserName = (EditText) view.findViewById(R.id.fragment_log_in_user_name_et);
 		mPassword = (EditText) view.findViewById(R.id.fragment_log_in_password_et);
 	    
