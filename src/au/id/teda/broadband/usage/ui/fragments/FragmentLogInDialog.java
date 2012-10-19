@@ -4,11 +4,13 @@ import com.actionbarsherlock.app.SherlockDialogFragment;
 
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -16,7 +18,9 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import au.id.teda.broadband.usage.R;
 
-public class FragmentLogInDialog extends SherlockDialogFragment implements OnEditorActionListener {
+public class FragmentLogInDialog extends SherlockDialogFragment implements OnEditorActionListener, OnClickListener {
+	
+	private static final String DEBUG_TAG = "bbusage";
 	
 	// Interface for passing back username and password to activity
 	public interface FragmentLogInListner {
@@ -25,6 +29,7 @@ public class FragmentLogInDialog extends SherlockDialogFragment implements OnEdi
 	
 	private EditText mUserName;
 	private EditText mPassword;
+	private CheckBox mCheckBox;
 	
 	public FragmentLogInDialog() {
 		// Empty constructor required for DialogFragment
@@ -47,6 +52,7 @@ public class FragmentLogInDialog extends SherlockDialogFragment implements OnEdi
 		// Set edit text reference
 		mUserName = (EditText) view.findViewById(R.id.fragment_log_in_user_name_et);
 		mPassword = (EditText) view.findViewById(R.id.fragment_log_in_password_et);
+		mCheckBox = (CheckBox) view.findViewById(R.id.fragment_log_in_show_pass_cbox);
 	    
 	    // Show soft keyboard automatically
 	    mUserName.requestFocus();
@@ -62,7 +68,7 @@ public class FragmentLogInDialog extends SherlockDialogFragment implements OnEdi
 	public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         if (EditorInfo.IME_ACTION_DONE == actionId) {
             // Return input text to activity
-        	FragmentLogInListner activity = (FragmentLogInListner) getActivity();
+        	FragmentLogInListner activity = (FragmentLogInListner) getSherlockActivity();
             activity.onFinishLogInListner(mUserName.getText().toString(), mPassword.getText().toString());
             this.dismiss();
             return true;
@@ -90,6 +96,24 @@ public class FragmentLogInDialog extends SherlockDialogFragment implements OnEdi
 			mPassword.setTransformationMethod(new PasswordTransformationMethod());
 		}
 
+	}
+	
+	public void onShowPasswordCheckBoxClick (View view){
+		//fragmentLogInDialog.onShowPasswordCheckBoxClickMethod(view);
+		Log.d(DEBUG_TAG, "onShowPasswordCheckBoxClick (" + view + " )");
+	}
+
+	@Override
+	public void onClick(View view) {
+		switch (view.getId()) {
+			case R.id.fragment_log_in_show_pass_cbox:
+	            //do stuff
+	            // dismiss();
+	            // cancel etc.
+				Log.d(DEBUG_TAG, "onShowPasswordCheckBoxClick (" + view + " )");
+	        break;
+		}
+		
 	}
 	
 	
