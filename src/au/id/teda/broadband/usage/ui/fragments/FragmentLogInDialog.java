@@ -18,7 +18,7 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import au.id.teda.broadband.usage.R;
 
-public class FragmentLogInDialog extends SherlockDialogFragment implements OnEditorActionListener, OnClickListener {
+public class FragmentLogInDialog extends SherlockDialogFragment implements OnEditorActionListener {
 	
 	private static final String DEBUG_TAG = "bbusage";
 	
@@ -60,6 +60,13 @@ public class FragmentLogInDialog extends SherlockDialogFragment implements OnEdi
         
         // Close dialog when done on password
         mPassword.setOnEditorActionListener(this);
+        
+        // Watch for checkbox toggle
+        mCheckBox.setOnClickListener(new OnClickListener() {
+            public void onClick(View view) {
+            	showHidePassword(view);
+            }
+        });
 
 	    return view;
 	}
@@ -81,41 +88,16 @@ public class FragmentLogInDialog extends SherlockDialogFragment implements OnEdi
 	 * 
 	 * @param view
 	 */
-	public void onShowPasswordCheckBoxClickMethod(View view) {
+	public void showHidePassword(View view) {
 
-		// If check box is checked
+		// Show password If check box is checked
 		if (((CheckBox) view).isChecked()) {
-
-			// Show password
 			mPassword.setTransformationMethod(null);
-
-		// Else check box is unchecked
+		// Else hide password
 		} else {
-
-			// Hide password
 			mPassword.setTransformationMethod(new PasswordTransformationMethod());
 		}
 
 	}
-	
-	public void onShowPasswordCheckBoxClick (View view){
-		//fragmentLogInDialog.onShowPasswordCheckBoxClickMethod(view);
-		Log.d(DEBUG_TAG, "onShowPasswordCheckBoxClick (" + view + " )");
-	}
-
-	@Override
-	public void onClick(View view) {
-		switch (view.getId()) {
-			case R.id.fragment_log_in_show_pass_cbox:
-	            //do stuff
-	            // dismiss();
-	            // cancel etc.
-				Log.d(DEBUG_TAG, "onShowPasswordCheckBoxClick (" + view + " )");
-	        break;
-		}
-		
-	}
-	
-	
 
 }
