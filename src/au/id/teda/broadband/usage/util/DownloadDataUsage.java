@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
+import org.xml.sax.InputSource;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.content.BroadcastReceiver;
@@ -54,7 +55,7 @@ public class DownloadDataUsage {
         
         // Retrieves a string value for the preferences. The second parameter
         // is the default value to use if a preference value is not found.
-        wifiOnly = sharedPrefs.getBoolean(Resources.getSystem().getString(R.string.pref_key_wifi_only), true);
+        wifiOnly = sharedPrefs.getBoolean(mContext.getString(R.string.pref_key_wifi_only), true);
     	
     	// Check connectivity and set flags
     	updateConnectedFlags();
@@ -86,6 +87,7 @@ public class DownloadDataUsage {
             // AsyncTask subclass
             new DownloadXmlTask().execute(URL);
         } else {
+        	// TODO Show wifi only status
             showError();
         }
     }
@@ -93,6 +95,7 @@ public class DownloadDataUsage {
     // Displays an error if the app is unable to load content.
     private void showError() {
 
+    	// TODO fragment toast??
     	// The specified network connection is not available. Displays error message.
     	Toast.makeText(mContext, R.string.toast_no_connectivity, Toast.LENGTH_SHORT).show();
     }
@@ -136,8 +139,13 @@ public class DownloadDataUsage {
         boolean pref = sharedPrefs.getBoolean("summaryPref", false);
 
         try {
-            stream = downloadUrl(urlString);
-            entries = stackOverflowXmlParser.parse(stream);
+			// Load & parse development XML file
+        	InputStream streamRaw = mContext.getResources().openRawResource(R.raw.authentication_error);
+        	entries = stackOverflowXmlParser.parse(streamRaw);
+
+        	// Load stream and parse entry
+            //stream = downloadUrl(urlString);
+            //entries = stackOverflowXmlParser.parse(stream);
         // Makes sure that the InputStream is closed after the app is finished using it.
         } finally {
             if (stream != null) {

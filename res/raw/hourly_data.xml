@@ -1,0 +1,176 @@
+<ii_feed>
+    <account_info>
+        <plan>Home 5</plan>
+        <product>adsl_home V2</product>
+    </account_info>
+    <volume_usage>
+        <offpeak_start>02:00</offpeak_start>
+        <offpeak_end>12:00</offpeak_end>
+
+        <quota_reset>
+            <anniversary>4</anniversary>
+            <days_so_far>2</days_so_far>
+            <days_remaining>29</days_remaining>
+        </quota_reset>        
+        <expected_traffic_types>
+            <type classification="peak" used="9909568512">
+                <name>peak</name>
+
+                <quota_allocation>25000</quota_allocation>
+                <is_shaped speed="0">false</is_shaped>
+            </type>
+            <type classification="offpeak" used="14115340906">
+                <name>offpeak</name>
+                <quota_allocation>40000</quota_allocation>
+                <is_shaped speed="0">false</is_shaped>
+
+            </type>
+            <type classification="freezone" used="12287582461">
+                <name>freezone</name>
+            </type>
+        </expected_traffic_types>
+        <volume_usage>
+            <day_hour period="0">
+                <usage type="peak">55629764</usage>
+
+                <usage type="offpeak">819190784</usage>
+                <usage type="freezone">61759273</usage>
+            </day_hour>
+            <day_hour period="1">
+                <usage type="peak">879895908</usage>
+                <usage type="offpeak">743201187</usage>
+                <usage type="freezone">242944076</usage>
+
+            </day_hour>
+            <day_hour period="2">
+                <usage type="peak">131242472</usage>
+                <usage type="offpeak">771634266</usage>
+                <usage type="freezone">450156532</usage>
+            </day_hour>
+            <day_hour period="3">
+
+                <usage type="peak">518755067</usage>
+                <usage type="offpeak">628277551</usage>
+                <usage type="freezone">480914892</usage>
+            </day_hour>
+            <day_hour period="4">
+                <usage type="peak">25203432</usage>
+                <usage type="offpeak">236079310</usage>
+
+                <usage type="freezone">254211446</usage>
+            </day_hour>
+            <day_hour period="5">
+                <usage type="peak">195426785</usage>
+                <usage type="offpeak">701079597</usage>
+                <usage type="freezone">286680045</usage>
+            </day_hour>
+
+            <day_hour period="6">
+                <usage type="peak">618163289</usage>
+                <usage type="offpeak">504475382</usage>
+                <usage type="freezone">560490190</usage>
+            </day_hour>
+            <day_hour period="7">
+                <usage type="peak">532622195</usage>
+
+                <usage type="offpeak">444141097</usage>
+                <usage type="freezone">964842004</usage>
+            </day_hour>
+            <day_hour period="8">
+                <usage type="peak">525312332</usage>
+                <usage type="offpeak">971014246</usage>
+                <usage type="freezone">607262620</usage>
+
+            </day_hour>
+            <day_hour period="9">
+                <usage type="peak">457003882</usage>
+                <usage type="offpeak">149224347</usage>
+                <usage type="freezone">76961162</usage>
+            </day_hour>
+            <day_hour period="10">
+
+                <usage type="peak">609391720</usage>
+                <usage type="offpeak">339080907</usage>
+                <usage type="freezone">921521261</usage>
+            </day_hour>
+            <day_hour period="11">
+                <usage type="peak">519427875</usage>
+                <usage type="offpeak">869055744</usage>
+
+                <usage type="freezone">555288804</usage>
+            </day_hour>
+            <day_hour period="12">
+                <usage type="peak">487161578</usage>
+                <usage type="offpeak">873827427</usage>
+                <usage type="freezone">995899467</usage>
+            </day_hour>
+
+            <day_hour period="13">
+                <usage type="peak">57442535</usage>
+                <usage type="offpeak">16209055</usage>
+                <usage type="freezone">993741686</usage>
+            </day_hour>
+            <day_hour period="14">
+                <usage type="peak">760159403</usage>
+
+                <usage type="offpeak">554034176</usage>
+                <usage type="freezone">349229268</usage>
+            </day_hour>
+            <day_hour period="15">
+                <usage type="peak">157523468</usage>
+                <usage type="offpeak">675605732</usage>
+                <usage type="freezone">869383905</usage>
+
+            </day_hour>
+            <day_hour period="16">
+                <usage type="peak">505109958</usage>
+                <usage type="offpeak">520497000</usage>
+                <usage type="freezone">500342410</usage>
+            </day_hour>
+            <day_hour period="17">
+
+                <usage type="peak">467799391</usage>
+                <usage type="offpeak">310866058</usage>
+                <usage type="freezone">857633056</usage>
+            </day_hour>
+            <day_hour period="18">
+                <usage type="peak">85277461</usage>
+                <usage type="offpeak">453475039</usage>
+
+                <usage type="freezone">183317166</usage>
+            </day_hour>
+            <day_hour period="19">
+                <usage type="peak">695159296</usage>
+                <usage type="offpeak">326427390</usage>
+                <usage type="freezone">600819611</usage>
+            </day_hour>
+
+            <day_hour period="20">
+                <usage type="peak">621679973</usage>
+                <usage type="offpeak">394964389</usage>
+                <usage type="freezone">657200706</usage>
+            </day_hour>
+            <day_hour period="21">
+                <usage type="peak">398723195</usage>
+
+                <usage type="offpeak">991834119</usage>
+                <usage type="freezone">14850685</usage>
+            </day_hour>
+            <day_hour period="22">
+                <usage type="peak">368223887</usage>
+                <usage type="offpeak">949321519</usage>
+                <usage type="freezone">296801146</usage>
+
+            </day_hour>
+            <day_hour period="23">
+                <usage type="peak">237233646</usage>
+                <usage type="offpeak">871824584</usage>
+                <usage type="freezone">505331050</usage>
+            </day_hour>
+        </volume_usage>
+
+    </volume_usage>
+    <connections>
+        <ip on_since="2009-03-05 00:32:36">123.123.123.123</ip>
+    </connections>
+</ii_feed>
