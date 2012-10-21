@@ -4,6 +4,7 @@
         <item name="android:windowBackground">@drawable/background_repeat</item>
         <item name="android:listViewStyle">@style/TransparentListView</item>
         <item name="android:expandableListViewStyle">@style/TransparentExpandableListView</item>
+        
     </style>
 
     <!-- Hack to prevent ListViews from going black while scrolling -->

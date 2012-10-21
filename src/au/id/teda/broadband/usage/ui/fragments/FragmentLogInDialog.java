@@ -84,7 +84,7 @@ public class FragmentLogInDialog extends SherlockDialogFragment implements OnEdi
 	}
 	
 	/**
-	 * Method for handling onClick events for the show/hide password check box
+	 * Show or obscure password text in dialog
 	 * 
 	 * @param view
 	 */
