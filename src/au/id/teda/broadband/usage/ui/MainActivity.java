@@ -15,6 +15,7 @@ import android.widget.Toast;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.ui.fragments.FragmentLogInDialog;
 import au.id.teda.broadband.usage.ui.fragments.FragmentLogInDialog.FragmentLogInListner;
+import au.id.teda.broadband.usage.util.DownloadDataUsage;
 
 public class MainActivity extends SherlockFragmentActivity implements FragmentLogInListner {
 	
@@ -22,7 +23,6 @@ public class MainActivity extends SherlockFragmentActivity implements FragmentLo
 	
 	FragmentManager mFragmentManager;
 	FragmentLogInDialog fragmentLogInDialog;
-	
 	
     // The BroadcastReceiver that tracks network connectivity changes.
     // private NetworkReceiver receiver = new ConnectivityHelperNetworkReceiver();
@@ -78,7 +78,10 @@ public class MainActivity extends SherlockFragmentActivity implements FragmentLo
     
 	public void onLogInClick(View button) {
 		// Show log in fragment
-        fragmentLogInDialog.show(mFragmentManager, "fragment_log_in");
+        // fragmentLogInDialog.show(mFragmentManager, "fragment_log_in");
+		
+		DownloadDataUsage mDownloadDataUsage = new DownloadDataUsage(this);
+		mDownloadDataUsage.getData();
     }
     
 	@Override
