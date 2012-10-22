@@ -9,7 +9,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
-import org.xml.sax.InputSource;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.content.BroadcastReceiver;
@@ -24,7 +23,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 import au.id.teda.broadband.usage.R;
-import au.id.teda.broadband.usage.util.StackOverflowXmlParser.Entry;
+import au.id.teda.broadband.usage.util.IINetXmlParser.Entry;
 
 public class DownloadDataUsage {
 	
@@ -126,7 +125,7 @@ public class DownloadDataUsage {
     // HTML markup. Returns HTML string.
     private String loadXmlFromNetwork(String urlString) throws XmlPullParserException, IOException {
         InputStream stream = null;
-        StackOverflowXmlParser stackOverflowXmlParser = new StackOverflowXmlParser();
+        IINetXmlParser mXmlParser = new IINetXmlParser();
         List<Entry> entries = null;
         String title = null;
         String url = null;
@@ -141,7 +140,7 @@ public class DownloadDataUsage {
         try {
 			// Load & parse development XML file
         	InputStream streamRaw = mContext.getResources().openRawResource(R.raw.authentication_error);
-        	entries = stackOverflowXmlParser.parse(streamRaw);
+        	entries = mXmlParser.parse(streamRaw);
 
         	// Load stream and parse entry
             //stream = downloadUrl(urlString);

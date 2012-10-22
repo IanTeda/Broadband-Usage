@@ -14,6 +14,7 @@
 
 package au.id.teda.broadband.usage.util;
 
+import android.util.Log;
 import android.util.Xml;
 
 import org.xml.sax.InputSource;
@@ -30,8 +31,17 @@ import java.util.List;
  * Given an InputStream representation of a feed, it returns a List of entries,
  * where each list element represents a single entry (post) in the XML feed.
  */
-public class StackOverflowXmlParser {
+public class IINetXmlParser {
+	
+	private static final String DEBUG_TAG = "bbusage";
+	
     private static final String ns = null;
+    
+    private static final String FEED_TAG = "ii_feed";
+    private static final String ERROR_TAG = "error";
+    private static final String AUTH_ERROR = "Authentication failure";
+    private static final String ACCOUNT_INFO_ENTRY = "account_info";
+    
 
     // We don't use namespaces
     
@@ -50,12 +60,19 @@ public class StackOverflowXmlParser {
     private List<Entry> readFeed(XmlPullParser parser) throws XmlPullParserException, IOException {
         List<Entry> entries = new ArrayList<Entry>();
 
-        parser.require(XmlPullParser.START_TAG, ns, "feed");
+        parser.require(XmlPullParser.START_TAG, ns, FEED_TAG);
         while (parser.next() != XmlPullParser.END_TAG) {
             if (parser.getEventType() != XmlPullParser.START_TAG) {
                 continue;
             }
             String name = parser.getName();
+            
+            // Check for error
+            if (name.equals(ERROR_TAG)) {
+            	readError(parser);
+            }
+            
+            
             // Starts by looking for the entry tag
             if (name.equals("entry")) {
                 entries.add(readEntry(parser));
@@ -69,17 +86,29 @@ public class StackOverflowXmlParser {
     // This class represents a single entry (post) in the XML feed.
     // It includes the data members "title," "link," and "summary."
     public static class Entry {
+    	public final String error;
         public final String title;
         public final String link;
         public final String summary;
 
-        private Entry(String title, String summary, String link) {
+        private Entry(String error, String title, String summary, String link) {
+        	this.error = error;
             this.title = title;
             this.summary = summary;
             this.link = link;
         }
     }
 
+    // Processes error tag
+    // Processes title tags in the feed.
+    private String readError(XmlPullParser parser) throws IOException, XmlPullParserException {
+        parser.require(XmlPullParser.START_TAG, ns, "title");
+        String title = readText(parser);
+        parser.require(XmlPullParser.END_TAG, ns, "title");
+        return title;
+    }
+    
+    
     // Parses the contents of an entry. If it encounters a title, summary, or link tag, hands them
     // off
     // to their respective &quot;read&quot; methods for processing. Otherwise, skips the tag.
