@@ -46,6 +46,8 @@ public class DownloadDataUsage {
     // Class constructor
     public DownloadDataUsage(Context context) {
     	
+    	Log.d(DEBUG_TAG, "DownloadDataUsage( "+ context + " )");
+    	
     	// Set context from activity that called helper
     	this.mContext = context;
     	
@@ -64,6 +66,9 @@ public class DownloadDataUsage {
     // Checks the network connection and sets the wifiConnected and mobileConnected
     // variables accordingly.
     private void updateConnectedFlags() {
+    	
+    	Log.d(DEBUG_TAG, "updateConnectedFlags()");
+    	
         ConnectivityManager connMgr = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         NetworkInfo networkStatus = connMgr.getActiveNetworkInfo();
@@ -81,6 +86,9 @@ public class DownloadDataUsage {
     // causing a delay that results in a poor user experience, always perform
     // network operations on a separate thread from the UI.
     public void getData() {
+    	
+    	Log.d(DEBUG_TAG, "getData()");
+    	
         if (( (!wifiOnly) && (wifiConnected || mobileConnected))
                 || ( (wifiOnly) && (wifiConnected))) {
             // AsyncTask subclass
@@ -104,6 +112,8 @@ public class DownloadDataUsage {
 
         @Override
         protected String doInBackground(String... urls) {
+        	Log.d(DEBUG_TAG, "DownloadXmlTask.doInBackground( "+ urls + " )");
+        	
             try {
                 return loadXmlFromNetwork(urls[0]);
             } catch (IOException e) {
@@ -116,7 +126,7 @@ public class DownloadDataUsage {
         @Override
         protected void onPostExecute(String result) {
             
-        	Log.d(DEBUG_TAG, result);
+        	Log.d(DEBUG_TAG, "onPostExecute()");
         	
         }
     }
@@ -124,6 +134,7 @@ public class DownloadDataUsage {
     // Uploads XML from stackoverflow.com, parses it, and combines it with
     // HTML markup. Returns HTML string.
     private String loadXmlFromNetwork(String urlString) throws XmlPullParserException, IOException {
+    	
     	Log.d(DEBUG_TAG, "loadXmlFromNetwork(" + urlString + ")");
     	
         InputStream stream = null;
@@ -143,6 +154,7 @@ public class DownloadDataUsage {
         try {
 			// Load & parse development XML file
         	InputStream streamRaw = mContext.getResources().openRawResource(R.raw.naked_dsl_home_5);
+        	Log.d(DEBUG_TAG, "loadXmlFromNetwork().try stream: " + streamRaw);
         	entries = mXmlParser.parse(streamRaw);
 
         	// Load stream and parse entry
@@ -150,6 +162,7 @@ public class DownloadDataUsage {
             //entries = stackOverflowXmlParser.parse(stream);
         // Makes sure that the InputStream is closed after the app is finished using it.
         } finally {
+        	Log.d(DEBUG_TAG, "loadXmlFromNetwork().finally");
             if (stream != null) {
                 stream.close();
             }
@@ -163,6 +176,7 @@ public class DownloadDataUsage {
         String estring = null;
         
         for (Entry entry : entries) {
+        	Log.d(DEBUG_TAG, "loadXmlFromNetwork().for Entry");
         	Log.d(DEBUG_TAG, "Period: " + entry.period 
         			+ " + Peak: " + entry.peak 
         			+ " + Offpeak: " + entry.offpeak
