@@ -124,8 +124,11 @@ public class DownloadDataUsage {
     // Uploads XML from stackoverflow.com, parses it, and combines it with
     // HTML markup. Returns HTML string.
     private String loadXmlFromNetwork(String urlString) throws XmlPullParserException, IOException {
+    	Log.d(DEBUG_TAG, "loadXmlFromNetwork(" + urlString + ")");
+    	
         InputStream stream = null;
         IINetXmlParser mXmlParser = new IINetXmlParser();
+        
         List<Entry> entries = null;
         String title = null;
         String url = null;
@@ -139,7 +142,7 @@ public class DownloadDataUsage {
 
         try {
 			// Load & parse development XML file
-        	InputStream streamRaw = mContext.getResources().openRawResource(R.raw.authentication_error);
+        	InputStream streamRaw = mContext.getResources().openRawResource(R.raw.naked_dsl_home_5);
         	entries = mXmlParser.parse(streamRaw);
 
         	// Load stream and parse entry
@@ -160,8 +163,12 @@ public class DownloadDataUsage {
         String estring = null;
         
         for (Entry entry : entries) {
-        	Log.d(DEBUG_TAG, "Link: " + entry.link + " + Title: " + entry.title + " + Summary: " + entry.summary);
-        	estring = entry.link + entry.title  + entry.summary;
+        	Log.d(DEBUG_TAG, "Period: " + entry.period 
+        			+ " + Peak: " + entry.peak 
+        			+ " + Offpeak: " + entry.offpeak
+        			+ " + Uploads: " + entry.uploads
+        			+ " + Freezone: " + entry.freezone);
+        	estring = entry.period + entry.peak  + entry.offpeak + entry.uploads + entry.freezone;
         }
         return estring;
     }
