@@ -23,7 +23,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 import au.id.teda.broadband.usage.R;
-import au.id.teda.broadband.usage.util.IINetXmlParser.Entry;
+import au.id.teda.broadband.usage.util.IINetXmlParser.DayHour;
 
 public class DownloadDataUsage {
 	
@@ -46,7 +46,7 @@ public class DownloadDataUsage {
     // Class constructor
     public DownloadDataUsage(Context context) {
     	
-    	Log.d(DEBUG_TAG, "DownloadDataUsage( "+ context + " )");
+    	//Log.d(DEBUG_TAG, "DownloadDataUsage( "+ context + " )");
     	
     	// Set context from activity that called helper
     	this.mContext = context;
@@ -67,7 +67,7 @@ public class DownloadDataUsage {
     // variables accordingly.
     private void updateConnectedFlags() {
     	
-    	Log.d(DEBUG_TAG, "updateConnectedFlags()");
+    	//Log.d(DEBUG_TAG, "updateConnectedFlags()");
     	
         ConnectivityManager connMgr = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -87,7 +87,7 @@ public class DownloadDataUsage {
     // network operations on a separate thread from the UI.
     public void getData() {
     	
-    	Log.d(DEBUG_TAG, "getData()");
+    	//Log.d(DEBUG_TAG, "getData()");
     	
         if (( (!wifiOnly) && (wifiConnected || mobileConnected))
                 || ( (wifiOnly) && (wifiConnected))) {
@@ -112,7 +112,7 @@ public class DownloadDataUsage {
 
         @Override
         protected String doInBackground(String... urls) {
-        	Log.d(DEBUG_TAG, "DownloadXmlTask.doInBackground( "+ urls + " )");
+        	//Log.d(DEBUG_TAG, "DownloadXmlTask.doInBackground( "+ urls + " )");
         	
             try {
                 return loadXmlFromNetwork(urls[0]);
@@ -126,7 +126,7 @@ public class DownloadDataUsage {
         @Override
         protected void onPostExecute(String result) {
             
-        	Log.d(DEBUG_TAG, "onPostExecute()");
+        	//Log.d(DEBUG_TAG, "onPostExecute()");
         	
         }
     }
@@ -135,12 +135,12 @@ public class DownloadDataUsage {
     // HTML markup. Returns HTML string.
     private String loadXmlFromNetwork(String urlString) throws XmlPullParserException, IOException {
     	
-    	Log.d(DEBUG_TAG, "loadXmlFromNetwork(" + urlString + ")");
+    	//Log.d(DEBUG_TAG, "loadXmlFromNetwork(" + urlString + ")");
     	
         InputStream stream = null;
         IINetXmlParser mXmlParser = new IINetXmlParser();
         
-        List<Entry> entries = null;
+        List<DayHour> entries = null;
         String title = null;
         String url = null;
         String summary = null;
@@ -154,7 +154,7 @@ public class DownloadDataUsage {
         try {
 			// Load & parse development XML file
         	InputStream streamRaw = mContext.getResources().openRawResource(R.raw.naked_dsl_home_5);
-        	Log.d(DEBUG_TAG, "loadXmlFromNetwork().try stream: " + streamRaw);
+        	//Log.d(DEBUG_TAG, "loadXmlFromNetwork().try stream: " + streamRaw);
         	entries = mXmlParser.parse(streamRaw);
 
         	// Load stream and parse entry
@@ -162,7 +162,7 @@ public class DownloadDataUsage {
             //entries = stackOverflowXmlParser.parse(stream);
         // Makes sure that the InputStream is closed after the app is finished using it.
         } finally {
-        	Log.d(DEBUG_TAG, "loadXmlFromNetwork().finally");
+        	//Log.d(DEBUG_TAG, "loadXmlFromNetwork().finally");
             if (stream != null) {
                 stream.close();
             }
@@ -175,7 +175,7 @@ public class DownloadDataUsage {
         // a text summary.
         String estring = null;
         
-        for (Entry entry : entries) {
+        for (DayHour entry : entries) {
         	Log.d(DEBUG_TAG, "loadXmlFromNetwork().for Entry");
         	Log.d(DEBUG_TAG, "Period: " + entry.period 
         			+ " + Peak: " + entry.peak 
