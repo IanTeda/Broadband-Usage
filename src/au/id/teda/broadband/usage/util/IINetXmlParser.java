@@ -74,8 +74,6 @@ public class IINetXmlParser {
 
     private List<DayHour> readFeed(XmlPullParser parser) throws XmlPullParserException, IOException {
     	
-    	Log.d(DEBUG_TAG, "readFeed()");
-    	
         List<DayHour> usage = new ArrayList<DayHour>();
         
         parser.require(XmlPullParser.START_TAG, ns, FEED_TAG);
@@ -101,8 +99,6 @@ public class IINetXmlParser {
     
     private List<DayHour> readVolumeUsage(XmlPullParser parser) throws XmlPullParserException, IOException {
     	
-    	Log.d(DEBUG_TAG, "readVolumeUsage()");
-    	
     	List<DayHour> usage = new ArrayList<DayHour>();
         
         parser.require(XmlPullParser.START_TAG, ns, VOLUME_USAGE_ENTRY);
@@ -117,6 +113,32 @@ public class IINetXmlParser {
             // Starts by looking for the entry tag
             if (tag.equals(VOLUME_USAGE_ENTRY)) {
             	Log.d(DEBUG_TAG, "In Tag2: " + tag.toString());
+           		return readDailyUsage(parser);
+            } else {
+                skip(parser);
+            }
+        }
+        return usage;
+    }
+    
+    private List<DayHour> readDailyUsage(XmlPullParser parser) throws XmlPullParserException, IOException {
+    	
+    	Log.d(DEBUG_TAG, "readUsage()");
+    	
+    	List<DayHour> usage = new ArrayList<DayHour>();
+        
+        parser.require(XmlPullParser.START_TAG, ns, VOLUME_USAGE_ENTRY);
+        while (parser.next() != XmlPullParser.END_TAG) {
+            if (parser.getEventType() != XmlPullParser.START_TAG) {
+                continue;
+            }
+            String tag = parser.getName();
+            
+            Log.d(DEBUG_TAG, "readUsage() > Tag: " + tag.toString());
+            
+            // Starts by looking for the entry tag
+            if (tag.equals(DAY_HOUR_TAG)) {
+            	Log.d(DEBUG_TAG, "In Tag3: " + tag.toString());
            		usage.add(readUsage(parser));
             } else {
                 skip(parser);
