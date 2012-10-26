@@ -49,11 +49,13 @@ public class IINetXmlParser {
     
     
     private static final String DAY_HOUR_TAG = "day_hour";
-    private static final String PERIOD_TAG = "period";
-    private static final String PEAK_TAG = "peak";
-    private static final String OFFPEAK_TAG = "offpeak";
-    private static final String	UPLOADS_TAG = "uploads";
-    private static final String FREEZONE_TAG = "freezone";
+    private static final String USAGE_TAG = "usage";
+    
+    private static final String PERIOD_KEY = "period";
+    private static final String PEAK_KEY = "peak";
+    private static final String OFFPEAK_KEY = "offpeak";
+    private static final String	UPLOADS_KEY = "uploads";
+    private static final String FREEZONE_KEY = "freezone";
 
     // We don't use namespaces
     
@@ -84,7 +86,7 @@ public class IINetXmlParser {
             }
             String tag = parser.getName();
             
-            Log.d(DEBUG_TAG, "readFeed() > Tag: " + tag.toString());
+            //Log.d(DEBUG_TAG, "readFeed() > Tag: " + tag.toString());
             
             // Starts by looking for the entry tag
         	if (tag.equals(VOLUME_USAGE_ENTRY)) {
@@ -108,7 +110,7 @@ public class IINetXmlParser {
             }
             String tag = parser.getName();
             
-            Log.d(DEBUG_TAG, "readVolumeUsage() > Tag: " + tag.toString());
+            //Log.d(DEBUG_TAG, "readVolumeUsage() > Tag: " + tag.toString());
             
             // Starts by looking for the entry tag
             if (tag.equals(VOLUME_USAGE_ENTRY)) {
@@ -134,7 +136,7 @@ public class IINetXmlParser {
             }
             String tag = parser.getName();
             
-            Log.d(DEBUG_TAG, "readUsage() > Tag: " + tag.toString());
+            //Log.d(DEBUG_TAG, "readUsage() > Tag: " + tag.toString());
             
             // Starts by looking for the entry tag
             if (tag.equals(DAY_HOUR_TAG)) {
@@ -167,97 +169,54 @@ public class IINetXmlParser {
     // Parses the contents of an entry.
     private DayHour readUsage(XmlPullParser parser) throws XmlPullParserException, IOException {
     	
-    	Log.d(DEBUG_TAG, "readUsage()");
+    	//Log.d(DEBUG_TAG, "readUsage()");
     	
-        String period = null;
+        parser.require(XmlPullParser.START_TAG, ns, DAY_HOUR_TAG);
+    	
+        String period = parser.getAttributeValue(ns, PERIOD_KEY);
         String peak = null;
         String offpeak = null;
         String uploads = null;
         String freezone = null;
-
-        parser.require(XmlPullParser.START_TAG, ns, DAY_HOUR_TAG);
         
         while (parser.next() != XmlPullParser.END_TAG) {
             if (parser.getEventType() != XmlPullParser.START_TAG) {
                 continue;
             }
             
-            String tag = parser.getName();
+            String name = parser.getAttributeName(0);
             
-            Log.d(DEBUG_TAG, "readUsage() > Tag: " + tag.toString());
-            
-            if (tag.equals(PERIOD_TAG)) {
-            	//period = readPeriod(parser);
-            	period = "period2";
-            } else if (tag.equals(PEAK_TAG)) {
-                //peak = readPeakData(parser);
-            	peak = "peak2";
-            } else if (tag.equals(OFFPEAK_TAG)) {
-                //offpeak = readOffpeakData(parser);
-            	offpeak = "offpeak2";
-            } else if (tag.equals(UPLOADS_TAG)) {
-                //uploads = readUploadsData(parser);
-            	uploads = "uploads2";
-            } else if (tag.equals(FREEZONE_TAG)) {
-                //freezone = readFreezoneData(parser);
-            	freezone = "freezone2";
-            } else {
+            if (name.equals(PEAK_KEY)){
+                peak = readDataUsage(parser,name);
+            }
+            else if (name.equals(OFFPEAK_KEY)){
+                offpeak = readDataUsage(parser,name);
+            }
+            else if (name.equals(UPLOADS_KEY)){
+                uploads = readDataUsage(parser,name);
+            }
+            else if (name.equals(FREEZONE_KEY)){
+            	freezone = readDataUsage(parser,name);
+            }
+            else{
                 skip(parser);
             }
+
         }
+        Log.d(DEBUG_TAG, period + peak + offpeak + uploads + freezone);
+        
         return new DayHour(period, peak, offpeak, uploads, freezone);
     }
 
     // Processes title tags in the feed.
-    private String readPeriod(XmlPullParser parser) throws IOException, XmlPullParserException {
+    private String readDataUsage(XmlPullParser parser, String name) throws IOException, XmlPullParserException {
     	
-    	Log.d(DEBUG_TAG, "IINetXmlParser.readPeriod()");
+    	Log.d(DEBUG_TAG, "readDataUsage(parser " + name + " )");
     	
-        parser.require(XmlPullParser.START_TAG, ns, PERIOD_TAG);
-        String period = readText(parser);
-        parser.require(XmlPullParser.END_TAG, ns, PERIOD_TAG);
-        return period;
-    }
-
-    // Processes summary tags in the feed.
-    private String readPeakData(XmlPullParser parser) throws IOException, XmlPullParserException {
-    	
-    	Log.d(DEBUG_TAG, "IINetXmlParser.readPeakData()");
-    	
-        parser.require(XmlPullParser.START_TAG, ns, PEAK_TAG);
-        String peak = readText(parser);
-        parser.require(XmlPullParser.END_TAG, ns, PEAK_TAG);
-        return peak;
-    }
-    
-    private String readOffpeakData(XmlPullParser parser) throws IOException, XmlPullParserException {
-    	
-    	Log.d(DEBUG_TAG, "IINetXmlParser.readOffpeakData()");
-    	
-        parser.require(XmlPullParser.START_TAG, ns, OFFPEAK_TAG);
-        String peak = readText(parser);
-        parser.require(XmlPullParser.END_TAG, ns, OFFPEAK_TAG);
-        return peak;
-    }
-    
-    private String readUploadsData(XmlPullParser parser) throws IOException, XmlPullParserException {
-    	
-    	Log.d(DEBUG_TAG, "IINetXmlParser.readUploadsData()");
-    	
-        parser.require(XmlPullParser.START_TAG, ns, UPLOADS_TAG);
-        String uploads = readText(parser);
-        parser.require(XmlPullParser.END_TAG, ns, UPLOADS_TAG);
-        return uploads;
-    }
-    
-    private String readFreezoneData(XmlPullParser parser) throws IOException, XmlPullParserException {
-    	
-    	Log.d(DEBUG_TAG, "IINetXmlParser.readFreezoneData()");
-    	
-        parser.require(XmlPullParser.START_TAG, ns, FREEZONE_TAG);
-        String freezone = readText(parser);
-        parser.require(XmlPullParser.END_TAG, ns, FREEZONE_TAG);
-        return freezone;
+        parser.require(XmlPullParser.START_TAG, ns, USAGE_TAG);
+        String text = readText(parser);
+        parser.require(XmlPullParser.END_TAG, ns, USAGE_TAG);
+        return text;
     }
 
     // For the tags title and summary, extracts their text values.
@@ -267,8 +226,6 @@ public class IINetXmlParser {
             result = parser.getText();
             parser.nextTag();
         }
-        
-        Log.d(DEBUG_TAG, "IINetXmlParser.readText( " + result + " )");
         
         return result;
     }
