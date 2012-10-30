@@ -42,12 +42,17 @@ public class IINetXmlParser {
     private static final String FEED_TAG = "ii_feed";
 
     private static final String ERROR_TAG = "error";
-    private static final String AUTH_ERROR = "Authentication failure";
-    
-    
+
+    /**
+     * Method used to check for error text within XML feed.
+     * @param inputStream
+     * @return string with error text
+     * @throws XmlPullParserException
+     * @throws IOException
+     */
     public String errorCheck (InputStream inputStream) throws XmlPullParserException, IOException {
     	
-    	Log.d(DEBUG_TAG, "parse(inputStream)");
+    	Log.d(DEBUG_TAG, "errorCheck()");
     	
         try {
             XmlPullParser parser = Xml.newPullParser();
@@ -85,37 +90,22 @@ public class IINetXmlParser {
     // Processes title tags in the feed.
     private String readError(XmlPullParser parser) throws IOException, XmlPullParserException {
         parser.require(XmlPullParser.START_TAG, ns, ERROR_TAG);
-        String text = readText(parser);
+        String error = readText(parser);
         parser.require(XmlPullParser.END_TAG, ns, ERROR_TAG);
-    	Log.d(DEBUG_TAG, "readError() > " + text);
-        return text;
+    	Log.d(DEBUG_TAG, "readError() > " + error);
+        return error;
     }
 
     // For the tags title and summary, extracts their text values.
     private String readText(XmlPullParser parser) throws IOException, XmlPullParserException {
-        String result = "";
+        String text = null;
         if (parser.next() == XmlPullParser.TEXT) {
-            result = parser.getText();
+        	text = parser.getText();
             parser.nextTag();
         }
         
-        return result;
+        return text;
     }
-    
-    
-    /**
-     * This class represents an error entry in the xml
-     * @author iteda
-     *
-     */
-    public static class ErrorEntry {
-    	public final String error;
-    	
-    	private ErrorEntry (String error){
-    		this.error = error;
-    	}
-    }
-    
     
     // Skips tags the parser isn't interested in. Uses depth to handle nested tags. i.e.,
     // if the next tag after a START_TAG isn't a matching END_TAG, it keeps going until it

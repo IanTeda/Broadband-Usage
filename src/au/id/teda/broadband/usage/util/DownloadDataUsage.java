@@ -120,7 +120,7 @@ public class DownloadDataUsage {
         @Override
         protected void onPostExecute(String result) {
             
-        	//Log.d(DEBUG_TAG, "onPostExecute()");
+        	Log.d(DEBUG_TAG, "onPostExecute().result: " + result);
         	
         }
     }
