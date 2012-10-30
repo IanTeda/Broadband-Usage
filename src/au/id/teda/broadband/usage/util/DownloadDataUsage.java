@@ -4,11 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.List;
-
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.content.BroadcastReceiver;
@@ -23,7 +18,6 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 import au.id.teda.broadband.usage.R;
-import au.id.teda.broadband.usage.util.IINetXmlParser.DayHour;
 
 public class DownloadDataUsage {
 	
@@ -59,13 +53,13 @@ public class DownloadDataUsage {
         wifiOnly = sharedPrefs.getBoolean(mContext.getString(R.string.pref_key_wifi_only), true);
     	
     	// Check connectivity and set flags
-    	updateConnectedFlags();
+    	updateConnectionFlags();
     	
     }
     
     // Checks the network connection and sets the wifiConnected and mobileConnected
     // variables accordingly.
-    private void updateConnectedFlags() {
+    private void updateConnectionFlags() {
     	
     	//Log.d(DEBUG_TAG, "updateConnectedFlags()");
     	
@@ -81,7 +75,7 @@ public class DownloadDataUsage {
         }
     }
     
-    // Uses AsyncTask subclass to download the XML feed from stackoverflow.com.
+    // Uses AsyncTask subclass to download the XML feed.
     // This avoids UI lock up. To prevent network operations from
     // causing a delay that results in a poor user experience, always perform
     // network operations on a separate thread from the UI.
@@ -95,12 +89,12 @@ public class DownloadDataUsage {
             new DownloadXmlTask().execute(URL);
         } else {
         	// TODO Show wifi only status
-            showError();
+            showConnectionError();
         }
     }
     
     // Displays an error if the app is unable to load content.
-    private void showError() {
+    private void showConnectionError() {
 
     	// TODO fragment toast??
     	// The specified network connection is not available. Displays error message.
@@ -137,25 +131,17 @@ public class DownloadDataUsage {
     	
     	//Log.d(DEBUG_TAG, "loadXmlFromNetwork(" + urlString + ")");
     	
+    	String errorString = null;
         InputStream stream = null;
         IINetXmlParser mXmlParser = new IINetXmlParser();
-        
-        List<DayHour> entries = null;
-        String title = null;
-        String url = null;
-        String summary = null;
-        Calendar rightNow = Calendar.getInstance();
-        DateFormat formatter = new SimpleDateFormat("MMM dd h:mmaa");
-
-        // Checks whether the user set the preference to include summary text
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
-        boolean pref = sharedPrefs.getBoolean("summaryPref", false);
 
         try {
 			// Load & parse development XML file
-        	InputStream streamRaw = mContext.getResources().openRawResource(R.raw.naked_dsl_home_5);
+        	InputStream streamRaw = mContext.getResources().openRawResource(R.raw.authentication_error);
+        	errorString = mXmlParser.errorCheck(streamRaw);
+        	
         	//Log.d(DEBUG_TAG, "loadXmlFromNetwork().try stream: " + streamRaw);
-        	entries = mXmlParser.parse(streamRaw);
+        	//entries = mXmlParser.parse(streamRaw);
 
         	// Load stream and parse entry
             //stream = downloadUrl(urlString);
@@ -173,18 +159,8 @@ public class DownloadDataUsage {
         // This section processes the entries list to combine each entry with HTML markup.
         // Each entry is displayed in the UI as a link that optionally includes
         // a text summary.
-        String estring = null;
-        
-        for (DayHour entry : entries) {
-        	Log.d(DEBUG_TAG, "loadXmlFromNetwork().for Entry");
-        	Log.d(DEBUG_TAG, "Period: " + entry.period 
-        			+ " + Peak: " + entry.peak 
-        			+ " + Offpeak: " + entry.offpeak
-        			+ " + Uploads: " + entry.uploads
-        			+ " + Freezone: " + entry.freezone);
-        	estring = entry.period + entry.peak  + entry.offpeak + entry.uploads + entry.freezone;
-        }
-        return estring;
+
+        return errorString;
     }
     
     // Given a string representation of a URL, sets up a connection and gets
