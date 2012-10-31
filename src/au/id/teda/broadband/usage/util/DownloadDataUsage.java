@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
+
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.content.BroadcastReceiver;
@@ -18,6 +20,8 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 import au.id.teda.broadband.usage.R;
+import au.id.teda.broadband.usage.util.IINetXmlParser.AccountInfo;
+import au.id.teda.broadband.usage.util.IINetXmlParser.DataPeriod;
 
 public class DownloadDataUsage {
 	
@@ -120,27 +124,30 @@ public class DownloadDataUsage {
         protected void onPostExecute(String result) {
             
         	Log.d(DEBUG_TAG, result);
-        	if (result.equals(AUTHENTICATION_FAILURE)){
+        	if (result != null 
+        			&& result.equals(AUTHENTICATION_FAILURE)){
         		Toast.makeText(mContext, R.string.toast_authentication_failure, Toast.LENGTH_SHORT).show();
         	}
         	
         }
     }
     
-    // Uploads XML from stackoverflow.com, parses it, and combines it with
-    // HTML markup. Returns HTML string.
     private String loadXmlFromNetwork(String urlString) throws XmlPullParserException, IOException {
     	
-    	//Log.d(DEBUG_TAG, "loadXmlFromNetwork(" + urlString + ")");
-    	
-    	String errorString = null;
         InputStream stream = null;
         IINetXmlParser mXmlParser = new IINetXmlParser();
 
+    	String errorString = null;
+
+    	List<AccountInfo> acountInfo = null;
+    	String plan = null;
+    	String product = null;
+    	
         try {
 			// Load & parse development XML file
-        	InputStream streamRaw = mContext.getResources().openRawResource(R.raw.authentication_error);
-        	errorString = mXmlParser.parse(streamRaw);
+        	InputStream streamRaw = mContext.getResources().openRawResource(R.raw.naked_dsl_home_5);
+        	errorString = mXmlParser.parseForError(streamRaw);
+        	//acountInfo = mXmlParser.parseAccountInfo(streamRaw);
         	
         	//Log.d(DEBUG_TAG, "loadXmlFromNetwork().try stream: " + streamRaw);
         	//entries = mXmlParser.parse(streamRaw);

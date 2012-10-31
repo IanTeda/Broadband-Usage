@@ -16,9 +16,6 @@ package au.id.teda.broadband.usage.util;
 
 import android.util.Log;
 import android.util.Xml;
-import au.id.teda.broadband.usage.util.CopyOfIINetXmlParser.DayHour;
-
-import org.xml.sax.InputSource;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -38,11 +35,41 @@ public class IINetXmlParser {
 	
 	// We don't use namespaces
     private static final String ns = null;
-    
     private static final String FEED_TAG = "ii_feed";
-
     private static final String ERROR_TAG = "error";
+    private static final String ACCOUNT_INFO_TAG = "account_info";
+    private static final String PLAN_TAG = "plan";
+    private static final String PRODUCT_TAG = "product";
 
+    // This class represents the account info in the XML feed.
+    public static class AccountInfo {
+        public final String plan;
+        public final String product;
+
+        private AccountInfo(String plan, String product) {
+            this.plan = plan;
+            this.product = product;
+        }
+    }
+
+    // This class represents a single data period in the XML feed.
+    public static class DataPeriod {
+        public final String period;
+        public final String peak;
+        public final String offpeak;
+        public final String uploads;
+        public final String freezone;
+
+        private DataPeriod(String period, String peak, String offpeak, String uploads, String freezone) {
+            this.period = period;
+            this.peak = peak;
+            this.offpeak = offpeak;
+            this.uploads = uploads;
+            this.freezone = freezone;
+        }
+    }
+    
+    
     /**
      * Method used to check for error text within XML feed.
      * @param inputStream
@@ -50,33 +77,32 @@ public class IINetXmlParser {
      * @throws XmlPullParserException
      * @throws IOException
      */
-    public String parse (InputStream inputStream) throws XmlPullParserException, IOException {
-    	
-    	Log.d(DEBUG_TAG, "parse()");
-    	
+    public String parseForError (InputStream inputStream) throws XmlPullParserException, IOException {
         try {
             XmlPullParser parser = Xml.newPullParser();
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
             parser.setInput(inputStream, null);
             parser.nextTag();
-            return readFeed(parser);
+            return readFeedForError(parser);
         } finally {
         	inputStream.close();
         }
     }
     
-    /**
-     * 
-     * @param parser
-     * @return
-     * @throws XmlPullParserException
-     * @throws IOException
-     */
-    private String readFeed(XmlPullParser parser) throws XmlPullParserException, IOException {
-    	
-    	Log.d(DEBUG_TAG, "readFeed()");
-    	
-        String error = null;
+    public List<AccountInfo> parseAccountInfo(InputStream inputStream) throws XmlPullParserException, IOException {
+        try {
+            XmlPullParser parser = Xml.newPullParser();
+            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
+            parser.setInput(inputStream, null);
+            parser.nextTag();
+            return readFeedForAccountInfo(parser);
+        } finally {
+        	inputStream.close();
+        }
+    }
+    
+    private String readFeedForError(XmlPullParser parser) throws XmlPullParserException, IOException {
+        String error = "no errors";
         
         parser.require(XmlPullParser.START_TAG, ns, FEED_TAG);
         while (parser.next() != XmlPullParser.END_TAG) {
@@ -87,13 +113,33 @@ public class IINetXmlParser {
             
             // Starts by looking for the feed entry tag
         	if (tag.equals(ERROR_TAG)) {
-            	//Log.d(DEBUG_TAG, "In Tag: " + tag.toString());
             	error = readError(parser);
             } else {
                 skip(parser);
             }
         }
         return error;
+    }
+    
+    private List<AccountInfo> readFeedForAccountInfo(XmlPullParser parser) throws XmlPullParserException, IOException {
+        
+    	List<AccountInfo> acountInfo = new ArrayList<AccountInfo>();
+        
+        parser.require(XmlPullParser.START_TAG, ns, FEED_TAG);
+        while (parser.next() != XmlPullParser.END_TAG) {
+            if (parser.getEventType() != XmlPullParser.START_TAG) {
+                continue;
+            }
+            String tag = parser.getName();
+            
+            // Starts by looking for the feed entry tag
+        	if (tag.equals(ACCOUNT_INFO_TAG)) {
+        		acountInfo.add(readAccountInfo(parser));
+            } else {
+                skip(parser);
+            }
+        }
+        return acountInfo;
     }
     
     // Processes error tag.
@@ -104,6 +150,44 @@ public class IINetXmlParser {
         return error;
     }
 
+    private AccountInfo readAccountInfo(XmlPullParser parser) throws XmlPullParserException, IOException {
+        parser.require(XmlPullParser.START_TAG, ns, ACCOUNT_INFO_TAG);
+
+        String plan = null;
+        String product = null;
+        
+        while (parser.next() != XmlPullParser.END_TAG) {
+            if (parser.getEventType() != XmlPullParser.START_TAG) {
+                continue;
+            }
+            String tag = parser.getName();
+            Log.d(DEBUG_TAG, tag);
+            if (tag.equals(PLAN_TAG)) {
+                plan = readPlan(parser);
+            } else if (tag.equals(PRODUCT_TAG)) {
+                product = readProduct(parser);
+            } else {
+                skip(parser);
+            }
+        }
+        return new AccountInfo(plan, product);
+    }
+    
+    private String readPlan(XmlPullParser parser) throws IOException, XmlPullParserException {
+        parser.require(XmlPullParser.START_TAG, ns, PLAN_TAG);
+        String plan = readText(parser);
+        parser.require(XmlPullParser.END_TAG, ns, PLAN_TAG);
+        return plan;
+    }
+    
+    private String readProduct(XmlPullParser parser) throws IOException, XmlPullParserException {
+        parser.require(XmlPullParser.START_TAG, ns, PRODUCT_TAG);
+        String plan = readText(parser);
+        parser.require(XmlPullParser.END_TAG, ns, PRODUCT_TAG);
+        return plan;
+    }
+    
+    
     // For the tags title and summary, extracts their text values.
     private String readText(XmlPullParser parser) throws IOException, XmlPullParserException {
         String text = null;
@@ -111,6 +195,8 @@ public class IINetXmlParser {
         	text = parser.getText();
             parser.nextTag();
         }
+        
+        Log.d(DEBUG_TAG, text);
         
         return text;
     }
