@@ -138,6 +138,7 @@ public class DownloadDataUsage {
         try {
 			// Load & parse development XML file
         	InputStream streamRaw = mContext.getResources().openRawResource(R.raw.authentication_error);
+        	errorCheck(mXmlParser, streamRaw);
         	errorString = mXmlParser.errorCheck(streamRaw);
         	
         	//Log.d(DEBUG_TAG, "loadXmlFromNetwork().try stream: " + streamRaw);
@@ -162,8 +163,14 @@ public class DownloadDataUsage {
 
         return errorString;
     }
-    
-    // Given a string representation of a URL, sets up a connection and gets
+
+
+	private void errorCheck(IINetXmlParser mXmlParser, InputStream streamRaw) {
+		
+		
+	}
+
+	// Given a string representation of a URL, sets up a connection and gets
     // an input stream.
     private InputStream downloadUrl(String urlString) throws IOException {
         URL url = new URL(urlString);

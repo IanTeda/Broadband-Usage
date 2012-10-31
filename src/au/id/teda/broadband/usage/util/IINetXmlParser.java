@@ -65,6 +65,13 @@ public class IINetXmlParser {
         }
     }
     
+    /**
+     * 
+     * @param parser
+     * @return
+     * @throws XmlPullParserException
+     * @throws IOException
+     */
     private String readFeedForError(XmlPullParser parser) throws XmlPullParserException, IOException {
     	
         String error = null;
