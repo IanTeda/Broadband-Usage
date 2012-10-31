@@ -50,16 +50,16 @@ public class IINetXmlParser {
      * @throws XmlPullParserException
      * @throws IOException
      */
-    public String errorCheck (InputStream inputStream) throws XmlPullParserException, IOException {
+    public String parse (InputStream inputStream) throws XmlPullParserException, IOException {
     	
-    	Log.d(DEBUG_TAG, "errorCheck()");
+    	Log.d(DEBUG_TAG, "parse()");
     	
         try {
             XmlPullParser parser = Xml.newPullParser();
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
             parser.setInput(inputStream, null);
             parser.nextTag();
-            return readFeedForError(parser);
+            return readFeed(parser);
         } finally {
         	inputStream.close();
         }
@@ -72,7 +72,9 @@ public class IINetXmlParser {
      * @throws XmlPullParserException
      * @throws IOException
      */
-    private String readFeedForError(XmlPullParser parser) throws XmlPullParserException, IOException {
+    private String readFeed(XmlPullParser parser) throws XmlPullParserException, IOException {
+    	
+    	Log.d(DEBUG_TAG, "readFeed()");
     	
         String error = null;
         
@@ -85,7 +87,7 @@ public class IINetXmlParser {
             
             // Starts by looking for the feed entry tag
         	if (tag.equals(ERROR_TAG)) {
-            	Log.d(DEBUG_TAG, "In Tag: " + tag.toString());
+            	//Log.d(DEBUG_TAG, "In Tag: " + tag.toString());
             	error = readError(parser);
             } else {
                 skip(parser);
@@ -94,12 +96,11 @@ public class IINetXmlParser {
         return error;
     }
     
-    // Processes title tags in the feed.
+    // Processes error tag.
     private String readError(XmlPullParser parser) throws IOException, XmlPullParserException {
         parser.require(XmlPullParser.START_TAG, ns, ERROR_TAG);
         String error = readText(parser);
         parser.require(XmlPullParser.END_TAG, ns, ERROR_TAG);
-    	Log.d(DEBUG_TAG, "readError() > " + error);
         return error;
     }
 

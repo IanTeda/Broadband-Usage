@@ -25,18 +25,17 @@ public class DownloadDataUsage {
 
     private static final String URL = "http://stackoverflow.com/feeds/tag?tagnames=android&sort=newest";
 	
-	Context mContext;
+	// Activity context
+    private static Context mContext;
 
-    // Whether there is a Wi-Fi connection.
+    // Connection flags.
     private static boolean wifiConnected = false;
-    // Whether there is a mobile connection.
     private static boolean mobileConnected = false;
-    // Whether the display should be refreshed.
-    public static boolean refreshDisplay = true;
-
-    // The user's current network preference setting.
     public static boolean wifiOnly = true;
 
+    // Error texts from XML
+    private static final String AUTHENTICATION_FAILURE = "Authentication failure";
+    
     // Class constructor
     public DownloadDataUsage(Context context) {
     	
@@ -120,7 +119,10 @@ public class DownloadDataUsage {
         @Override
         protected void onPostExecute(String result) {
             
-        	Log.d(DEBUG_TAG, "onPostExecute().result: " + result);
+        	Log.d(DEBUG_TAG, result);
+        	if (result.equals(AUTHENTICATION_FAILURE)){
+        		Toast.makeText(mContext, R.string.toast_authentication_failure, Toast.LENGTH_SHORT).show();
+        	}
         	
         }
     }
@@ -138,8 +140,7 @@ public class DownloadDataUsage {
         try {
 			// Load & parse development XML file
         	InputStream streamRaw = mContext.getResources().openRawResource(R.raw.authentication_error);
-        	errorCheck(mXmlParser, streamRaw);
-        	errorString = mXmlParser.errorCheck(streamRaw);
+        	errorString = mXmlParser.parse(streamRaw);
         	
         	//Log.d(DEBUG_TAG, "loadXmlFromNetwork().try stream: " + streamRaw);
         	//entries = mXmlParser.parse(streamRaw);
@@ -163,12 +164,6 @@ public class DownloadDataUsage {
 
         return errorString;
     }
-
-
-	private void errorCheck(IINetXmlParser mXmlParser, InputStream streamRaw) {
-		
-		
-	}
 
 	// Given a string representation of a URL, sets up a connection and gets
     // an input stream.
@@ -211,7 +206,7 @@ public class DownloadDataUsage {
                // If device has its Wi-Fi connection, sets refreshDisplay
                // to true. This causes the display to be refreshed when the user
                // returns to the app.
-               refreshDisplay = true;
+               //refreshDisplay = true;
                // Toast.makeText(context, R.string.wifi_connected, Toast.LENGTH_SHORT).show();
 
                // If the setting is ANY network and there is a network connection

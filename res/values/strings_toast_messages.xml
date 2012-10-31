@@ -2,4 +2,5 @@
 <resources>
     <string name="toast_no_connectivity"><b>No Connectivity</b><br/> Looks like you are in the sticks</string>
     <string name="toast_error_xml">Error parsing XML.</string>
+    <string name="toast_authentication_failure"><b>Opps</b> Authentication failure</string>
 </resources>
