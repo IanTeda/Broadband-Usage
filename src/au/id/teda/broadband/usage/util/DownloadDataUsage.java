@@ -30,7 +30,7 @@ public class DownloadDataUsage {
     private static final String URL = "http://stackoverflow.com/feeds/tag?tagnames=android&sort=newest";
 	
 	// Activity context
-    private static Context mContext;
+    private static Context context;
 
     // Connection flags.
     private static boolean wifiConnected = false;
@@ -42,18 +42,11 @@ public class DownloadDataUsage {
     
     // Class constructor
     public DownloadDataUsage(Context context) {
-    	
-    	//Log.d(DEBUG_TAG, "DownloadDataUsage( "+ context + " )");
-    	
-    	// Set context from activity that called helper
-    	this.mContext = context;
-    	
-    	// Gets the user's network preference settings
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+    	this.context = context;
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         
-        // Retrieves a string value for the preferences. The second parameter
-        // is the default value to use if a preference value is not found.
-        wifiOnly = sharedPrefs.getBoolean(mContext.getString(R.string.pref_key_wifi_only), true);
+        // Retrieves a string value for the preferences. The second parameter is the default value to use if a preference value is not found.
+        wifiOnly = sharedPrefs.getBoolean(context.getString(R.string.pref_key_wifi_only), true);
     	
     	// Check connectivity and set flags
     	updateConnectionFlags();
@@ -66,7 +59,7 @@ public class DownloadDataUsage {
     	
     	//Log.d(DEBUG_TAG, "updateConnectedFlags()");
     	
-        ConnectivityManager connMgr = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         NetworkInfo networkStatus = connMgr.getActiveNetworkInfo();
         if (networkStatus != null && networkStatus.isConnected()) {
@@ -101,7 +94,7 @@ public class DownloadDataUsage {
 
     	// TODO fragment toast??
     	// The specified network connection is not available. Displays error message.
-    	Toast.makeText(mContext, R.string.toast_no_connectivity, Toast.LENGTH_SHORT).show();
+    	Toast.makeText(context, R.string.toast_no_connectivity, Toast.LENGTH_SHORT).show();
     }
     
     // Implementation of AsyncTask used to download XML feed from stackoverflow.com.
@@ -126,7 +119,7 @@ public class DownloadDataUsage {
         	Log.d(DEBUG_TAG, result);
         	if (result != null 
         			&& result.equals(AUTHENTICATION_FAILURE)){
-        		Toast.makeText(mContext, R.string.toast_authentication_failure, Toast.LENGTH_SHORT).show();
+        		Toast.makeText(context, R.string.toast_authentication_failure, Toast.LENGTH_SHORT).show();
         	}
         	
         }
@@ -145,7 +138,7 @@ public class DownloadDataUsage {
     	
         try {
 			// Load & parse development XML file
-        	InputStream streamRaw = mContext.getResources().openRawResource(R.raw.naked_dsl_home_5);
+        	InputStream streamRaw = context.getResources().openRawResource(R.raw.naked_dsl_home_5);
         	errorString = mXmlParser.parseForError(streamRaw);
         	//acountInfo = mXmlParser.parseAccountInfo(streamRaw);
         	
@@ -226,7 +219,7 @@ public class DownloadDataUsage {
                // is no Wi-Fi connection.
                // Sets refreshDisplay to false.
            } else {
-               Toast.makeText(mContext, R.string.toast_no_connectivity, Toast.LENGTH_SHORT).show();
+               Toast.makeText(context, R.string.toast_no_connectivity, Toast.LENGTH_SHORT).show();
            }
        }
    }
