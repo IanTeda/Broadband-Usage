@@ -91,6 +91,7 @@ public class IINetXmlParser {
     
     public List<AccountInfo> parseAccountInfo(InputStream inputStream) throws XmlPullParserException, IOException {
         try {
+        	Log.d(DEBUG_TAG, "parseAccountInfo()");
             XmlPullParser parser = Xml.newPullParser();
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
             parser.setInput(inputStream, null);

@@ -81,7 +81,8 @@ public class MainActivity extends SherlockFragmentActivity implements FragmentLo
         // fragmentLogInDialog.show(mFragmentManager, "fragment_log_in");
 		
 		DownloadDataUsage mDownloadDataUsage = new DownloadDataUsage(this);
-		mDownloadDataUsage.getData();
+		boolean check = mDownloadDataUsage.authCheck();
+		Toast.makeText(this, "Authentication: " + check, Toast.LENGTH_SHORT).show();
     }
     
 	@Override
