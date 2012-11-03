@@ -3,6 +3,7 @@ package au.id.teda.broadband.usage.util;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -11,8 +12,11 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.Toast;
 import au.id.teda.broadband.usage.R;
+import au.id.teda.broadband.usage.parser.AccountInfoParser;
+import au.id.teda.broadband.usage.parser.AccountInfoParser.AccountInfo;
 import au.id.teda.broadband.usage.parser.ErrorParser;
 
 public class DownloadDataUsage {
@@ -89,6 +93,36 @@ public class DownloadDataUsage {
     		return true;
     	}
     }
+    
+    public void getAccountInfo() {
+    	
+    	Log.d(DEBUG_TAG, "getAccountInfo()");
+    	
+    	AccountInfoParser mAccountInfoParser = new AccountInfoParser();
+    	InputStream stream = bufferXmlStream();
+    	List<AccountInfo> account = null;
+      
+        try {
+        	Log.d(DEBUG_TAG, "try");
+        	account = mAccountInfoParser.parse(stream);
+        } catch (XmlPullParserException e) {
+			Log.e(DEBUG_TAG, "XmlPullParserException: " + e);
+		} catch (IOException e) {
+			Log.e(DEBUG_TAG, "IOException: " + e);
+        }
+        
+        String plan = null;
+        String product = null;
+        for (AccountInfo accountInfo : account) {
+        	plan = accountInfo.plan;
+        	product = accountInfo.product;
+        	
+        	Log.d(DEBUG_TAG, "Plan: " + plan);
+        	Log.d(DEBUG_TAG, "Product: " + product);
+        }
+                 
+    }
+    
     
     public void getData() {
     	
