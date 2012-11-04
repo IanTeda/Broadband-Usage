@@ -96,14 +96,11 @@ public class DownloadDataUsage {
     
     public void getAccountInfo() {
     	
-    	Log.d(DEBUG_TAG, "getAccountInfo()");
-    	
     	AccountInfoParser mAccountInfoParser = new AccountInfoParser();
     	InputStream stream = bufferXmlStream();
     	List<AccountInfo> account = null;
       
         try {
-        	Log.d(DEBUG_TAG, "try");
         	account = mAccountInfoParser.parse(stream);
         } catch (XmlPullParserException e) {
 			Log.e(DEBUG_TAG, "XmlPullParserException: " + e);
@@ -121,6 +118,10 @@ public class DownloadDataUsage {
         	Log.d(DEBUG_TAG, "Product: " + product);
         }
                  
+    }
+    
+    public void getAccountStatus(){
+    	
     }
     
     
