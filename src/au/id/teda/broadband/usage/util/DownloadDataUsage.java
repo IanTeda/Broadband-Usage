@@ -17,6 +17,8 @@ import android.widget.Toast;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.parser.AccountInfoParser;
 import au.id.teda.broadband.usage.parser.AccountInfoParser.AccountInfo;
+import au.id.teda.broadband.usage.parser.AccountStatusParser;
+import au.id.teda.broadband.usage.parser.AccountStatusParser.AccountStatus;
 import au.id.teda.broadband.usage.parser.ErrorParser;
 
 public class DownloadDataUsage {
@@ -121,6 +123,31 @@ public class DownloadDataUsage {
     }
     
     public void getAccountStatus(){
+    	
+    	AccountStatusParser mAccountStatusParser= new AccountStatusParser();
+    	InputStream stream = bufferXmlStream();
+    	List<AccountStatus> status = null;
+    	
+        try {
+        	status = mAccountStatusParser.parse(stream);
+        } catch (XmlPullParserException e) {
+			Log.e(DEBUG_TAG, "XmlPullParserException: " + e);
+		} catch (IOException e) {
+			Log.e(DEBUG_TAG, "IOException: " + e);
+        }
+        
+		String offpeakStart;
+	    String offpeakEnd;
+	    String quotaReset;  
+        for (AccountStatus accountStatus : status) {
+        	offpeakStart = accountStatus.offpeakStart;
+        	offpeakEnd = accountStatus.offpeakEnd;
+        	quotaReset = accountStatus.quotaReset;
+        	
+        	Log.d(DEBUG_TAG, "Offpeak Start: " + offpeakStart);
+        	Log.d(DEBUG_TAG, "Offpeak End: " + offpeakEnd);
+        	Log.d(DEBUG_TAG, "Quota Reset: " + quotaReset);
+        }
     	
     }
     

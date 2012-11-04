@@ -74,7 +74,6 @@ public class AccountInfoParser {
 	            }
 	            String name = parser.getName();
 	            if (name.equals(PLAN_TAG)) {
-	            	Log.d(DEBUG_TAG, name.toString());
 	                plan = readAccountPlan(parser);
 	            } else if (name.equals(PRODUCT_TAG)) {
 	                product = readAccountProduct(parser);

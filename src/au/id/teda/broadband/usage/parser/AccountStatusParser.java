@@ -30,6 +30,10 @@ public class AccountStatusParser {
 	private static final String EXPECTED_TRAFFIC_TYPES_TAG = "expected_traffic_types";
 	private static final String TYPE_TAG = "type";
 	private static final String CLASSIFICATION_ATT = "classification";
+	private static final String PEAK_ATT = "peak";
+	private static final String OFFPEAK_ATT = "offpeak";
+	private static final String UPLOADS_ATT = "uploads";
+	private static final String FREEZIBE_ATT = "freezone";
 	private static final String USED_ATT = "used";
 	private static final String NAME_TAG = "name";
 	private static final String QUOTA_ALLICATION_TAG = "quota_allocation";
@@ -108,21 +112,23 @@ public class AccountStatusParser {
 	    }
 	    
 	    private AccountStatus readVolumeUsage(XmlPullParser parser) throws XmlPullParserException, IOException {
+	    	Log.d(DEBUG_TAG, "readVolumeUsage");
+	    	
 	        parser.require(XmlPullParser.START_TAG, ns, VOLUME_USAGE_TAG);
 	        
 			String offpeakStart = null;
 		    String offpeakEnd = null;
 		    String quotaReset = null;
-		    String peakDataUsed = null;
-		    String peakQuota = null;
-		    String peakSpeed = null;
-		    String peakShaped = null;
-		    String offpeakDataUsed = null;
-		    String offpeakQuota = null;
-		    String offpeakSpeed = null;
-		    String offpeakShaped = null;
-		    String uploadsDataUsed = null;
-		    String freezoneDataUsed = null;
+		    String peakDataUsed = "test";
+		    String peakQuota = "test";
+		    String peakSpeed = "test";
+		    String peakShaped = "test";
+		    String offpeakDataUsed = "test";
+		    String offpeakQuota = "test";
+		    String offpeakSpeed = "test";
+		    String offpeakShaped = "test";
+		    String uploadsDataUsed = "test";
+		    String freezoneDataUsed = "test";
 
 	        while (parser.next() != XmlPullParser.END_TAG) {
 	            if (parser.getEventType() != XmlPullParser.START_TAG) {
@@ -137,7 +143,10 @@ public class AccountStatusParser {
 	            } else if (name.equals(QUOTA_RESET_TAG)){
 	            	quotaReset = readQuotaReset(parser);
 	            } else if (name.equals(EXPECTED_TRAFFIC_TYPES_TAG)){
-	            	
+	            	//peakDataUsed = readPeakDataUsed(parser);
+	            	//offpeakDataUsed = readOffpeakDataUsed(parser);
+	            	//uploadsDataUsed = readUploadsDataUsed(parser);
+	            	//freezoneDataUsed = readFreezoneDataUsed(parser);
 	            } else {
 	                skip(parser);
 	            }
@@ -150,6 +159,7 @@ public class AccountStatusParser {
 	    }
 	    
 	    private String readOffpeakStart(XmlPullParser parser) throws IOException, XmlPullParserException {
+	    	Log.d(DEBUG_TAG, "readOffpeakStart");
 	        parser.require(XmlPullParser.START_TAG, ns, OFFPEAK_START_TAG);
 	        String offpeakStart = readText(parser);
 	        parser.require(XmlPullParser.END_TAG, ns, OFFPEAK_START_TAG);
@@ -157,6 +167,7 @@ public class AccountStatusParser {
 	    }
 
 	    private String readOffpeakEnd(XmlPullParser parser) throws IOException, XmlPullParserException {
+	    	Log.d(DEBUG_TAG, "readOffpeakEnd");
 	        parser.require(XmlPullParser.START_TAG, ns, OFFPEAK_END_TAG);
 	        String offpeakEnd = readText(parser);
 	        parser.require(XmlPullParser.END_TAG, ns, OFFPEAK_END_TAG);
@@ -164,6 +175,8 @@ public class AccountStatusParser {
 	    }
 	    
 	    private String readQuotaReset(XmlPullParser parser) throws IOException, XmlPullParserException {
+	    	Log.d(DEBUG_TAG, "readQuotaReset");
+	    	
 	    	String anniversary = null;
 	    	String daysSoFar = null;
 	    	String daysRemaining = null;
@@ -179,7 +192,26 @@ public class AccountStatusParser {
 	    	}
 	        parser.require(XmlPullParser.END_TAG, ns, QUOTA_RESET_TAG);
 	        
-	        return anniversary + " " + daysSoFar + " " +  daysRemaining;
+	        return anniversary;
+	    }
+	    
+	    private String readPeakDataUsed(XmlPullParser parser) throws IOException, XmlPullParserException {
+	    	Log.d(DEBUG_TAG, "readPeakDataUsed");
+	    	String peakData = null;
+	    	
+	    	parser.require(XmlPullParser.START_TAG, ns, EXPECTED_TRAFFIC_TYPES_TAG);
+	    	String tag = parser.getName();
+	    	String relType = parser.getAttributeValue(null, CLASSIFICATION_ATT);
+	    	
+	        if (tag.equals(TYPE_TAG)) {
+	            if (relType.equals(PEAK_ATT)) {
+	            	peakData = parser.getAttributeValue(null, USED_ATT);
+	                parser.nextTag();
+	            }
+	        }
+	        parser.require(XmlPullParser.END_TAG, ns, EXPECTED_TRAFFIC_TYPES_TAG);
+	        return peakData;
+
 	    }
 
 	    private String readText(XmlPullParser parser) throws IOException, XmlPullParserException {
