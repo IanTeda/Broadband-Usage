@@ -138,15 +138,27 @@ public class DownloadDataUsage {
         
 		String offpeakStart;
 	    String offpeakEnd;
-	    String quotaReset;  
+	    String quotaReset;
+	    String peakDataUsed;
+	    String offpeakDataUsed;
+	    String uploadsDataUsed;
+	    String freezoneDataUsed;
         for (AccountStatus accountStatus : status) {
         	offpeakStart = accountStatus.offpeakStart;
         	offpeakEnd = accountStatus.offpeakEnd;
         	quotaReset = accountStatus.quotaReset;
+        	peakDataUsed = accountStatus.peakDataUsed;
+        	offpeakDataUsed = accountStatus.offpeakDataUsed;
+        	uploadsDataUsed = accountStatus.uploadsDataUsed;
+        	freezoneDataUsed = accountStatus.freezoneDataUsed;
         	
         	Log.d(DEBUG_TAG, "Offpeak Start: " + offpeakStart);
         	Log.d(DEBUG_TAG, "Offpeak End: " + offpeakEnd);
         	Log.d(DEBUG_TAG, "Quota Reset: " + quotaReset);
+        	Log.d(DEBUG_TAG, "Peak Data Used: " + peakDataUsed);
+        	Log.d(DEBUG_TAG, "Offpeak Data Used: " + offpeakDataUsed);
+        	Log.d(DEBUG_TAG, "Uploads Data Used: " + uploadsDataUsed);
+        	Log.d(DEBUG_TAG, "Freezone Data Used: " + freezoneDataUsed);
         }
     	
     }
