@@ -101,12 +101,14 @@ public class AccountStatusParser {
 	    		if (parser.getEventType() != XmlPullParser.START_TAG) {
 	    			continue;
 	            }
-	            String name = parser.getName();
+	            String tag = parser.getName();
 	            // Starts by looking for the account info tag
-	            if (name.equals(VOLUME_USAGE_TAG)) {
-	            	status.add(readVolumeUsage(parser));
+	            Log.d(DEBUG_TAG, tag);
+	            if (tag.equals(VOLUME_USAGE_TAG)) {
+	            	//status.add(readVolumeUsage(parser));
 	            } else {
 	                skip(parser);
+	            	//parser.next();
 	            }
 	        }
 	        return status;
@@ -158,8 +160,7 @@ public class AccountStatusParser {
 		    	} else if (tag.equals(QUOTA_RESET_TAG)){
 	            	quotaReset = readQuotaReset(parser);
 		    	} else if (tag.equals(EXPECTED_TRAFFIC_TYPES_TAG)){
-		    		HashMap<String, String> dataUsedHashMap = new HashMap<String, String>();
-		    		dataUsedHashMap = readDataUsed(parser);
+		    		readExpectedTrafficTypes(parser);
 		    		//peakDataUsed = readDataUsed(parser, PEAK_ATT);
 		    		//offpeakDataUsed = readDataUsed(parser, OFFPEAK_ATT);
 		    		//uploadsDataUsed = readDataUsed(parser, UPLOADS_ATT);
@@ -221,7 +222,26 @@ public class AccountStatusParser {
 	        return anniversary + " " + daysSoFar + " " + daysRemaining;
 	    }
 	    
-	    private HashMap<String, String> readDataUsed(XmlPullParser parser) throws IOException, XmlPullParserException {
+	    private void readExpectedTrafficTypes(XmlPullParser parser) throws IOException, XmlPullParserException {
+	    	
+	    	Log.d(DEBUG_TAG, "readExpectedTrafficTypes()");
+	    	
+	    	parser.require(XmlPullParser.START_TAG, ns, EXPECTED_TRAFFIC_TYPES_TAG);
+	    	while (parser.next() != XmlPullParser.END_TAG) {
+		    	if (parser.getEventType() != XmlPullParser.START_TAG) {
+		    		continue;
+		    	}
+		    	
+		    	String tag = parser.getName();
+		    	
+		    	if (tag.equals(TYPE_TAG)) {
+		    		
+		    	}
+	    	}
+	    	
+	    }
+	    
+	    private void readDataUsed(XmlPullParser parser) throws IOException, XmlPullParserException {
 	    	
 	    	Log.d(DEBUG_TAG, "readDataUsed()");
 	    	
@@ -251,12 +271,12 @@ public class AccountStatusParser {
 		            } else if (relType.equals(FREEZONE_ATT)){
 		            	Log.d(DEBUG_TAG, "Feezone Data");
 		            	dataUsedHashMap.put(FREEZONE_ATT, parser.getAttributeValue(null, USED_ATT));
-		            }  else {
-			    		skip(parser);
-		            }
+		            } 
+		        } else {
+		        	skip(parser);
 		        }
 	    	}
-	        return dataUsedHashMap;
+
 	    }
 
 	    private String readText(XmlPullParser parser) throws IOException, XmlPullParserException {
