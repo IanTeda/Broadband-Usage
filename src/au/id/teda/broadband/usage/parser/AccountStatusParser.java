@@ -3,6 +3,7 @@ package au.id.teda.broadband.usage.parser;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -127,32 +128,6 @@ public class AccountStatusParser {
 		    String uploadsDataUsed = null;
 		    String freezoneDataUsed = null;
 	    	
-		    /**
-	    	parser.require(XmlPullParser.START_TAG, ns, VOLUME_USAGE_TAG);
-	        
-	        while (parser.next() != XmlPullParser.END_TAG) {
-	            if (parser.getEventType() != XmlPullParser.START_TAG) {
-	                continue;
-	            }
-	            String name = parser.getName();
-	            Log.d(DEBUG_TAG, name.toString());
-	            if (name.equals(OFFPEAK_START_TAG)) {
-	            	offpeakStart = readOffpeakStart(parser);
-	            } else if (name.equals(OFFPEAK_END_TAG)) {
-	            	offpeakEnd = readOffpeakEnd(parser);
-	            } else if (name.equals(QUOTA_RESET_TAG)){
-	            	quotaReset = readQuotaReset(parser);
-	            } else if (name.equals(EXPECTED_TRAFFIC_TYPES_TAG)){
-	            	//peakDataUsed = readPeakDataUsed(parser);
-	            	//offpeakDataUsed = readOffpeakDataUsed(parser);
-	            	//uploadsDataUsed = readUploadsDataUsed(parser);
-	            	//freezoneDataUsed = readFreezoneDataUsed(parser);
-	            } else {
-	                skip(parser);
-	            }
-	        }
-	        **/
-		    
 			offpeakStart = "test";
 		    offpeakEnd = "test";
 		    quotaReset = "test";
@@ -183,7 +158,9 @@ public class AccountStatusParser {
 		    	} else if (tag.equals(QUOTA_RESET_TAG)){
 	            	quotaReset = readQuotaReset(parser);
 		    	} else if (tag.equals(EXPECTED_TRAFFIC_TYPES_TAG)){
-		    		peakDataUsed = readDataUsed(parser, PEAK_ATT);
+		    		HashMap<String, String> dataUsedHashMap = new HashMap<String, String>();
+		    		dataUsedHashMap = readDataUsed(parser);
+		    		//peakDataUsed = readDataUsed(parser, PEAK_ATT);
 		    		//offpeakDataUsed = readDataUsed(parser, OFFPEAK_ATT);
 		    		//uploadsDataUsed = readDataUsed(parser, UPLOADS_ATT);
 		    		//freezoneDataUsed = readDataUsed(parser, FREEZONE_ATT);
@@ -244,9 +221,11 @@ public class AccountStatusParser {
 	        return anniversary + " " + daysSoFar + " " + daysRemaining;
 	    }
 	    
-	    private String readDataUsed(XmlPullParser parser, String attribute) throws IOException, XmlPullParserException {
+	    private HashMap<String, String> readDataUsed(XmlPullParser parser) throws IOException, XmlPullParserException {
 	    	
-	    	String dataUsed = null;
+	    	Log.d(DEBUG_TAG, "readDataUsed()");
+	    	
+	    	HashMap<String, String> dataUsedHashMap = new HashMap<String, String>();
 	    	
 	    	parser.require(XmlPullParser.START_TAG, ns, EXPECTED_TRAFFIC_TYPES_TAG);
 	    	while (parser.next() != XmlPullParser.END_TAG) {
@@ -257,14 +236,27 @@ public class AccountStatusParser {
 		    	String tag = parser.getName();
 		    	String relType = parser.getAttributeValue(null, CLASSIFICATION_ATT);
 		    	
+		    	Log.d(DEBUG_TAG, "tag: " + tag + " Att: " + relType);
+		    	
 		    	if (tag.equals(TYPE_TAG)) {
-		            if (relType.equals(attribute)) {
-		            	dataUsed = parser.getAttributeValue(null, USED_ATT);
-		                parser.nextTag();
+		            if (relType.equals(PEAK_ATT)) {
+		            	Log.d(DEBUG_TAG, "Peak Data");
+		            	dataUsedHashMap.put(PEAK_ATT, parser.getAttributeValue(null, USED_ATT));
+		            } else if (relType.equals(OFFPEAK_ATT)){
+		            	Log.d(DEBUG_TAG, "Offpeak Data");
+		            	dataUsedHashMap.put(OFFPEAK_ATT, parser.getAttributeValue(null, USED_ATT));
+		            } else if (relType.equals(UPLOADS_ATT)){
+		            	Log.d(DEBUG_TAG, "Uploads Data");
+		            	dataUsedHashMap.put(UPLOADS_ATT, parser.getAttributeValue(null, USED_ATT));
+		            } else if (relType.equals(FREEZONE_ATT)){
+		            	Log.d(DEBUG_TAG, "Feezone Data");
+		            	dataUsedHashMap.put(FREEZONE_ATT, parser.getAttributeValue(null, USED_ATT));
+		            }  else {
+			    		skip(parser);
 		            }
 		        }
 	    	}
-	        return dataUsed;
+	        return dataUsedHashMap;
 	    }
 
 	    private String readText(XmlPullParser parser) throws IOException, XmlPullParserException {
