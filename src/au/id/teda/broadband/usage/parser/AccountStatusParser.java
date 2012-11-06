@@ -102,7 +102,6 @@ public class AccountStatusParser {
 	    			continue;
 	            }
 	            String tag = parser.getName();
-	            // Starts by looking for the account info tag
 	            Log.d(DEBUG_TAG, "readFeed: " + tag);
 	            
 	            if (tag.equals(VOLUME_USAGE_TAG)) {
@@ -152,7 +151,7 @@ public class AccountStatusParser {
 		    	}
 		    	
 		    	String tag = parser.getName();
-		    	Log.d(DEBUG_TAG, "readFeed: " + tag);
+		    	Log.d(DEBUG_TAG, "readVolumeUsage: " + tag);
 		    	
 		    	if (tag.equals(OFFPEAK_START_TAG)) {
 	            	offpeakStart = readOffpeakStart(parser);
@@ -225,84 +224,60 @@ public class AccountStatusParser {
 	    
 	    private void readExpectedTrafficTypes(XmlPullParser parser) throws IOException, XmlPullParserException {
 	    	
-	    	//Log.d(DEBUG_TAG, "readExpectedTrafficTypes()");
+	    	String data = null;
 	    	
 	    	parser.require(XmlPullParser.START_TAG, ns, EXPECTED_TRAFFIC_TYPES_TAG);
-	    	while (parser.next() != XmlPullParser.END_TAG) {
-		    	if (parser.getEventType() != XmlPullParser.START_TAG) {
-		    		continue;
-		    	}
+
+	    	while (parser.nextTag() != XmlPullParser.END_TAG) {
+	            if (parser.getEventType() != XmlPullParser.START_TAG) {
+	                continue;
+	            }
 		    	
 		    	String tag = parser.getName();
-		    	String relType = parser.getAttributeValue(null, CLASSIFICATION_ATT);
-		    	
-		    	Log.d(DEBUG_TAG, "readExpectedTrafficTypes(): " + tag);
 		    	
 		    	if (tag.equals(TYPE_TAG)) {
-		    		if (relType.equals(PEAK_ATT)) {
-		            	Log.d(DEBUG_TAG, "Peak Data");
-		            	//dataUsedHashMap.put(PEAK_ATT, parser.getAttributeValue(null, USED_ATT));
-		            	//parser.nextTag();
-		            } else if (relType.equals(OFFPEAK_ATT)){
-		            	Log.d(DEBUG_TAG, "Offpeak Data");
-		            	//dataUsedHashMap.put(OFFPEAK_ATT, parser.getAttributeValue(null, USED_ATT));
-		            	//parser.nextTag();
-		            } else if (relType.equals(UPLOADS_ATT)){
-		            	Log.d(DEBUG_TAG, "Uploads Data");
-		            	//dataUsedHashMap.put(UPLOADS_ATT, parser.getAttributeValue(null, USED_ATT));
-		            	//parser.nextTag();
-		            } else if (relType.equals(FREEZONE_ATT)){
-		            	Log.d(DEBUG_TAG, "Feezone Data");
-		            	//dataUsedHashMap.put(FREEZONE_ATT, parser.getAttributeValue(null, USED_ATT));
-		            	//.nextTag();
-		            }
+		    		Log.d(DEBUG_TAG, "readExpectedTrafficTypes() In " + tag);
+		    		data = parser.getAttributeValue(null, USED_ATT);
+		    		Log.d(DEBUG_TAG, "readExpectedTrafficTypes() Data:  " + data);
+		    		readType(parser);
+
 		    	} else {
 		    		skip(parser);
+		    		Log.d(DEBUG_TAG, "readExpectedTrafficTypes() Skip " + tag);
 		    	}
+
 	    	}
 	    	
 	    }
 	    
-	    private void readDataUsed(XmlPullParser parser) throws IOException, XmlPullParserException {
-	    	
-	    	Log.d(DEBUG_TAG, "readDataUsed()");
-	    	
-	    	HashMap<String, String> dataUsedHashMap = new HashMap<String, String>();
+	    private void readType(XmlPullParser parser) throws IOException, XmlPullParserException {
 	    	
 	    	parser.require(XmlPullParser.START_TAG, ns, TYPE_TAG);
-	    	while (parser.next() != XmlPullParser.END_TAG) {
-		    	if (parser.getEventType() != XmlPullParser.START_TAG) {
-		    		continue;
-		    	}
-		    
+	    	
+	    	while (parser.nextTag() != XmlPullParser.END_TAG) {
+	            if (parser.getEventType() != XmlPullParser.START_TAG) {
+	                continue;
+	            }
+		    	
 		    	String tag = parser.getName();
-		    	String relType = parser.getAttributeValue(null, CLASSIFICATION_ATT);
 		    	
-		    	Log.d(DEBUG_TAG, "tag: " + tag + " Att: " + relType);
-		    	
-		    	if (tag.equals(TYPE_TAG)) {
-		            if (relType.equals(PEAK_ATT)) {
-		            	Log.d(DEBUG_TAG, "Peak Data");
-		            	dataUsedHashMap.put(PEAK_ATT, parser.getAttributeValue(null, USED_ATT));
-		            	parser.nextTag();
-		            } else if (relType.equals(OFFPEAK_ATT)){
-		            	Log.d(DEBUG_TAG, "Offpeak Data");
-		            	dataUsedHashMap.put(OFFPEAK_ATT, parser.getAttributeValue(null, USED_ATT));
-		            	parser.nextTag();
-		            } else if (relType.equals(UPLOADS_ATT)){
-		            	Log.d(DEBUG_TAG, "Uploads Data");
-		            	dataUsedHashMap.put(UPLOADS_ATT, parser.getAttributeValue(null, USED_ATT));
-		            	parser.nextTag();
-		            } else if (relType.equals(FREEZONE_ATT)){
-		            	Log.d(DEBUG_TAG, "Feezone Data");
-		            	dataUsedHashMap.put(FREEZONE_ATT, parser.getAttributeValue(null, USED_ATT));
-		            	parser.nextTag();
-		            }
-		        } else {
-		        	skip(parser);
-		        }
-	    	}
+		    	if (tag.equals(QUOTA_ALLICATION_TAG)) {
+		    		Log.d(DEBUG_TAG, "readType() In " + tag);
+		    		readQuota(parser);
+		    	} else {
+		    		skip(parser);
+		    		Log.d(DEBUG_TAG, "readType() Skip " + tag);
+		    	}
 
+	    	}
+	    }
+	    
+	    private String readQuota(XmlPullParser parser) throws IOException, XmlPullParserException {
+	        parser.require(XmlPullParser.START_TAG, ns, QUOTA_ALLICATION_TAG);
+	        String quota = readText(parser);
+	        parser.require(XmlPullParser.END_TAG, ns, QUOTA_ALLICATION_TAG);
+	        Log.d(DEBUG_TAG, "readQuota " + quota	);
+	        return quota;
 	    }
 
 	    private String readText(XmlPullParser parser) throws IOException, XmlPullParserException {
