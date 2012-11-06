@@ -103,12 +103,12 @@ public class AccountStatusParser {
 	            }
 	            String tag = parser.getName();
 	            // Starts by looking for the account info tag
-	            Log.d(DEBUG_TAG, tag);
+	            Log.d(DEBUG_TAG, "readFeed: " + tag);
+	            
 	            if (tag.equals(VOLUME_USAGE_TAG)) {
-	            	//status.add(readVolumeUsage(parser));
+	            	status.add(readVolumeUsage(parser));
 	            } else {
 	                skip(parser);
-	            	//parser.next();
 	            }
 	        }
 	        return status;
@@ -152,6 +152,7 @@ public class AccountStatusParser {
 		    	}
 		    	
 		    	String tag = parser.getName();
+		    	Log.d(DEBUG_TAG, "readFeed: " + tag);
 		    	
 		    	if (tag.equals(OFFPEAK_START_TAG)) {
 	            	offpeakStart = readOffpeakStart(parser);
@@ -224,7 +225,7 @@ public class AccountStatusParser {
 	    
 	    private void readExpectedTrafficTypes(XmlPullParser parser) throws IOException, XmlPullParserException {
 	    	
-	    	Log.d(DEBUG_TAG, "readExpectedTrafficTypes()");
+	    	//Log.d(DEBUG_TAG, "readExpectedTrafficTypes()");
 	    	
 	    	parser.require(XmlPullParser.START_TAG, ns, EXPECTED_TRAFFIC_TYPES_TAG);
 	    	while (parser.next() != XmlPullParser.END_TAG) {
@@ -233,9 +234,30 @@ public class AccountStatusParser {
 		    	}
 		    	
 		    	String tag = parser.getName();
+		    	String relType = parser.getAttributeValue(null, CLASSIFICATION_ATT);
+		    	
+		    	Log.d(DEBUG_TAG, "readExpectedTrafficTypes(): " + tag);
 		    	
 		    	if (tag.equals(TYPE_TAG)) {
-		    		
+		    		if (relType.equals(PEAK_ATT)) {
+		            	Log.d(DEBUG_TAG, "Peak Data");
+		            	//dataUsedHashMap.put(PEAK_ATT, parser.getAttributeValue(null, USED_ATT));
+		            	//parser.nextTag();
+		            } else if (relType.equals(OFFPEAK_ATT)){
+		            	Log.d(DEBUG_TAG, "Offpeak Data");
+		            	//dataUsedHashMap.put(OFFPEAK_ATT, parser.getAttributeValue(null, USED_ATT));
+		            	//parser.nextTag();
+		            } else if (relType.equals(UPLOADS_ATT)){
+		            	Log.d(DEBUG_TAG, "Uploads Data");
+		            	//dataUsedHashMap.put(UPLOADS_ATT, parser.getAttributeValue(null, USED_ATT));
+		            	//parser.nextTag();
+		            } else if (relType.equals(FREEZONE_ATT)){
+		            	Log.d(DEBUG_TAG, "Feezone Data");
+		            	//dataUsedHashMap.put(FREEZONE_ATT, parser.getAttributeValue(null, USED_ATT));
+		            	//.nextTag();
+		            }
+		    	} else {
+		    		skip(parser);
 		    	}
 	    	}
 	    	
@@ -247,7 +269,7 @@ public class AccountStatusParser {
 	    	
 	    	HashMap<String, String> dataUsedHashMap = new HashMap<String, String>();
 	    	
-	    	parser.require(XmlPullParser.START_TAG, ns, EXPECTED_TRAFFIC_TYPES_TAG);
+	    	parser.require(XmlPullParser.START_TAG, ns, TYPE_TAG);
 	    	while (parser.next() != XmlPullParser.END_TAG) {
 		    	if (parser.getEventType() != XmlPullParser.START_TAG) {
 		    		continue;
@@ -262,16 +284,20 @@ public class AccountStatusParser {
 		            if (relType.equals(PEAK_ATT)) {
 		            	Log.d(DEBUG_TAG, "Peak Data");
 		            	dataUsedHashMap.put(PEAK_ATT, parser.getAttributeValue(null, USED_ATT));
+		            	parser.nextTag();
 		            } else if (relType.equals(OFFPEAK_ATT)){
 		            	Log.d(DEBUG_TAG, "Offpeak Data");
 		            	dataUsedHashMap.put(OFFPEAK_ATT, parser.getAttributeValue(null, USED_ATT));
+		            	parser.nextTag();
 		            } else if (relType.equals(UPLOADS_ATT)){
 		            	Log.d(DEBUG_TAG, "Uploads Data");
 		            	dataUsedHashMap.put(UPLOADS_ATT, parser.getAttributeValue(null, USED_ATT));
+		            	parser.nextTag();
 		            } else if (relType.equals(FREEZONE_ATT)){
 		            	Log.d(DEBUG_TAG, "Feezone Data");
 		            	dataUsedHashMap.put(FREEZONE_ATT, parser.getAttributeValue(null, USED_ATT));
-		            } 
+		            	parser.nextTag();
+		            }
 		        } else {
 		        	skip(parser);
 		        }
@@ -290,12 +316,13 @@ public class AccountStatusParser {
 	    
 	    // Skips tags the parser isn't interested in. Uses depth to handle nested tags.
 	    private void skip(XmlPullParser parser) throws XmlPullParserException, IOException {
+	    	
 	        if (parser.getEventType() != XmlPullParser.START_TAG) {
 	            throw new IllegalStateException();
 	        }
 	        int depth = 1;
 	        while (depth != 0) {
-	            switch (parser.next()) {
+	        	switch (parser.next()) {
 	            case XmlPullParser.END_TAG:
 	                    depth--;
 	                    break;
