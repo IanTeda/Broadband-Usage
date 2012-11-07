@@ -228,7 +228,7 @@ public class AccountStatusParser {
 	    	
 	    	parser.require(XmlPullParser.START_TAG, ns, EXPECTED_TRAFFIC_TYPES_TAG);
 
-	    	while (parser.nextTag() != XmlPullParser.END_TAG) {
+	    	while (parser.next() != XmlPullParser.END_TAG) {
 	            if (parser.getEventType() != XmlPullParser.START_TAG) {
 	                continue;
 	            }
