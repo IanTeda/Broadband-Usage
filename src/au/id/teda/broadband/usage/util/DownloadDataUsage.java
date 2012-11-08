@@ -141,18 +141,31 @@ public class DownloadDataUsage {
 	    String offpeakDataUsed;
 	    String uploadsDataUsed;
 	    String freezoneDataUsed;
+	    String peakSpeed;
+		String peakIsShaped;
+		String offpeakSpeed;
+		String offpeakIsShaped;
+		
         for (AccountStatus accountStatus : status) {
         	quotaReset = accountStatus.quotaReset;
         	peakDataUsed = accountStatus.peakDataUsed;
         	offpeakDataUsed = accountStatus.offpeakDataUsed;
         	uploadsDataUsed = accountStatus.uploadsDataUsed;
         	freezoneDataUsed = accountStatus.freezoneDataUsed;
+        	peakSpeed = accountStatus.peakSpeed;
+        	peakIsShaped = accountStatus.peakIsShaped;
+        	offpeakSpeed = accountStatus.offpeakSpeed;
+        	offpeakIsShaped = accountStatus.offpeakIsShaped;
         	
         	Log.d(DEBUG_TAG, "Quota Reset: " + quotaReset);
         	Log.d(DEBUG_TAG, "Peak Data Used: " + peakDataUsed);
         	Log.d(DEBUG_TAG, "Offpeak Data Used: " + offpeakDataUsed);
         	Log.d(DEBUG_TAG, "Uploads Data Used: " + uploadsDataUsed);
         	Log.d(DEBUG_TAG, "Freezone Data Used: " + freezoneDataUsed);
+        	Log.d(DEBUG_TAG, "Peak Is Shaped: " + peakIsShaped);
+        	Log.d(DEBUG_TAG, "Peak Shaped Speed: " + peakSpeed);
+        	Log.d(DEBUG_TAG, "Offpeak Is Shaped: " + offpeakIsShaped);
+        	Log.d(DEBUG_TAG, "Offpeak Shaped Speed: " + offpeakSpeed);
         }
     	
     }

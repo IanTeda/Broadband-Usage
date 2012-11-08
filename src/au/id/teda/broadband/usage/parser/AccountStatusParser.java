@@ -14,7 +14,7 @@ import android.util.Xml;
 
 public class AccountStatusParser {
 	
-	private static final String DEBUG_TAG = "bbusage";
+	//private static final String DEBUG_TAG = "bbusage";
 	
 	// We don't use namespaces
 	private static final String ns = null;
@@ -22,8 +22,6 @@ public class AccountStatusParser {
 	// XML tag strings
 	private static final String FEED_TAG = "ii_feed";
 	private static final String VOLUME_USAGE_TAG = "volume_usage";
-	private static final String OFFPEAK_START_TAG = "offpeak_start";
-	private static final String OFFPEAK_END_TAG = "offpeak_end";
 	private static final String QUOTA_RESET_TAG = "quota_reset";
 	private static final String ANNIVERSARY_TAG = "anniversary";
 	private static final String DAYS_SO_FAR_TAG = "days_so_far";
@@ -36,20 +34,16 @@ public class AccountStatusParser {
 	private static final String UPLOADS_ATT = "uploads";
 	private static final String FREEZONE_ATT = "freezone";
 	private static final String USED_ATT = "used";
-	private static final String NAME_TAG = "name";
-	private static final String QUOTA_ALLICATION_TAG = "quota_allocation";
 	private static final String IS_SHAPED_TAG = "is_shaped";
 	private static final String SPEED_ATT = "speed";
 	
 	private String mQuotaReset = null;
 	private String mPeakDataUsed = null;
-	private String mPeakQuota = null;
 	private String mPeakSpeed = null;
-	private String mPeakShaped = null;
+	private String mPeakIsShaped = null;
 	private String mOffpeakDataUsed = null;
-	private String mOffpeakQuota = null;
 	private String mOffpeakSpeed = null;
-	private String mOffpeakShaped = null;
+	private String mOffpeakIsShaped = null;
 	private String mUploadsDataUsed = null;
 	private String mFreezoneDataUsed = null;
 	
@@ -58,31 +52,27 @@ public class AccountStatusParser {
 	public static class AccountStatus {
 	    public final String quotaReset;
 	    public final String peakDataUsed;
-	    public final String peakQuota;
 	    public final String peakSpeed;
-	    public final String peakShaped;
+	    public final String peakIsShaped;
 	    public final String offpeakDataUsed;
-	    public final String offpeakQuota;
 	    public final String offpeakSpeed;
-	    public final String offpeakShaped;
+	    public final String offpeakIsShaped;
 	    public final String uploadsDataUsed;
 	    public final String freezoneDataUsed;
 
 	    private AccountStatus( String quotaReset
-	    		, String peakDataUsed, String peakQuota, String peakSpeed, String peakShaped
-	    		, String offpeakDataUsed, String offpeakQuota, String offpeakSpeed, String offpeakShaped
+	    		, String peakDataUsed, String peakSpeed, String peakIsShaped
+	    		, String offpeakDataUsed, String offpeakSpeed, String offpeakIsShaped
 	    		, String uploadsDataUsed
 	    		, String freezoneDataUsed) {
 	    	
 	        this.quotaReset = quotaReset;
 	        this.peakDataUsed = peakDataUsed;
-	        this.peakQuota = peakQuota;
 	        this.peakSpeed = peakSpeed;
-	        this.peakShaped = peakShaped;
+	        this.peakIsShaped = peakIsShaped;
 	        this.offpeakDataUsed = offpeakDataUsed;
-	        this.offpeakQuota = offpeakQuota;
 	        this.offpeakSpeed = offpeakSpeed;
-	        this.offpeakShaped = offpeakShaped;
+	        this.offpeakIsShaped = offpeakIsShaped;
 	        this.uploadsDataUsed = uploadsDataUsed;
 	        this.freezoneDataUsed = freezoneDataUsed;
 	        
@@ -111,7 +101,6 @@ public class AccountStatusParser {
 	    			continue;
 	            }
 	            String tagName = parser.getName();
-	            Log.d(DEBUG_TAG, "readFeed: " + tagName);
 	            
 	            if (tagName.equals(VOLUME_USAGE_TAG)) {
 	            	status.add(readVolumeUsage(parser));
@@ -132,7 +121,6 @@ public class AccountStatusParser {
 		    	}
 		    	
 		    	String tagName = parser.getName();
-		    	Log.d(DEBUG_TAG, "readVolumeUsage: " + tagName);
 		    	
 		    	if (tagName.equals(QUOTA_RESET_TAG)){
 		    		mQuotaReset = readQuotaReset(parser);
@@ -144,8 +132,8 @@ public class AccountStatusParser {
 		    }
 		    
 	        return new AccountStatus(mQuotaReset
-	        		, mPeakDataUsed, mPeakQuota, mPeakSpeed, mPeakShaped
-	        		, mOffpeakDataUsed, mOffpeakQuota, mOffpeakSpeed, mOffpeakShaped
+	        		, mPeakDataUsed, mPeakSpeed, mPeakIsShaped
+	        		, mOffpeakDataUsed, mOffpeakSpeed, mOffpeakIsShaped
 	        		, mUploadsDataUsed, mFreezoneDataUsed);
 	    }
 	    
@@ -200,17 +188,18 @@ public class AccountStatusParser {
 		    		} else if (tagAtt.equals(FREEZONE_ATT)){
 		    			mFreezoneDataUsed = readDataUsed(parser);
 		    		}
-		    		readType(parser);
+		    		readType(parser, tagAtt);
 		    	} else {
 		    		skip(parser);
-		    		Log.d(DEBUG_TAG, "readExpectedTrafficTypes() Skip " + tagName);
 		    	}
 
 	    	}
 	    	
 	    }
 	    
-	    private void readType(XmlPullParser parser) throws IOException, XmlPullParserException {
+	    private void readType(XmlPullParser parser, String tagAtt) throws IOException, XmlPullParserException {
+	    	
+	    	String classification = parser.getAttributeValue(null, CLASSIFICATION_ATT);
 	    	
 	    	parser.require(XmlPullParser.START_TAG, ns, TYPE_TAG);
 	    	
@@ -219,25 +208,27 @@ public class AccountStatusParser {
 	                continue;
 	            }
 		    	
-		    	String tag = parser.getName();
-		    	
-		    	if (tag.equals(QUOTA_ALLICATION_TAG)) {
-		    		Log.d(DEBUG_TAG, "readType() In " + tag);
-		    		readQuota(parser);
-		    	} else {
-		    		skip(parser);
-		    		Log.d(DEBUG_TAG, "readType() Skip " + tag);
-		    	}
+	            String tagName = parser.getName();
+	            if (tagName.equals(IS_SHAPED_TAG)){
+	            	if (classification.equals(PEAK_ATT)){
+	            		mPeakSpeed = readShapedSpeed(parser);
+	            		mPeakIsShaped = readIsShaped(parser);
+		    		} else if (classification.equals(OFFPEAK_ATT)){
+		    			mOffpeakSpeed = readShapedSpeed(parser);
+		    			mOffpeakIsShaped = readIsShaped(parser);
+		    		}
+	            } else {
+	            	skip(parser);
+	            }
 
 	    	}
 	    }
 	    
-	    private String readQuota(XmlPullParser parser) throws IOException, XmlPullParserException {
-	        parser.require(XmlPullParser.START_TAG, ns, QUOTA_ALLICATION_TAG);
-	        String quota = readText(parser);
-	        parser.require(XmlPullParser.END_TAG, ns, QUOTA_ALLICATION_TAG);
-	        Log.d(DEBUG_TAG, "readQuota " + quota	);
-	        return quota;
+	    private String readIsShaped(XmlPullParser parser) throws IOException, XmlPullParserException {
+	        parser.require(XmlPullParser.START_TAG, ns, IS_SHAPED_TAG);
+	        String shaped = readText(parser);
+	        parser.require(XmlPullParser.END_TAG, ns, IS_SHAPED_TAG);
+	        return shaped;
 	    }
 
 	    private String readText(XmlPullParser parser) throws IOException, XmlPullParserException {
@@ -253,6 +244,12 @@ public class AccountStatusParser {
 	    	String dataUsed;
 	    	dataUsed = parser.getAttributeValue(null, USED_ATT);
 	    	return dataUsed;
+	    }
+	    
+	    private String readShapedSpeed(XmlPullParser parser) throws IOException, XmlPullParserException {
+	    	String shapedSpeed;
+	    	shapedSpeed = parser.getAttributeValue(null, SPEED_ATT);
+	    	return shapedSpeed;
 	    }
 	    
 	    // Skips tags the parser isn't interested in. Uses depth to handle nested tags.
