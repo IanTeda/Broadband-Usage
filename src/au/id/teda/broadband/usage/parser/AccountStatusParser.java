@@ -40,11 +40,22 @@ public class AccountStatusParser {
 	private static final String QUOTA_ALLICATION_TAG = "quota_allocation";
 	private static final String IS_SHAPED_TAG = "is_shaped";
 	private static final String SPEED_ATT = "speed";
+	
+	private String mQuotaReset = null;
+	private String mPeakDataUsed = null;
+	private String mPeakQuota = null;
+	private String mPeakSpeed = null;
+	private String mPeakShaped = null;
+	private String mOffpeakDataUsed = null;
+	private String mOffpeakQuota = null;
+	private String mOffpeakSpeed = null;
+	private String mOffpeakShaped = null;
+	private String mUploadsDataUsed = null;
+	private String mFreezoneDataUsed = null;
+	
 	    
 	// This class represents the account info in the XML feed.
 	public static class AccountStatus {
-		public final String offpeakStart;
-	    public final String offpeakEnd;
 	    public final String quotaReset;
 	    public final String peakDataUsed;
 	    public final String peakQuota;
@@ -57,15 +68,12 @@ public class AccountStatusParser {
 	    public final String uploadsDataUsed;
 	    public final String freezoneDataUsed;
 
-	    private AccountStatus( String offpeakStart, String offpeakEnd
-	    		, String quotaReset
+	    private AccountStatus( String quotaReset
 	    		, String peakDataUsed, String peakQuota, String peakSpeed, String peakShaped
 	    		, String offpeakDataUsed, String offpeakQuota, String offpeakSpeed, String offpeakShaped
 	    		, String uploadsDataUsed
 	    		, String freezoneDataUsed) {
 	    	
-	    	this.offpeakStart = offpeakStart;
-	        this.offpeakEnd = offpeakEnd;
 	        this.quotaReset = quotaReset;
 	        this.peakDataUsed = peakDataUsed;
 	        this.peakQuota = peakQuota;
@@ -94,6 +102,7 @@ public class AccountStatusParser {
 	}
 	    
 	private List<AccountStatus> readFeed(XmlPullParser parser) throws XmlPullParserException, IOException {
+		
 		List<AccountStatus> status = new ArrayList<AccountStatus>();
 
 	    parser.require(XmlPullParser.START_TAG, ns, FEED_TAG);
@@ -101,10 +110,10 @@ public class AccountStatusParser {
 	    		if (parser.getEventType() != XmlPullParser.START_TAG) {
 	    			continue;
 	            }
-	            String tag = parser.getName();
-	            Log.d(DEBUG_TAG, "readFeed: " + tag);
+	            String tagName = parser.getName();
+	            Log.d(DEBUG_TAG, "readFeed: " + tagName);
 	            
-	            if (tag.equals(VOLUME_USAGE_TAG)) {
+	            if (tagName.equals(VOLUME_USAGE_TAG)) {
 	            	status.add(readVolumeUsage(parser));
 	            } else {
 	                skip(parser);
@@ -115,34 +124,6 @@ public class AccountStatusParser {
 	    
 	    public AccountStatus readVolumeUsage(XmlPullParser parser) throws XmlPullParserException, IOException {
 	    	
-			String offpeakStart = null;
-		    String offpeakEnd = null;
-		    String quotaReset = null;
-		    String peakDataUsed = null;
-		    String peakQuota = null;
-		    String peakSpeed = null;
-		    String peakShaped = null;
-		    String offpeakDataUsed = null;
-		    String offpeakQuota = null;
-		    String offpeakSpeed = null;
-		    String offpeakShaped = null;
-		    String uploadsDataUsed = null;
-		    String freezoneDataUsed = null;
-	    	
-			offpeakStart = "test";
-		    offpeakEnd = "test";
-		    quotaReset = "test";
-		    peakDataUsed = "test";
-		    peakQuota = "test";
-		    peakSpeed = "test";
-		    peakShaped = "test";
-		    offpeakDataUsed = "test";
-		    offpeakQuota = "test";
-		    offpeakSpeed = "test";
-		    offpeakShaped = "test";
-		    uploadsDataUsed = "test";
-		    freezoneDataUsed = "test";
-		    
 		    parser.require(XmlPullParser.START_TAG, ns, VOLUME_USAGE_TAG);
 	        
 		    while (parser.next() != XmlPullParser.END_TAG) {
@@ -150,55 +131,22 @@ public class AccountStatusParser {
 		    		continue;
 		    	}
 		    	
-		    	String tag = parser.getName();
-		    	Log.d(DEBUG_TAG, "readVolumeUsage: " + tag);
+		    	String tagName = parser.getName();
+		    	Log.d(DEBUG_TAG, "readVolumeUsage: " + tagName);
 		    	
-		    	if (tag.equals(OFFPEAK_START_TAG)) {
-	            	offpeakStart = readOffpeakStart(parser);
-		    	} else if (tag.equals(OFFPEAK_END_TAG)) {
-	            	offpeakEnd = readOffpeakEnd(parser);
-		    	} else if (tag.equals(QUOTA_RESET_TAG)){
-	            	quotaReset = readQuotaReset(parser);
-		    	} else if (tag.equals(EXPECTED_TRAFFIC_TYPES_TAG)){
-		    		HashMap<String, String> expectedTrafficTypesHashMap = new HashMap<String, String>();
-		    		expectedTrafficTypesHashMap = readExpectedTrafficTypes(parser);
-		    		for (String key : expectedTrafficTypesHashMap.keySet()) {
-		    			if (key.equals(PEAK_ATT)){
-		    				peakDataUsed = expectedTrafficTypesHashMap.get(PEAK_ATT);
-		    			} else if (key.equals(OFFPEAK_ATT)){
-		    				offpeakDataUsed = expectedTrafficTypesHashMap.get(OFFPEAK_ATT);
-		    			} else if (key.equals(UPLOADS_ATT)){
-		    				uploadsDataUsed = expectedTrafficTypesHashMap.get(UPLOADS_ATT);
-		    			} else if (key.equals(FREEZONE_ATT)){
-		    				freezoneDataUsed = expectedTrafficTypesHashMap.get(FREEZONE_ATT);
-		    			}
-		    		}
+		    	if (tagName.equals(QUOTA_RESET_TAG)){
+		    		mQuotaReset = readQuotaReset(parser);
+		    	} else if (tagName.equals(EXPECTED_TRAFFIC_TYPES_TAG)){
+		    		readExpectedTrafficTypes(parser);
 		    	} else {
 	                skip(parser);
 	            }
-		    	
-		    	
 		    }
 		    
-	        
-	        return new AccountStatus(offpeakStart, offpeakEnd, quotaReset
-	        		, peakDataUsed, peakQuota, peakSpeed, peakShaped
-	        		, offpeakDataUsed, offpeakQuota, offpeakSpeed, offpeakShaped
-	        		, uploadsDataUsed, freezoneDataUsed);
-	    }
-	    
-	    private String readOffpeakStart(XmlPullParser parser) throws IOException, XmlPullParserException {
-	        parser.require(XmlPullParser.START_TAG, ns, OFFPEAK_START_TAG);
-	        String offpeakStart = readText(parser);
-	        parser.require(XmlPullParser.END_TAG, ns, OFFPEAK_START_TAG);
-	        return offpeakStart;
-	    }
-
-	    private String readOffpeakEnd(XmlPullParser parser) throws IOException, XmlPullParserException {
-	        parser.require(XmlPullParser.START_TAG, ns, OFFPEAK_END_TAG);
-	        String offpeakEnd = readText(parser);
-	        parser.require(XmlPullParser.END_TAG, ns, OFFPEAK_END_TAG);
-	        return offpeakEnd;
+	        return new AccountStatus(mQuotaReset
+	        		, mPeakDataUsed, mPeakQuota, mPeakSpeed, mPeakShaped
+	        		, mOffpeakDataUsed, mOffpeakQuota, mOffpeakSpeed, mOffpeakShaped
+	        		, mUploadsDataUsed, mFreezoneDataUsed);
 	    }
 	    
 	    private String readQuotaReset(XmlPullParser parser) throws IOException, XmlPullParserException {
@@ -214,13 +162,13 @@ public class AccountStatusParser {
 		    		continue;
 		    	}
 		    	
-		    	String tag = parser.getName();
+		    	String tagName = parser.getName();
 		    	
-		    	if (tag.equals(ANNIVERSARY_TAG)) {
+		    	if (tagName.equals(ANNIVERSARY_TAG)) {
 		    		anniversary = readText(parser);
-		    	} else if (tag.equals(DAYS_SO_FAR_TAG)){
+		    	} else if (tagName.equals(DAYS_SO_FAR_TAG)){
 		    		daysSoFar = readText(parser);
-		    	} else if (tag.equals(DAYS_REMAINING_TAG)){
+		    	} else if (tagName.equals(DAYS_REMAINING_TAG)){
 		    		daysRemaining = readText(parser);
 		    	} else {
 		    		skip(parser);
@@ -230,9 +178,7 @@ public class AccountStatusParser {
 	        return anniversary + " " + daysSoFar + " " + daysRemaining;
 	    }
 	    
-	    private HashMap<String, String> readExpectedTrafficTypes(XmlPullParser parser) throws IOException, XmlPullParserException {
-	    	
-	    	HashMap<String, String> expectedTrafficTypesHashMap = new HashMap<String, String>();
+	    private void readExpectedTrafficTypes(XmlPullParser parser) throws IOException, XmlPullParserException {
 	    	
 	    	parser.require(XmlPullParser.START_TAG, ns, EXPECTED_TRAFFIC_TYPES_TAG);
 
@@ -241,28 +187,26 @@ public class AccountStatusParser {
 	                continue;
 	            }
 		    	
-		    	String tag = parser.getName();
+		    	String tagName = parser.getName();
 		    	String tagAtt = parser.getAttributeValue(null, CLASSIFICATION_ATT);
 		    	
-		    	if (tag.equals(TYPE_TAG)) {
+		    	if (tagName.equals(TYPE_TAG)) {
 		    		if (tagAtt.equals(PEAK_ATT)){
-		    			expectedTrafficTypesHashMap.put(PEAK_ATT, parser.getAttributeValue(null, USED_ATT));
+		    			mPeakDataUsed = readDataUsed(parser);
 		    		} else if (tagAtt.equals(OFFPEAK_ATT)){
-		    			expectedTrafficTypesHashMap.put(OFFPEAK_ATT, parser.getAttributeValue(null, USED_ATT));
+		    			mOffpeakDataUsed = readDataUsed(parser);
 		    		} else if (tagAtt.equals(UPLOADS_ATT)){
-		    			expectedTrafficTypesHashMap.put(UPLOADS_ATT, parser.getAttributeValue(null, USED_ATT));
+		    			mUploadsDataUsed = readDataUsed(parser);
 		    		} else if (tagAtt.equals(FREEZONE_ATT)){
-		    			expectedTrafficTypesHashMap.put(FREEZONE_ATT, parser.getAttributeValue(null, USED_ATT));
+		    			mFreezoneDataUsed = readDataUsed(parser);
 		    		}
 		    		readType(parser);
-
 		    	} else {
 		    		skip(parser);
-		    		Log.d(DEBUG_TAG, "readExpectedTrafficTypes() Skip " + tag);
+		    		Log.d(DEBUG_TAG, "readExpectedTrafficTypes() Skip " + tagName);
 		    	}
 
 	    	}
-			return null;
 	    	
 	    }
 	    
@@ -303,6 +247,12 @@ public class AccountStatusParser {
 	            parser.nextTag();
 	        }
 	        return text;
+	    }
+	    
+	    private String readDataUsed(XmlPullParser parser) throws IOException, XmlPullParserException {
+	    	String dataUsed;
+	    	dataUsed = parser.getAttributeValue(null, USED_ATT);
+	    	return dataUsed;
 	    }
 	    
 	    // Skips tags the parser isn't interested in. Uses depth to handle nested tags.
