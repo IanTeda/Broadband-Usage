@@ -113,7 +113,7 @@ public class AccountStatusParser {
 	        return status;
 	    }
 	    
-	    private AccountStatus readVolumeUsage(XmlPullParser parser) throws XmlPullParserException, IOException {
+	    public AccountStatus readVolumeUsage(XmlPullParser parser) throws XmlPullParserException, IOException {
 	    	
 			String offpeakStart = null;
 		    String offpeakEnd = null;
@@ -160,11 +160,19 @@ public class AccountStatusParser {
 		    	} else if (tag.equals(QUOTA_RESET_TAG)){
 	            	quotaReset = readQuotaReset(parser);
 		    	} else if (tag.equals(EXPECTED_TRAFFIC_TYPES_TAG)){
-		    		readExpectedTrafficTypes(parser);
-		    		//peakDataUsed = readDataUsed(parser, PEAK_ATT);
-		    		//offpeakDataUsed = readDataUsed(parser, OFFPEAK_ATT);
-		    		//uploadsDataUsed = readDataUsed(parser, UPLOADS_ATT);
-		    		//freezoneDataUsed = readDataUsed(parser, FREEZONE_ATT);
+		    		HashMap<String, String> expectedTrafficTypesHashMap = new HashMap<String, String>();
+		    		expectedTrafficTypesHashMap = readExpectedTrafficTypes(parser);
+		    		for (String key : expectedTrafficTypesHashMap.keySet()) {
+		    			if (key.equals(PEAK_ATT)){
+		    				peakDataUsed = expectedTrafficTypesHashMap.get(PEAK_ATT);
+		    			} else if (key.equals(OFFPEAK_ATT)){
+		    				offpeakDataUsed = expectedTrafficTypesHashMap.get(OFFPEAK_ATT);
+		    			} else if (key.equals(UPLOADS_ATT)){
+		    				uploadsDataUsed = expectedTrafficTypesHashMap.get(UPLOADS_ATT);
+		    			} else if (key.equals(FREEZONE_ATT)){
+		    				freezoneDataUsed = expectedTrafficTypesHashMap.get(FREEZONE_ATT);
+		    			}
+		    		}
 		    	} else {
 	                skip(parser);
 	            }
@@ -222,9 +230,9 @@ public class AccountStatusParser {
 	        return anniversary + " " + daysSoFar + " " + daysRemaining;
 	    }
 	    
-	    private void readExpectedTrafficTypes(XmlPullParser parser) throws IOException, XmlPullParserException {
+	    private HashMap<String, String> readExpectedTrafficTypes(XmlPullParser parser) throws IOException, XmlPullParserException {
 	    	
-	    	String data = null;
+	    	HashMap<String, String> expectedTrafficTypesHashMap = new HashMap<String, String>();
 	    	
 	    	parser.require(XmlPullParser.START_TAG, ns, EXPECTED_TRAFFIC_TYPES_TAG);
 
@@ -234,11 +242,18 @@ public class AccountStatusParser {
 	            }
 		    	
 		    	String tag = parser.getName();
+		    	String tagAtt = parser.getAttributeValue(null, CLASSIFICATION_ATT);
 		    	
 		    	if (tag.equals(TYPE_TAG)) {
-		    		Log.d(DEBUG_TAG, "readExpectedTrafficTypes() In " + tag);
-		    		data = parser.getAttributeValue(null, USED_ATT);
-		    		Log.d(DEBUG_TAG, "readExpectedTrafficTypes() Data:  " + data);
+		    		if (tagAtt.equals(PEAK_ATT)){
+		    			expectedTrafficTypesHashMap.put(PEAK_ATT, parser.getAttributeValue(null, USED_ATT));
+		    		} else if (tagAtt.equals(OFFPEAK_ATT)){
+		    			expectedTrafficTypesHashMap.put(OFFPEAK_ATT, parser.getAttributeValue(null, USED_ATT));
+		    		} else if (tagAtt.equals(UPLOADS_ATT)){
+		    			expectedTrafficTypesHashMap.put(UPLOADS_ATT, parser.getAttributeValue(null, USED_ATT));
+		    		} else if (tagAtt.equals(FREEZONE_ATT)){
+		    			expectedTrafficTypesHashMap.put(FREEZONE_ATT, parser.getAttributeValue(null, USED_ATT));
+		    		}
 		    		readType(parser);
 
 		    	} else {
@@ -247,6 +262,7 @@ public class AccountStatusParser {
 		    	}
 
 	    	}
+			return null;
 	    	
 	    }
 	    
