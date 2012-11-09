@@ -8,13 +8,11 @@ import java.util.List;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-import android.util.Log;
 import android.util.Xml;
-import au.id.teda.broadband.usage.parser.AccountStatusParser.AccountStatus;
 
 public class AccountInfoParser {
 	
-	private static final String DEBUG_TAG = "bbusage";
+	//private static final String DEBUG_TAG = "bbusage";
 	
 	private static final String ns = null; // We don't use namespaces
 	private static final String FEED_TAG = "ii_feed";
@@ -60,7 +58,6 @@ public class AccountInfoParser {
 	}
 	    
 	public List<AccountInfo> parse (InputStream inputStream) throws XmlPullParserException, IOException {
-		Log.d(DEBUG_TAG, "AccountInfo.parse");
 		try {
 			XmlPullParser parser = Xml.newPullParser();
 	        parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
@@ -73,11 +70,7 @@ public class AccountInfoParser {
 	}
 	    
 	private List<AccountInfo> readFeed(XmlPullParser parser) throws XmlPullParserException, IOException {
-		
-		Log.d(DEBUG_TAG, "readFeed");
-		
 		List<AccountInfo> accountInfo = new ArrayList<AccountInfo>();
-
 	    parser.require(XmlPullParser.START_TAG, ns, FEED_TAG);
 	    	while (parser.next() != XmlPullParser.END_TAG) {
 	    		if (parser.getEventType() != XmlPullParser.START_TAG) {
@@ -87,25 +80,23 @@ public class AccountInfoParser {
 	            // Starts by looking for the account info tag
 	            if (tagName.equals(ACCOUNT_INFO_TAG)) {
 	            	readAccountInfo(parser);
-	            //} else if (tagName.equals(VOLUME_USAGE_TAG)){
-	            	//readVolumeUsage(parser);
+	            } else if (tagName.equals(VOLUME_USAGE_TAG)){
+	            	readVolumeUsage(parser);
 	            } else {
 	                skip(parser);
 	            }
 	            
 	        }
 	    	
-	    	new AccountInfo(mPlan, mProduct
+	    	accountInfo.add(new AccountInfo(mPlan, mProduct
 	    			, mOffpeakStartTime, mOffpeakEndTime
-	    			, mPeakQuota, mOffpeakQuota);
-	    	
+	    			, mPeakQuota, mOffpeakQuota));
 	    	
 	        return accountInfo;
 	    }
 	    
 	    private void readAccountInfo(XmlPullParser parser) throws XmlPullParserException, IOException {
 	        parser.require(XmlPullParser.START_TAG, ns, ACCOUNT_INFO_TAG);
-	        
 	        while (parser.next() != XmlPullParser.END_TAG) {
 	            if (parser.getEventType() != XmlPullParser.START_TAG) {
 	                continue;
@@ -123,9 +114,7 @@ public class AccountInfoParser {
 	    }
 	    
 	    private void readVolumeUsage(XmlPullParser parser) throws XmlPullParserException, IOException {
-	    	
 		    parser.require(XmlPullParser.START_TAG, ns, VOLUME_USAGE_TAG);
-	        
 		    while (parser.next() != XmlPullParser.END_TAG) {
 		    	if (parser.getEventType() != XmlPullParser.START_TAG) {
 		    		continue;
@@ -145,16 +134,13 @@ public class AccountInfoParser {
 	    }
 	    
 	    private void readExpectedTrafficTypes(XmlPullParser parser) throws IOException, XmlPullParserException {
-	    	
 	    	parser.require(XmlPullParser.START_TAG, ns, EXPECTED_TRAFFIC_TYPES_TAG);
-
 	    	while (parser.next() != XmlPullParser.END_TAG) {
 	            if (parser.getEventType() != XmlPullParser.START_TAG) {
 	                continue;
 	            }
 		    	
 		    	String tagName = parser.getName();
-		    	
 		    	if (tagName.equals(TYPE_TAG)) {
 		    		readType(parser);
 		    	} else {
@@ -165,11 +151,8 @@ public class AccountInfoParser {
 	    }
 	    
 	    private void readType(XmlPullParser parser) throws IOException, XmlPullParserException {
-	    	
 	    	String classification = parser.getAttributeValue(null, CLASSIFICATION_ATT);
-	    	
-	    	parser.require(XmlPullParser.START_TAG, ns, EXPECTED_TRAFFIC_TYPES_TAG);
-
+	    	parser.require(XmlPullParser.START_TAG, ns, TYPE_TAG);
 	    	while (parser.next() != XmlPullParser.END_TAG) {
 	            if (parser.getEventType() != XmlPullParser.START_TAG) {
 	                continue;
