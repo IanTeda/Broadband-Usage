@@ -20,6 +20,8 @@ import au.id.teda.broadband.usage.parser.AccountInfoParser.AccountInfo;
 import au.id.teda.broadband.usage.parser.AccountStatusParser;
 import au.id.teda.broadband.usage.parser.AccountStatusParser.AccountStatus;
 import au.id.teda.broadband.usage.parser.ErrorParser;
+import au.id.teda.broadband.usage.parser.VolumeUsageParser;
+import au.id.teda.broadband.usage.parser.VolumeUsageParser.VolumeUsage;
 
 public class DownloadDataUsage {
 	
@@ -182,6 +184,41 @@ public class DownloadDataUsage {
     	
     }
     
+    public void getVolumeUsage() {
+    	
+    	VolumeUsageParser mVolumeUsageParser = new VolumeUsageParser();
+    	InputStream stream = bufferXmlStream();
+    	List<VolumeUsage> usage = null;
+      
+        try {
+        	usage = mVolumeUsageParser.parse(stream);
+        } catch (XmlPullParserException e) {
+			Log.e(DEBUG_TAG, "XmlPullParserException: " + e);
+		} catch (IOException e) {
+			Log.e(DEBUG_TAG, "IOException: " + e);
+        }
+        
+        String period = null;
+        String peak = null;
+    	String offpeak = null;
+    	String uploads = null;
+    	String freezone = null;
+        for (VolumeUsage volumeUsage : usage) {
+        	period = volumeUsage.period;
+        	peak = volumeUsage.peak;
+        	offpeak = volumeUsage.offpeak;
+        	uploads = volumeUsage.uploads;
+        	freezone = volumeUsage.freezone;
+
+        	
+        	Log.d(DEBUG_TAG, "Period: " + period);
+        	Log.d(DEBUG_TAG, "Peak: " + peak);
+        	Log.d(DEBUG_TAG, "Offpeak: " + offpeak);
+        	Log.d(DEBUG_TAG, "Uploads: " + uploads);
+        	Log.d(DEBUG_TAG, "Freezone: " + freezone);
+        }
+                 
+    }
     
     public void getData() {
     	
