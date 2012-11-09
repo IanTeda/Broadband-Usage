@@ -112,12 +112,24 @@ public class DownloadDataUsage {
         
         String plan = null;
         String product = null;
+    	String offpeakStartTime = null;
+    	String offpeakEndTime = null;
+    	String peakQuota = null;
+    	String offpeakQuota = null;
         for (AccountInfo accountInfo : account) {
         	plan = accountInfo.plan;
         	product = accountInfo.product;
+        	offpeakStartTime = accountInfo.offpeakStartTime;
+        	offpeakEndTime = accountInfo.offpeakEndTime;
+        	peakQuota = accountInfo.offpeakQuota;
+        	offpeakQuota = accountInfo.offpeakQuota;
         	
         	Log.d(DEBUG_TAG, "Plan: " + plan);
         	Log.d(DEBUG_TAG, "Product: " + product);
+        	Log.d(DEBUG_TAG, "Offpeak Start: " + offpeakStartTime);
+        	Log.d(DEBUG_TAG, "Offpeak End: " + offpeakEndTime);
+        	Log.d(DEBUG_TAG, "Peak Quota: " + peakQuota);
+        	Log.d(DEBUG_TAG, "Offpeak Quota: " + offpeakQuota);
         }
                  
     }

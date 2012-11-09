@@ -10,6 +10,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import android.util.Log;
 import android.util.Xml;
+import au.id.teda.broadband.usage.parser.AccountStatusParser.AccountStatus;
 
 public class AccountInfoParser {
 	
@@ -20,19 +21,46 @@ public class AccountInfoParser {
 	private static final String ACCOUNT_INFO_TAG = "account_info";
 	private static final String PLAN_TAG = "plan";
 	private static final String PRODUCT_TAG = "product";
+	private static final String VOLUME_USAGE_TAG = "volume_usage";
+	private static final String OFFPEAK_START_TAG = "offpeak_start";
+	private static final String OFFPEAK_END_TAG = "offpeak_end";
+	private static final String EXPECTED_TRAFFIC_TYPES_TAG = "expected_traffic_types";
+	private static final String TYPE_TAG = "type";
+	private static final String QUOTA_ALLOCATION = "quota_allocation";
+	private static final String PEAK_ATT = "peak";
+	private static final String OFFPEAK_ATT = "offpeak";
+	private static final String CLASSIFICATION_ATT = "classification";
+	
+	private String mPlan = null;
+	private String mProduct = null;
+	private String mOffpeakStartTime = null;
+	private String mOffpeakEndTime = null;
+	private String mPeakQuota = null;
+	private String mOffpeakQuota = null;
 	    
 	// This class represents the account info in the XML feed.
 	public static class AccountInfo {
 		public final String plan;
 	    public final String product;
+	    public final String offpeakStartTime;
+	    public final String offpeakEndTime;
+	    public final String peakQuota;
+	    public final String offpeakQuota;
 
-	    private AccountInfo(String plan, String product) {
+	    private AccountInfo(String plan, String product
+	    		, String offpeakStartTime, String offpeakEndTime
+	    		, String peakQuota, String offpeakQuota) {
 	    	this.plan = plan;
 	        this.product = product;
+	        this.offpeakStartTime = offpeakStartTime;
+	        this.offpeakEndTime = offpeakEndTime;
+	        this.peakQuota = peakQuota;
+	        this.offpeakQuota = offpeakQuota;
 	    }
 	}
 	    
 	public List<AccountInfo> parse (InputStream inputStream) throws XmlPullParserException, IOException {
+		Log.d(DEBUG_TAG, "AccountInfo.parse");
 		try {
 			XmlPullParser parser = Xml.newPullParser();
 	        parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
@@ -45,43 +73,127 @@ public class AccountInfoParser {
 	}
 	    
 	private List<AccountInfo> readFeed(XmlPullParser parser) throws XmlPullParserException, IOException {
-		List<AccountInfo> account = new ArrayList<AccountInfo>();
+		
+		Log.d(DEBUG_TAG, "readFeed");
+		
+		List<AccountInfo> accountInfo = new ArrayList<AccountInfo>();
 
 	    parser.require(XmlPullParser.START_TAG, ns, FEED_TAG);
 	    	while (parser.next() != XmlPullParser.END_TAG) {
 	    		if (parser.getEventType() != XmlPullParser.START_TAG) {
 	    			continue;
 	            }
-	            String name = parser.getName();
+	            String tagName = parser.getName();
 	            // Starts by looking for the account info tag
-	            if (name.equals(ACCOUNT_INFO_TAG)) {
-	            	account.add(readAccountInfo(parser));
+	            if (tagName.equals(ACCOUNT_INFO_TAG)) {
+	            	readAccountInfo(parser);
+	            //} else if (tagName.equals(VOLUME_USAGE_TAG)){
+	            	//readVolumeUsage(parser);
 	            } else {
 	                skip(parser);
 	            }
+	            
 	        }
-	        return account;
+	    	
+	    	new AccountInfo(mPlan, mProduct
+	    			, mOffpeakStartTime, mOffpeakEndTime
+	    			, mPeakQuota, mOffpeakQuota);
+	    	
+	    	
+	        return accountInfo;
 	    }
 	    
-	    private AccountInfo readAccountInfo(XmlPullParser parser) throws XmlPullParserException, IOException {
+	    private void readAccountInfo(XmlPullParser parser) throws XmlPullParserException, IOException {
 	        parser.require(XmlPullParser.START_TAG, ns, ACCOUNT_INFO_TAG);
 	        
-	        String plan = null;
-	        String product = null;
 	        while (parser.next() != XmlPullParser.END_TAG) {
 	            if (parser.getEventType() != XmlPullParser.START_TAG) {
 	                continue;
 	            }
 	            String name = parser.getName();
 	            if (name.equals(PLAN_TAG)) {
-	                plan = readAccountPlan(parser);
+	            	mPlan = readAccountPlan(parser);
 	            } else if (name.equals(PRODUCT_TAG)) {
-	                product = readAccountProduct(parser);
+	            	mProduct = readAccountProduct(parser);
 	            } else {
 	                skip(parser);
 	            }
 	        }
-	        return new AccountInfo(plan, product);
+	        
+	    }
+	    
+	    private void readVolumeUsage(XmlPullParser parser) throws XmlPullParserException, IOException {
+	    	
+		    parser.require(XmlPullParser.START_TAG, ns, VOLUME_USAGE_TAG);
+	        
+		    while (parser.next() != XmlPullParser.END_TAG) {
+		    	if (parser.getEventType() != XmlPullParser.START_TAG) {
+		    		continue;
+		    	}
+		    	
+		    	String tagName = parser.getName();
+		    	if (tagName.equals(OFFPEAK_START_TAG)){
+		    		mOffpeakStartTime = readOffpeakStart(parser);
+		    	} else if (tagName.equals(OFFPEAK_END_TAG)){
+		    		mOffpeakEndTime = readOffpeakEnd(parser);
+		    	} else if (tagName.equals(EXPECTED_TRAFFIC_TYPES_TAG)){
+		    		readExpectedTrafficTypes(parser);
+		    	} else {
+	                skip(parser);
+	            }
+		    }
+	    }
+	    
+	    private void readExpectedTrafficTypes(XmlPullParser parser) throws IOException, XmlPullParserException {
+	    	
+	    	parser.require(XmlPullParser.START_TAG, ns, EXPECTED_TRAFFIC_TYPES_TAG);
+
+	    	while (parser.next() != XmlPullParser.END_TAG) {
+	            if (parser.getEventType() != XmlPullParser.START_TAG) {
+	                continue;
+	            }
+		    	
+		    	String tagName = parser.getName();
+		    	
+		    	if (tagName.equals(TYPE_TAG)) {
+		    		readType(parser);
+		    	} else {
+		    		skip(parser);
+		    	}
+	    	}
+	    	
+	    }
+	    
+	    private void readType(XmlPullParser parser) throws IOException, XmlPullParserException {
+	    	
+	    	String classification = parser.getAttributeValue(null, CLASSIFICATION_ATT);
+	    	
+	    	parser.require(XmlPullParser.START_TAG, ns, EXPECTED_TRAFFIC_TYPES_TAG);
+
+	    	while (parser.next() != XmlPullParser.END_TAG) {
+	            if (parser.getEventType() != XmlPullParser.START_TAG) {
+	                continue;
+	            }
+		    	
+	            String tagName = parser.getName();
+	            if (tagName.equals(QUOTA_ALLOCATION)){
+	            	if (classification.equals(PEAK_ATT)){
+	            		mPeakQuota = readQuota(parser);
+		    		} else if (classification.equals(OFFPEAK_ATT)){
+		    			mOffpeakQuota = readQuota(parser);
+		    		}
+	            } else {
+	            	skip(parser);
+	            }
+	    	}
+	    	
+	    }
+	    
+	    private String readQuota(XmlPullParser parser) throws IOException, XmlPullParserException {
+	        parser.require(XmlPullParser.START_TAG, ns, QUOTA_ALLOCATION);
+	        String quota = readText(parser);
+	        parser.require(XmlPullParser.END_TAG, ns, QUOTA_ALLOCATION);
+	        return quota;
 	    }
 	    
 	    private String readAccountPlan(XmlPullParser parser) throws IOException, XmlPullParserException {
@@ -97,6 +209,21 @@ public class AccountInfoParser {
 	        parser.require(XmlPullParser.END_TAG, ns, PRODUCT_TAG);
 	        return product;
 	    }
+	    
+	    private String readOffpeakStart(XmlPullParser parser) throws IOException, XmlPullParserException {
+	        parser.require(XmlPullParser.START_TAG, ns, OFFPEAK_START_TAG);
+	        String start = readText(parser);
+	        parser.require(XmlPullParser.END_TAG, ns, OFFPEAK_START_TAG);
+	        return start;
+	    }
+	    
+	    private String readOffpeakEnd(XmlPullParser parser) throws IOException, XmlPullParserException {
+	        parser.require(XmlPullParser.START_TAG, ns, OFFPEAK_END_TAG);
+	        String end = readText(parser);
+	        parser.require(XmlPullParser.END_TAG, ns, OFFPEAK_END_TAG);
+	        return end;
+	    }
+
 
 	    private String readText(XmlPullParser parser) throws IOException, XmlPullParserException {
 	        String text = null;

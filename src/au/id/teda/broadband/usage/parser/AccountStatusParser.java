@@ -188,7 +188,7 @@ public class AccountStatusParser {
 		    		} else if (tagAtt.equals(FREEZONE_ATT)){
 		    			mFreezoneDataUsed = readDataUsed(parser);
 		    		}
-		    		readType(parser, tagAtt);
+		    		readType(parser);
 		    	} else {
 		    		skip(parser);
 		    	}
@@ -197,7 +197,7 @@ public class AccountStatusParser {
 	    	
 	    }
 	    
-	    private void readType(XmlPullParser parser, String tagAtt) throws IOException, XmlPullParserException {
+	    private void readType(XmlPullParser parser) throws IOException, XmlPullParserException {
 	    	
 	    	String classification = parser.getAttributeValue(null, CLASSIFICATION_ATT);
 	    	
