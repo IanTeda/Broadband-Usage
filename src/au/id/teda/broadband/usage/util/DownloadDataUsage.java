@@ -3,6 +3,8 @@ package au.id.teda.broadband.usage.util;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.xmlpull.v1.XmlPullParserException;
@@ -114,8 +116,8 @@ public class DownloadDataUsage {
         
         String plan = null;
         String product = null;
-    	String offpeakStartTime = null;
-    	String offpeakEndTime = null;
+    	Date offpeakStartTime = null;
+    	Date offpeakEndTime = null;
     	String peakQuota = null;
     	String offpeakQuota = null;
         for (AccountInfo accountInfo : account) {
@@ -150,7 +152,7 @@ public class DownloadDataUsage {
 			Log.e(DEBUG_TAG, "IOException: " + e);
         }
         
-	    String quotaReset;
+        Calendar quotaReset;
 	    String peakDataUsed;
 	    String offpeakDataUsed;
 	    String uploadsDataUsed;

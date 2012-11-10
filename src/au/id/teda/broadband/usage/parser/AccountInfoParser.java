@@ -2,12 +2,16 @@ package au.id.teda.broadband.usage.parser;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import android.text.format.DateFormat;
 import android.util.Xml;
 
 public class AccountInfoParser {
@@ -31,8 +35,8 @@ public class AccountInfoParser {
 	
 	private String mPlan = null;
 	private String mProduct = null;
-	private String mOffpeakStartTime = null;
-	private String mOffpeakEndTime = null;
+	private Date mOffpeakStartTime = null;
+	private Date mOffpeakEndTime = null;
 	private String mPeakQuota = null;
 	private String mOffpeakQuota = null;
 	    
@@ -40,13 +44,13 @@ public class AccountInfoParser {
 	public static class AccountInfo {
 		public final String plan;
 	    public final String product;
-	    public final String offpeakStartTime;
-	    public final String offpeakEndTime;
+	    public final Date offpeakStartTime;
+	    public final Date offpeakEndTime;
 	    public final String peakQuota;
 	    public final String offpeakQuota;
 
 	    private AccountInfo(String plan, String product
-	    		, String offpeakStartTime, String offpeakEndTime
+	    		, Date offpeakStartTime, Date offpeakEndTime
 	    		, String peakQuota, String offpeakQuota) {
 	    	this.plan = plan;
 	        this.product = product;
@@ -122,9 +126,9 @@ public class AccountInfoParser {
 		    	
 		    	String tagName = parser.getName();
 		    	if (tagName.equals(OFFPEAK_START_TAG)){
-		    		mOffpeakStartTime = readOffpeakStart(parser);
+		    		mOffpeakStartTime = getTimeValue(readOffpeakStart(parser));
 		    	} else if (tagName.equals(OFFPEAK_END_TAG)){
-		    		mOffpeakEndTime = readOffpeakEnd(parser);
+		    		mOffpeakEndTime = getTimeValue(readOffpeakEnd(parser));
 		    	} else if (tagName.equals(EXPECTED_TRAFFIC_TYPES_TAG)){
 		    		readExpectedTrafficTypes(parser);
 		    	} else {
@@ -215,6 +219,18 @@ public class AccountInfoParser {
 	            parser.nextTag();
 	        }
 	        return text;
+	    }
+	    
+	    private Date getTimeValue(String time){
+	    	SimpleDateFormat hourMintueFormat = new SimpleDateFormat("HH:mm");
+	    	Date date = null;
+			try {
+				date = hourMintueFormat.parse(time);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    	return date;
 	    }
 	    
 	    // Skips tags the parser isn't interested in. Uses depth to handle nested tags.

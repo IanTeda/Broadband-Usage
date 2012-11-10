@@ -3,6 +3,8 @@ package au.id.teda.broadband.usage.parser;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -37,7 +39,7 @@ public class AccountStatusParser {
 	private static final String IS_SHAPED_TAG = "is_shaped";
 	private static final String SPEED_ATT = "speed";
 	
-	private String mQuotaReset = null;
+	private Calendar mQuotaReset = null;
 	private String mPeakDataUsed = null;
 	private String mPeakSpeed = null;
 	private String mPeakIsShaped = null;
@@ -50,7 +52,7 @@ public class AccountStatusParser {
 	    
 	// This class represents the account info in the XML feed.
 	public static class AccountStatus {
-	    public final String quotaReset;
+	    public final Calendar quotaReset;
 	    public final String peakDataUsed;
 	    public final String peakSpeed;
 	    public final String peakIsShaped;
@@ -60,7 +62,7 @@ public class AccountStatusParser {
 	    public final String uploadsDataUsed;
 	    public final String freezoneDataUsed;
 
-	    private AccountStatus( String quotaReset
+	    private AccountStatus( Calendar quotaReset
 	    		, String peakDataUsed, String peakSpeed, String peakIsShaped
 	    		, String offpeakDataUsed, String offpeakSpeed, String offpeakIsShaped
 	    		, String uploadsDataUsed
@@ -137,7 +139,7 @@ public class AccountStatusParser {
 	        		, mUploadsDataUsed, mFreezoneDataUsed);
 	    }
 	    
-	    private String readQuotaReset(XmlPullParser parser) throws IOException, XmlPullParserException {
+	    private Calendar readQuotaReset(XmlPullParser parser) throws IOException, XmlPullParserException {
 	    	
 	    	String anniversary = null;
 	    	String daysSoFar = null;
@@ -162,8 +164,11 @@ public class AccountStatusParser {
 		    		skip(parser);
 		    	}
 	    	}
-       
-	        return anniversary + " " + daysSoFar + " " + daysRemaining;
+	    	
+	    	Calendar now = Calendar.getInstance();
+	    	now.add(Calendar.DATE, Integer.parseInt(daysRemaining) );
+	    	
+	        return now;
 	    }
 	    
 	    private void readExpectedTrafficTypes(XmlPullParser parser) throws IOException, XmlPullParserException {
