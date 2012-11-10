@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -35,8 +36,8 @@ public class AccountInfoParser {
 	
 	private String mPlan = null;
 	private String mProduct = null;
-	private Date mOffpeakStartTime = null;
-	private Date mOffpeakEndTime = null;
+	private Calendar mOffpeakStartTime = null;
+	private Calendar mOffpeakEndTime = null;
 	private String mPeakQuota = null;
 	private String mOffpeakQuota = null;
 	    
@@ -44,13 +45,13 @@ public class AccountInfoParser {
 	public static class AccountInfo {
 		public final String plan;
 	    public final String product;
-	    public final Date offpeakStartTime;
-	    public final Date offpeakEndTime;
+	    public final Calendar offpeakStartTime;
+	    public final Calendar offpeakEndTime;
 	    public final String peakQuota;
 	    public final String offpeakQuota;
 
 	    private AccountInfo(String plan, String product
-	    		, Date offpeakStartTime, Date offpeakEndTime
+	    		, Calendar offpeakStartTime, Calendar offpeakEndTime
 	    		, String peakQuota, String offpeakQuota) {
 	    	this.plan = plan;
 	        this.product = product;
@@ -126,9 +127,9 @@ public class AccountInfoParser {
 		    	
 		    	String tagName = parser.getName();
 		    	if (tagName.equals(OFFPEAK_START_TAG)){
-		    		mOffpeakStartTime = getTimeValue(readOffpeakStart(parser));
+		    		mOffpeakStartTime = getCalendarValue(readOffpeakStart(parser));
 		    	} else if (tagName.equals(OFFPEAK_END_TAG)){
-		    		mOffpeakEndTime = getTimeValue(readOffpeakEnd(parser));
+		    		mOffpeakEndTime = getCalendarValue(readOffpeakEnd(parser));
 		    	} else if (tagName.equals(EXPECTED_TRAFFIC_TYPES_TAG)){
 		    		readExpectedTrafficTypes(parser);
 		    	} else {
@@ -221,16 +222,16 @@ public class AccountInfoParser {
 	        return text;
 	    }
 	    
-	    private Date getTimeValue(String time){
+	    private Calendar getCalendarValue(String time){
 	    	SimpleDateFormat hourMintueFormat = new SimpleDateFormat("HH:mm");
-	    	Date date = null;
+	    	Calendar timeValue = Calendar.getInstance();
 			try {
-				date = hourMintueFormat.parse(time);
+				timeValue.setTime(hourMintueFormat.parse(time));
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	    	return date;
+	    	return timeValue;
 	    }
 	    
 	    // Skips tags the parser isn't interested in. Uses depth to handle nested tags.

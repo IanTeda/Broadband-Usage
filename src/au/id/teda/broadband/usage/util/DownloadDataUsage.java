@@ -3,6 +3,7 @@ package au.id.teda.broadband.usage.util;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -14,6 +15,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.Toast;
 import au.id.teda.broadband.usage.R;
@@ -116,8 +118,8 @@ public class DownloadDataUsage {
         
         String plan = null;
         String product = null;
-    	Date offpeakStartTime = null;
-    	Date offpeakEndTime = null;
+    	Calendar offpeakStartTime = null;
+    	Calendar offpeakEndTime = null;
     	String peakQuota = null;
     	String offpeakQuota = null;
         for (AccountInfo accountInfo : account) {
@@ -130,8 +132,8 @@ public class DownloadDataUsage {
         	
         	Log.d(DEBUG_TAG, "Plan: " + plan);
         	Log.d(DEBUG_TAG, "Product: " + product);
-        	Log.d(DEBUG_TAG, "Offpeak Start: " + offpeakStartTime);
-        	Log.d(DEBUG_TAG, "Offpeak End: " + offpeakEndTime);
+        	Log.d(DEBUG_TAG, "Offpeak Start: " + offpeakStartTime.get(Calendar.HOUR_OF_DAY) + ":" + offpeakStartTime.get(Calendar.MINUTE));
+        	Log.d(DEBUG_TAG, "Offpeak End: " + offpeakEndTime.get(Calendar.HOUR_OF_DAY) + ":" + offpeakEndTime.get(Calendar.MINUTE));
         	Log.d(DEBUG_TAG, "Peak Quota: " + peakQuota);
         	Log.d(DEBUG_TAG, "Offpeak Quota: " + offpeakQuota);
         }
@@ -158,9 +160,9 @@ public class DownloadDataUsage {
 	    String uploadsDataUsed;
 	    String freezoneDataUsed;
 	    String peakSpeed;
-		String peakIsShaped;
+		boolean peakIsShaped;
 		String offpeakSpeed;
-		String offpeakIsShaped;
+		boolean offpeakIsShaped;
 		
         for (AccountStatus accountStatus : status) {
         	quotaReset = accountStatus.quotaReset;
@@ -173,7 +175,7 @@ public class DownloadDataUsage {
         	offpeakSpeed = accountStatus.offpeakSpeed;
         	offpeakIsShaped = accountStatus.offpeakIsShaped;
         	
-        	Log.d(DEBUG_TAG, "Quota Reset: " + quotaReset);
+        	Log.d(DEBUG_TAG, "Quota Reset: " + quotaReset.getTime());
         	Log.d(DEBUG_TAG, "Peak Data Used: " + peakDataUsed);
         	Log.d(DEBUG_TAG, "Offpeak Data Used: " + offpeakDataUsed);
         	Log.d(DEBUG_TAG, "Uploads Data Used: " + uploadsDataUsed);
@@ -200,7 +202,7 @@ public class DownloadDataUsage {
 			Log.e(DEBUG_TAG, "IOException: " + e);
         }
         
-        String period = null;
+        Calendar period = null;
         String peak = null;
     	String offpeak = null;
     	String uploads = null;
@@ -213,7 +215,7 @@ public class DownloadDataUsage {
         	freezone = volumeUsage.freezone;
 
         	
-        	Log.d(DEBUG_TAG, "Period: " + period);
+        	Log.d(DEBUG_TAG, "Period: " + period.getTime());
         	Log.d(DEBUG_TAG, "Peak: " + peak);
         	Log.d(DEBUG_TAG, "Offpeak: " + offpeak);
         	Log.d(DEBUG_TAG, "Uploads: " + uploads);

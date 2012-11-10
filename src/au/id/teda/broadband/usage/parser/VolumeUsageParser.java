@@ -2,7 +2,10 @@ package au.id.teda.broadband.usage.parser;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -28,13 +31,13 @@ public class VolumeUsageParser {
 	
 	// This class represents the account info in the XML feed.
 	public static class VolumeUsage {
-		public final String period;
+		public final Calendar period;
 	    public final String peak;
 	    public final String offpeak;
 	    public final String uploads;
 	    public final String freezone;
 
-	    private VolumeUsage(String period, String peak
+	    private VolumeUsage(Calendar period, String peak
 	    		, String offpeak, String uploads, String freezone) {
 	    	this.period = period;
 	        this.peak = peak;
@@ -119,7 +122,7 @@ public class VolumeUsageParser {
     }
     
     public VolumeUsage readDayHour(XmlPullParser parser) throws XmlPullParserException, IOException {
-    	String mPeriod = parser.getAttributeValue(null, PERIOD_ATT);
+    	Calendar mPeriod = getPeriodValue(parser.getAttributeValue(null, PERIOD_ATT));
     	
     	parser.require(XmlPullParser.START_TAG, ns, DAY_HOUR_TAG);
     	String mPeak = null;
@@ -166,6 +169,18 @@ public class VolumeUsageParser {
             parser.nextTag();
         }
         return text;
+    }
+    
+    private Calendar getPeriodValue(String period){
+    	SimpleDateFormat hourMintueFormat = new SimpleDateFormat("yyyy-MM-dd");
+    	Calendar timeValue = Calendar.getInstance();
+		try {
+			timeValue.setTime(hourMintueFormat.parse(period));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return timeValue;
     }
 	
 	

@@ -16,7 +16,7 @@ import android.util.Xml;
 
 public class AccountStatusParser {
 	
-	//private static final String DEBUG_TAG = "bbusage";
+	private static final String DEBUG_TAG = "bbusage";
 	
 	// We don't use namespaces
 	private static final String ns = null;
@@ -42,10 +42,10 @@ public class AccountStatusParser {
 	private Calendar mQuotaReset = null;
 	private String mPeakDataUsed = null;
 	private String mPeakSpeed = null;
-	private String mPeakIsShaped = null;
+	private boolean mPeakIsShaped = false;
 	private String mOffpeakDataUsed = null;
 	private String mOffpeakSpeed = null;
-	private String mOffpeakIsShaped = null;
+	private boolean mOffpeakIsShaped = false;
 	private String mUploadsDataUsed = null;
 	private String mFreezoneDataUsed = null;
 	
@@ -55,16 +55,16 @@ public class AccountStatusParser {
 	    public final Calendar quotaReset;
 	    public final String peakDataUsed;
 	    public final String peakSpeed;
-	    public final String peakIsShaped;
+	    public final boolean peakIsShaped;
 	    public final String offpeakDataUsed;
 	    public final String offpeakSpeed;
-	    public final String offpeakIsShaped;
+	    public final boolean offpeakIsShaped;
 	    public final String uploadsDataUsed;
 	    public final String freezoneDataUsed;
 
 	    private AccountStatus( Calendar quotaReset
-	    		, String peakDataUsed, String peakSpeed, String peakIsShaped
-	    		, String offpeakDataUsed, String offpeakSpeed, String offpeakIsShaped
+	    		, String peakDataUsed, String peakSpeed, boolean peakIsShaped
+	    		, String offpeakDataUsed, String offpeakSpeed, boolean offpeakIsShaped
 	    		, String uploadsDataUsed
 	    		, String freezoneDataUsed) {
 	    	
@@ -164,10 +164,9 @@ public class AccountStatusParser {
 		    		skip(parser);
 		    	}
 	    	}
-	    	
 	    	Calendar now = Calendar.getInstance();
+	    	now.set(Calendar.HOUR_OF_DAY, 0);
 	    	now.add(Calendar.DATE, Integer.parseInt(daysRemaining) );
-	    	
 	        return now;
 	    }
 	    
@@ -229,11 +228,17 @@ public class AccountStatusParser {
 	    	}
 	    }
 	    
-	    private String readIsShaped(XmlPullParser parser) throws IOException, XmlPullParserException {
-	        parser.require(XmlPullParser.START_TAG, ns, IS_SHAPED_TAG);
+	    private boolean readIsShaped(XmlPullParser parser) throws IOException, XmlPullParserException {
+	        boolean flag = false;
+	    	parser.require(XmlPullParser.START_TAG, ns, IS_SHAPED_TAG);
 	        String shaped = readText(parser);
 	        parser.require(XmlPullParser.END_TAG, ns, IS_SHAPED_TAG);
-	        return shaped;
+	        if (shaped == "true"){
+	        	flag = true;
+	        } else {
+	        	flag = false;
+	        }
+	        return flag;
 	    }
 
 	    private String readText(XmlPullParser parser) throws IOException, XmlPullParserException {
