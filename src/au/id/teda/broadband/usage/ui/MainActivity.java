@@ -83,9 +83,9 @@ public class MainActivity extends SherlockFragmentActivity implements FragmentLo
 		DownloadDataUsage mDownloadDataUsage = new DownloadDataUsage(this);
 		boolean check = mDownloadDataUsage.authCheck();
 		Toast.makeText(this, "Authentication: " + check, Toast.LENGTH_SHORT).show();
-		mDownloadDataUsage.getAccountInfo();
+		//mDownloadDataUsage.getAccountInfo();
 		mDownloadDataUsage.getAccountStatus();
-		mDownloadDataUsage.getVolumeUsage();
+		//mDownloadDataUsage.getVolumeUsage();
     }
     
 	@Override

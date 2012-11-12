@@ -163,6 +163,8 @@ public class DownloadDataUsage {
 		boolean peakIsShaped;
 		String offpeakSpeed;
 		boolean offpeakIsShaped;
+		String ipAddress;
+		Calendar upTimeDate;
 		
         for (AccountStatus accountStatus : status) {
         	quotaReset = accountStatus.quotaReset;
@@ -174,6 +176,8 @@ public class DownloadDataUsage {
         	peakIsShaped = accountStatus.peakIsShaped;
         	offpeakSpeed = accountStatus.offpeakSpeed;
         	offpeakIsShaped = accountStatus.offpeakIsShaped;
+        	ipAddress = accountStatus.ipAddress;
+        	upTimeDate = accountStatus.upTimeDate;
         	
         	Log.d(DEBUG_TAG, "Quota Reset: " + quotaReset.getTime());
         	Log.d(DEBUG_TAG, "Peak Data Used: " + peakDataUsed);
@@ -184,6 +188,8 @@ public class DownloadDataUsage {
         	Log.d(DEBUG_TAG, "Peak Shaped Speed: " + peakSpeed);
         	Log.d(DEBUG_TAG, "Offpeak Is Shaped: " + offpeakIsShaped);
         	Log.d(DEBUG_TAG, "Offpeak Shaped Speed: " + offpeakSpeed);
+        	Log.d(DEBUG_TAG, "Ip Address: " + ipAddress);
+        	Log.d(DEBUG_TAG, "Uptime: " + upTimeDate.getTime());
         }
     	
     }

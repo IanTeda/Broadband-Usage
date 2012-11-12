@@ -2,6 +2,8 @@ package au.id.teda.broadband.usage.parser;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -38,6 +40,9 @@ public class AccountStatusParser {
 	private static final String USED_ATT = "used";
 	private static final String IS_SHAPED_TAG = "is_shaped";
 	private static final String SPEED_ATT = "speed";
+	private static final String CONNECTIONS_TAG = "connections";
+	private static final String IP_TAG = "ip";
+	private static final String ON_SINCE_ATT = "on_since";
 	
 	private Calendar mQuotaReset = null;
 	private String mPeakDataUsed = null;
@@ -48,7 +53,8 @@ public class AccountStatusParser {
 	private boolean mOffpeakIsShaped = false;
 	private String mUploadsDataUsed = null;
 	private String mFreezoneDataUsed = null;
-	
+	private String mIpAddress = null;
+	private Calendar mUpTimeDate = null;
 	    
 	// This class represents the account info in the XML feed.
 	public static class AccountStatus {
@@ -61,12 +67,15 @@ public class AccountStatusParser {
 	    public final boolean offpeakIsShaped;
 	    public final String uploadsDataUsed;
 	    public final String freezoneDataUsed;
+	    public final String ipAddress;
+	    public final Calendar upTimeDate;
 
 	    private AccountStatus( Calendar quotaReset
 	    		, String peakDataUsed, String peakSpeed, boolean peakIsShaped
 	    		, String offpeakDataUsed, String offpeakSpeed, boolean offpeakIsShaped
 	    		, String uploadsDataUsed
-	    		, String freezoneDataUsed) {
+	    		, String freezoneDataUsed
+	    		, String ipAddress, Calendar upTimeDate) {
 	    	
 	        this.quotaReset = quotaReset;
 	        this.peakDataUsed = peakDataUsed;
@@ -77,7 +86,8 @@ public class AccountStatusParser {
 	        this.offpeakIsShaped = offpeakIsShaped;
 	        this.uploadsDataUsed = uploadsDataUsed;
 	        this.freezoneDataUsed = freezoneDataUsed;
-	        
+	        this.ipAddress = ipAddress;
+	        this.upTimeDate = upTimeDate;
 	    }
 	}
 	    
@@ -98,25 +108,52 @@ public class AccountStatusParser {
 		List<AccountStatus> status = new ArrayList<AccountStatus>();
 
 	    parser.require(XmlPullParser.START_TAG, ns, FEED_TAG);
-	    	while (parser.next() != XmlPullParser.END_TAG) {
-	    		if (parser.getEventType() != XmlPullParser.START_TAG) {
-	    			continue;
-	            }
-	            String tagName = parser.getName();
-	            
-	            if (tagName.equals(VOLUME_USAGE_TAG)) {
-	            	status.add(readVolumeUsage(parser));
-	            } else {
-	                skip(parser);
-	            }
-	        }
-	        return status;
+	    while (parser.next() != XmlPullParser.END_TAG) {
+	    	if (parser.getEventType() != XmlPullParser.START_TAG) {
+	    		continue;
+	    	}
+	    	
+	    	String tagName = parser.getName();
+	    	if (tagName.equals(VOLUME_USAGE_TAG)) {
+	    		readVolumeUsage(parser);
+	    	} else if (tagName.equals(CONNECTIONS_TAG)){
+	    		readConnectionInfo(parser);
+	    	} else {
+	    		skip(parser);
+	    	}
 	    }
 	    
-	    public AccountStatus readVolumeUsage(XmlPullParser parser) throws XmlPullParserException, IOException {
+	    status.add( new AccountStatus(mQuotaReset
+	        		, mPeakDataUsed, mPeakSpeed, mPeakIsShaped
+	        		, mOffpeakDataUsed, mOffpeakSpeed, mOffpeakIsShaped
+	        		, mUploadsDataUsed, mFreezoneDataUsed
+	        		, mIpAddress, mUpTimeDate));
+	    
+	    return status;
+	}
+	    
+	private void readVolumeUsage (XmlPullParser parser) throws XmlPullParserException, IOException {
 	    	
-		    parser.require(XmlPullParser.START_TAG, ns, VOLUME_USAGE_TAG);
-	        
+		parser.require(XmlPullParser.START_TAG, ns, VOLUME_USAGE_TAG);
+		while (parser.next() != XmlPullParser.END_TAG) {
+			if (parser.getEventType() != XmlPullParser.START_TAG) {
+				continue;
+			}
+		    	
+			String tagName = parser.getName();
+			if (tagName.equals(QUOTA_RESET_TAG)){
+				mQuotaReset = readQuotaReset(parser);
+			} else if (tagName.equals(EXPECTED_TRAFFIC_TYPES_TAG)){
+				readExpectedTrafficTypes(parser);
+			} else {
+				skip(parser);
+			}
+		}
+	}
+	    
+	    public void readConnectionInfo(XmlPullParser parser) throws XmlPullParserException, IOException {
+
+		    parser.require(XmlPullParser.START_TAG, ns, CONNECTIONS_TAG);
 		    while (parser.next() != XmlPullParser.END_TAG) {
 		    	if (parser.getEventType() != XmlPullParser.START_TAG) {
 		    		continue;
@@ -124,19 +161,12 @@ public class AccountStatusParser {
 		    	
 		    	String tagName = parser.getName();
 		    	
-		    	if (tagName.equals(QUOTA_RESET_TAG)){
-		    		mQuotaReset = readQuotaReset(parser);
-		    	} else if (tagName.equals(EXPECTED_TRAFFIC_TYPES_TAG)){
-		    		readExpectedTrafficTypes(parser);
+		    	if (tagName.equals(IP_TAG)){
+		    		readIpInfo(parser);
 		    	} else {
 	                skip(parser);
 	            }
 		    }
-		    
-	        return new AccountStatus(mQuotaReset
-	        		, mPeakDataUsed, mPeakSpeed, mPeakIsShaped
-	        		, mOffpeakDataUsed, mOffpeakSpeed, mOffpeakIsShaped
-	        		, mUploadsDataUsed, mFreezoneDataUsed);
 	    }
 	    
 	    private Calendar readQuotaReset(XmlPullParser parser) throws IOException, XmlPullParserException {
@@ -146,7 +176,6 @@ public class AccountStatusParser {
 	    	String daysRemaining = null;
 	        
 	    	parser.require(XmlPullParser.START_TAG, ns, QUOTA_RESET_TAG);
-	    	
 	    	while (parser.next() != XmlPullParser.END_TAG) {
 		    	if (parser.getEventType() != XmlPullParser.START_TAG) {
 		    		continue;
@@ -173,7 +202,6 @@ public class AccountStatusParser {
 	    private void readExpectedTrafficTypes(XmlPullParser parser) throws IOException, XmlPullParserException {
 	    	
 	    	parser.require(XmlPullParser.START_TAG, ns, EXPECTED_TRAFFIC_TYPES_TAG);
-
 	    	while (parser.next() != XmlPullParser.END_TAG) {
 	            if (parser.getEventType() != XmlPullParser.START_TAG) {
 	                continue;
@@ -206,7 +234,6 @@ public class AccountStatusParser {
 	    	String classification = parser.getAttributeValue(null, CLASSIFICATION_ATT);
 	    	
 	    	parser.require(XmlPullParser.START_TAG, ns, TYPE_TAG);
-	    	
 	    	while (parser.nextTag() != XmlPullParser.END_TAG) {
 	            if (parser.getEventType() != XmlPullParser.START_TAG) {
 	                continue;
@@ -240,6 +267,13 @@ public class AccountStatusParser {
 	        }
 	        return flag;
 	    }
+	    
+	    private void readIpInfo(XmlPullParser parser) throws IOException, XmlPullParserException {
+	    	mUpTimeDate = getDateTimeValue(parser.getAttributeValue(null, ON_SINCE_ATT));
+	    	parser.require(XmlPullParser.START_TAG, ns, IP_TAG);
+	        mIpAddress = readText(parser);
+	        parser.require(XmlPullParser.END_TAG, ns, IP_TAG);
+	    }
 
 	    private String readText(XmlPullParser parser) throws IOException, XmlPullParserException {
 	        String text = null;
@@ -260,6 +294,18 @@ public class AccountStatusParser {
 	    	String shapedSpeed;
 	    	shapedSpeed = parser.getAttributeValue(null, SPEED_ATT);
 	    	return shapedSpeed;
+	    }
+	    
+	    private Calendar getDateTimeValue(String dateTime){
+	    	SimpleDateFormat hourMintueFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	    	Calendar timeValue = Calendar.getInstance();
+			try {
+				timeValue.setTime(hourMintueFormat.parse(dateTime));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    	return timeValue;
 	    }
 	    
 	    // Skips tags the parser isn't interested in. Uses depth to handle nested tags.
