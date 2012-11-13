@@ -214,21 +214,21 @@ public class DownloadDataUsage {
         VolumeUsageDbHelper mDbHelper = new VolumeUsageDbHelper(context);
         
         Calendar period = null;
-        String month = null;
+        String dataMonth = null;
         Long peak = null;
         Long offpeak = null;
         Long uploads = null;
         Long freezone = null;
         for (VolumeUsage volumeUsage : usage) {
         	period = volumeUsage.period;
-        	month = volumeUsage.month;
+        	dataMonth = volumeUsage.dataMonth;
         	peak = volumeUsage.peak;
         	offpeak = volumeUsage.offpeak;
         	uploads = volumeUsage.uploads;
         	freezone = volumeUsage.freezone;
 
         	Log.d(DEBUG_TAG, "Period: " + period.getTime());
-        	Log.d(DEBUG_TAG, "Month: " + month);
+        	Log.d(DEBUG_TAG, "Month: " + dataMonth);
         	Log.d(DEBUG_TAG, "Peak: " + peak);
         	Log.d(DEBUG_TAG, "Offpeak: " + offpeak);
         	Log.d(DEBUG_TAG, "Uploads: " + uploads);
