@@ -19,6 +19,8 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.Toast;
 import au.id.teda.broadband.usage.R;
+import au.id.teda.broadband.usage.database.VolumeUsageDbHelper;
+import au.id.teda.broadband.usage.database.VolumeUsageDatabaseAdapter;
 import au.id.teda.broadband.usage.parser.AccountInfoParser;
 import au.id.teda.broadband.usage.parser.AccountInfoParser.AccountInfo;
 import au.id.teda.broadband.usage.parser.AccountStatusParser;
@@ -208,20 +210,25 @@ public class DownloadDataUsage {
 			Log.e(DEBUG_TAG, "IOException: " + e);
         }
         
+        // Initiate database
+        VolumeUsageDbHelper mDbHelper = new VolumeUsageDbHelper(context);
+        
         Calendar period = null;
-        String peak = null;
-    	String offpeak = null;
-    	String uploads = null;
-    	String freezone = null;
+        String month = null;
+        Long peak = null;
+        Long offpeak = null;
+        Long uploads = null;
+        Long freezone = null;
         for (VolumeUsage volumeUsage : usage) {
         	period = volumeUsage.period;
+        	month = volumeUsage.month;
         	peak = volumeUsage.peak;
         	offpeak = volumeUsage.offpeak;
         	uploads = volumeUsage.uploads;
         	freezone = volumeUsage.freezone;
 
-        	
         	Log.d(DEBUG_TAG, "Period: " + period.getTime());
+        	Log.d(DEBUG_TAG, "Month: " + month);
         	Log.d(DEBUG_TAG, "Peak: " + peak);
         	Log.d(DEBUG_TAG, "Offpeak: " + offpeak);
         	Log.d(DEBUG_TAG, "Uploads: " + uploads);

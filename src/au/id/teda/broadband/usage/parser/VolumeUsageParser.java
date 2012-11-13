@@ -32,13 +32,17 @@ public class VolumeUsageParser {
 	// This class represents the account info in the XML feed.
 	public static class VolumeUsage {
 		public final Calendar period;
-	    public final String peak;
-	    public final String offpeak;
-	    public final String uploads;
-	    public final String freezone;
+		public final String month;
+	    public final Long peak;
+	    public final Long offpeak;
+	    public final Long uploads;
+	    public final Long freezone;
 
-	    private VolumeUsage(Calendar period, String peak
-	    		, String offpeak, String uploads, String freezone) {
+	    private VolumeUsage(Calendar period, String month
+	    		, Long peak, Long offpeak
+	    		, Long uploads, Long freezone) {
+	    	
+	    	this.month = month;
 	    	this.period = period;
 	        this.peak = peak;
 	        this.offpeak = offpeak;
@@ -125,10 +129,11 @@ public class VolumeUsageParser {
     	Calendar mPeriod = getPeriodValue(parser.getAttributeValue(null, PERIOD_ATT));
     	
     	parser.require(XmlPullParser.START_TAG, ns, DAY_HOUR_TAG);
-    	String mPeak = null;
-    	String mOffPeak = null;
-    	String mUploads  = null;
-    	String mFreezone = null;
+    	String mMonth = "Jan 2012";
+    	Long mPeak = null;
+    	Long mOffPeak = null;
+    	Long mUploads  = null;
+    	Long mFreezone = null;
     	
     	while (parser.next() != XmlPullParser.END_TAG) {
             if (parser.getEventType() != XmlPullParser.START_TAG) {
@@ -152,14 +157,14 @@ public class VolumeUsageParser {
             }
     	}
     	
-    	return new VolumeUsage(mPeriod, mPeak, mOffPeak, mUploads, mFreezone );
+    	return new VolumeUsage(mPeriod, mMonth, mPeak, mOffPeak, mUploads, mFreezone );
     }
 	
-    private String readUsage(XmlPullParser parser) throws IOException, XmlPullParserException {
+    private Long readUsage(XmlPullParser parser) throws IOException, XmlPullParserException {
         parser.require(XmlPullParser.START_TAG, ns, USAGE_TAG);
         String usage = readText(parser);
         parser.require(XmlPullParser.END_TAG, ns, USAGE_TAG);
-        return usage;
+        return stringToLong(usage);
     }
     
     private String readText(XmlPullParser parser) throws IOException, XmlPullParserException {
@@ -183,6 +188,10 @@ public class VolumeUsageParser {
     	return timeValue;
     }
 	
+    private Long stringToLong(String s){
+    	Long l = Long.parseLong(s);
+    	return l;
+    }
 	
     // Skips tags the parser isn't interested in. Uses depth to handle nested tags.
     private void skip(XmlPullParser parser) throws XmlPullParserException, IOException {
