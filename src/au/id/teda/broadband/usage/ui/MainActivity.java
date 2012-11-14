@@ -15,7 +15,7 @@ import android.widget.Toast;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.ui.fragments.FragmentLogInDialog;
 import au.id.teda.broadband.usage.ui.fragments.FragmentLogInDialog.FragmentLogInListner;
-import au.id.teda.broadband.usage.util.DownloadDataUsage;
+import au.id.teda.broadband.usage.util.DownloadVolumeUsage;
 
 public class MainActivity extends SherlockFragmentActivity implements FragmentLogInListner {
 	
@@ -80,7 +80,7 @@ public class MainActivity extends SherlockFragmentActivity implements FragmentLo
 		// Show log in fragment
         // fragmentLogInDialog.show(mFragmentManager, "fragment_log_in");
 		
-		DownloadDataUsage mDownloadDataUsage = new DownloadDataUsage(this);
+		DownloadVolumeUsage mDownloadDataUsage = new DownloadVolumeUsage(this);
 		boolean check = mDownloadDataUsage.authCheck();
 		Toast.makeText(this, "Authentication: " + check, Toast.LENGTH_SHORT).show();
 		//mDownloadDataUsage.getAccountInfo();

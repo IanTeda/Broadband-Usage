@@ -11,7 +11,6 @@ import java.util.List;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-import android.util.Log;
 import android.util.Xml;
 
 public class VolumeUsageParser {
@@ -39,19 +38,19 @@ public class VolumeUsageParser {
 	
 	// This class represents the account info in the XML feed.
 	public static class VolumeUsage {
-		public final Calendar period;
-		public final String dataMonth;
+		public final Calendar day;
+		public final String month;
 	    public final Long peak;
 	    public final Long offpeak;
 	    public final Long uploads;
 	    public final Long freezone;
 
-	    private VolumeUsage(Calendar period, String dataMonth
+	    private VolumeUsage(Calendar day, String month
 	    		, Long peak, Long offpeak
 	    		, Long uploads, Long freezone) {
 	    	
-	    	this.dataMonth = dataMonth;
-	    	this.period = period;
+	    	this.month = month;
+	    	this.day = day;
 	        this.peak = peak;
 	        this.offpeak = offpeak;
 	        this.uploads = uploads;

@@ -3,9 +3,7 @@ package au.id.teda.broadband.usage.util;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.xmlpull.v1.XmlPullParserException;
@@ -15,12 +13,10 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.Toast;
 import au.id.teda.broadband.usage.R;
-import au.id.teda.broadband.usage.database.VolumeUsageDbHelper;
-import au.id.teda.broadband.usage.database.VolumeUsageDatabaseAdapter;
+import au.id.teda.broadband.usage.database.VolumeUsageDailyDbAdapter;
 import au.id.teda.broadband.usage.parser.AccountInfoParser;
 import au.id.teda.broadband.usage.parser.AccountInfoParser.AccountInfo;
 import au.id.teda.broadband.usage.parser.AccountStatusParser;
@@ -29,7 +25,7 @@ import au.id.teda.broadband.usage.parser.ErrorParser;
 import au.id.teda.broadband.usage.parser.VolumeUsageParser;
 import au.id.teda.broadband.usage.parser.VolumeUsageParser.VolumeUsage;
 
-public class DownloadDataUsage {
+public class DownloadVolumeUsage {
 	
 	private static final String DEBUG_TAG = "bbusage";
 
@@ -48,8 +44,8 @@ public class DownloadDataUsage {
     private static final String AUTHENTICATION_FAILURE = "Authentication failure";
 
     // Class constructor
-    public DownloadDataUsage(Context context) {
-    	DownloadDataUsage.context = context;
+    public DownloadVolumeUsage(Context context) {
+    	DownloadVolumeUsage.context = context;
 
     	sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
     	
@@ -211,29 +207,21 @@ public class DownloadDataUsage {
         }
         
         // Initiate database
-        VolumeUsageDbHelper mDbHelper = new VolumeUsageDbHelper(context);
+        VolumeUsageDailyDbAdapter mVolumeUsageDb = new VolumeUsageDailyDbAdapter(context);
+        mVolumeUsageDb.open();
         
-        Calendar period = null;
-        String dataMonth = null;
-        Long peak = null;
-        Long offpeak = null;
-        Long uploads = null;
-        Long freezone = null;
         for (VolumeUsage volumeUsage : usage) {
-        	period = volumeUsage.period;
-        	dataMonth = volumeUsage.dataMonth;
-        	peak = volumeUsage.peak;
-        	offpeak = volumeUsage.offpeak;
-        	uploads = volumeUsage.uploads;
-        	freezone = volumeUsage.freezone;
-
-        	Log.d(DEBUG_TAG, "Period: " + period.getTime());
-        	Log.d(DEBUG_TAG, "Month: " + dataMonth);
-        	Log.d(DEBUG_TAG, "Peak: " + peak);
-        	Log.d(DEBUG_TAG, "Offpeak: " + offpeak);
-        	Log.d(DEBUG_TAG, "Uploads: " + uploads);
-        	Log.d(DEBUG_TAG, "Freezone: " + freezone);
+        	Long day = volumeUsage.day.getTimeInMillis();
+        	String month = volumeUsage.month;
+        	Long peak = volumeUsage.peak;
+        	Long offpeak = volumeUsage.offpeak;
+        	Long uploads = volumeUsage.uploads;
+        	Long freezone = volumeUsage.freezone;
+        	
+        	mVolumeUsageDb.addEntry(day, month, peak, offpeak, uploads, freezone);
         }
+        
+        mVolumeUsageDb.close();
                  
     }
     

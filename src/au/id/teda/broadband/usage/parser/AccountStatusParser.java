@@ -6,19 +6,16 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-import android.util.Log;
 import android.util.Xml;
 
 public class AccountStatusParser {
 	
-	private static final String DEBUG_TAG = "bbusage";
+	//private static final String DEBUG_TAG = "bbusage";
 	
 	// We don't use namespaces
 	private static final String ns = null;
@@ -27,8 +24,6 @@ public class AccountStatusParser {
 	private static final String FEED_TAG = "ii_feed";
 	private static final String VOLUME_USAGE_TAG = "volume_usage";
 	private static final String QUOTA_RESET_TAG = "quota_reset";
-	private static final String ANNIVERSARY_TAG = "anniversary";
-	private static final String DAYS_SO_FAR_TAG = "days_so_far";
 	private static final String DAYS_REMAINING_TAG = "days_remaining";
 	private static final String EXPECTED_TRAFFIC_TYPES_TAG = "expected_traffic_types";
 	private static final String TYPE_TAG = "type";
@@ -171,8 +166,6 @@ public class AccountStatusParser {
 	    
 	    private Calendar readQuotaReset(XmlPullParser parser) throws IOException, XmlPullParserException {
 	    	
-	    	String anniversary = null;
-	    	String daysSoFar = null;
 	    	String daysRemaining = null;
 	        
 	    	parser.require(XmlPullParser.START_TAG, ns, QUOTA_RESET_TAG);
@@ -183,11 +176,7 @@ public class AccountStatusParser {
 		    	
 		    	String tagName = parser.getName();
 		    	
-		    	if (tagName.equals(ANNIVERSARY_TAG)) {
-		    		anniversary = readText(parser);
-		    	} else if (tagName.equals(DAYS_SO_FAR_TAG)){
-		    		daysSoFar = readText(parser);
-		    	} else if (tagName.equals(DAYS_REMAINING_TAG)){
+		    	if (tagName.equals(DAYS_REMAINING_TAG)){
 		    		daysRemaining = readText(parser);
 		    	} else {
 		    		skip(parser);
