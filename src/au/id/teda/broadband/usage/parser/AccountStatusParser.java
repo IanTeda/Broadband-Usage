@@ -39,40 +39,40 @@ public class AccountStatusParser {
 	private static final String IP_TAG = "ip";
 	private static final String ON_SINCE_ATT = "on_since";
 	
-	private Calendar mQuotaReset = null;
-	private String mPeakDataUsed = null;
-	private String mPeakSpeed = null;
+	private long mQuotaResetDate;
+	private long mPeakDataUsed;
+	private int mPeakSpeed;
 	private boolean mPeakIsShaped = false;
-	private String mOffpeakDataUsed = null;
-	private String mOffpeakSpeed = null;
+	private long mOffpeakDataUsed;
+	private int mOffpeakSpeed;
 	private boolean mOffpeakIsShaped = false;
-	private String mUploadsDataUsed = null;
-	private String mFreezoneDataUsed = null;
+	private long mUploadsDataUsed;
+	private long mFreezoneDataUsed;
 	private String mIpAddress = null;
-	private Calendar mUpTimeDate = null;
+	private long mUpTimeDate;
 	    
 	// This class represents the account info in the XML feed.
 	public static class AccountStatus {
-	    public final Calendar quotaReset;
-	    public final String peakDataUsed;
-	    public final String peakSpeed;
+	    public final long quotaResetDate;
+	    public final long peakDataUsed;
+	    public final int peakSpeed;
 	    public final boolean peakIsShaped;
-	    public final String offpeakDataUsed;
-	    public final String offpeakSpeed;
+	    public final long offpeakDataUsed;
+	    public final int offpeakSpeed;
 	    public final boolean offpeakIsShaped;
-	    public final String uploadsDataUsed;
-	    public final String freezoneDataUsed;
+	    public final long uploadsDataUsed;
+	    public final long freezoneDataUsed;
 	    public final String ipAddress;
-	    public final Calendar upTimeDate;
+	    public final long upTimeDate;
 
-	    private AccountStatus( Calendar quotaReset
-	    		, String peakDataUsed, String peakSpeed, boolean peakIsShaped
-	    		, String offpeakDataUsed, String offpeakSpeed, boolean offpeakIsShaped
-	    		, String uploadsDataUsed
-	    		, String freezoneDataUsed
-	    		, String ipAddress, Calendar upTimeDate) {
+	    private AccountStatus( long quotaResetDate
+	    		, long peakDataUsed, int peakSpeed, boolean peakIsShaped
+	    		, long offpeakDataUsed, int offpeakSpeed, boolean offpeakIsShaped
+	    		, long uploadsDataUsed
+	    		, long freezoneDataUsed
+	    		, String ipAddress, long upTimeDate) {
 	    	
-	        this.quotaReset = quotaReset;
+	        this.quotaResetDate = quotaResetDate;
 	        this.peakDataUsed = peakDataUsed;
 	        this.peakSpeed = peakSpeed;
 	        this.peakIsShaped = peakIsShaped;
@@ -118,7 +118,7 @@ public class AccountStatusParser {
 	    	}
 	    }
 	    
-	    status.add( new AccountStatus(mQuotaReset
+	    status.add( new AccountStatus(mQuotaResetDate
 	        		, mPeakDataUsed, mPeakSpeed, mPeakIsShaped
 	        		, mOffpeakDataUsed, mOffpeakSpeed, mOffpeakIsShaped
 	        		, mUploadsDataUsed, mFreezoneDataUsed
@@ -137,7 +137,7 @@ public class AccountStatusParser {
 		    	
 			String tagName = parser.getName();
 			if (tagName.equals(QUOTA_RESET_TAG)){
-				mQuotaReset = readQuotaReset(parser);
+				mQuotaResetDate = readQuotaReset(parser);
 			} else if (tagName.equals(EXPECTED_TRAFFIC_TYPES_TAG)){
 				readExpectedTrafficTypes(parser);
 			} else {
@@ -164,7 +164,7 @@ public class AccountStatusParser {
 		    }
 	    }
 	    
-	    private Calendar readQuotaReset(XmlPullParser parser) throws IOException, XmlPullParserException {
+	    private long readQuotaReset(XmlPullParser parser) throws IOException, XmlPullParserException {
 	    	
 	    	String daysRemaining = null;
 	        
@@ -185,7 +185,7 @@ public class AccountStatusParser {
 	    	Calendar now = Calendar.getInstance();
 	    	now.set(Calendar.HOUR_OF_DAY, 0);
 	    	now.add(Calendar.DATE, Integer.parseInt(daysRemaining) );
-	        return now;
+	        return now.getTimeInMillis();
 	    }
 	    
 	    private void readExpectedTrafficTypes(XmlPullParser parser) throws IOException, XmlPullParserException {
@@ -201,13 +201,13 @@ public class AccountStatusParser {
 		    	
 		    	if (tagName.equals(TYPE_TAG)) {
 		    		if (tagAtt.equals(PEAK_ATT)){
-		    			mPeakDataUsed = readDataUsed(parser);
+		    			mPeakDataUsed = stringToLong(readDataUsed(parser));
 		    		} else if (tagAtt.equals(OFFPEAK_ATT)){
-		    			mOffpeakDataUsed = readDataUsed(parser);
+		    			mOffpeakDataUsed = stringToLong(readDataUsed(parser));
 		    		} else if (tagAtt.equals(UPLOADS_ATT)){
-		    			mUploadsDataUsed = readDataUsed(parser);
+		    			mUploadsDataUsed = stringToLong(readDataUsed(parser));
 		    		} else if (tagAtt.equals(FREEZONE_ATT)){
-		    			mFreezoneDataUsed = readDataUsed(parser);
+		    			mFreezoneDataUsed = stringToLong(readDataUsed(parser));
 		    		}
 		    		readType(parser);
 		    	} else {
@@ -231,10 +231,10 @@ public class AccountStatusParser {
 	            String tagName = parser.getName();
 	            if (tagName.equals(IS_SHAPED_TAG)){
 	            	if (classification.equals(PEAK_ATT)){
-	            		mPeakSpeed = readShapedSpeed(parser);
+	            		mPeakSpeed = stringToInt(readShapedSpeed(parser));
 	            		mPeakIsShaped = readIsShaped(parser);
 		    		} else if (classification.equals(OFFPEAK_ATT)){
-		    			mOffpeakSpeed = readShapedSpeed(parser);
+		    			mOffpeakSpeed = stringToInt(readShapedSpeed(parser));
 		    			mOffpeakIsShaped = readIsShaped(parser);
 		    		}
 	            } else {
@@ -258,7 +258,8 @@ public class AccountStatusParser {
 	    }
 	    
 	    private void readIpInfo(XmlPullParser parser) throws IOException, XmlPullParserException {
-	    	mUpTimeDate = getDateTimeValue(parser.getAttributeValue(null, ON_SINCE_ATT));
+	    	Calendar upDate = getDateTimeValue(parser.getAttributeValue(null, ON_SINCE_ATT));
+	    	mUpTimeDate = upDate.getTimeInMillis();
 	    	parser.require(XmlPullParser.START_TAG, ns, IP_TAG);
 	        mIpAddress = readText(parser);
 	        parser.require(XmlPullParser.END_TAG, ns, IP_TAG);
@@ -295,6 +296,16 @@ public class AccountStatusParser {
 				e.printStackTrace();
 			}
 	    	return timeValue;
+	    }
+	    
+	    private Long stringToLong(String s){
+	    	Long l = Long.parseLong(s);
+	    	return l;
+	    }
+	    
+	    private int stringToInt(String s){
+	    	int i = Integer.parseInt(s);
+	    	return i;
 	    }
 	    
 	    // Skips tags the parser isn't interested in. Uses depth to handle nested tags.

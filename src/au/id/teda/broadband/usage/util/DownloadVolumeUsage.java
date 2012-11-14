@@ -151,7 +151,7 @@ public class DownloadVolumeUsage {
 			Log.e(DEBUG_TAG, "IOException: " + e);
         }
         
-        Calendar quotaReset;
+        long quotaReset;
 	    String peakDataUsed;
 	    String offpeakDataUsed;
 	    String uploadsDataUsed;
@@ -164,7 +164,7 @@ public class DownloadVolumeUsage {
 		Calendar upTimeDate;
 		
         for (AccountStatus accountStatus : status) {
-        	quotaReset = accountStatus.quotaReset;
+        	quotaReset = accountStatus.quotaResetDate;
         	peakDataUsed = accountStatus.peakDataUsed;
         	offpeakDataUsed = accountStatus.offpeakDataUsed;
         	uploadsDataUsed = accountStatus.uploadsDataUsed;
@@ -176,7 +176,7 @@ public class DownloadVolumeUsage {
         	ipAddress = accountStatus.ipAddress;
         	upTimeDate = accountStatus.upTimeDate;
         	
-        	Log.d(DEBUG_TAG, "Quota Reset: " + quotaReset.getTime());
+        	Log.d(DEBUG_TAG, "Quota Reset: " + quotaReset);
         	Log.d(DEBUG_TAG, "Peak Data Used: " + peakDataUsed);
         	Log.d(DEBUG_TAG, "Offpeak Data Used: " + offpeakDataUsed);
         	Log.d(DEBUG_TAG, "Uploads Data Used: " + uploadsDataUsed);

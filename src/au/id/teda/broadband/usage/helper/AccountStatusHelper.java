@@ -6,25 +6,21 @@ import android.preference.PreferenceManager;
 
 public class AccountStatusHelper {
 	
-	private static final String DEBUG_TAG = "bbusage";
+	//private static final String DEBUG_TAG = "bbusage";
 	
 	// Set static string values for preference keys
-	private final static String LAST_UPDATE = "lastUpdate";
-	private final static String CURRENT_DATA_PERIOD = "currentDataPeriod";
-	private final static String CURRENT_ANNIVERSARY = "currentAnniversary";
-	private final static String CURRENT_DAYS_SO_FAR = "currentDaysSoFare";
-	private final static String CURRENT_DAYS_TO_GO = "currentDaysToGo";
-	private final static String CURRENT_PEAK_SHAPED = "currentPeakShaped";
-	private final static String CURRENT_OFF_PEAK_SHAPED = "currentOffPeakShaped";
-	private final static String CURRENT_PEAK_USED = "currentPeakUsed";
-	private final static String CURRENT_OFF_PEAK_USED = "currentOffPeakUsed";
-	private final static String CURRENT_UPLOAD_USED = "currentUploadUsed";
-	private final static String CURRENT_FREEZONE_USED = "currentFreezoneUsed";
-	private final static String CURRENT_PEAK_SHAPED_SPEED = "currentPeakShapedSpeed";
-	private final static String CURRENT_OFF_PEAK_SHAPED_SPEED = "currentOffPeakShapedSpeed";
-	private final static String CURRENT_UP_TIME = "currentUpTime";
-	private final static String CURRENT_IP = "CurrentIp";
-	
+	private final static String QUOTA_RESET_DATE = "quotaResetDate";
+	private final static String PEAK_DATA_USED = "peakDataUsed";
+	private final static String PEAK_SPEED = "peakSpeed";
+	private final static String PEAK_IS_SHAPED = "peakIsShaped";
+	private final static String OFFPEAK_DATA_USED = "offpeakDataUsed";
+	private final static String OFFPEAK_SPEED = "offpeakSpeed";
+	private final static String OFFPEAK_IS_SHAPED = "offpeakIsShaped";
+	private final static String UPLOADS_DATA_USED = "uploadsDataUsed";
+	private final static String FREEZONE_DATA_USED = "freezoneDataUsed";
+	private final static String IP_ADDRESS = "ipAddress";
+	private final static String UP_TIME_DATE = "upTimeDate";
+
 	// Activity context
     private static Context context;
     
@@ -38,28 +34,25 @@ public class AccountStatusHelper {
     	mSettings = PreferenceManager.getDefaultSharedPreferences(context);
     }
     
-    public void setAccoutStatus(long systemDateTime, String period,
-    		long anniversary, long days_so_far, long days_to_go,
-			int peak_shaped, int offpeak_shaped, long peak_used,
-			long offpeak_used, long upload_used, long freezone_used,
-			long peak_shaped_speed, long offpeak_shaped_speed, long uptime,
-			String ip_address) {
+    public void setAccoutStatus(long quotaResetDate
+    		, long peakDataUsed, int peakSpeed, boolean peakIsShaped
+    		, long offpeakDataUsed, int offpeakSpeed, boolean offpeakIsShaped
+    		, long uploadsDataUsed
+    		, long freezoneDataUsed
+    		, String ipAddress, long upTimeDate) {
 		
-		mEditor.putLong(LAST_UPDATE, systemDateTime);
-		mEditor.putString(CURRENT_DATA_PERIOD, period);
-		mEditor.putLong(CURRENT_ANNIVERSARY, anniversary);
-		mEditor.putLong(CURRENT_DAYS_SO_FAR, days_so_far);
-		mEditor.putLong(CURRENT_DAYS_TO_GO, days_to_go);
-		mEditor.putInt(CURRENT_PEAK_SHAPED, peak_shaped);
-		mEditor.putInt(CURRENT_OFF_PEAK_SHAPED, offpeak_shaped);
-		mEditor.putLong(CURRENT_PEAK_USED, peak_used);
-		mEditor.putLong(CURRENT_OFF_PEAK_USED, offpeak_used);
-		mEditor.putLong(CURRENT_UPLOAD_USED, upload_used);
-		mEditor.putLong(CURRENT_FREEZONE_USED, freezone_used);
-		mEditor.putLong(CURRENT_PEAK_SHAPED_SPEED, peak_shaped_speed);
-		mEditor.putLong(CURRENT_OFF_PEAK_SHAPED_SPEED, offpeak_shaped_speed);
-		mEditor.putLong(CURRENT_UP_TIME, uptime);
-		mEditor.putString(CURRENT_IP, ip_address);
+		mEditor.putLong(QUOTA_RESET_DATE, quotaResetDate);
+		mEditor.putLong(PEAK_DATA_USED, peakDataUsed);
+		mEditor.putLong(PEAK_SPEED, peakDataUsed);
+		mEditor.putBoolean(PEAK_IS_SHAPED, peakIsShaped);
+		mEditor.putLong(OFFPEAK_DATA_USED, offpeakDataUsed);
+		mEditor.putLong(OFFPEAK_SPEED, offpeakSpeed);
+		mEditor.putBoolean(OFFPEAK_IS_SHAPED, offpeakIsShaped);
+		mEditor.putLong(UPLOADS_DATA_USED, uploadsDataUsed);
+		mEditor.putLong(FREEZONE_DATA_USED, freezoneDataUsed);
+		mEditor.putString(IP_ADDRESS, ipAddress);
+		mEditor.putLong(UP_TIME_DATE, upTimeDate);
+
 		// Commit values to preferences
 		mEditor.commit();
 		
@@ -67,8 +60,7 @@ public class AccountStatusHelper {
     
     public boolean isStatusSet() {
 		// Check to see if we have all the account status information stored
-		if (getLastUpdate() > 0
-				&& getCurrentDataPeriod().length() > 0
+		if (getCurrentDataPeriod().length() > 0
 				&& getCurrentAnniversary() >= 0
 				&& getCurrentDaysToGo() >= 0
 				&& getCurrentDaysSoFar() >= 0
@@ -91,14 +83,6 @@ public class AccountStatusHelper {
 			return false;
 			
 		}
-	}
-    
-    /**
-	 * Method for getting last update
-	 * @return Long value of last update date
-	 */
-	public Long getLastUpdate(){
-		return mSettings.getLong(LAST_UPDATE, 0);
 	}
 	
 	/**
