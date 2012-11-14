@@ -34,23 +34,23 @@ public class AccountInfoParser {
 	
 	private String mPlan = null;
 	private String mProduct = null;
-	private Calendar mOffpeakStartTime = null;
-	private Calendar mOffpeakEndTime = null;
-	private String mPeakQuota = null;
-	private String mOffpeakQuota = null;
+	private long mOffpeakStartTime;
+	private long mOffpeakEndTime;
+	private long mPeakQuota;
+	private long mOffpeakQuota;
 	    
 	// This class represents the account info in the XML feed.
 	public static class AccountInfo {
 		public final String plan;
 	    public final String product;
-	    public final Calendar offpeakStartTime;
-	    public final Calendar offpeakEndTime;
-	    public final String peakQuota;
-	    public final String offpeakQuota;
+	    public final long offpeakStartTime;
+	    public final long offpeakEndTime;
+	    public final long peakQuota;
+	    public final long offpeakQuota;
 
 	    private AccountInfo(String plan, String product
-	    		, Calendar offpeakStartTime, Calendar offpeakEndTime
-	    		, String peakQuota, String offpeakQuota) {
+	    		, long offpeakStartTime, long offpeakEndTime
+	    		, long peakQuota, long offpeakQuota) {
 	    	this.plan = plan;
 	        this.product = product;
 	        this.offpeakStartTime = offpeakStartTime;
@@ -125,9 +125,9 @@ public class AccountInfoParser {
 		    	
 		    	String tagName = parser.getName();
 		    	if (tagName.equals(OFFPEAK_START_TAG)){
-		    		mOffpeakStartTime = getCalendarValue(readOffpeakStart(parser));
+		    		mOffpeakStartTime = getCalendarInMillis(readOffpeakStart(parser));
 		    	} else if (tagName.equals(OFFPEAK_END_TAG)){
-		    		mOffpeakEndTime = getCalendarValue(readOffpeakEnd(parser));
+		    		mOffpeakEndTime = getCalendarInMillis(readOffpeakEnd(parser));
 		    	} else if (tagName.equals(EXPECTED_TRAFFIC_TYPES_TAG)){
 		    		readExpectedTrafficTypes(parser);
 		    	} else {
@@ -164,9 +164,9 @@ public class AccountInfoParser {
 	            String tagName = parser.getName();
 	            if (tagName.equals(QUOTA_ALLOCATION)){
 	            	if (classification.equals(PEAK_ATT)){
-	            		mPeakQuota = readQuota(parser);
+	            		mPeakQuota = stringToLong(readQuota(parser));
 		    		} else if (classification.equals(OFFPEAK_ATT)){
-		    			mOffpeakQuota = readQuota(parser);
+		    			mOffpeakQuota = stringToLong(readQuota(parser));
 		    		}
 	            } else {
 	            	skip(parser);
@@ -220,7 +220,7 @@ public class AccountInfoParser {
 	        return text;
 	    }
 	    
-	    private Calendar getCalendarValue(String time){
+	    private long getCalendarInMillis(String time){
 	    	SimpleDateFormat hourMintueFormat = new SimpleDateFormat("HH:mm");
 	    	Calendar timeValue = Calendar.getInstance();
 			try {
@@ -229,7 +229,12 @@ public class AccountInfoParser {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	    	return timeValue;
+	    	return timeValue.getTimeInMillis();
+	    }
+	    
+	    private Long stringToLong(String s){
+	    	Long l = Long.parseLong(s);
+	    	return l;
 	    }
 	    
 	    // Skips tags the parser isn't interested in. Uses depth to handle nested tags.

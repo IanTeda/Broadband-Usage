@@ -30,13 +30,13 @@ public class AccountInfoHelper {
     }
     
     public void setAccountInfo(String plan, String product,
-			String offPeakStart, String offPeakEnd, long peakQuota,
+			long offpeakStartTime, long offpeakEndTime, long peakQuota,
 			long offpeakQuota){
 		
     	mEditor.putString(PLAN, plan);
     	mEditor.putString(PRODUCT, product);
-    	mEditor.putString(OFF_PEAK_START, offPeakStart);
-    	mEditor.putString(OFF_PEAK_END, offPeakEnd);
+    	mEditor.putLong(OFF_PEAK_START, offpeakStartTime);
+    	mEditor.putLong(OFF_PEAK_END, offpeakEndTime);
     	mEditor.putLong(PEAK_QUOTA, peakQuota);
     	mEditor.putLong(OFF_PEAK_QUOTA, offpeakQuota);
     	mEditor.commit();

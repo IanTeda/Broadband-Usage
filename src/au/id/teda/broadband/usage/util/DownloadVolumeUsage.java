@@ -17,6 +17,7 @@ import android.util.Log;
 import android.widget.Toast;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.database.VolumeUsageDailyDbAdapter;
+import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.parser.AccountInfoParser;
 import au.id.teda.broadband.usage.parser.AccountInfoParser.AccountInfo;
 import au.id.teda.broadband.usage.parser.AccountStatusParser;
@@ -114,12 +115,14 @@ public class DownloadVolumeUsage {
 			Log.e(DEBUG_TAG, "IOException: " + e);
         }
         
+        AccountInfoHelper mAccountInfoHelper = new AccountInfoHelper(context);
+        
         String plan = null;
         String product = null;
-    	Calendar offpeakStartTime = null;
-    	Calendar offpeakEndTime = null;
-    	String peakQuota = null;
-    	String offpeakQuota = null;
+    	long offpeakStartTime;
+    	long offpeakEndTime;
+    	long peakQuota;
+    	long offpeakQuota;
         for (AccountInfo accountInfo : account) {
         	plan = accountInfo.plan;
         	product = accountInfo.product;
@@ -127,13 +130,9 @@ public class DownloadVolumeUsage {
         	offpeakEndTime = accountInfo.offpeakEndTime;
         	peakQuota = accountInfo.offpeakQuota;
         	offpeakQuota = accountInfo.offpeakQuota;
+
+        	mAccountInfoHelper.setAccountInfo(plan, product, offpeakStartTime, offpeakEndTime, peakQuota, offpeakQuota);
         	
-        	Log.d(DEBUG_TAG, "Plan: " + plan);
-        	Log.d(DEBUG_TAG, "Product: " + product);
-        	Log.d(DEBUG_TAG, "Offpeak Start: " + offpeakStartTime.get(Calendar.HOUR_OF_DAY) + ":" + offpeakStartTime.get(Calendar.MINUTE));
-        	Log.d(DEBUG_TAG, "Offpeak End: " + offpeakEndTime.get(Calendar.HOUR_OF_DAY) + ":" + offpeakEndTime.get(Calendar.MINUTE));
-        	Log.d(DEBUG_TAG, "Peak Quota: " + peakQuota);
-        	Log.d(DEBUG_TAG, "Offpeak Quota: " + offpeakQuota);
         }
                  
     }
