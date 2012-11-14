@@ -25,6 +25,7 @@ public class AccountStatusParser {
 	private static final String VOLUME_USAGE_TAG = "volume_usage";
 	private static final String QUOTA_RESET_TAG = "quota_reset";
 	private static final String DAYS_REMAINING_TAG = "days_remaining";
+	private static final String DAYS_SO_FARE_TAG = "days_so_far";
 	private static final String EXPECTED_TRAFFIC_TYPES_TAG = "expected_traffic_types";
 	private static final String TYPE_TAG = "type";
 	private static final String CLASSIFICATION_ATT = "classification";
@@ -40,6 +41,7 @@ public class AccountStatusParser {
 	private static final String ON_SINCE_ATT = "on_since";
 	
 	private long mQuotaResetDate;
+	private long mQuotaStartDate;
 	private long mPeakDataUsed;
 	private int mPeakSpeed;
 	private boolean mPeakIsShaped = false;
@@ -54,6 +56,7 @@ public class AccountStatusParser {
 	// This class represents the account info in the XML feed.
 	public static class AccountStatus {
 	    public final long quotaResetDate;
+	    public final long quotaStartDate;
 	    public final long peakDataUsed;
 	    public final int peakSpeed;
 	    public final boolean peakIsShaped;
@@ -65,13 +68,14 @@ public class AccountStatusParser {
 	    public final String ipAddress;
 	    public final long upTimeDate;
 
-	    private AccountStatus( long quotaResetDate
+	    private AccountStatus( long quotaResetDate, long quotaStartDate
 	    		, long peakDataUsed, int peakSpeed, boolean peakIsShaped
 	    		, long offpeakDataUsed, int offpeakSpeed, boolean offpeakIsShaped
 	    		, long uploadsDataUsed
 	    		, long freezoneDataUsed
 	    		, String ipAddress, long upTimeDate) {
 	    	
+	    	this.quotaStartDate = quotaStartDate;
 	        this.quotaResetDate = quotaResetDate;
 	        this.peakDataUsed = peakDataUsed;
 	        this.peakSpeed = peakSpeed;
@@ -118,7 +122,7 @@ public class AccountStatusParser {
 	    	}
 	    }
 	    
-	    status.add( new AccountStatus(mQuotaResetDate
+	    status.add( new AccountStatus(mQuotaResetDate, mQuotaStartDate
 	        		, mPeakDataUsed, mPeakSpeed, mPeakIsShaped
 	        		, mOffpeakDataUsed, mOffpeakSpeed, mOffpeakIsShaped
 	        		, mUploadsDataUsed, mFreezoneDataUsed
@@ -137,7 +141,7 @@ public class AccountStatusParser {
 		    	
 			String tagName = parser.getName();
 			if (tagName.equals(QUOTA_RESET_TAG)){
-				mQuotaResetDate = readQuotaReset(parser);
+				readQuotaReset(parser);
 			} else if (tagName.equals(EXPECTED_TRAFFIC_TYPES_TAG)){
 				readExpectedTrafficTypes(parser);
 			} else {
@@ -164,9 +168,10 @@ public class AccountStatusParser {
 		    }
 	    }
 	    
-	    private long readQuotaReset(XmlPullParser parser) throws IOException, XmlPullParserException {
+	    private void readQuotaReset(XmlPullParser parser) throws IOException, XmlPullParserException {
 	    	
 	    	String daysRemaining = null;
+	    	String daysSoFare = null;
 	        
 	    	parser.require(XmlPullParser.START_TAG, ns, QUOTA_RESET_TAG);
 	    	while (parser.next() != XmlPullParser.END_TAG) {
@@ -178,14 +183,23 @@ public class AccountStatusParser {
 		    	
 		    	if (tagName.equals(DAYS_REMAINING_TAG)){
 		    		daysRemaining = readText(parser);
+		    	} else if (tagName.equals(DAYS_SO_FARE_TAG)){
+		    		daysSoFare = readText(parser);
 		    	} else {
 		    		skip(parser);
 		    	}
 	    	}
-	    	Calendar now = Calendar.getInstance();
-	    	now.set(Calendar.HOUR_OF_DAY, 0);
-	    	now.add(Calendar.DATE, Integer.parseInt(daysRemaining) );
-	        return now.getTimeInMillis();
+	    	
+	    	Calendar quotaResetDate = Calendar.getInstance();
+	    	quotaResetDate.set(Calendar.HOUR_OF_DAY, 0);
+	    	quotaResetDate.add(Calendar.DATE, Integer.parseInt(daysRemaining) );
+	    	mQuotaResetDate = quotaResetDate.getTimeInMillis();
+
+	    	Calendar quotaStartDate = Calendar.getInstance();
+	    	quotaStartDate.set(Calendar.HOUR_OF_DAY, 0);
+	    	quotaStartDate.add(Calendar.DATE, Integer.parseInt(daysSoFare) );
+	    	mQuotaStartDate = quotaStartDate.getTimeInMillis();
+	    	
 	    }
 	    
 	    private void readExpectedTrafficTypes(XmlPullParser parser) throws IOException, XmlPullParserException {

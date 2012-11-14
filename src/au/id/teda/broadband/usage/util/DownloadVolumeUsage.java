@@ -18,6 +18,7 @@ import android.widget.Toast;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.database.VolumeUsageDailyDbAdapter;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
+import au.id.teda.broadband.usage.helper.AccountStatusHelper;
 import au.id.teda.broadband.usage.parser.AccountInfoParser;
 import au.id.teda.broadband.usage.parser.AccountInfoParser.AccountInfo;
 import au.id.teda.broadband.usage.parser.AccountStatusParser;
@@ -151,20 +152,24 @@ public class DownloadVolumeUsage {
 			Log.e(DEBUG_TAG, "IOException: " + e);
         }
         
-        long quotaReset;
-	    String peakDataUsed;
-	    String offpeakDataUsed;
-	    String uploadsDataUsed;
-	    String freezoneDataUsed;
-	    String peakSpeed;
+        AccountStatusHelper mAccountStatusHelper = new AccountStatusHelper(context);
+        
+        long quotaResetDate;
+        long quotaStartDate;
+	    long peakDataUsed;
+	    long offpeakDataUsed;
+	    long uploadsDataUsed;
+	    long freezoneDataUsed;
+	    int peakSpeed;
 		boolean peakIsShaped;
-		String offpeakSpeed;
+		int offpeakSpeed;
 		boolean offpeakIsShaped;
 		String ipAddress;
-		Calendar upTimeDate;
+		long upTimeDate;
 		
         for (AccountStatus accountStatus : status) {
-        	quotaReset = accountStatus.quotaResetDate;
+        	quotaResetDate = accountStatus.quotaResetDate;
+        	quotaStartDate = accountStatus.quotaStartDate;
         	peakDataUsed = accountStatus.peakDataUsed;
         	offpeakDataUsed = accountStatus.offpeakDataUsed;
         	uploadsDataUsed = accountStatus.uploadsDataUsed;
@@ -176,17 +181,12 @@ public class DownloadVolumeUsage {
         	ipAddress = accountStatus.ipAddress;
         	upTimeDate = accountStatus.upTimeDate;
         	
-        	Log.d(DEBUG_TAG, "Quota Reset: " + quotaReset);
-        	Log.d(DEBUG_TAG, "Peak Data Used: " + peakDataUsed);
-        	Log.d(DEBUG_TAG, "Offpeak Data Used: " + offpeakDataUsed);
-        	Log.d(DEBUG_TAG, "Uploads Data Used: " + uploadsDataUsed);
-        	Log.d(DEBUG_TAG, "Freezone Data Used: " + freezoneDataUsed);
-        	Log.d(DEBUG_TAG, "Peak Is Shaped: " + peakIsShaped);
-        	Log.d(DEBUG_TAG, "Peak Shaped Speed: " + peakSpeed);
-        	Log.d(DEBUG_TAG, "Offpeak Is Shaped: " + offpeakIsShaped);
-        	Log.d(DEBUG_TAG, "Offpeak Shaped Speed: " + offpeakSpeed);
-        	Log.d(DEBUG_TAG, "Ip Address: " + ipAddress);
-        	Log.d(DEBUG_TAG, "Uptime: " + upTimeDate.getTime());
+        	mAccountStatusHelper.setAccoutStatus(quotaResetDate, quotaStartDate
+        			, peakDataUsed, peakIsShaped, peakSpeed
+        			, offpeakDataUsed, offpeakIsShaped, offpeakSpeed
+        			, uploadsDataUsed, freezoneDataUsed
+        			, ipAddress, upTimeDate);
+        	
         }
     	
     }
