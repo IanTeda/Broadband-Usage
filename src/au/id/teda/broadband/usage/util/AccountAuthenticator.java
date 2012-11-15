@@ -14,7 +14,13 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
 	
 	// Activity context
     private static Context mContext;
+    
+    // Account type string
+    public static final String ACCOUNT_TYPE = "com.example.android.samplesync";
 
+    // Authtoken type string.
+    public static final String AUTHTOKEN_TYPE = "com.example.android.samplesync";
+    
 	public AccountAuthenticator(Context context) {
 		super(context);
 		AccountAuthenticator.mContext = context;
@@ -30,7 +36,7 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
 		final Intent intent;
 						
 		intent = new Intent(mContext, AuthenticatorActivity.class);
-		intent.putExtra(Constants.AUTHTOKEN_TYPE, authTokenType);
+		intent.putExtra(AUTHTOKEN_TYPE, authTokenType);
 		intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
 
 		result = new Bundle();
