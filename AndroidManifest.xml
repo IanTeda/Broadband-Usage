@@ -30,7 +30,7 @@
           </intent-filter>
         </activity>
         
-				<service android:name="AuthenticatationService">
+        <service android:name="AuthenticatationService">
 					<intent-filter>
 						<action android:name="android.accounts.AccountAuthenticator"></action>
 					</intent-filter>

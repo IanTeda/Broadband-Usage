@@ -1,4 +1,4 @@
-package au.id.teda.broadband.usage.service;
+package au.id.teda.broadband.usage.util;
 
 import android.app.Service;
 import android.content.Intent;
@@ -7,9 +7,9 @@ import android.os.IBinder;
 public class AuthenticatationService extends Service {
 
 	@Override
-	public IBinder onBind(Intent intent) {
+	public IBinder onBind(Intent arg0) {
 		// TODO Auto-generated method stub
-		return new AccountAuthenticator(this).getIBinder();  
+		return new AccountAuthenticator(this).getIBinder();
 	}
 
 }
