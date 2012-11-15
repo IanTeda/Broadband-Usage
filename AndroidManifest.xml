@@ -29,6 +29,17 @@
                 <category android:name="android.intent.category.DEFAULT" />
           </intent-filter>
         </activity>
+        
+				<service android:name="AuthenticatationService">
+					<intent-filter>
+						<action android:name="android.accounts.AccountAuthenticator"></action>
+					</intent-filter>
+					<meta-data android:name="android.accounts.AccountAuthenticator" android:resource="@xml/authenticator">
+					</meta-data>
+				</service>
+				
     </application>
+    
+
 
 </manifest>

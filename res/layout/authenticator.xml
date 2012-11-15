@@ -1,0 +1,6 @@
+<account-authenticator 
+    android:accounttype="au.net.iinet" 
+    android:icon="@drawable/ic_launcher" 
+    android:label="@string/app_name" 
+    xmlns:android="http://schemas.android.com/apk/res/android">
+</account-authenticator>
