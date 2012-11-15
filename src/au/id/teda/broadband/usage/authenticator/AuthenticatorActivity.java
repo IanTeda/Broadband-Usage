@@ -1,4 +1,4 @@
-package au.id.teda.broadband.usage.ui;
+package au.id.teda.broadband.usage.authenticator;
 
 
 import android.accounts.Account;
@@ -20,7 +20,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.parser.ErrorParser;
-import au.id.teda.broadband.usage.util.AccountAuthenticator;
 import au.id.teda.broadband.usage.util.DownloadVolumeUsage;
 
 public class AuthenticatorActivity extends AccountAuthenticatorActivity {

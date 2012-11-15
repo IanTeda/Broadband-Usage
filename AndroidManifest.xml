@@ -19,6 +19,16 @@
         android:name="android.permission.MANAGE_ACCOUNTS" />
     <uses-permission
         android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+		<uses-permission
+        android:name="android.permission.READ_SYNC_STATS" />
+    <uses-permission
+        android:name="android.permission.READ_SYNC_SETTINGS" />
+    <uses-permission
+        android:name="android.permission.WRITE_SYNC_SETTINGS" />
+		<uses-permission
+        android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission
+        android:name="android.permission.WRITE_SECURE_SETTINGS" />
 
     <application
         android:icon="@drawable/ic_launcher"
@@ -26,8 +36,8 @@
         android:theme="@style/AppTheme" >
         
         <!-- The authenticator service -->
-        <service
-            android:name=".util.AuthenticationService"
+				<service
+            android:name=".authenticator.AuthenticationService"
             android:exported="true">
             <intent-filter>
                 <action
@@ -39,8 +49,8 @@
         </service>
         
         <activity
-            android:name=".ui.AuthenticatorActivity"
-            android:label="@string/ui_activity_title"
+            android:name=".authenticator.AuthenticatorActivity"
+            android:label="Authenticator Activity"
             android:theme="@android:style/Theme.Dialog"
             android:excludeFromRecents="true"
             android:configChanges="orientation"
@@ -60,7 +70,7 @@
             </intent-filter>
         </activity>
         
-        <activity android:label="SettingsActivity" android:name=".ui.SettingsActivity">
+        <activity android:label="Settings Activity" android:name=".ui.SettingsActivity">
              <intent-filter>
                 <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />
                 <category android:name="android.intent.category.DEFAULT" />

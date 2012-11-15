@@ -1,4 +1,4 @@
-package au.id.teda.broadband.usage.util;
+package au.id.teda.broadband.usage.authenticator;
 
 import android.accounts.AbstractAccountAuthenticator;
 import android.accounts.Account;
@@ -8,9 +8,11 @@ import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import au.id.teda.broadband.usage.ui.AuthenticatorActivity;
+import android.util.Log;
 
 public class AccountAuthenticator extends AbstractAccountAuthenticator {
+	
+	private static final String DEBUG_TAG = "bbusage";
 	
 	// Activity context
     private static Context mContext;
@@ -24,40 +26,33 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
 	public AccountAuthenticator(Context context) {
 		super(context);
 		AccountAuthenticator.mContext = context;
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public Bundle addAccount(AccountAuthenticatorResponse response, String accountType,
-			String authTokenType, String[] requiredFeatures, Bundle options)
+            String authTokenType, String[] requiredFeatures, Bundle options)
 			throws NetworkErrorException {
 		
-		final Bundle result;
-		final Intent intent;
-						
-		intent = new Intent(mContext, AuthenticatorActivity.class);
-		intent.putExtra(AUTHTOKEN_TYPE, authTokenType);
-		intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
-
-		result = new Bundle();
-		result.putParcelable(AccountManager.KEY_INTENT, intent);
-				
-		return result;
+        Log.v(DEBUG_TAG, "addAccount()");
+        final Intent intent = new Intent(mContext, AuthenticatorActivity.class);
+        intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
+        final Bundle bundle = new Bundle();
+        bundle.putParcelable(AccountManager.KEY_INTENT, intent);
+        return bundle;
 	}
 
-	@Override
-	public Bundle confirmCredentials(AccountAuthenticatorResponse response,
-			Account account, Bundle options) throws NetworkErrorException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Bundle confirmCredentials(
+            AccountAuthenticatorResponse response, Account account, Bundle options) {
+        Log.v(DEBUG_TAG, "confirmCredentials()");
+        return null;
+    }
 
-	@Override
-	public Bundle editProperties(AccountAuthenticatorResponse response,
-			String accountType) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Bundle editProperties(AccountAuthenticatorResponse response, String accountType) {
+        Log.v(DEBUG_TAG, "editProperties()");
+        throw new UnsupportedOperationException();
+    }
 
 	@Override
 	public Bundle getAuthToken(AccountAuthenticatorResponse response,
@@ -80,12 +75,11 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
 		return null;
 	}
 
-	@Override
-	public Bundle updateCredentials(AccountAuthenticatorResponse response,
-			Account account, String authTokenType, Bundle options)
-			throws NetworkErrorException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Bundle updateCredentials(AccountAuthenticatorResponse response, Account account,
+            String authTokenType, Bundle loginOptions) {
+        Log.v(DEBUG_TAG, "updateCredentials()");
+        return null;
+    }
 
 }
