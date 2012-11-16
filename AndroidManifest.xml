@@ -36,9 +36,10 @@
         android:theme="@style/AppTheme" >
         
         <!-- The authenticator service -->
-				<service
+		<service
             android:name=".authenticator.AuthenticatationService"
-            android:exported="true">
+            android:exported="true"
+            android:process=":auth">
             <intent-filter>
                 <action
                     android:name="android.accounts.AccountAuthenticator" />
@@ -51,9 +52,7 @@
         <activity
             android:name=".authenticator.AuthenticatorActivity"
             android:label="Authenticator Activity"
-            android:theme="@android:style/Theme.Dialog"
             android:excludeFromRecents="true"
-            android:configChanges="orientation"
             >
             <!--
                 No intent-filter here! This activity is only ever launched by

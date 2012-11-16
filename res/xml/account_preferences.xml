@@ -8,8 +8,8 @@
         android:title="Account Settings"
         android:summary="Sync frequency, notifications, etc.">
         <intent
-            android:action="fm.last.android.activity.Preferences.ACCOUNT_SETUP"
-            android:targetPackage="fm.last.android"
-            android:targetClass="fm.last.android.activity.Preferences" />
+            android:action="au.id.teda.broadband.usage.Preferences.ACCOUNT_SETUP"
+            android:targetPackage="au.id.teda.broadband.usage"
+            android:targetClass="au.id.teda.broadband.usage.Preferences" />
     </PreferenceScreen>
 </PreferenceScreen>
