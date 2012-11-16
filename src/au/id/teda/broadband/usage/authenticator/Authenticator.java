@@ -10,22 +10,22 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-public class AccountAuthenticator extends AbstractAccountAuthenticator {
+public class Authenticator extends AbstractAccountAuthenticator {
 	
 	private static final String DEBUG_TAG = "bbusage";
+	
+	// Account type string
+    //public static final String ACCOUNT_TYPE = "au.iinet.broadband.account";
+
+    // Authtoken type string.
+    //public static final String AUTHTOKEN_TYPE = "au.iinet.broadband.account";
 	
 	// Activity context
     private static Context mContext;
     
-    // Account type string
-    public static final String ACCOUNT_TYPE = "com.example.android.samplesync";
-
-    // Authtoken type string.
-    public static final String AUTHTOKEN_TYPE = "com.example.android.samplesync";
-    
-	public AccountAuthenticator(Context context) {
+	public Authenticator(Context context) {
 		super(context);
-		AccountAuthenticator.mContext = context;
+		Authenticator.mContext = context;
 	}
 
 	@Override
@@ -51,27 +51,27 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
     @Override
     public Bundle editProperties(AccountAuthenticatorResponse response, String accountType) {
         Log.v(DEBUG_TAG, "editProperties()");
-        throw new UnsupportedOperationException();
+        return null;
     }
 
 	@Override
 	public Bundle getAuthToken(AccountAuthenticatorResponse response,
 			Account account, String authTokenType, Bundle options)
 			throws NetworkErrorException {
-		// TODO Auto-generated method stub
+		Log.v(DEBUG_TAG, "getAuthToken()");
 		return null;
 	}
 
 	@Override
 	public String getAuthTokenLabel(String authTokenType) {
-		// TODO Auto-generated method stub
+		Log.v(DEBUG_TAG, "getAuthTokenLabel()");
 		return null;
 	}
 
 	@Override
 	public Bundle hasFeatures(AccountAuthenticatorResponse response,
 			Account account, String[] features) throws NetworkErrorException {
-		// TODO Auto-generated method stub
+		Log.v(DEBUG_TAG, "hasFeatures()");
 		return null;
 	}
 
