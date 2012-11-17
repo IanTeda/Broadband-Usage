@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+			android:minWidth="@dimen/dimen_min_width"
+			android:layout_gravity="center"
+			android:layout_marginTop="@dimen/dimen_margin" >
+            <EditText
+                android:id="@+id/username_et"
+                android:drawableLeft="@drawable/ic_user"
+                android:singleLine="true"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="@dimen/dimen_horiz"
+                android:scrollHorizontally="true"
+                android:inputType="textEmailAddress"
+                android:hint="username@iinet.net.au" />
+            <EditText
+                android:id="@+id/password_et"
+				android:drawableLeft="@drawable/ic_password"
+                android:singleLine="true"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="@dimen/dimen_horiz"
+                android:scrollHorizontally="true"
+                android:inputType="textPassword"
+                android:hint="Enter password" />
+        </LinearLayout>
+    </ScrollView>
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_margin"
+        android:background="#c6c3c6"
+        android:minHeight="54dip"
+        android:paddingTop="4dip"
+        android:paddingLeft="2dip"
+        android:paddingRight="2dip">
+        <Button
+            android:id="@+id/ok_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:minWidth="100dip"
+            android:text="Check"
+            android:onClick="handleLogin" />
+    </FrameLayout>
+</LinearLayout>
