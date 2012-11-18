@@ -2,8 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:paddingLeft="@dimen/margin"
-    android:paddingRight="@dimen/margin" >
+    android:paddingLeft="@dimen/vert_margin"
+    android:paddingRight="@dimen/vert_margin" >
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -33,11 +33,11 @@
             android:id="@+id/username_et"
             android:layout_width="fill_parent"
             android:layout_height="@dimen/line_height"
-            android:layout_margin="@dimen/padding"
+            android:layout_marginTop="@dimen/padding"
             android:background="@color/background_alt"
             android:drawableLeft="@drawable/ic_user"
-            android:paddingLeft="@dimen/padding"
-            android:drawablePadding="@dimen/padding"
+            android:paddingLeft="@dimen/icon_padding"
+            android:drawablePadding="@dimen/icon_padding"
             android:hint="username@iinet.net.au"
             android:inputType="textEmailAddress"
             android:scrollHorizontally="true"
@@ -47,8 +47,8 @@
             android:id="@+id/password_et"
             android:layout_width="fill_parent"
             android:layout_height="@dimen/line_height"
-            android:layout_margin="@dimen/padding"
-            android:background="@color/background"
+            android:layout_marginTop="@dimen/padding"
+            android:background="@color/background_alt"
             android:drawableLeft="@drawable/ic_password"
             android:paddingLeft="@dimen/padding"
             android:drawablePadding="@dimen/icon_padding"
@@ -61,11 +61,12 @@
             android:id="@+id/ok_button"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:layout_gravity="center_horizontal"
             android:background="@color/accent"
             android:onClick="handleLogin"
             android:padding="@dimen/padding"
-            android:text="Check"
+            android:text="Add Account"
             android:textColor="@color/background"
             android:textSize="@dimen/text_normal" />
     </LinearLayout>
