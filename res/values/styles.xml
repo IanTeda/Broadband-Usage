@@ -1,10 +1,12 @@
-<resources>
 
-    <style name="AppTheme" parent="@style/Theme.Sherlock.Light.DarkActionBar" >
-        <item name="android:windowBackground">@drawable/background_repeat</item>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="MyTheme" parent="@style/Theme.Sherlock.Light.DarkActionBar" >
+        <!--  <item name="android:windowBackground">@drawable/background_repeat</item>  -->
         <item name="android:listViewStyle">@style/TransparentListView</item>
         <item name="android:expandableListViewStyle">@style/TransparentExpandableListView</item>
-        
+        <item name="actionBarStyle">@style/MyTheme.ActionBarStyle</item>
+        <item name="android:actionBarStyle">@style/MyTheme.ActionBarStyle</item>
     </style>
 
     <!-- Hack to prevent ListViews from going black while scrolling -->
@@ -15,6 +17,10 @@
 
     <style name="TransparentExpandableListView" parent="@android:style/Widget.ExpandableListView">
       <item name="android:cacheColorHint">@android:color/transparent</item>
+    </style>
+    
+    <style name="MyTheme.EditText.Style" parent="@android:style/Widget.EditText">
+        
     </style>
         
 </resources>
