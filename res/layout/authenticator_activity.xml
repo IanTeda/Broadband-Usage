@@ -34,7 +34,7 @@
             android:layout_width="fill_parent"
             android:layout_height="@dimen/line_height"
             android:layout_margin="@dimen/padding"
-            android:background="@color/background"
+            android:background="@color/background_alt"
             android:drawableLeft="@drawable/ic_user"
             android:paddingLeft="@dimen/padding"
             android:drawablePadding="@dimen/padding"
