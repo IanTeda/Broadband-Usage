@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="MyTheme.Authenticator.EditText.Style" parent="@android:style/Widget.EditText">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">@dimen/line_height</item>
+        <item name="android:layout_marginTop">@dimen/padding</item>
+        <item name="android:background">@color/background_alt</item>
+        <item name="android:paddingLeft">@dimen/icon_padding</item>
+        <item name="android:drawablePadding">@dimen/icon_padding</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+</resources>

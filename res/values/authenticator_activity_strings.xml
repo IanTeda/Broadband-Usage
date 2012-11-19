@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="authenticator_activity_isp_name">iiNet</string>
+    <string name="authenticator_activity_please_login">Please login</string>
+    <string name="authenticator_activity_username_et_hint">username@iinet.net.au</string>
+    <string name="authenticator_activity_password_et_hint">Enter password</string>
+    <string name="authenticator_activity_add_account_button">Add Account</string>
+</resources>

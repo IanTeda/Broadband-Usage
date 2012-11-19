@@ -6,6 +6,7 @@ import java.io.InputStream;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import android.util.Log;
 import android.util.Xml;
 
 public class ErrorParser {
@@ -48,10 +49,10 @@ public class ErrorParser {
             if (parser.getEventType() != XmlPullParser.START_TAG) {
                 continue;
             }
-            String tag = parser.getName();
+            String tagName = parser.getName();
             
             // Starts by looking for the feed entry tag
-        	if (tag.equals(ERROR_TAG)) {
+        	if (tagName.equals(ERROR_TAG)) {
             	error = readError(parser);
             } else {
                 skip(parser);

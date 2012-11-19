@@ -3,6 +3,8 @@ package au.id.teda.broadband.usage.util;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Calendar;
 import java.util.List;
 
@@ -44,19 +46,15 @@ public class DownloadVolumeUsage {
     
     // Error texts from XML
     private static final String AUTHENTICATION_FAILURE = "Authentication failure";
+    
+    private static final String WIFI_ONLY = "wifi_only";
 
     // Class constructor
     public DownloadVolumeUsage(Context context) {
     	DownloadVolumeUsage.context = context;
 
     	sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-    	
-        // Are we only syncing when connected through wifi
-        wifiOnly = sharedPrefs.getBoolean(context.getString(R.string.pref_key_wifi_only), true);
-        
-    	// Check connectivity and set flags
-    	updateConnectionFlags();
-    	
+   	
     }
     
     // Checks the network connection and sets the wifiConnected and mobileConnected flags
@@ -75,17 +73,62 @@ public class DownloadVolumeUsage {
     }
     
     private InputStream bufferXmlStream(){
-    	InputStream mInputStream = context.getResources().openRawResource(R.raw.naked_dsl_home_5);
+    	InputStream mInputStream = context.getResources().openRawResource(R.raw.authentication_error);
     	BufferedInputStream buf = new BufferedInputStream(mInputStream);
     	return buf;
     }
     
-    public Boolean authCheck(){
+    private String urlBuilder(String username, String password){
+    	Log.d(DEBUG_TAG, "urlBuilder: " + username + " / " + password);
+    	String url = "https://toolbox.iinet.net.au/cgi-bin/new/volume_usage_xml.cgi?" +
+				"username=" + username + 
+				"&action=login" +
+				"&password=" + password;
+    	return url;
+    }
+    
+    // Given a string representation of a URL, sets up a connection and gets
+    // an input stream.
+    private InputStream downloadUrl(String urlString) throws IOException {
+    	Log.d(DEBUG_TAG, "downloadUrl: " + urlString);
+        URL url = new URL(urlString);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setReadTimeout(10000 /* milliseconds */);
+        conn.setConnectTimeout(15000 /* milliseconds */);
+        conn.setRequestMethod("GET");
+        conn.setDoInput(true);
+        // Starts the query
+        conn.connect();
+        InputStream stream = conn.getInputStream();
+        return stream;
+    }
+    
+    public Boolean authenticate(String username, String password){
+    	// Check connectivity and set flags
+    	updateConnectionFlags();
+    	
+        // Are we only syncing when connected through wifi
+        wifiOnly = sharedPrefs.getBoolean(WIFI_ONLY, true);
+    	
+        if (( (!wifiOnly) && (wifiConnected || mobileConnected))
+                || ( (wifiOnly) && (wifiConnected))) {
+        	return errorCheck(username, password);
+        } else {
+        	// TODO Show wifi only status
+            showConnectionError();
+            return false;
+        }
+    	
+    }
+    
+    private Boolean errorCheck(String username, String password){
+
     	String errorString = null;
     	ErrorParser mErrorParser = new ErrorParser();
     	
     	try {
-			errorString = mErrorParser.parse(bufferXmlStream());
+    		InputStream urlStream = downloadUrl(urlBuilder(username, password));
+			errorString = mErrorParser.parse(urlStream);
 		} catch (XmlPullParserException e) {
 			e.printStackTrace();
 			return false;

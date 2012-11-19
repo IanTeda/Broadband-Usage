@@ -13,60 +13,46 @@
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/isp_tv"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:text="iiNet"
-            android:textSize="@dimen/text_xlarge"
+            android:text="@string/authenticator_activity_isp_name"
             android:textColor="@color/accent"
+            android:textSize="@dimen/text_xlarge"
             android:textStyle="bold"
             android:typeface="sans" />
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/message_tv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Please login."
+            android:text="@string/authenticator_activity_please_login"
             android:textSize="@dimen/text_medium" />
 
         <EditText
             android:id="@+id/username_et"
-            android:layout_width="fill_parent"
-            android:layout_height="@dimen/line_height"
-            android:layout_marginTop="@dimen/padding"
-            android:background="@color/background_alt"
+            style="@style/MyTheme.Authenticator.EditText.Style"
             android:drawableLeft="@drawable/ic_user"
-            android:paddingLeft="@dimen/icon_padding"
-            android:drawablePadding="@dimen/icon_padding"
-            android:hint="username@iinet.net.au"
-            android:inputType="textEmailAddress"
-            android:scrollHorizontally="true"
-            android:singleLine="true" />
+            android:hint="@string/authenticator_activity_username_et_hint"
+            android:inputType="textEmailAddress" />
 
         <EditText
             android:id="@+id/password_et"
-            android:layout_width="fill_parent"
-            android:layout_height="@dimen/line_height"
-            android:layout_marginTop="@dimen/padding"
-            android:background="@color/background_alt"
+            style="@style/MyTheme.Authenticator.EditText.Style"
             android:drawableLeft="@drawable/ic_password"
-            android:paddingLeft="@dimen/padding"
-            android:drawablePadding="@dimen/icon_padding"
-            android:hint="Enter password"
-            android:inputType="textPassword"
-            android:scrollHorizontally="true"
-            android:singleLine="true" />
+            android:hint="@string/authenticator_activity_password_et_hint"
+            android:inputType="textPassword" />
 
         <Button
-            android:id="@+id/ok_button"
+            android:id="@+id/addAccount_button"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_height="@dimen/touch"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
             android:background="@color/accent"
-            android:onClick="handleLogin"
+            android:onClick="onClickAddAccount"
             android:padding="@dimen/padding"
-            android:text="Add Account"
+            android:text="@string/authenticator_activity_add_account_button"
             android:textColor="@color/background"
             android:textSize="@dimen/text_normal" />
     </LinearLayout>
