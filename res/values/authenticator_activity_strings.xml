@@ -5,4 +5,7 @@
     <string name="authenticator_activity_username_et_hint">username@iinet.net.au</string>
     <string name="authenticator_activity_password_et_hint">Enter password</string>
     <string name="authenticator_activity_add_account_button">Add Account</string>
+    <string name="authenticator_activity_no_connectivity"><b>No Connectivity</b></string>
+    <string name="authenticator_activity_3g_only">Only 3g Present</string>
+    <string name="authenticator_activity_failure">Authentication failure</string>
 </resources>

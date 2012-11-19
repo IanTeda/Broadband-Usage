@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.util.DownloadVolumeUsage;
 
@@ -77,15 +78,24 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
      */
     public void onClickAddAccount(View view) {
     	Log.d(DEBUG_TAG, "UserLoginTask.onClickAddAccount");
+    	
+    	// Get username and password from edit_text's
         mUsername = mUsernameEdit.getText().toString();
         mPassword = mPasswordEdit.getText().toString();
+        
+        // Check if we like what was put into the username and password et's
         if (TextUtils.isEmpty(mUsername) || TextUtils.isEmpty(mPassword)) {
             mMessage.setText(getMessage());
         } else {
-            // Show a progress dialog, and kick off a background task to perform
-            // the user login attempt.
-            mAuthTask = new UserLoginTask();
-            mAuthTask.execute();
+            // Kick off a background task to perform the user login attempt.
+        	if (mAccount.isConnected()){
+	            mAuthTask = new UserLoginTask();
+	            mAuthTask.execute();
+        	} else {
+        		//TODO: Update to alert dialog with option for 3g check
+        		Toast.makeText(this, R.string.authenticator_activity_no_connectivity, Toast.LENGTH_SHORT).show();
+        		mMessage.setText(R.string.authenticator_activity_no_connectivity);
+        	}
         }
     }
     
@@ -128,6 +138,11 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         @Override
         protected void onPostExecute(Boolean userPassCheck) {
         	Log.d(DEBUG_TAG, "UserLoginTask.onPostExecute: " + userPassCheck);
+        	if (userPassCheck){
+        		
+        	} else {
+        		mMessage.setText(R.string.authenticator_activity_failure);
+        	}
         }
 
         @Override

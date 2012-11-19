@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.authenticator.AuthenticatorActivity;
+import au.id.teda.broadband.usage.ui.fragments.ConfirmationDialogFragment;
 import au.id.teda.broadband.usage.ui.fragments.FragmentLogInDialog;
 import au.id.teda.broadband.usage.ui.fragments.FragmentLogInDialog.FragmentLogInListner;
 import au.id.teda.broadband.usage.util.DownloadVolumeUsage;
@@ -88,8 +89,9 @@ public class MainActivity extends SherlockFragmentActivity implements FragmentLo
 		//mDownloadDataUsage.getAccountStatus();
 		//mDownloadDataUsage.getVolumeUsage();
 		
-		Intent authenticatorActivityIntent = new Intent(this, AuthenticatorActivity.class);
-		startActivity(authenticatorActivityIntent);
+		//Intent authenticatorActivityIntent = new Intent(this, AuthenticatorActivity.class);
+		//startActivity(authenticatorActivityIntent);
+		
     }
     
 	@Override

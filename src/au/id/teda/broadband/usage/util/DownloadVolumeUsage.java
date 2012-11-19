@@ -104,18 +104,9 @@ public class DownloadVolumeUsage {
     }
     
     public Boolean authenticate(String username, String password){
-    	// Check connectivity and set flags
-    	updateConnectionFlags();
-    	
-        // Are we only syncing when connected through wifi
-        wifiOnly = sharedPrefs.getBoolean(WIFI_ONLY, true);
-    	
-        if (( (!wifiOnly) && (wifiConnected || mobileConnected))
-                || ( (wifiOnly) && (wifiConnected))) {
+        if (isConnected()) {
         	return errorCheck(username, password);
         } else {
-        	// TODO Show wifi only status
-            showConnectionError();
             return false;
         }
     	
@@ -267,14 +258,18 @@ public class DownloadVolumeUsage {
                  
     }
     
-    public void getData() {
+    public boolean isConnected() {
+    	
+    	updateConnectionFlags();
+    	
+        // Are we only syncing when connected through wifi
+        wifiOnly = sharedPrefs.getBoolean(WIFI_ONLY, true);
     	
         if (( (!wifiOnly) && (wifiConnected || mobileConnected))
                 || ( (wifiOnly) && (wifiConnected))) {
-
+        	return true;
         } else {
-        	// TODO Show wifi only status
-            showConnectionError();
+        	return false;
         }
     }
     
