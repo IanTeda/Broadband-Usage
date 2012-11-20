@@ -3,6 +3,8 @@ package au.id.teda.broadband.usage.ui.fragments;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.view.LayoutInflater;
+import au.id.teda.broadband.usage.R;
 
 public class ProgressDialogCircleFragment extends DialogFragment {
 	
@@ -14,6 +16,16 @@ public class ProgressDialogCircleFragment extends DialogFragment {
 
 	@Override
 	public ProgressDialog onCreateDialog(Bundle savedInstanceState) {
+		
+		ProgressDialog.Builder builder = new ProgressDialog.Builder(getActivity());
+		
+		// Get the layout inflater
+	    LayoutInflater inflater = getActivity().getLayoutInflater();
+	    
+	    // Inflate and set the layout for the dialog
+	    // Pass null as the parent view because its going in the dialog layout
+	    //builder.setView(inflater.inflate(R.layout.progress_bar_spinner_custom, null));
+		
 		dialog = new ProgressDialog(getActivity());
 		dialog.setMessage("Doing nothing useful...");
 		dialog.setCancelable(false);	//Disables back button
