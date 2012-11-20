@@ -91,12 +91,8 @@ public class MainActivity extends SherlockFragmentActivity
 		//mDownloadDataUsage.getAccountStatus();
 		//mDownloadDataUsage.getVolumeUsage();
 		
-		//Intent authenticatorActivityIntent = new Intent(this, AuthenticatorActivity.class);
-		//startActivity(authenticatorActivityIntent);
-		
-        FragmentManager fm = getSupportFragmentManager();
-        ProgressDialogCircleFragment editNameDialog = new ProgressDialogCircleFragment();
-        editNameDialog.show(fm, "fragment_edit_name");
+		Intent authenticatorActivityIntent = new Intent(this, AuthenticatorActivity.class);
+		startActivity(authenticatorActivityIntent);
 		
     }
     

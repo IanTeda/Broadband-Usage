@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -89,7 +90,13 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         } else {
             // Kick off a background task to perform the user login attempt.
         	if (mAccount.isConnected()){
-	            mAuthTask = new UserLoginTask();
+        		
+        		// Declare dialog outside of AsyncTask
+        		mProgressDialog = new ProgressDialog(this);
+        		mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+	            
+        		// Start async task
+        		mAuthTask = new UserLoginTask();
 	            mAuthTask.execute();
         	} else {
         		//TODO: Update to alert dialog with option for 3g check
@@ -121,6 +128,12 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
      * SampleSync Service
      */
     public class UserLoginTask extends AsyncTask<Void, Boolean, Boolean> {
+    	
+    	protected void onPreExecute(){
+    		Log.d(DEBUG_TAG, "UserLoginTask.onPreExecute");
+    		mProgressDialog.show();
+    	}
+    	
 
         @Override
         protected Boolean doInBackground(Void... params) {
@@ -142,6 +155,11 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         		
         	} else {
         		mMessage.setText(R.string.authenticator_activity_failure);
+        	}
+        	
+        	// Dismiss progress dialog if showing
+        	if (mProgressDialog.isShowing()) {
+        		mProgressDialog.dismiss();
         	}
         }
 
