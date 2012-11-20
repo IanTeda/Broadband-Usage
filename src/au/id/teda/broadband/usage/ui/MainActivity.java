@@ -17,9 +17,11 @@ import au.id.teda.broadband.usage.authenticator.AuthenticatorActivity;
 import au.id.teda.broadband.usage.ui.fragments.ConfirmationDialogFragment;
 import au.id.teda.broadband.usage.ui.fragments.FragmentLogInDialog;
 import au.id.teda.broadband.usage.ui.fragments.FragmentLogInDialog.FragmentLogInListner;
+import au.id.teda.broadband.usage.ui.fragments.ProgressDialogCircleFragment;
 import au.id.teda.broadband.usage.util.DownloadVolumeUsage;
 
-public class MainActivity extends SherlockFragmentActivity implements FragmentLogInListner {
+public class MainActivity extends SherlockFragmentActivity 
+	implements FragmentLogInListner  {
 	
 	private static final String DEBUG_TAG = "bbusage";
 	
@@ -52,7 +54,7 @@ public class MainActivity extends SherlockFragmentActivity implements FragmentLo
         receiver = new NetworkReceiver();
         this.registerReceiver(receiver, filter);
 		**/
-	
+        
     }
 
     // Create options menu
@@ -91,6 +93,10 @@ public class MainActivity extends SherlockFragmentActivity implements FragmentLo
 		
 		//Intent authenticatorActivityIntent = new Intent(this, AuthenticatorActivity.class);
 		//startActivity(authenticatorActivityIntent);
+		
+        FragmentManager fm = getSupportFragmentManager();
+        ProgressDialogCircleFragment editNameDialog = new ProgressDialogCircleFragment();
+        editNameDialog.show(fm, "fragment_edit_name");
 		
     }
     
