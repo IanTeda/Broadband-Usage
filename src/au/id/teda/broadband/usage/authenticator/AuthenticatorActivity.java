@@ -1,26 +1,24 @@
 package au.id.teda.broadband.usage.authenticator;
 
+import android.accounts.Account;
 import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
+import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 import au.id.teda.broadband.usage.R;
-import au.id.teda.broadband.usage.ui.fragments.ProgressDialogCircleFragment;
 import au.id.teda.broadband.usage.util.DownloadVolumeUsage;
 
 public class AuthenticatorActivity extends AccountAuthenticatorActivity {
@@ -64,7 +62,6 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 	protected void onCreate(Bundle icicle) {  
 		super.onCreate(icicle);  
 		this.setContentView(R.layout.authenticator_activity);
-        Log.d(DEBUG_TAG, "AuthenticatorActivity.onCreate(" + icicle + ")");
         
         mMessage = (TextView) findViewById(R.id.message_tv);
         mUsernameEdit = (EditText) findViewById(R.id.username_et);
@@ -81,7 +78,6 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
      * @param view The Submit button for which this method is invoked
      */
     public void onClickAddAccount(View view) {
-    	Log.d(DEBUG_TAG, "UserLoginTask.onClickAddAccount");
     	
     	// Get username and password from edit_text's
         mUsername = mUsernameEdit.getText().toString();
@@ -105,7 +101,10 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 	            mAuthTask.execute();
         	} else {
         		//TODO: Update to alert dialog with option for 3g check
-        		Toast.makeText(this, R.string.authenticator_activity_no_connectivity, Toast.LENGTH_SHORT).show();
+        		//Toast.makeText(this, R.string.authenticator_activity_no_connectivity, Toast.LENGTH_SHORT).show();
+        		Drawable warningImg = this.getResources().getDrawable(R.drawable.ic_warning);
+        		warningImg.setBounds( 0, 0, 22, 22 );
+        		mMessage.setCompoundDrawables( warningImg, null, null, null );
         		mMessage.setText(R.string.authenticator_activity_no_connectivity);
         	}
         }
@@ -128,24 +127,63 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         return null;
     }
     
+    
+    private void setDrawableError(){
+    	// Add drawableleft error cross
+		Drawable errorImg = this.getResources().getDrawable(R.drawable.ic_error);
+		errorImg.setBounds( 0, 0, 22, 22 );
+		mMessage.setCompoundDrawables( errorImg, null, null, null );
+    }
+    
+    private void addAccount(String username, String password){
+    	
+    	String accountType = Authenticator.ACCOUNT_TYPE;
+    	
+    	// This is the magic that addes the account to the Android Account Manager  
+    	final Account account = new Account(username, accountType);
+    	
+    	/**
+        if (mRequestNewAccount) {
+            mAccountManager.addAccountExplicitly(account, mPassword, null);
+            // Set contacts sync for this account.
+            ContentResolver.setSyncAutomatically(account, ContactsContract.AUTHORITY, true);
+        } else {
+            mAccountManager.setPassword(account, mPassword);
+        }
+        **/
+    	
+    	mAccountManager.addAccountExplicitly(account, password, null);  
+  
+    	// Now we tell our caller, could be the Android Account Manager or even our own application  
+    	// that the process was successful  
+  
+    	final Intent intent = new Intent();  
+    	intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, username);  
+    	intent.putExtra(AccountManager.KEY_ACCOUNT_TYPE, accountType);
+    	this.setAccountAuthenticatorResult(intent.getExtras());  
+    	this.setResult(RESULT_OK, intent);  
+    	this.finish();  
+  
+	}  
+
     /**
-     * Represents an asynchronous task used to authenticate a user against the
-     * SampleSync Service
+     * This class represents an asynchronous task used to authenticate a user against XML parser
+     * @author iteda
+     *
      */
     public class UserLoginTask extends AsyncTask<Void, Boolean, Boolean> {
     	
+    	
     	protected void onPreExecute(){
-    		Log.d(DEBUG_TAG, "UserLoginTask.onPreExecute");
+    		// Show progress dialog before executing task
     		mDialog.show();
     	}
     	
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // We do the actual work of authenticating the user
-            // in the NetworkUtilities class.
+            // We do the actual work of authenticating the user in DownloadVolumeUsage class.
             try {
-            	//setDrawableBlank();
             	return mAccount.authenticate(mUsername, mPassword);
             } catch (Exception ex) {
                 Log.e(DEBUG_TAG, "UserLoginTask.doInBackground: failed to authenticate");
@@ -157,17 +195,19 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         @Override
         protected void onPostExecute(Boolean userPassCheck) {
         	Log.d(DEBUG_TAG, "UserLoginTask.onPostExecute: " + userPassCheck);
-        	if (userPassCheck){
-        		Log.d(DEBUG_TAG, "UserLoginTask.onPostExecute Good to go");
-        	} else {
-        		mMessage.setText(R.string.authenticator_activity_failure);
-        		setDrawableError();
-        		
-        	}
         	
         	// Dismiss progress dialog if showing
         	if (mDialog.isShowing()) {
         		mDialog.dismiss();
+        	}
+        	
+        	if (userPassCheck){
+        		Log.d(DEBUG_TAG, "UserLoginTask.onPostExecute: " + mUsername + " / " + mPassword);
+        		addAccount(mUsername, mPassword);
+        	} else {
+        		mMessage.setText(R.string.authenticator_activity_failure);
+        		setDrawableError();
+        		
         	}
         }
 
@@ -175,13 +215,6 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         protected void onCancelled() {
         	Log.d(DEBUG_TAG, "UserLoginTask.onCancelled");
         }
-    }
-    
-    private void setDrawableError(){
-    	// Add drawableleft error cross
-		Drawable errorImg = this.getResources().getDrawable(R.drawable.ic_error);
-		errorImg.setBounds( 0, 0, 22, 22 );
-		mMessage.setCompoundDrawables( errorImg, null, null, null );
     }
 	
 }

@@ -103,16 +103,14 @@ public class DownloadVolumeUsage {
         return stream;
     }
     
+    /**
+     * Parse XML based on username and password, for authentication failure error.
+     * 
+     * @param username
+     * @param password
+     * @return boolean false if error tag found in XML parse
+     */
     public Boolean authenticate(String username, String password){
-        if (isConnected()) {
-        	return errorCheck(username, password);
-        } else {
-            return false;
-        }
-    	
-    }
-    
-    private Boolean errorCheck(String username, String password){
 
     	String errorString = null;
     	ErrorParser mErrorParser = new ErrorParser();
