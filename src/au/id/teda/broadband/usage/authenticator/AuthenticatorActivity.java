@@ -4,6 +4,7 @@ import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -51,16 +52,11 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
     /** Download manager **/
     DownloadVolumeUsage mAccount;
     
-    /** for posting authentication attempts back to UI thread */
-    private final Handler mHandler = new Handler();
-    
     private TextView mMessage;
     private String mPassword;
     private EditText mPasswordEdit;
     private String mUsername;
     private EditText mUsernameEdit;
-
-    public static final int DIALOG_LOADING = 1;
     
 	
 	@Override  
@@ -97,15 +93,11 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
             // Kick off a background task to perform the user login attempt.
         	if (mAccount.isConnected()){
         		
-        		// Declare and setup dialog outside of AsyncTask
-        		//mProgressDialog = new ProgressDialog(this);
-        		//mProgressDialog.setContentView(R.layout.progress_bar_spinner_custom);
-        		//mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        		//mProgressDialog.setMessage(getString(R.string.authenticator_activity_authenticating));
-        		
+        		// Set up dialog before task
         		mDialog = new Dialog(this);
         		mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         		mDialog.setContentView(R.layout.progress_bar_spinner_custom);
+        		mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
 
         		// Start async task
         		mAuthTask = new UserLoginTask();
