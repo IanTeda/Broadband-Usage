@@ -7,14 +7,18 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import au.id.teda.broadband.usage.R;
+import au.id.teda.broadband.usage.ui.fragments.ProgressDialogCircleFragment;
 import au.id.teda.broadband.usage.util.DownloadVolumeUsage;
 
 public class AuthenticatorActivity extends AccountAuthenticatorActivity {
@@ -99,10 +103,10 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         		//mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         		//mProgressDialog.setMessage(getString(R.string.authenticator_activity_authenticating));
         		
-        		//mProgressDialog = (ProgressDialog) getCustomProgressDialog();
-        		
-        		mDialog = showDialog(DIALOG_LOADING);
-	            
+        		mDialog = new Dialog(this);
+        		mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        		mDialog.setContentView(R.layout.progress_bar_spinner_custom);
+
         		// Start async task
         		mAuthTask = new UserLoginTask();
 	            mAuthTask.execute();
@@ -139,7 +143,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
     	
     	protected void onPreExecute(){
     		Log.d(DEBUG_TAG, "UserLoginTask.onPreExecute");
-    		mProgressDialog.show();
+    		mDialog.show();
     	}
     	
 
@@ -166,8 +170,8 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         	}
         	
         	// Dismiss progress dialog if showing
-        	if (mProgressDialog.isShowing()) {
-        		mProgressDialog.dismiss();
+        	if (mDialog.isShowing()) {
+        		mDialog.dismiss();
         	}
         }
 
@@ -176,26 +180,5 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         	Log.d(DEBUG_TAG, "UserLoginTask.onCancelled");
         }
     }
-    
-    private Dialog getCustomProgressDialog() {
-    	final Dialog mCustomDialog = new Dialog(AuthenticatorActivity.this); 
-        mCustomDialog.setContentView(R.layout.progress_bar_spinner_custom);
-        return mCustomDialog;
-    }
-    
-    @Override
-    protected Dialog onCreateDialog(int id) {
-        switch (id) {
-        case DIALOG_LOADING:
-            final Dialog dialog = new Dialog(this, android.R.style.Theme_Translucent);
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            //here we set layout of progress dialog
-            dialog.setContentView(R.layout.progress_bar_spinner_custom);
-            dialog.setCancelable(true);
-            return dialog;  
-        default:
-            return null;
-        }
-    };
 	
 }
