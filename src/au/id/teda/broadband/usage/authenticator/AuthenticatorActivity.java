@@ -5,6 +5,7 @@ import android.accounts.AccountManager;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -144,6 +145,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
             // We do the actual work of authenticating the user
             // in the NetworkUtilities class.
             try {
+            	//setDrawableBlank();
             	return mAccount.authenticate(mUsername, mPassword);
             } catch (Exception ex) {
                 Log.e(DEBUG_TAG, "UserLoginTask.doInBackground: failed to authenticate");
@@ -156,9 +158,11 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         protected void onPostExecute(Boolean userPassCheck) {
         	Log.d(DEBUG_TAG, "UserLoginTask.onPostExecute: " + userPassCheck);
         	if (userPassCheck){
-        		
+        		Log.d(DEBUG_TAG, "UserLoginTask.onPostExecute Good to go");
         	} else {
         		mMessage.setText(R.string.authenticator_activity_failure);
+        		setDrawableError();
+        		
         	}
         	
         	// Dismiss progress dialog if showing
@@ -171,6 +175,13 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         protected void onCancelled() {
         	Log.d(DEBUG_TAG, "UserLoginTask.onCancelled");
         }
+    }
+    
+    private void setDrawableError(){
+    	// Add drawableleft error cross
+		Drawable errorImg = this.getResources().getDrawable(R.drawable.ic_error);
+		errorImg.setBounds( 0, 0, 22, 22 );
+		mMessage.setCompoundDrawables( errorImg, null, null, null );
     }
 	
 }
