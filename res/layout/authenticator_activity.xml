@@ -43,12 +43,21 @@
             android:hint="@string/authenticator_activity_password_et_hint"
             android:inputType="textPassword" />
 
+        <CheckBox
+            android:id="@+id/show_password_cbox"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding"
+            android:onClick="onClickShowPassword"
+            android:text="@string/authenticator_activity_show_password"
+            android:textSize="@dimen/text_small" />
+
         <Button
             android:id="@+id/addAccount_button"
             android:layout_width="fill_parent"
             android:layout_height="@dimen/touch"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/padding"
             android:background="@color/accent"
             android:onClick="onClickAddAccount"
             android:padding="@dimen/padding"

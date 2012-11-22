@@ -9,9 +9,11 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import au.id.teda.broadband.usage.R;
@@ -43,7 +45,6 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
     private String mUsername;
     private EditText mUsernameEdit;
     
-	
 	@Override  
 	protected void onCreate(Bundle icicle) {  
 		super.onCreate(icicle);  
@@ -129,7 +130,17 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
     	final Account account = new Account(mUsername, Authenticator.ACCOUNT_TYPE);
     	mAccountManager.addAccountExplicitly(account, mPassword, null);  
   
-	}  
+	}
+    
+	public void onClickShowPassword(View view) {
+		if (((CheckBox) view).isChecked()) {
+			// Show password if check box checked
+			mPasswordEdit.setTransformationMethod(null);
+		} else {
+			// Else hide password
+			mPasswordEdit.setTransformationMethod(new PasswordTransformationMethod());
+		}
+	}
 
     /**
      * This class represents an asynchronous task used to authenticate a user against XML parser
