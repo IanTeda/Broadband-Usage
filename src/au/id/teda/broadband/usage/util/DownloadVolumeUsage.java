@@ -79,7 +79,6 @@ public class DownloadVolumeUsage {
     }
     
     private String urlBuilder(String username, String password){
-    	Log.d(DEBUG_TAG, "urlBuilder: " + username + " / " + password);
     	String url = "https://toolbox.iinet.net.au/cgi-bin/new/volume_usage_xml.cgi?" +
 				"username=" + username + 
 				"&action=login" +

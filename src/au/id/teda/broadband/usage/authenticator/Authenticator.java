@@ -15,7 +15,7 @@ public class Authenticator extends AbstractAccountAuthenticator {
 	private static final String DEBUG_TAG = "bbusage";
 	
 	/** Account type String. This needs to match authenticator.xml type **/
-    public static final String ACCOUNT_TYPE = "au.iinet.broadband.account";
+    public static final String ACCOUNT_TYPE = "au.net.iinet.account";
 
     // Authtoken type string.
     //public static final String AUTHTOKEN_TYPE = "au.iinet.broadband.account";

@@ -4,7 +4,7 @@
 <!-- for the Account Manager. -->
 
 <account-authenticator xmlns:android="http://schemas.android.com/apk/res/android"
-    android:accountType="au.id.teda.broadband.usage"
+    android:accountType="au.net.iinet.account"
     android:icon="@drawable/ic_iinet_logo"
     android:smallIcon="@drawable/ic_iinet_logo"
     android:label="@string/account_manager_name"

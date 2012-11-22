@@ -4,14 +4,10 @@ import android.accounts.Account;
 import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
 import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.ContentResolver;
-import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -26,15 +22,6 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 	/** Debug tag **/
 	private static final String DEBUG_TAG = "bbusage";
 	
-	/** The Intent flag to confirm credentials. */
-    public static final String PARAM_CONFIRM_CREDENTIALS = "confirmCredentials";
-
-    /** The Intent extra to store password. */
-    public static final String PARAM_PASSWORD = "password";
-
-    /** The Intent extra to store username. */
-    public static final String PARAM_USERNAME = "username";
-    
     /** Check if it credentials are set so we don't overright **/
     private Boolean mConfirmCredentials = false;
 
@@ -42,7 +29,6 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
     private UserLoginTask mAuthTask = null;
     
     /** Keep track of the progress dialog so we can dismiss it */
-    private ProgressDialog mProgressDialog;
     private Dialog mDialog;
     
     /** Account manager object **/
@@ -68,6 +54,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         mPasswordEdit = (EditText) findViewById(R.id.password_et);
         
         mAccount = new DownloadVolumeUsage(this);
+        mAccountManager = AccountManager.get(this);
 	}
 	
     /**
@@ -101,7 +88,6 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 	            mAuthTask.execute();
         	} else {
         		//TODO: Update to alert dialog with option for 3g check
-        		//Toast.makeText(this, R.string.authenticator_activity_no_connectivity, Toast.LENGTH_SHORT).show();
         		Drawable warningImg = this.getResources().getDrawable(R.drawable.ic_warning);
         		warningImg.setBounds( 0, 0, 22, 22 );
         		mMessage.setCompoundDrawables( warningImg, null, null, null );
@@ -135,34 +121,13 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 		mMessage.setCompoundDrawables( errorImg, null, null, null );
     }
     
-    private void addAccount(String username, String password){
-    	
-    	String accountType = Authenticator.ACCOUNT_TYPE;
+    private void addAccount(){
+    	// Our task is complete, so clear it out
+        mAuthTask = null;
     	
     	// This is the magic that addes the account to the Android Account Manager  
-    	final Account account = new Account(username, accountType);
-    	
-    	/**
-        if (mRequestNewAccount) {
-            mAccountManager.addAccountExplicitly(account, mPassword, null);
-            // Set contacts sync for this account.
-            ContentResolver.setSyncAutomatically(account, ContactsContract.AUTHORITY, true);
-        } else {
-            mAccountManager.setPassword(account, mPassword);
-        }
-        **/
-    	
-    	mAccountManager.addAccountExplicitly(account, password, null);  
-  
-    	// Now we tell our caller, could be the Android Account Manager or even our own application  
-    	// that the process was successful  
-  
-    	final Intent intent = new Intent();  
-    	intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, username);  
-    	intent.putExtra(AccountManager.KEY_ACCOUNT_TYPE, accountType);
-    	this.setAccountAuthenticatorResult(intent.getExtras());  
-    	this.setResult(RESULT_OK, intent);  
-    	this.finish();  
+    	final Account account = new Account(mUsername, Authenticator.ACCOUNT_TYPE);
+    	mAccountManager.addAccountExplicitly(account, mPassword, null);  
   
 	}  
 
@@ -194,7 +159,6 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 
         @Override
         protected void onPostExecute(Boolean userPassCheck) {
-        	Log.d(DEBUG_TAG, "UserLoginTask.onPostExecute: " + userPassCheck);
         	
         	// Dismiss progress dialog if showing
         	if (mDialog.isShowing()) {
@@ -202,8 +166,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         	}
         	
         	if (userPassCheck){
-        		Log.d(DEBUG_TAG, "UserLoginTask.onPostExecute: " + mUsername + " / " + mPassword);
-        		addAccount(mUsername, mPassword);
+        		addAccount();
         	} else {
         		mMessage.setText(R.string.authenticator_activity_failure);
         		setDrawableError();
