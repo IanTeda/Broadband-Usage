@@ -8,6 +8,7 @@
     <dimen name="touch">48dp</dimen>
     <dimen name="icon">32dp</dimen>
     <dimen name="icon_padding">8dp</dimen>
+    <dimen name="max_width">400dp</dimen>
     <dimen name="min_width">400dp</dimen>
     
     <dimen name="text_micro">12sp</dimen>

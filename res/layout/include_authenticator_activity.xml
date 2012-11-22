@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:minWidth="@dimen/min_width"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/isp_tv"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="@string/authenticator_activity_isp_name"
+        android:textColor="@color/accent"
+        android:textSize="@dimen/text_xlarge"
+        android:textStyle="bold"
+        android:typeface="sans" />
+
+    <TextView
+        android:id="@+id/message_tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/authenticator_activity_please_login"
+        android:textSize="@dimen/text_medium" />
+
+    <EditText
+        android:id="@+id/username_et"
+        style="@style/MyTheme.Authenticator.EditText.Style"
+        android:drawableLeft="@drawable/ic_user"
+        android:hint="@string/authenticator_activity_username_et_hint"
+        android:inputType="textEmailAddress" />
+
+    <EditText
+        android:id="@+id/password_et"
+        style="@style/MyTheme.Authenticator.EditText.Style"
+        android:drawableLeft="@drawable/ic_password"
+        android:hint="@string/authenticator_activity_password_et_hint"
+        android:inputType="textPassword" />
+
+    <CheckBox
+        android:id="@+id/show_password_cbox"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding"
+        android:onClick="onClickShowPassword"
+        android:text="@string/authenticator_activity_show_password"
+        android:textSize="@dimen/text_small" />
+
+    <Button
+        android:id="@+id/addAccount_button"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/touch"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/padding"
+        android:background="@color/accent"
+        android:onClick="onClickAddAccount"
+        android:padding="@dimen/padding"
+        android:text="@string/authenticator_activity_add_account_button"
+        android:textColor="@color/background"
+        android:textSize="@dimen/text_normal" />
+
+</LinearLayout>
