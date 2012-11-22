@@ -44,6 +44,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
     private EditText mPasswordEdit;
     private String mUsername;
     private EditText mUsernameEdit;
+    private CheckBox mShowPasswordCbox;
     
 	@Override  
 	protected void onCreate(Bundle icicle) {  
@@ -53,20 +54,14 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         mMessage = (TextView) findViewById(R.id.message_tv);
         mUsernameEdit = (EditText) findViewById(R.id.username_et);
         mPasswordEdit = (EditText) findViewById(R.id.password_et);
+        mShowPasswordCbox = (CheckBox) findViewById(R.id.show_password_cbox);
         
         mAccount = new DownloadVolumeUsage(this);
         mAccountManager = AccountManager.get(this);
 	}
 	
-    /**
-     * Handles onClick event on the Submit button. Sends username/password to
-     * the server for authentication. The button is configured to call
-     * handleLogin() in the layout XML.
-     *
-     * @param view The Submit button for which this method is invoked
-     */
     public void onClickAddAccount(View view) {
-    	
+
     	// Get username and password from edit_text's
         mUsername = mUsernameEdit.getText().toString();
         mPassword = mPasswordEdit.getText().toString();
@@ -89,9 +84,13 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 	            mAuthTask.execute();
         	} else {
         		//TODO: Update to alert dialog with option for 3g check
+        		
+        		// Add warning image to message
         		Drawable warningImg = this.getResources().getDrawable(R.drawable.ic_warning);
         		warningImg.setBounds( 0, 0, 22, 22 );
         		mMessage.setCompoundDrawables( warningImg, null, null, null );
+        		
+        		// Set message text to connection error
         		mMessage.setText(R.string.authenticator_activity_no_connectivity);
         	}
         }
@@ -133,7 +132,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 	}
     
 	public void onClickShowPassword(View view) {
-		if (((CheckBox) view).isChecked()) {
+		if (mShowPasswordCbox.isChecked()) {
 			// Show password if check box checked
 			mPasswordEdit.setTransformationMethod(null);
 		} else {
