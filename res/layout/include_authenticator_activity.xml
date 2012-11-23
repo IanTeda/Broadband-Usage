@@ -47,12 +47,12 @@
         android:textSize="@dimen/text_small" />
 
     <Button
+        style="@style/MyTheme.Button"
         android:id="@+id/addAccount_button"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/touch"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/padding"
-        android:background="@color/accent"
         android:onClick="onClickAddAccount"
         android:padding="@dimen/padding"
         android:text="@string/authenticator_activity_add_account_button"
