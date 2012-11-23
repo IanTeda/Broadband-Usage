@@ -19,6 +19,7 @@ import android.view.Window;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.util.NetworkUtilities;
 
@@ -29,6 +30,15 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 	
     /** Check if it credentials are set so we don't overright **/
     private Boolean mConfirmCredentials = false;
+    
+    /** The Intent flag to confirm credentials. */
+    public static final String PARAM_CONFIRM_CREDENTIALS = "confirmCredentials";
+    
+    /** The Intent extra to store password. */
+    public static final String PARAM_PASSWORD = "password";
+
+    /** The Intent extra to store username. */
+    public static final String PARAM_USERNAME = "username";
 
     /** Keep track of the login task so can cancel it if requested */
     private UserLoginTask mAuthTask = null;
@@ -38,7 +48,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
     
     /** Account manager object **/
     private AccountManager mAccountManager;
-    private String accountType = AccountAuthenticator.ACCOUNT_TYPE;
+    private String accountType;
     
     /** Download manager **/
     NetworkUtilities mAccount;
@@ -63,11 +73,33 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         mAccount = new NetworkUtilities(this);
         mAccountManager = AccountManager.get(this);
         
-        //mAccountManager.getAccountsByType(accountType);
+        accountType = AccountAuthenticator.ACCOUNT_TYPE;
+        
+        setUsernamePasswordEditText();
+        
+	}
+
+	private void setUsernamePasswordEditText() {
+		// Get account type and then retrieve accounts
+		
+        Account[] accounts = mAccountManager.getAccountsByType(accountType);
+        
+        // Get username and password for account
+        String accountName = "";
+        String accountPass = "";
+        for (Account account : accounts) {
+        	accountName = account.name;
+        	accountPass = mAccountManager.getPassword(account);
+        }
+        
+        // If we get something set edit text values
+        if (accountName.length()>0 && accountPass.length() >0){
+        	mUsernameEdit.setText(accountName);
+        	mPasswordEdit.setText(accountPass);
+        }
 	}
 	
     public void onClickAddAccount(View view) {
-
     	// Get username and password from edit_text's
         mUsername = mUsernameEdit.getText().toString();
         mPassword = mPasswordEdit.getText().toString();
