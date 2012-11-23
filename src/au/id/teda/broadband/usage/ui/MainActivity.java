@@ -18,7 +18,7 @@ import au.id.teda.broadband.usage.ui.fragments.ConfirmationDialogFragment;
 import au.id.teda.broadband.usage.ui.fragments.FragmentLogInDialog;
 import au.id.teda.broadband.usage.ui.fragments.FragmentLogInDialog.FragmentLogInListner;
 import au.id.teda.broadband.usage.ui.fragments.ProgressDialogCircleFragment;
-import au.id.teda.broadband.usage.util.DownloadVolumeUsage;
+import au.id.teda.broadband.usage.util.NetworkUtilities;
 
 public class MainActivity extends SherlockFragmentActivity 
 	implements FragmentLogInListner  {

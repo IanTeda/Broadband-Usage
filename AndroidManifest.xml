@@ -50,7 +50,7 @@
         </service>
 
         <provider
-            android:name=".syncadapter.DummyProvider"
+            android:name=".syncadapter.DummyContentProvider"
             android:authorities="au.id.teda.broadband.usage"
             android:exported="false"
             android:label="@string/sync_adapter_label"

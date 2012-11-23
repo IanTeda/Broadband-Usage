@@ -10,7 +10,7 @@ import android.net.Uri;
  * @author iteda
  *
  */
-public class DummyProvider extends ContentProvider {
+public class DummyContentProvider extends ContentProvider {
 
 	@Override
 	public int delete(Uri arg0, String arg1, String[] arg2) {

@@ -10,22 +10,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-public class Authenticator extends AbstractAccountAuthenticator {
+public class AccountAuthenticator extends AbstractAccountAuthenticator {
 	
 	private static final String DEBUG_TAG = "bbusage";
 	
 	/** Account type String. This needs to match authenticator.xml type **/
     public static final String ACCOUNT_TYPE = "au.net.iinet.account";
 
-    // Authtoken type string.
-    //public static final String AUTHTOKEN_TYPE = "au.iinet.broadband.account";
-	
 	// Activity context
     private static Context mContext;
     
-	public Authenticator(Context context) {
+	public AccountAuthenticator(Context context) {
 		super(context);
-		Authenticator.mContext = context;
+		AccountAuthenticator.mContext = context;
 	}
 
 	@Override

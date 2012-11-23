@@ -29,7 +29,7 @@ import au.id.teda.broadband.usage.parser.ErrorParser;
 import au.id.teda.broadband.usage.parser.VolumeUsageParser;
 import au.id.teda.broadband.usage.parser.VolumeUsageParser.VolumeUsage;
 
-public class DownloadVolumeUsage {
+public class NetworkUtilities {
 	
 	private static final String DEBUG_TAG = "bbusage";
 
@@ -50,8 +50,8 @@ public class DownloadVolumeUsage {
     private static final String WIFI_ONLY = "wifi_only";
 
     // Class constructor
-    public DownloadVolumeUsage(Context context) {
-    	DownloadVolumeUsage.context = context;
+    public NetworkUtilities(Context context) {
+    	NetworkUtilities.context = context;
 
     	sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
    	

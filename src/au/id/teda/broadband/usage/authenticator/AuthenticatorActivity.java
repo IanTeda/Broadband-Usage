@@ -20,7 +20,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import au.id.teda.broadband.usage.R;
-import au.id.teda.broadband.usage.util.DownloadVolumeUsage;
+import au.id.teda.broadband.usage.util.NetworkUtilities;
 
 public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 	
@@ -38,10 +38,10 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
     
     /** Account manager object **/
     private AccountManager mAccountManager;
-    private String accountType = Authenticator.ACCOUNT_TYPE;
+    private String accountType = AccountAuthenticator.ACCOUNT_TYPE;
     
     /** Download manager **/
-    DownloadVolumeUsage mAccount;
+    NetworkUtilities mAccount;
     
     private TextView mMessage;
     private String mPassword;
@@ -60,7 +60,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         mPasswordEdit = (EditText) findViewById(R.id.password_et);
         mShowPasswordCbox = (CheckBox) findViewById(R.id.show_password_cbox);
         
-        mAccount = new DownloadVolumeUsage(this);
+        mAccount = new NetworkUtilities(this);
         mAccountManager = AccountManager.get(this);
         
         //mAccountManager.getAccountsByType(accountType);

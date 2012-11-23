@@ -9,12 +9,12 @@ public class AuthenticatationService extends Service {
 	
 	private static final String DEBUG_TAG = "bbusage";
 	
-	private Authenticator mAccountAuthenticator;
+	private AccountAuthenticator mAccountAuthenticator;
 
     @Override
     public void onCreate() {
     	Log.d(DEBUG_TAG, "Authentication Service started.");
-        mAccountAuthenticator = new Authenticator(this);
+        mAccountAuthenticator = new AccountAuthenticator(this);
     }
 
     @Override
