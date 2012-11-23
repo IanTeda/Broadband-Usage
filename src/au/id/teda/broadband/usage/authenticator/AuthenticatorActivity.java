@@ -4,10 +4,13 @@ import android.accounts.Account;
 import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
 import android.app.Dialog;
+import android.content.ContentResolver;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -35,6 +38,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
     
     /** Account manager object **/
     private AccountManager mAccountManager;
+    private String accountType = Authenticator.ACCOUNT_TYPE;
     
     /** Download manager **/
     DownloadVolumeUsage mAccount;
@@ -58,6 +62,8 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         
         mAccount = new DownloadVolumeUsage(this);
         mAccountManager = AccountManager.get(this);
+        
+        //mAccountManager.getAccountsByType(accountType);
 	}
 	
     public void onClickAddAccount(View view) {
@@ -126,8 +132,17 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         mAuthTask = null;
     	
     	// This is the magic that addes the account to the Android Account Manager  
-    	final Account account = new Account(mUsername, Authenticator.ACCOUNT_TYPE);
-    	mAccountManager.addAccountExplicitly(account, mPassword, null);  
+    	final Account account = new Account(mUsername, accountType);
+    	boolean accountCreated = mAccountManager.addAccountExplicitly(account, mPassword, null);
+    	ContentResolver.setSyncAutomatically(account, ContactsContract.AUTHORITY, true);
+    	
+    	
+        final Intent intent = new Intent();
+        intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, mUsername);
+        intent.putExtra(AccountManager.KEY_ACCOUNT_TYPE, accountType);
+        setAccountAuthenticatorResult(intent.getExtras());
+        setResult(RESULT_OK, intent);
+        finish();
   
 	}
     

@@ -6,77 +6,84 @@
     <uses-sdk
         android:minSdkVersion="10"
         android:targetSdkVersion="14" />
-    
-    <uses-permission 
-        android:name="android.permission.INTERNET" />
-    <uses-permission 
-        android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission
-        android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission
-        android:name="android.permission.USE_CREDENTIALS" />
-    <uses-permission
-        android:name="android.permission.MANAGE_ACCOUNTS" />
-    <uses-permission
-        android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
-		<uses-permission
-        android:name="android.permission.READ_SYNC_STATS" />
-    <uses-permission
-        android:name="android.permission.READ_SYNC_SETTINGS" />
-    <uses-permission
-        android:name="android.permission.WRITE_SYNC_SETTINGS" />
-		<uses-permission
-        android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission
-        android:name="android.permission.WRITE_SECURE_SETTINGS" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_SYNC_STATS" />
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
 
     <application
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/MyTheme" >
-        
+
         <!-- The authenticator service -->
-		<service
+        <service
             android:name=".authenticator.AuthenticatationService"
-            android:exported="true"
-            android:process=":auth">
+            android:exported="false"
+            android:process=":auth" >
             <intent-filter>
-                <action
-                    android:name="android.accounts.AccountAuthenticator" />
+                <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
+
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/authenticator" />
         </service>
-        
+        <service
+            android:name=".syncadapter.SyncService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter" />
+        </service>
+
+        <provider
+            android:name=".syncadapter.DummyProvider"
+            android:authorities="au.id.teda.broadband.usage"
+            android:exported="false"
+            android:label="@string/sync_adapter_label"
+            android:syncable="true" />
+
         <activity
             android:name=".authenticator.AuthenticatorActivity"
-            android:label="Add Account"
             android:excludeFromRecents="true"
-            >
+            android:label="Add Account" >
+
             <!--
                 No intent-filter here! This activity is only ever launched by
-                someone who explicitly knows the class name
+                someone who explicitly knows the class name
             -->
         </activity>
-        
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/title_activity_main" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-        <activity android:label="Settings Activity" android:name=".ui.SettingsActivity">
-             <intent-filter>
+        <activity
+            android:name=".ui.SettingsActivity"
+            android:label="Settings Activity" >
+            <intent-filter>
                 <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />
+
                 <category android:name="android.intent.category.DEFAULT" />
-          </intent-filter>
+            </intent-filter>
         </activity>
     </application>
-    
-
 
 </manifest>
