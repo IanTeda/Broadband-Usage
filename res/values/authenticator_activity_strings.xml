@@ -6,6 +6,7 @@
     <string name="authenticator_activity_password_et_hint">Enter password</string>
     <string name="authenticator_activity_show_password">Show password</string>
     <string name="authenticator_activity_add_account_button">Add Account</string>
+    <string name="authenticator_activity_account_set">Account already added</string>
     <string name="authenticator_activity_no_connectivity"><b>No Connectivity</b></string>
     <string name="authenticator_activity_authenticating">Authenticating</string>
     <string name="authenticator_activity_3g_only">Only 3g Present</string>

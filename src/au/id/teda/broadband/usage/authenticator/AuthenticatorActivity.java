@@ -27,9 +27,6 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 	
 	/** Debug tag **/
 	private static final String DEBUG_TAG = "bbusage";
-	
-    /** Check if it credentials are set so we don't overright **/
-    private Boolean mConfirmCredentials = false;
     
     /** The Intent flag to confirm credentials. */
     public static final String PARAM_CONFIRM_CREDENTIALS = "confirmCredentials";
@@ -96,6 +93,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         if (accountName.length()>0 && accountPass.length() >0){
         	mUsernameEdit.setText(accountName);
         	mPasswordEdit.setText(accountPass);
+        	mMessage.setText(R.string.authenticator_activity_account_set);
         }
 	}
 	
