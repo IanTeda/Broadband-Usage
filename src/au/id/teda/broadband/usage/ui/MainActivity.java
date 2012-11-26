@@ -72,7 +72,7 @@ public class MainActivity extends SherlockFragmentActivity
     
 	public void onLogInClick(View button) {
 		NetworkUtilities mNetworkUtilities = new NetworkUtilities(this);
-		mNetworkUtilities.setAccountInfo();
+		mNetworkUtilities.getXmlData();
 		
 		//AccountInfoHelper mAccountInfoHelper = new AccountInfoHelper(this);
 		//Toast.makeText(this, "Authentication: " + mAccountInfoHelper.getPlan(), Toast.LENGTH_SHORT).show();

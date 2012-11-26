@@ -12,15 +12,20 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Window;
 import android.widget.Toast;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.authenticator.AccountAuthenticator;
+import au.id.teda.broadband.usage.authenticator.AuthenticatorActivity.UserLoginTask;
 import au.id.teda.broadband.usage.database.VolumeUsageDailyDbAdapter;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
@@ -42,8 +47,11 @@ public class NetworkUtilities {
     // Activity shared preferences
     SharedPreferences sharedPrefs;
     
-    // XML input stream for parsing
-    BufferedInputStream mBufferedInputStream;
+    /** Keep track of the login task so can cancel it if requested */
+    private DownloadXmlTask mDownloadXmlTask = null;
+    
+    /** Keep track of the progress dialog so we can dismiss it */
+    private Dialog mDialog;
     
     /** Account manager object **/
     private AccountManager mAccountManager;
@@ -85,7 +93,20 @@ public class NetworkUtilities {
         }
     }
     
-    private InputStream getXmlBufferedInputStream() throws IOException {
+    public void getXmlData(){
+    	if (isConnected()){
+    		// Set up dialog before task
+    		mDialog = new Dialog(mContext);
+    		mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+    		mDialog.setContentView(R.layout.progress_bar_spinner_custom);
+    		mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+    		
+    		mDownloadXmlTask = new DownloadXmlTask();
+    		mDownloadXmlTask.execute();
+    	}
+    }
+    
+    private InputStream getXmlInputStream() throws IOException {
     	
     	Log.d(DEBUG_TAG, "getXmlBufferedInputStream");
     	
@@ -98,17 +119,15 @@ public class NetworkUtilities {
         	username = account.name;
         	password = mAccountManager.getPassword(account);
         }
-    	
-        Log.d(DEBUG_TAG, "getXmlBufferedInputStream: " + username + " / " + password);
         
     	// Get input stream
-        //InputStream inputStream = getUrlInputStream(urlBuilder(username, password));
+        InputStream inputStream = getUrlInputStream(urlBuilder(username, password));
     	
-    	InputStream inputStream = mContext.getResources().openRawResource(R.raw.naked_dsl_home_5);
+    	//InputStream inputStream = mContext.getResources().openRawResource(R.raw.naked_dsl_home_5);
     	
-    	BufferedInputStream buf = new BufferedInputStream(inputStream);
+    	//BufferedInputStream buf = new BufferedInputStream(inputStream);
     	
-    	return buf;
+    	return inputStream;
     }
     
     private String urlBuilder(String username, String password){
@@ -168,29 +187,15 @@ public class NetworkUtilities {
     	}
     }
     
-    public void setAccountInfo() {
+    public void setAccountInfo(InputStream stream) {
     	
     	Log.d(DEBUG_TAG, "setAccountInfo");
     	
-        Account[] accounts = mAccountManager.getAccountsByType(accountType);
-        
-        // Get username and password for account
-        String username = "";
-        String password = "";
-        for (Account account : accounts) {
-        	username = account.name;
-        	password = mAccountManager.getPassword(account);
-        }
-    	
-        Log.d(DEBUG_TAG, "setAccountInfo > AccountInfoParser");
-    	AccountInfoParser mAccountInfoParser = new AccountInfoParser();
-    	Log.d(DEBUG_TAG, "setAccountInfo > List<AccountInfo>");
+       	AccountInfoParser mAccountInfoParser = new AccountInfoParser();
     	List<AccountInfo> account = null;
-      
-    	Log.d(DEBUG_TAG, "setAccountInfo > Try");
+
         try {
-        	InputStream urlStream = getUrlInputStream(urlBuilder(username, password));
-        	account = mAccountInfoParser.parse(urlStream);
+        	account = mAccountInfoParser.parse(stream);
         } catch (XmlPullParserException e) {
 			Log.e(DEBUG_TAG, "XmlPullParserException: " + e);
 		} catch (IOException e) {
@@ -212,9 +217,6 @@ public class NetworkUtilities {
         	offpeakEndTime = accountInfo.offpeakEndTime;
         	peakQuota = accountInfo.offpeakQuota;
         	offpeakQuota = accountInfo.offpeakQuota;
-
-        	Log.d(DEBUG_TAG, "Plan: " + plan + " Product: " + product + " offpeak Start: "+  offpeakStartTime
-        			+ " Offpeak End: " + offpeakEndTime + " Peak Quota: " + peakQuota + " Offpeak Quota: " + offpeakQuota);
         	
         	mAccountInfoHelper.setAccountInfo(plan, product, offpeakStartTime, offpeakEndTime, peakQuota, offpeakQuota);
         	
@@ -276,13 +278,14 @@ public class NetworkUtilities {
     	
     }
     
-    public void getVolumeUsage() {
+    public void setVolumeUsage(InputStream stream) {
+    	
+    	Log.d(DEBUG_TAG, "setAccountStatus");
     	
     	VolumeUsageParser mVolumeUsageParser = new VolumeUsageParser();
     	List<VolumeUsage> usage = null;
       
         try {
-        	InputStream stream = getXmlBufferedInputStream();
         	usage = mVolumeUsageParser.parse(stream);
         } catch (XmlPullParserException e) {
 			Log.e(DEBUG_TAG, "XmlPullParserException: " + e);
@@ -330,6 +333,59 @@ public class NetworkUtilities {
     	// TODO fragment toast??
     	// The specified network connection is not available. Displays error message.
     	Toast.makeText(mContext, R.string.toast_no_connectivity, Toast.LENGTH_SHORT).show();
+    }
+    
+    public class DownloadXmlTask extends AsyncTask<Void, Void, Void> {
+
+    	/** Complete before we execute task **/
+    	protected void onPreExecute(){
+    		
+    		Log.d(DEBUG_TAG, "DownloadXmlTask.onPreExecute()");
+    		
+    		// Show progress dialog before executing task
+    		mDialog.show();
+    	}
+    	
+    	
+		@Override
+		protected Void doInBackground(Void... params) {
+			Log.d(DEBUG_TAG, "DownloadXmlTask.doInBackground()");
+			try {
+				InputStream stream = getXmlInputStream();
+				//setAccountInfo(stream);
+				//setAccountStatus(stream);
+				setVolumeUsage(stream);
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result){
+        	Log.d(DEBUG_TAG, "DownloadXmlTask.onPostExecute()");
+        	// Dismiss progress dialog if showing
+        	if (mDialog.isShowing()) {
+        		mDialog.dismiss();
+        	}
+        }
+    	
+    }
+    
+    public class UnclosableBufferedInputStream extends BufferedInputStream {
+
+        public UnclosableBufferedInputStream(InputStream in) {
+        	super(in);
+        	super.mark(Integer.MAX_VALUE);
+        }
+
+        @Override
+        public void close() throws IOException {
+        	super.reset();
+        }
     }
     
 }

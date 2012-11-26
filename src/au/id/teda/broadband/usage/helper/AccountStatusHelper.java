@@ -25,16 +25,17 @@ public class AccountStatusHelper {
 	private final static String UP_TIME_DATE = "upTimeDate";
 
 	// Activity context
-    private static Context context;
+    private static Context mContext;
     
     // Activity shared preferences
     SharedPreferences mSettings;
-    SharedPreferences.Editor mEditor = mSettings.edit();
+    SharedPreferences.Editor mEditor;
     
     // Class constructor
     public AccountStatusHelper(Context context) {
-    	AccountStatusHelper.context = context;
+    	AccountStatusHelper.mContext = context;
     	mSettings = PreferenceManager.getDefaultSharedPreferences(context);
+    	mEditor = mSettings.edit();
     }
     
     public void setAccoutStatus(long quotaResetDate, long quotaStartDate

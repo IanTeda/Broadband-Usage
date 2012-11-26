@@ -192,13 +192,13 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
      */
     public class UserLoginTask extends AsyncTask<Void, Boolean, Boolean> {
     	
-    	
+    	/** Complete before we execute task **/
     	protected void onPreExecute(){
     		// Show progress dialog before executing task
     		mDialog.show();
     	}
     	
-
+    	/** Task to be complete **/
         @Override
         protected Boolean doInBackground(Void... params) {
             // We do the actual work of authenticating the user in DownloadVolumeUsage class.

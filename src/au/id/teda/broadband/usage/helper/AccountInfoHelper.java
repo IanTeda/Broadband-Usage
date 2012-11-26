@@ -3,6 +3,7 @@ package au.id.teda.broadband.usage.helper;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 public class AccountInfoHelper {
 	
@@ -40,6 +41,8 @@ public class AccountInfoHelper {
     	mEditor.putLong(OFF_PEAK_END, offpeakEndTime);
     	mEditor.putLong(PEAK_QUOTA, peakQuota);
     	mEditor.putLong(OFF_PEAK_QUOTA, offpeakQuota);
+    	
+    	// Commit values to preferences
     	mEditor.commit();
 	}
     
