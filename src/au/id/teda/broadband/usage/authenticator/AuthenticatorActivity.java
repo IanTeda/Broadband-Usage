@@ -166,7 +166,6 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
     	boolean accountCreated = mAccountManager.addAccountExplicitly(account, mPassword, null);
     	ContentResolver.setSyncAutomatically(account, ContactsContract.AUTHORITY, true);
     	
-    	
         final Intent intent = new Intent();
         intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, mUsername);
         intent.putExtra(AccountManager.KEY_ACCOUNT_TYPE, accountType);

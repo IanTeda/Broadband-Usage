@@ -10,6 +10,8 @@ import java.util.List;
 
 import org.xmlpull.v1.XmlPullParserException;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
@@ -18,6 +20,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 import au.id.teda.broadband.usage.R;
+import au.id.teda.broadband.usage.authenticator.AccountAuthenticator;
 import au.id.teda.broadband.usage.database.VolumeUsageDailyDbAdapter;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
@@ -34,10 +37,17 @@ public class NetworkUtilities {
 	private static final String DEBUG_TAG = "bbusage";
 
 	// Activity context
-    private static Context context;
+    private static Context mContext;
     
     // Activity shared preferences
     SharedPreferences sharedPrefs;
+    
+    // XML input stream for parsing
+    BufferedInputStream mBufferedInputStream;
+    
+    /** Account manager object **/
+    private AccountManager mAccountManager;
+    private String accountType;
 
     // Connection flags.
     private static boolean wifiConnected = false;
@@ -51,16 +61,19 @@ public class NetworkUtilities {
 
     // Class constructor
     public NetworkUtilities(Context context) {
-    	NetworkUtilities.context = context;
+    	NetworkUtilities.mContext = context;
 
-    	sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+    	sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+    	
+        mAccountManager = AccountManager.get(mContext);
+        accountType = AccountAuthenticator.ACCOUNT_TYPE;
    	
     }
     
     // Checks the network connection and sets the wifiConnected and mobileConnected flags
     private void updateConnectionFlags() {
 
-        ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connMgr = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkStatus = connMgr.getActiveNetworkInfo();
         
         if (networkStatus != null && networkStatus.isConnected()) {
@@ -72,23 +85,46 @@ public class NetworkUtilities {
         }
     }
     
-    private InputStream bufferXmlStream(){
-    	InputStream mInputStream = context.getResources().openRawResource(R.raw.authentication_error);
-    	BufferedInputStream buf = new BufferedInputStream(mInputStream);
+    private InputStream getXmlBufferedInputStream() throws IOException {
+    	
+    	Log.d(DEBUG_TAG, "getXmlBufferedInputStream");
+    	
+        Account[] accounts = mAccountManager.getAccountsByType(accountType);
+        
+        // Get username and password for account
+        String username = "";
+        String password = "";
+        for (Account account : accounts) {
+        	username = account.name;
+        	password = mAccountManager.getPassword(account);
+        }
+    	
+        Log.d(DEBUG_TAG, "getXmlBufferedInputStream: " + username + " / " + password);
+        
+    	// Get input stream
+        //InputStream inputStream = getUrlInputStream(urlBuilder(username, password));
+    	
+    	InputStream inputStream = mContext.getResources().openRawResource(R.raw.naked_dsl_home_5);
+    	
+    	BufferedInputStream buf = new BufferedInputStream(inputStream);
+    	
     	return buf;
     }
     
     private String urlBuilder(String username, String password){
-    	String url = "https://toolbox.iinet.net.au/cgi-bin/new/volume_usage_xml.cgi?" +
+    	String urlString = "https://toolbox.iinet.net.au/cgi-bin/new/volume_usage_xml.cgi?" +
 				"username=" + username + 
 				"&action=login" +
 				"&password=" + password;
-    	return url;
+    	return urlString;
     }
     
     // Given a string representation of a URL, sets up a connection and gets
     // an input stream.
-    private InputStream downloadUrl(String urlString) throws IOException {
+    private InputStream getUrlInputStream(String urlString) throws IOException {
+    	
+    	Log.d(DEBUG_TAG, "getUrlInputStream: " + urlString);
+    	
         URL url = new URL(urlString);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setReadTimeout(10000 /* milliseconds */);
@@ -114,7 +150,7 @@ public class NetworkUtilities {
     	ErrorParser mErrorParser = new ErrorParser();
     	
     	try {
-    		InputStream urlStream = downloadUrl(urlBuilder(username, password));
+    		InputStream urlStream = getUrlInputStream(urlBuilder(username, password));
 			errorString = mErrorParser.parse(urlStream);
 		} catch (XmlPullParserException e) {
 			e.printStackTrace();
@@ -132,21 +168,36 @@ public class NetworkUtilities {
     	}
     }
     
-    public void getAccountInfo() {
+    public void setAccountInfo() {
     	
+    	Log.d(DEBUG_TAG, "setAccountInfo");
+    	
+        Account[] accounts = mAccountManager.getAccountsByType(accountType);
+        
+        // Get username and password for account
+        String username = "";
+        String password = "";
+        for (Account account : accounts) {
+        	username = account.name;
+        	password = mAccountManager.getPassword(account);
+        }
+    	
+        Log.d(DEBUG_TAG, "setAccountInfo > AccountInfoParser");
     	AccountInfoParser mAccountInfoParser = new AccountInfoParser();
-    	InputStream stream = bufferXmlStream();
+    	Log.d(DEBUG_TAG, "setAccountInfo > List<AccountInfo>");
     	List<AccountInfo> account = null;
       
+    	Log.d(DEBUG_TAG, "setAccountInfo > Try");
         try {
-        	account = mAccountInfoParser.parse(stream);
+        	InputStream urlStream = getUrlInputStream(urlBuilder(username, password));
+        	account = mAccountInfoParser.parse(urlStream);
         } catch (XmlPullParserException e) {
 			Log.e(DEBUG_TAG, "XmlPullParserException: " + e);
 		} catch (IOException e) {
 			Log.e(DEBUG_TAG, "IOException: " + e);
         }
         
-        AccountInfoHelper mAccountInfoHelper = new AccountInfoHelper(context);
+        AccountInfoHelper mAccountInfoHelper = new AccountInfoHelper(mContext);
         
         String plan = null;
         String product = null;
@@ -162,16 +213,20 @@ public class NetworkUtilities {
         	peakQuota = accountInfo.offpeakQuota;
         	offpeakQuota = accountInfo.offpeakQuota;
 
+        	Log.d(DEBUG_TAG, "Plan: " + plan + " Product: " + product + " offpeak Start: "+  offpeakStartTime
+        			+ " Offpeak End: " + offpeakEndTime + " Peak Quota: " + peakQuota + " Offpeak Quota: " + offpeakQuota);
+        	
         	mAccountInfoHelper.setAccountInfo(plan, product, offpeakStartTime, offpeakEndTime, peakQuota, offpeakQuota);
         	
         }
                  
     }
     
-    public void getAccountStatus(){
+    public void setAccountStatus(InputStream stream){
+    	
+    	Log.d(DEBUG_TAG, "setAccountStatus");
     	
     	AccountStatusParser mAccountStatusParser= new AccountStatusParser();
-    	InputStream stream = bufferXmlStream();
     	List<AccountStatus> status = null;
     	
         try {
@@ -182,7 +237,7 @@ public class NetworkUtilities {
 			Log.e(DEBUG_TAG, "IOException: " + e);
         }
         
-        AccountStatusHelper mAccountStatusHelper = new AccountStatusHelper(context);
+        AccountStatusHelper mAccountStatusHelper = new AccountStatusHelper(mContext);
         
         long quotaResetDate;
         long quotaStartDate;
@@ -224,10 +279,10 @@ public class NetworkUtilities {
     public void getVolumeUsage() {
     	
     	VolumeUsageParser mVolumeUsageParser = new VolumeUsageParser();
-    	InputStream stream = bufferXmlStream();
     	List<VolumeUsage> usage = null;
       
         try {
+        	InputStream stream = getXmlBufferedInputStream();
         	usage = mVolumeUsageParser.parse(stream);
         } catch (XmlPullParserException e) {
 			Log.e(DEBUG_TAG, "XmlPullParserException: " + e);
@@ -236,7 +291,7 @@ public class NetworkUtilities {
         }
         
         // Initiate database
-        VolumeUsageDailyDbAdapter mVolumeUsageDb = new VolumeUsageDailyDbAdapter(context);
+        VolumeUsageDailyDbAdapter mVolumeUsageDb = new VolumeUsageDailyDbAdapter(mContext);
         mVolumeUsageDb.open();
         
         for (VolumeUsage volumeUsage : usage) {
@@ -274,7 +329,7 @@ public class NetworkUtilities {
 
     	// TODO fragment toast??
     	// The specified network connection is not available. Displays error message.
-    	Toast.makeText(context, R.string.toast_no_connectivity, Toast.LENGTH_SHORT).show();
+    	Toast.makeText(mContext, R.string.toast_no_connectivity, Toast.LENGTH_SHORT).show();
     }
     
 }

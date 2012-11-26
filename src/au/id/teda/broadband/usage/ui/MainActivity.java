@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.authenticator.AuthenticatorActivity;
+import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.ui.fragments.ConfirmationDialogFragment;
 import au.id.teda.broadband.usage.ui.fragments.FragmentLogInDialog;
 import au.id.teda.broadband.usage.ui.fragments.FragmentLogInDialog.FragmentLogInListner;
@@ -44,17 +45,6 @@ public class MainActivity extends SherlockFragmentActivity
         // Set action bar icon for navigation
         mActionBar.setDisplayHomeAsUpEnabled(true);
         
-        // Load instance of fragments
-        mFragmentManager = getSupportFragmentManager();
-        fragmentLogInDialog = new FragmentLogInDialog();
-        
-        // Register BroadcastReceiver to track connection changes.
-        /**
-        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        receiver = new NetworkReceiver();
-        this.registerReceiver(receiver, filter);
-		**/
-        
     }
 
     // Create options menu
@@ -81,8 +71,11 @@ public class MainActivity extends SherlockFragmentActivity
     }
     
 	public void onLogInClick(View button) {
-		// Show log in fragment
-        // fragmentLogInDialog.show(mFragmentManager, "fragment_log_in");
+		NetworkUtilities mNetworkUtilities = new NetworkUtilities(this);
+		mNetworkUtilities.setAccountInfo();
+		
+		//AccountInfoHelper mAccountInfoHelper = new AccountInfoHelper(this);
+		//Toast.makeText(this, "Authentication: " + mAccountInfoHelper.getPlan(), Toast.LENGTH_SHORT).show();
 		
 		//DownloadVolumeUsage mDownloadDataUsage = new DownloadVolumeUsage(this);
 		//boolean check = mDownloadDataUsage.authCheck();
@@ -91,8 +84,8 @@ public class MainActivity extends SherlockFragmentActivity
 		//mDownloadDataUsage.getAccountStatus();
 		//mDownloadDataUsage.getVolumeUsage();
 		
-		Intent authenticatorActivityIntent = new Intent(this, AuthenticatorActivity.class);
-		startActivity(authenticatorActivityIntent);
+		//Intent authenticatorActivityIntent = new Intent(this, AuthenticatorActivity.class);
+		//startActivity(authenticatorActivityIntent);
 		
     }
     

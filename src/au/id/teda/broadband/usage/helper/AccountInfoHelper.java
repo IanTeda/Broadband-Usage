@@ -17,16 +17,17 @@ public class AccountInfoHelper {
 	private final static String OFF_PEAK_QUOTA = "offPeakDataQuota";
 
 	// Activity context
-    private static Context context;
+    private static Context mContext;
     
     // Activity shared preferences
     SharedPreferences mSettings;
-    SharedPreferences.Editor mEditor = mSettings.edit();
+    SharedPreferences.Editor mEditor;
     
     // Class constructor
     public AccountInfoHelper(Context context) {
-    	AccountInfoHelper.context = context;
-    	mSettings = PreferenceManager.getDefaultSharedPreferences(context);
+    	AccountInfoHelper.mContext = context;
+    	mSettings = PreferenceManager.getDefaultSharedPreferences(mContext);
+    	mEditor = mSettings.edit();
     }
     
     public void setAccountInfo(String plan, String product,
