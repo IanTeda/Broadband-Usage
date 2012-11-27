@@ -29,7 +29,7 @@ public class VolumeUsageParser {
 	private static final String UPLOADS = "uploads";
 	private static final String FREEZONE = "freezone";
 	
-	private static final String FORMAT_YYYYDD = "yyyydd";
+	private static final String FORMAT_YYYYMM = "yyyymm";
 	private static final String FORMAT_YYYY_MM_DD  = "yyyy-MM-dd";
 	
 	// Flag to make sure we set the month only once during parsing
@@ -202,7 +202,7 @@ public class VolumeUsageParser {
     
     private String getMonthString(Calendar period){
     	period.add(Calendar.DATE, 27 );
-    	SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_YYYYDD);
+    	SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_YYYYMM);
     	String dataMonth = sdf.format(period.getTime());
     	return dataMonth;
     }
