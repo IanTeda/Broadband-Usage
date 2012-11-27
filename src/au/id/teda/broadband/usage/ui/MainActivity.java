@@ -42,16 +42,9 @@ public class MainActivity extends SherlockFragmentActivity
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
-    	
-    	requestWindowFeature(Window.FEATURE_PROGRESS);
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-    	
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        setSupportProgressBarIndeterminateVisibility(false);
-        
-        
         //Remove title bar 
         //this.requestWindowFeature(Window.FEATURE_NO_TITLE); 
         
@@ -141,8 +134,6 @@ public class MainActivity extends SherlockFragmentActivity
 			 refreshItem.getActionView().clearAnimation();
 			 refreshItem.setActionView(null);
 		 }
-		 
-		 this.setSupportProgressBarIndeterminateVisibility(false);
 	}
     
 	@Override
