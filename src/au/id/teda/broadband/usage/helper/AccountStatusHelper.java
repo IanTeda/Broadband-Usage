@@ -11,6 +11,7 @@ public class AccountStatusHelper {
 	//private static final String DEBUG_TAG = "bbusage";
 	
 	// Set static string values for preference keys
+	private final static String ACCOUNT = "account";
 	private final static String QUOTA_RESET_DATE = "quotaResetDate";
 	private final static String QUOTA_START_DATE = "quotaStartDate";
 	private final static String PEAK_DATA_USED = "peakDataUsed";
@@ -38,13 +39,14 @@ public class AccountStatusHelper {
     	mEditor = mSettings.edit();
     }
     
-    public void setAccoutStatus(long quotaResetDate, long quotaStartDate
+    public void setAccoutStatus(String userAccount, long quotaResetDate, long quotaStartDate
     		, long peakDataUsed, boolean peakIsShaped, int peakSpeed
     		, long offpeakDataUsed, boolean offpeakIsShaped, int offpeakSpeed
     		, long uploadsDataUsed
     		, long freezoneDataUsed
     		, String ipAddress, long upTimeDate) {
 		
+    	mEditor.putString(ACCOUNT, userAccount);
     	mEditor.putLong(QUOTA_RESET_DATE, quotaResetDate);
 		mEditor.putLong(QUOTA_START_DATE, quotaStartDate);
 		mEditor.putLong(PEAK_DATA_USED, peakDataUsed);

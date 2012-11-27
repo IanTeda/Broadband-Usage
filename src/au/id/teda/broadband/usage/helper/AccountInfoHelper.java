@@ -10,6 +10,7 @@ public class AccountInfoHelper {
 	private static final String DEBUG_TAG = "bbusage";
 	
 	// Set static string values for preference keys
+	private final static String ACCOUNT = "account";
 	private final static String PLAN = "plan";
 	private final static String PRODUCT = "product";
 	private final static String OFF_PEAK_START = "offPeakStart";
@@ -31,10 +32,11 @@ public class AccountInfoHelper {
     	mEditor = mSettings.edit();
     }
     
-    public void setAccountInfo(String plan, String product,
+    public void setAccountInfo(String userAccount, String plan, String product,
 			long offpeakStartTime, long offpeakEndTime, long peakQuota,
 			long offpeakQuota){
 		
+    	mEditor.putString(ACCOUNT, userAccount);
     	mEditor.putString(PLAN, plan);
     	mEditor.putString(PRODUCT, product);
     	mEditor.putLong(OFF_PEAK_START, offpeakStartTime);

@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Calendar;
 import java.util.List;
 
 import org.xmlpull.v1.XmlPullParserException;
@@ -25,7 +24,6 @@ import android.view.Window;
 import android.widget.Toast;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.authenticator.AccountAuthenticator;
-import au.id.teda.broadband.usage.authenticator.AuthenticatorActivity.UserLoginTask;
 import au.id.teda.broadband.usage.database.VolumeUsageDailyDbAdapter;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
@@ -37,25 +35,37 @@ import au.id.teda.broadband.usage.parser.ErrorParser;
 import au.id.teda.broadband.usage.parser.VolumeUsageParser;
 import au.id.teda.broadband.usage.parser.VolumeUsageParser.VolumeUsage;
 
+
+/**
+ * Class for downloading xml data.
+ * Authenticate
+ * Account Information
+ * Account Status
+ * Volume Usage
+ * 
+ * @author iteda
+ *
+ */
 public class NetworkUtilities {
 	
 	private static final String DEBUG_TAG = "bbusage";
 
-	// Activity context
+	/** Activity context **/
     private static Context mContext;
     
-    // Activity shared preferences
+    /** Activity shared preferences **/
     SharedPreferences sharedPrefs;
     
-    /** Keep track of the login task so can cancel it if requested */
+    /** Task for downloading xml data **/
     private DownloadXmlTask mDownloadXmlTask = null;
     
-    /** Keep track of the progress dialog so we can dismiss it */
+    /** Keep track of the progress dialog so we can dismiss it **/
     private Dialog mDialog;
     
     /** Account manager object **/
     private AccountManager mAccountManager;
     private String accountType;
+    private String mAccountUsername;
 
     // Connection flags.
     private static boolean wifiConnected = false;
@@ -65,20 +75,29 @@ public class NetworkUtilities {
     // Error texts from XML
     private static final String AUTHENTICATION_FAILURE = "Authentication failure";
     
+    // Shared pref key value for wifi only setting
     private static final String WIFI_ONLY = "wifi_only";
 
-    // Class constructor
+    /**
+     * Class constructor
+     * @param context
+     */
     public NetworkUtilities(Context context) {
+    	// Set context based on activity context passed to constructor
     	NetworkUtilities.mContext = context;
 
+    	// Set shared preference
     	sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
     	
+    	// Set account manager
         mAccountManager = AccountManager.get(mContext);
         accountType = AccountAuthenticator.ACCOUNT_TYPE;
-   	
+        
     }
     
-    // Checks the network connection and sets the wifiConnected and mobileConnected flags
+    /**
+     * Check network connectivity and set wifiConnected and mobileConnected flags
+     */
     private void updateConnectionFlags() {
 
         ConnectivityManager connMgr = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -93,8 +112,14 @@ public class NetworkUtilities {
         }
     }
     
+    /**
+     * Setup progress dialog and then start download task
+     */
     public void getXmlData(){
     	if (isConnected()){
+    		
+    		mAccountUsername = getAccountUsername();
+    		
     		// Set up dialog before task
     		mDialog = new Dialog(mContext);
     		mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -106,13 +131,28 @@ public class NetworkUtilities {
     	}
     }
     
-    private UnclosableBufferedInputStream getXmlInputStream() throws IOException {
-    	
-    	Log.d(DEBUG_TAG, "getXmlBufferedInputStream");
-    	
-        Account[] accounts = mAccountManager.getAccountsByType(accountType);
+    private String getAccountUsername(){
+    	// Get accounts based on account type
+    	Account[] accounts = mAccountManager.getAccountsByType(accountType);
         
-        // Get username and password for account
+        // Get username and password for accounts
+        String username = "";
+        for (Account account : accounts) {
+        	username = account.name;
+        }
+        return username;
+    }
+    
+    /**
+     * Get xml buffered input stream
+     * @return
+     * @throws IOException
+     */
+    private UnclosableBufferedInputStream getXmlBufferedInputStream() throws IOException {
+    	// Get accounts based on account type
+    	Account[] accounts = mAccountManager.getAccountsByType(accountType);
+        
+        // Get username and password for accounts
         String username = "";
         String password = "";
         for (Account account : accounts) {
@@ -126,12 +166,16 @@ public class NetworkUtilities {
     	//InputStream inputStream = mContext.getResources().openRawResource(R.raw.naked_dsl_home_5);
     	
         UnclosableBufferedInputStream  bis = new UnclosableBufferedInputStream (inputStream);
-        
-    	//BufferedInputStream buf = new BufferedInputStream(inputStream);
     	
     	return bis;
     }
     
+    /**
+     * Url builder for downloading XML
+     * @param username
+     * @param password
+     * @return
+     */
     private String urlBuilder(String username, String password){
     	String urlString = "https://toolbox.iinet.net.au/cgi-bin/new/volume_usage_xml.cgi?" +
 				"username=" + username + 
@@ -140,12 +184,13 @@ public class NetworkUtilities {
     	return urlString;
     }
     
-    // Given a string representation of a URL, sets up a connection and gets
-    // an input stream.
+    /**
+     * Get URL input stream for string representation of URL
+     * @param urlString
+     * @return
+     * @throws IOException
+     */
     private InputStream getUrlInputStream(String urlString) throws IOException {
-    	
-    	Log.d(DEBUG_TAG, "getUrlInputStream: " + urlString);
-    	
         URL url = new URL(urlString);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setReadTimeout(10000 /* milliseconds */);
@@ -166,7 +211,6 @@ public class NetworkUtilities {
      * @return boolean false if error tag found in XML parse
      */
     public Boolean authenticate(String username, String password){
-
     	String errorString = null;
     	ErrorParser mErrorParser = new ErrorParser();
     	
@@ -189,10 +233,11 @@ public class NetworkUtilities {
     	}
     }
     
-    public void setAccountInfo(UnclosableBufferedInputStream stream) {
-    	
-    	Log.d(DEBUG_TAG, "setAccountInfo");
-    	
+    /**
+     * Parse XML input stream for account information and then set shared prefs
+     * @param stream
+     */
+    private void setAccountInfo(UnclosableBufferedInputStream stream) {
        	AccountInfoParser mAccountInfoParser = new AccountInfoParser();
     	List<AccountInfo> account = null;
 
@@ -206,6 +251,7 @@ public class NetworkUtilities {
         
         AccountInfoHelper mAccountInfoHelper = new AccountInfoHelper(mContext);
         
+        
         String plan = null;
         String product = null;
     	long offpeakStartTime;
@@ -213,6 +259,7 @@ public class NetworkUtilities {
     	long peakQuota;
     	long offpeakQuota;
         for (AccountInfo accountInfo : account) {
+        	
         	plan = accountInfo.plan;
         	product = accountInfo.product;
         	offpeakStartTime = accountInfo.offpeakStartTime;
@@ -220,16 +267,17 @@ public class NetworkUtilities {
         	peakQuota = accountInfo.offpeakQuota;
         	offpeakQuota = accountInfo.offpeakQuota;
         	
-        	mAccountInfoHelper.setAccountInfo(plan, product, offpeakStartTime, offpeakEndTime, peakQuota, offpeakQuota);
+        	mAccountInfoHelper.setAccountInfo(mAccountUsername, plan, product, offpeakStartTime, offpeakEndTime, peakQuota, offpeakQuota);
         	
         }
                  
     }
     
-    public void setAccountStatus(UnclosableBufferedInputStream stream){
-    	
-    	Log.d(DEBUG_TAG, "setAccountStatus");
-    	
+    /**
+     * Parse XML input stream for account status and then set shared prefs
+     * @param stream
+     */
+    private void setAccountStatus(UnclosableBufferedInputStream stream){
     	AccountStatusParser mAccountStatusParser= new AccountStatusParser();
     	List<AccountStatus> status = null;
     	
@@ -270,19 +318,21 @@ public class NetworkUtilities {
         	ipAddress = accountStatus.ipAddress;
         	upTimeDate = accountStatus.upTimeDate;
         	
-        	mAccountStatusHelper.setAccoutStatus(quotaResetDate, quotaStartDate
+        	mAccountStatusHelper.setAccoutStatus(mAccountUsername, quotaResetDate, quotaStartDate
         			, peakDataUsed, peakIsShaped, peakSpeed
         			, offpeakDataUsed, offpeakIsShaped, offpeakSpeed
         			, uploadsDataUsed, freezoneDataUsed
         			, ipAddress, upTimeDate);
-        	
+
         }
     	
     }
     
-    public void setVolumeUsage(UnclosableBufferedInputStream stream) {
-    	
-    	Log.d(DEBUG_TAG, "setAccountStatus");
+    /**
+     * Parse XML input stream for volume usage and then added to database
+     * @param stream
+     */
+    private void setVolumeUsage(UnclosableBufferedInputStream stream) {
     	
     	VolumeUsageParser mVolumeUsageParser = new VolumeUsageParser();
     	List<VolumeUsage> usage = null;
@@ -307,18 +357,23 @@ public class NetworkUtilities {
         	Long uploads = volumeUsage.uploads;
         	Long freezone = volumeUsage.freezone;
         	
-        	mVolumeUsageDb.addEntry(day, month, peak, offpeak, uploads, freezone);
+        	mVolumeUsageDb.addEntry(mAccountUsername, day, month, peak, offpeak, uploads, freezone);
         }
         
         mVolumeUsageDb.close();
                  
     }
     
+    /**
+     * Do we have a connection to the internet?
+     * 
+     * @return true if connection present (including WiFi settings)
+     */
     public boolean isConnected() {
     	
     	updateConnectionFlags();
     	
-        // Are we only syncing when connected through wifi
+        // Are we only syncing when connected through WiFi
         wifiOnly = sharedPrefs.getBoolean(WIFI_ONLY, true);
     	
         if (( (!wifiOnly) && (wifiConnected || mobileConnected))
@@ -337,13 +392,15 @@ public class NetworkUtilities {
     	Toast.makeText(mContext, R.string.toast_no_connectivity, Toast.LENGTH_SHORT).show();
     }
     
-    public class DownloadXmlTask extends AsyncTask<Void, Void, Void> {
+    /**
+     * AsyncTask for downloading and parsing XML data
+     * @author iteda
+     *
+     */
+    private class DownloadXmlTask extends AsyncTask<Void, Void, Void> {
 
     	/** Complete before we execute task **/
     	protected void onPreExecute(){
-    		
-    		Log.d(DEBUG_TAG, "DownloadXmlTask.onPreExecute()");
-    		
     		// Show progress dialog before executing task
     		mDialog.show();
     	}
@@ -351,9 +408,8 @@ public class NetworkUtilities {
     	
 		@Override
 		protected Void doInBackground(Void... params) {
-			Log.d(DEBUG_TAG, "DownloadXmlTask.doInBackground()");
 			try {
-				UnclosableBufferedInputStream stream = getXmlInputStream();
+				UnclosableBufferedInputStream stream = getXmlBufferedInputStream();
 				setAccountInfo(stream);
 				setAccountStatus(stream);
 				setVolumeUsage(stream);
@@ -368,8 +424,7 @@ public class NetworkUtilities {
 		
 		@Override
 		protected void onPostExecute(Void result){
-        	Log.d(DEBUG_TAG, "DownloadXmlTask.onPostExecute()");
-        	// Dismiss progress dialog if showing
+			// Dismiss progress dialog if showing
         	if (mDialog.isShowing()) {
         		mDialog.dismiss();
         	}
@@ -377,7 +432,12 @@ public class NetworkUtilities {
     	
     }
     
-    public class UnclosableBufferedInputStream extends BufferedInputStream {
+    /**
+     * Class of buffer input stream
+     * @author iteda
+     *
+     */
+    private class UnclosableBufferedInputStream extends BufferedInputStream {
 
         public UnclosableBufferedInputStream(InputStream in) {
         	super(in);

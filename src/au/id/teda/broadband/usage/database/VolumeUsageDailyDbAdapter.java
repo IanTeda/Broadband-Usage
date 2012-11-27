@@ -11,6 +11,7 @@ public class VolumeUsageDailyDbAdapter {
 	
 	// Set variables for adapter
 	public static final String KEY_ROWID = "_id";
+	private final static String ACCOUNT = "account";
 	public static final String DAY = "day";
 	public static final String MONTH = "month";
     public static final String PEAK = "peak";
@@ -35,9 +36,10 @@ public class VolumeUsageDailyDbAdapter {
     	mDatabbaseHelper.close();
 	}
  	
- 	public Long addEntry (long day, String month, long peak, long offpeak, long uploads, long freezone){
+ 	public Long addEntry (String userAccount, long day, String month, long peak, long offpeak, long uploads, long freezone){
  		// Create a new map of values, where column names are the keys
  		ContentValues entry = new ContentValues();
+ 		entry.put(ACCOUNT, userAccount);
  		entry.put(DAY, day);
  		entry.put(MONTH, month);
  		entry.put(PEAK, peak);
