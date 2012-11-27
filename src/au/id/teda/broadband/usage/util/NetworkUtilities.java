@@ -106,7 +106,7 @@ public class NetworkUtilities {
     	}
     }
     
-    private InputStream getXmlInputStream() throws IOException {
+    private UnclosableBufferedInputStream getXmlInputStream() throws IOException {
     	
     	Log.d(DEBUG_TAG, "getXmlBufferedInputStream");
     	
@@ -125,9 +125,11 @@ public class NetworkUtilities {
     	
     	//InputStream inputStream = mContext.getResources().openRawResource(R.raw.naked_dsl_home_5);
     	
+        UnclosableBufferedInputStream  bis = new UnclosableBufferedInputStream (inputStream);
+        
     	//BufferedInputStream buf = new BufferedInputStream(inputStream);
     	
-    	return inputStream;
+    	return bis;
     }
     
     private String urlBuilder(String username, String password){
@@ -187,7 +189,7 @@ public class NetworkUtilities {
     	}
     }
     
-    public void setAccountInfo(InputStream stream) {
+    public void setAccountInfo(UnclosableBufferedInputStream stream) {
     	
     	Log.d(DEBUG_TAG, "setAccountInfo");
     	
@@ -224,7 +226,7 @@ public class NetworkUtilities {
                  
     }
     
-    public void setAccountStatus(InputStream stream){
+    public void setAccountStatus(UnclosableBufferedInputStream stream){
     	
     	Log.d(DEBUG_TAG, "setAccountStatus");
     	
@@ -278,7 +280,7 @@ public class NetworkUtilities {
     	
     }
     
-    public void setVolumeUsage(InputStream stream) {
+    public void setVolumeUsage(UnclosableBufferedInputStream stream) {
     	
     	Log.d(DEBUG_TAG, "setAccountStatus");
     	
@@ -351,9 +353,9 @@ public class NetworkUtilities {
 		protected Void doInBackground(Void... params) {
 			Log.d(DEBUG_TAG, "DownloadXmlTask.doInBackground()");
 			try {
-				InputStream stream = getXmlInputStream();
-				//setAccountInfo(stream);
-				//setAccountStatus(stream);
+				UnclosableBufferedInputStream stream = getXmlInputStream();
+				setAccountInfo(stream);
+				setAccountStatus(stream);
 				setVolumeUsage(stream);
 				
 			} catch (IOException e) {
