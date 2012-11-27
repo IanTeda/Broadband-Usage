@@ -21,9 +21,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@string/authenticator_activity_please_login"
-        android:textSize="@dimen/text_medium" />
-    
-    <include layout="@layout/include_flash_message_box"/>
+        android:textSize="@dimen/text_medium"
+        android:textColor="@color/flash_message_text"
+        android:background="@drawable/shape_flash_message" />
 
     <EditText
         android:id="@+id/username_et"

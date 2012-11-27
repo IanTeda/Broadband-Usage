@@ -105,6 +105,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         // Check if we like what was put into the username and password et's
         if (TextUtils.isEmpty(mUsername) || TextUtils.isEmpty(mPassword)) {
             mMessage.setText(getMessage());
+            //setDrawableWarning();
         } else {
             // Kick off a background task to perform the user login attempt.
         	if (mAccount.is3gOrWifiConnected()){
@@ -121,10 +122,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         	} else {
         		//TODO: Update to alert dialog with option for 3g check
         		
-        		// Add warning image to message
-        		Drawable warningImg = this.getResources().getDrawable(R.drawable.ic_warning);
-        		warningImg.setBounds( 0, 0, 22, 22 );
-        		mMessage.setCompoundDrawables( warningImg, null, null, null );
+        		//setDrawableWarning();
         		
         		// Set message text to connection error
         		mMessage.setText(R.string.authenticator_activity_no_connectivity);
@@ -139,8 +137,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         if (TextUtils.isEmpty(mUsername)) {
             // If no username, then we ask the user to log in using an
             // appropriate service.
-            final CharSequence msg = getText(R.string.authenticator_activity_no_username);
-            return msg;
+            return getText(R.string.authenticator_activity_no_username);
         }
         if (TextUtils.isEmpty(mPassword)) {
             // We have an account but no password
@@ -153,6 +150,13 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
     private void setDrawableError(){
     	// Add drawableleft error cross
 		Drawable errorImg = this.getResources().getDrawable(R.drawable.ic_error);
+		errorImg.setBounds( 0, 0, 22, 22 );
+		mMessage.setCompoundDrawables( errorImg, null, null, null );
+    }
+    
+    private void setDrawableWarning(){
+    	// Add drawableleft error cross
+		Drawable errorImg = this.getResources().getDrawable(R.drawable.ic_warning);
 		errorImg.setBounds( 0, 0, 22, 22 );
 		mMessage.setCompoundDrawables( errorImg, null, null, null );
     }
