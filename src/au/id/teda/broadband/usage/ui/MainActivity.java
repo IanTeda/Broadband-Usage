@@ -42,13 +42,16 @@ public class MainActivity extends SherlockFragmentActivity
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
+    	
+    	requestWindowFeature(Window.FEATURE_PROGRESS);
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+    	
         super.onCreate(savedInstanceState);
-        
-        // Spin refersh icon on click
-        //requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-        
         setContentView(R.layout.activity_main);
 
+        setSupportProgressBarIndeterminateVisibility(false);
+        
+        
         //Remove title bar 
         //this.requestWindowFeature(Window.FEATURE_NO_TITLE); 
         
@@ -127,6 +130,8 @@ public class MainActivity extends SherlockFragmentActivity
 
 	     // Start animation of image view
 	     refreshItem.setActionView(iv);
+	     
+	     this.setSupportProgressBarIndeterminateVisibility(true);
 	}
 	 
 	 public void completeRefresh() {
@@ -135,7 +140,9 @@ public class MainActivity extends SherlockFragmentActivity
 		 if (refreshItem != null && refreshItem.getActionView() != null){
 			 refreshItem.getActionView().clearAnimation();
 			 refreshItem.setActionView(null);
-		 }    
+		 }
+		 
+		 this.setSupportProgressBarIndeterminateVisibility(false);
 	}
     
 	@Override
