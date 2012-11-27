@@ -8,4 +8,10 @@
     <color name="accent_pressed">#f4665a</color>
     <color name="text">#6e746e</color>
     
+    
+    <color name="flash_message_warning_background">#fff1c2</color>
+    <color name="flash_message_warning_border">#dcbf5e</color>
+    <color name="flash_message_text">#745f1d</color>
+    
+    
 </resources>

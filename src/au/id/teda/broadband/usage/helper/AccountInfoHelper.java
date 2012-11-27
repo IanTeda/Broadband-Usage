@@ -1,9 +1,12 @@
 package au.id.teda.broadband.usage.helper;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import au.id.teda.broadband.usage.authenticator.AccountAuthenticator;
 
 public class AccountInfoHelper {
 	
@@ -21,6 +24,9 @@ public class AccountInfoHelper {
 	// Activity context
     private static Context mContext;
     
+    /** Account manager object **/
+    private AccountManager mAccountManager;
+    
     // Activity shared preferences
     SharedPreferences mSettings;
     SharedPreferences.Editor mEditor;
@@ -28,8 +34,11 @@ public class AccountInfoHelper {
     // Class constructor
     public AccountInfoHelper(Context context) {
     	AccountInfoHelper.mContext = context;
+    	
     	mSettings = PreferenceManager.getDefaultSharedPreferences(mContext);
     	mEditor = mSettings.edit();
+    	
+    	mAccountManager = AccountManager.get(mContext);
     }
     
     public void setAccountInfo(String userAccount, String plan, String product,
@@ -47,6 +56,43 @@ public class AccountInfoHelper {
     	// Commit values to preferences
     	mEditor.commit();
 	}
+    
+    public boolean isAccountAuthenticated(){
+    	
+    	String type = AccountAuthenticator.ACCOUNT_TYPE;
+    	
+    	// Get accounts based on account type
+    	Account[] accounts = mAccountManager.getAccountsByType(type);
+        
+        // Get username and password for accounts
+        String username = "";
+        String password = "";
+        for (Account account : accounts) {
+        	username = account.name;
+        	password = mAccountManager.getPassword(account);
+        }
+        
+        if (username.length() >0 && password.length() > 0){
+        	return true;
+        } else {
+        	return false;
+        }
+    }
+    
+    public String getAccountUsername(){
+    	
+    	String type = AccountAuthenticator.ACCOUNT_TYPE;
+    	
+    	// Get accounts based on account type
+    	Account[] accounts = mAccountManager.getAccountsByType(type);
+        
+        // Get username and password for accounts
+        String username = "";
+        for (Account account : accounts) {
+        	username = account.name;
+        }
+        return username;
+    }
     
     /**
 	 * Method for checking if all account information exists

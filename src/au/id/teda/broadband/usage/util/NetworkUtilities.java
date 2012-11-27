@@ -70,7 +70,6 @@ public class NetworkUtilities {
     // Connection flags.
     private static boolean wifiConnected = false;
     private static boolean mobileConnected = false;
-    public static boolean wifiOnly = true;
     
     // Error texts from XML
     private static final String AUTHENTICATION_FAILURE = "Authentication failure";
@@ -374,10 +373,26 @@ public class NetworkUtilities {
     	updateConnectionFlags();
     	
         // Are we only syncing when connected through WiFi
-        wifiOnly = sharedPrefs.getBoolean(WIFI_ONLY, true);
+        boolean wifiOnly = sharedPrefs.getBoolean(WIFI_ONLY, true);
     	
         if (( (!wifiOnly) && (wifiConnected || mobileConnected))
                 || ( (wifiOnly) && (wifiConnected))) {
+        	return true;
+        } else {
+        	return false;
+        }
+    }
+    
+    /**
+     * Do we have a any type connection to the internet?
+     * 
+     * @return true if connection present (including WiFi settings)
+     */
+    public boolean is3gOrWifiConnected() {
+    	
+    	updateConnectionFlags();
+    	
+        if (wifiConnected || mobileConnected) {
         	return true;
         } else {
         	return false;

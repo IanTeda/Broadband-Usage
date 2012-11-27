@@ -34,8 +34,10 @@ public class MainActivity extends SherlockFragmentActivity
 	
 	private MenuItem refreshItem;
 	
-	FragmentManager mFragmentManager;
-	FragmentLogInDialog fragmentLogInDialog;
+	private FragmentManager mFragmentManager;
+	private FragmentLogInDialog fragmentLogInDialog;
+	
+	private AccountInfoHelper mAccount;
 	
     // The BroadcastReceiver that tracks network connectivity changes.
     // private NetworkReceiver receiver = new ConnectivityHelperNetworkReceiver();
@@ -53,6 +55,13 @@ public class MainActivity extends SherlockFragmentActivity
         // Set action bar icon for navigation
         mActionBar.setDisplayHomeAsUpEnabled(true);
         
+        mAccount = new AccountInfoHelper(this);
+        if(!mAccount.isAccountAuthenticated()){
+        	Intent authenticatorActivityIntent = new Intent(this, AuthenticatorActivity.class);
+    		startActivity(authenticatorActivityIntent);
+        }
+        
+        Log.d(DEBUG_TAG, "Authentication: " + mAccount.isAccountAuthenticated());
         
     }
 

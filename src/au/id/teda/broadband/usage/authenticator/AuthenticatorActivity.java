@@ -107,7 +107,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
             mMessage.setText(getMessage());
         } else {
             // Kick off a background task to perform the user login attempt.
-        	if (mAccount.isConnected()){
+        	if (mAccount.is3gOrWifiConnected()){
         		
         		// Set up dialog before task
         		mDialog = new Dialog(this);
@@ -139,12 +139,12 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         if (TextUtils.isEmpty(mUsername)) {
             // If no username, then we ask the user to log in using an
             // appropriate service.
-            final CharSequence msg = getText(R.string.login_activity_newaccount_text);
+            final CharSequence msg = getText(R.string.authenticator_activity_no_username);
             return msg;
         }
         if (TextUtils.isEmpty(mPassword)) {
             // We have an account but no password
-            return getText(R.string.login_activity_loginfail_text_pwmissing);
+            return getText(R.string.authenticator_activity_no_password);
         }
         return null;
     }
