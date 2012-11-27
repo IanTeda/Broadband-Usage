@@ -357,7 +357,7 @@ public class NetworkUtilities {
         	Long uploads = volumeUsage.uploads;
         	Long freezone = volumeUsage.freezone;
         	
-        	mVolumeUsageDb.addEntry(mAccountUsername, day, month, peak, offpeak, uploads, freezone);
+        	mVolumeUsageDb.addReplaceEntry(mAccountUsername, day, month, peak, offpeak, uploads, freezone);
         }
         
         mVolumeUsageDb.close();

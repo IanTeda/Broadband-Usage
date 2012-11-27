@@ -1,9 +1,9 @@
 package au.id.teda.broadband.usage.database;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 
 public class VolumeUsageDailyDbAdapter {
 	
@@ -11,7 +11,7 @@ public class VolumeUsageDailyDbAdapter {
 	
 	// Set variables for adapter
 	public static final String KEY_ROWID = "_id";
-	private final static String ACCOUNT = "account";
+	public static final String ACCOUNT = "account";
 	public static final String DAY = "day";
 	public static final String MONTH = "month";
     public static final String PEAK = "peak";
@@ -23,33 +23,63 @@ public class VolumeUsageDailyDbAdapter {
     private SQLiteDatabase mDatabase;
     private DatabaseHelper mDatabbaseHelper;
     
-	// Opens database. If it cannot be opened, try to create a new. If it cannot be created, throw an exception to signal the failure
+	/**
+	 * VolumeUsageDailyDbAdapter class constructor 
+	 * @param context
+	 */
     public VolumeUsageDailyDbAdapter (Context context){
     	mDatabbaseHelper = new DatabaseHelper(context);
 	}
     
+    /**
+     * Open database. If it cannot be opened, try to create a new. 
+     * If it cannot be created, throw an exception to signal the failure
+     * @throws SQLException
+     */
     public void open() throws SQLException {
     	mDatabase = mDatabbaseHelper.getWritableDatabase();
 	}
     
+    /**
+     * Close database
+     */
     public void close() {
     	mDatabbaseHelper.close();
 	}
  	
- 	public Long addEntry (String userAccount, long day, String month, long peak, long offpeak, long uploads, long freezone){
- 		// Create a new map of values, where column names are the keys
- 		ContentValues entry = new ContentValues();
- 		entry.put(ACCOUNT, userAccount);
- 		entry.put(DAY, day);
- 		entry.put(MONTH, month);
- 		entry.put(PEAK, peak);
- 		entry.put(OFFPEAK, offpeak);
- 		entry.put(UPLOADS, uploads);
- 		entry.put(FREEZONE, freezone);
+    /**
+     * Add entry or replace if exists
+     * @param userAccount
+     * @param day
+     * @param month
+     * @param peak
+     * @param offpeak
+     * @param uploads
+     * @param freezone
+     * @return Row ID 
+     */
+ 	public Long addReplaceEntry (String userAccount, long day, String month, long peak, long offpeak, long uploads, long freezone){
+ 		String comma = ", ";
+ 		SQLiteStatement statement = null;
+ 		
+ 		String INSERT_STATEMENT = "INSERT OR REPLACE INTO " + TABLE_NAME +
+        		" (" + ACCOUNT + comma + DAY + comma + MONTH + comma 
+        		+ PEAK + comma + OFFPEAK + comma + UPLOADS + comma + FREEZONE + ")" +
+        		" VALUES (?,?,?,?,?,?,?)";
+ 		
+ 		statement = mDatabase.compileStatement(INSERT_STATEMENT);
+ 		statement.bindString(1, userAccount);
+        statement.bindString(2, Long.toString(day));
+        statement.bindString(3, month);
+        statement.bindString(4, Long.toString(peak));
+        statement.bindString(5, Long.toString(offpeak));
+        statement.bindString(6, Long.toString(uploads));
+        statement.bindString(7, Long.toString(freezone));
  		
  		// Insert the new row, returning the primary key value of the new row
  		long newRowId;
- 		newRowId = mDatabase.insert(TABLE_NAME, null, entry);
+ 		newRowId = statement.executeInsert();
+ 		statement.close();
  		
  		return newRowId;
  	}

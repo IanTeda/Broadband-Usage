@@ -13,6 +13,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String VOLUME_USAGE_TABLE_CREATE = 
 			"create table " + VolumeUsageDailyDbAdapter.TABLE_NAME +
 			" (" + VolumeUsageDailyDbAdapter.KEY_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+			+ VolumeUsageDailyDbAdapter.ACCOUNT + " INTEGER NOT NULL, "
 			+ VolumeUsageDailyDbAdapter.DAY + " INTEGER UNIQUE, "
 			+ VolumeUsageDailyDbAdapter.MONTH + " TEXT NOT NULL, "
 			+ VolumeUsageDailyDbAdapter.PEAK + " INTEGER NOT NULL, "
