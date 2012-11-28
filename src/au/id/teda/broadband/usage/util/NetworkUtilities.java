@@ -9,18 +9,22 @@ import java.util.List;
 
 import org.xmlpull.v1.XmlPullParserException;
 
+import com.actionbarsherlock.view.MenuItem;
+
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.Window;
+import android.view.LayoutInflater;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.Toast;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.authenticator.AccountAuthenticator;
@@ -37,7 +41,7 @@ import au.id.teda.broadband.usage.parser.VolumeUsageParser.VolumeUsage;
 
 
 /**
- * Class for downloading xml data.
+ * Class for downloading XML data.
  * Authenticate
  * Account Information
  * Account Status
@@ -59,8 +63,8 @@ public class NetworkUtilities {
     /** Task for downloading xml data **/
     private DownloadXmlTask mDownloadXmlTask = null;
     
-    /** Keep track of the progress dialog so we can dismiss it **/
-    private Dialog mDialog;
+    /** Refresh icon reference object **/
+    private MenuItem refreshItem;
     
     /** Account manager object **/
     private AccountManager mAccountManager;
@@ -114,20 +118,26 @@ public class NetworkUtilities {
     /**
      * Setup progress dialog and then start download task
      */
-    public void getXmlData(){
+    public void getXmlData(MenuItem item){
     	if (isConnected()){
-    		
     		mAccountUsername = getAccountUsername();
     		
     		// Set up dialog before task
-    		mDialog = new Dialog(mContext);
-    		mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-    		mDialog.setContentView(R.layout.progress_bar_spinner_custom);
-    		mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+    		refreshItem = item;
     		
     		mDownloadXmlTask = new DownloadXmlTask();
     		mDownloadXmlTask.execute();
     	}
+    }
+    
+    /**
+     * Setup progress dialog and then start download task
+     */
+    public void syncXmlData(){
+    	mAccountUsername = getAccountUsername();
+    		
+    	mDownloadXmlTask = new DownloadXmlTask();
+    	mDownloadXmlTask.execute();
     }
     
     private String getAccountUsername(){
@@ -369,7 +379,6 @@ public class NetworkUtilities {
      * @return true if connection present (including WiFi settings)
      */
     public boolean isConnected() {
-    	
     	updateConnectionFlags();
     	
         // Are we only syncing when connected through WiFi
@@ -389,7 +398,6 @@ public class NetworkUtilities {
      * @return true if connection present (including WiFi settings)
      */
     public boolean is3gOrWifiConnected() {
-    	
     	updateConnectionFlags();
     	
         if (wifiConnected || mobileConnected) {
@@ -408,6 +416,46 @@ public class NetworkUtilities {
     }
     
     /**
+     * Clear the task object
+     * TODO: Do i need to do this?
+     */
+    private void closeTask(){
+    	// Our task is complete, so clear it out
+    	mDownloadXmlTask = null;
+    }
+    
+    /**
+     * Start the animation of the refresh icon in the action bar
+     */
+	private void startAnimateRefreshIcon() {
+		if (refreshItem != null){
+			// Attach a rotating ImageView to the refresh item as an ActionView
+			LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			ImageView iv = (ImageView) inflater.inflate(R.layout.refresh_action_view, null);
+	
+			// Set animation
+			Animation rotation = AnimationUtils.loadAnimation(mContext, R.anim.clockwise_refresh);
+			rotation.setRepeatCount(Animation.INFINITE);
+			iv.startAnimation(rotation);
+	
+			// Start animation of image view
+			refreshItem.setActionView(iv);
+		}
+	}
+	
+	/**
+	 * Start stop animation of the refresh icon in the action bar
+	 */
+	private void completeAnimateRefreshIcon() {
+		Log.d(DEBUG_TAG, "completeAnimateRefreshIcon");
+		 // Stop refresh icon animation
+		 if (refreshItem != null && refreshItem.getActionView() != null){
+			 refreshItem.getActionView().clearAnimation();
+			 refreshItem.setActionView(null);
+		 }
+	}
+    
+    /**
      * AsyncTask for downloading and parsing XML data
      * @author iteda
      *
@@ -416,8 +464,8 @@ public class NetworkUtilities {
 
     	/** Complete before we execute task **/
     	protected void onPreExecute(){
-    		// Show progress dialog before executing task
-    		mDialog.show();
+    		// Start animation of refresh icon
+    		startAnimateRefreshIcon();
     	}
     	
     	
@@ -439,10 +487,11 @@ public class NetworkUtilities {
 		
 		@Override
 		protected void onPostExecute(Void result){
-			// Dismiss progress dialog if showing
-        	if (mDialog.isShowing()) {
-        		mDialog.dismiss();
-        	}
+			// Stop animation of refresh icon
+			completeAnimateRefreshIcon();
+			
+			//TODO: Do I need to do this?
+			//closeTask();
         }
     	
     }

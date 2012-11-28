@@ -39,29 +39,22 @@ public class MainActivity extends SherlockFragmentActivity
 	
 	private AccountInfoHelper mAccount;
 	
-    // The BroadcastReceiver that tracks network connectivity changes.
-    // private NetworkReceiver receiver = new ConnectivityHelperNetworkReceiver();
-	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //Remove title bar 
-        //this.requestWindowFeature(Window.FEATURE_NO_TITLE); 
         
         // Set up the action bar.
         final ActionBar mActionBar = getSupportActionBar();
         // Set action bar icon for navigation
         mActionBar.setDisplayHomeAsUpEnabled(true);
-        
+
+        // Check to see if account has been authenticated
         mAccount = new AccountInfoHelper(this);
         if(!mAccount.isAccountAuthenticated()){
         	Intent authenticatorActivityIntent = new Intent(this, AuthenticatorActivity.class);
     		startActivity(authenticatorActivityIntent);
         }
-        
-        Log.d(DEBUG_TAG, "Authentication: " + mAccount.isAccountAuthenticated());
         
     }
 
@@ -81,9 +74,8 @@ public class MainActivity extends SherlockFragmentActivity
                 startActivity(settingsActivity);
                 return true;
         case R.id.menu_refresh:
-        		Log.d(DEBUG_TAG, "onOptionsItemSelected R.id.menu_refresh");
-        		refreshItem = item;
-        		refresh();
+        		NetworkUtilities mNetworkUtilities = new NetworkUtilities(this);
+        		mNetworkUtilities.getXmlData(item);
                 return true;
         default:
                 return super.onOptionsItemSelected(item);
@@ -91,13 +83,12 @@ public class MainActivity extends SherlockFragmentActivity
     }
     
 	public void onLogInClick(View button) {
-		completeRefresh();
-		
+				
 		//NetworkUtilities mNetworkUtilities = new NetworkUtilities(this);
 		//mNetworkUtilities.getXmlData();
 		
-		//AccountInfoHelper mAccountInfoHelper = new AccountInfoHelper(this);
-		//Toast.makeText(this, "Authentication: " + mAccountInfoHelper.getPlan(), Toast.LENGTH_SHORT).show();
+		AccountInfoHelper mAccountInfoHelper = new AccountInfoHelper(this);
+		Toast.makeText(this, "Authentication: " + mAccountInfoHelper.getPlan(), Toast.LENGTH_SHORT).show();
 		
 		//DownloadVolumeUsage mDownloadDataUsage = new DownloadVolumeUsage(this);
 		//boolean check = mDownloadDataUsage.authCheck();
@@ -110,12 +101,6 @@ public class MainActivity extends SherlockFragmentActivity
 		//startActivity(authenticatorActivityIntent);
 		
     }
-	
-	 public void refresh() {
-	     animateActionBarRefreshIcon();
-
-	     //TODO trigger loading
-	 }
 
 	/**
 	 * Start animation of refresh icon in action bar
@@ -132,8 +117,6 @@ public class MainActivity extends SherlockFragmentActivity
 
 	     // Start animation of image view
 	     refreshItem.setActionView(iv);
-	     
-	     this.setSupportProgressBarIndeterminateVisibility(true);
 	}
 	 
 	 public void completeRefresh() {
