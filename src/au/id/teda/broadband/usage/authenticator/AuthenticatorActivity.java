@@ -76,6 +76,9 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         
 	}
 
+	/**
+	 * Set username and password into edit text if set
+	 */
 	private void setUsernamePasswordEditText() {
 		// Get account type and then retrieve accounts
 		
@@ -97,6 +100,10 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         }
 	}
 	
+	/**
+	 * On click event for button
+	 * @param view
+	 */
     public void onClickAddAccount(View view) {
     	// Get username and password from edit_text's
         mUsername = mUsernameEdit.getText().toString();
@@ -120,12 +127,9 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         		mAuthTask = new UserLoginTask();
 	            mAuthTask.execute();
         	} else {
-        		//TODO: Update to alert dialog with option for 3g check
-        		
-        		//setDrawableWarning();
-        		
         		// Set message text to connection error
         		mMessage.setText(R.string.authenticator_activity_no_connectivity);
+        		toaster(getString(R.string.authenticator_activity_no_connectivity));
         	}
         }
     }
@@ -146,28 +150,16 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         return null;
     }
     
-    
-    private void setDrawableError(){
-    	// Add drawableleft error cross
-		Drawable errorImg = this.getResources().getDrawable(R.drawable.ic_error);
-		errorImg.setBounds( 0, 0, 22, 22 );
-		mMessage.setCompoundDrawables( errorImg, null, null, null );
-    }
-    
-    private void setDrawableWarning(){
-    	// Add drawableleft error cross
-		Drawable errorImg = this.getResources().getDrawable(R.drawable.ic_warning);
-		errorImg.setBounds( 0, 0, 22, 22 );
-		mMessage.setCompoundDrawables( errorImg, null, null, null );
-    }
-    
+    /**
+     * Add account to manager
+     */
     private void addAccount(){
     	// Our task is complete, so clear it out
         mAuthTask = null;
     	
     	// This is the magic that addes the account to the Android Account Manager  
     	final Account account = new Account(mUsername, accountType);
-    	boolean accountCreated = mAccountManager.addAccountExplicitly(account, mPassword, null);
+    	mAccountManager.addAccountExplicitly(account, mPassword, null);
     	ContentResolver.setSyncAutomatically(account, ContactsContract.AUTHORITY, true);
     	
         final Intent intent = new Intent();
@@ -179,14 +171,30 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
   
 	}
     
+    /**
+     * On click method for showing or hiding password
+     * @param view
+     */
 	public void onClickShowPassword(View view) {
 		if (mShowPasswordCbox.isChecked()) {
 			// Show password if check box checked
 			mPasswordEdit.setTransformationMethod(null);
+			// Move to cursor to end of edit text
+			mPasswordEdit.setSelection(mPasswordEdit.getText().length());
 		} else {
 			// Else hide password
 			mPasswordEdit.setTransformationMethod(new PasswordTransformationMethod());
+			// Move to cursor to end of edit text
+			mPasswordEdit.setSelection(mPasswordEdit.getText().length());
 		}
+	}
+	
+	/**
+	 * Show a toast method
+	 * @param message
+	 */
+	private void toaster(String message){
+		Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 	}
 
     /**
@@ -227,14 +235,13 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         		addAccount();
         	} else {
         		mMessage.setText(R.string.authenticator_activity_failure);
-        		setDrawableError();
-        		
+        		toaster(getString(R.string.authenticator_activity_failure));
         	}
         }
 
         @Override
         protected void onCancelled() {
-        	Log.d(DEBUG_TAG, "UserLoginTask.onCancelled");
+        	// Nothing to see here
         }
     }
 	

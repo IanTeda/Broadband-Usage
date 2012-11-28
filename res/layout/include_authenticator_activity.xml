@@ -17,15 +17,11 @@
         android:typeface="sans" />
 
     <TextView
-        android:id="@+id/warning_tv"
+        android:id="@+id/message_tv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:drawableLeft="@drawable/ic_error"
-        android:drawablePadding="@dimen/icon_padding"
-        android:paddingLeft="@dimen/icon_padding"
-        android:text="Authentication error"
         android:textSize="@dimen/text_medium"
-        android:textColor="@color/flash_message_error_text" />
+        android:text="@string/authenticator_activity_please_login" />
 
     <EditText
         android:id="@+id/username_et"
