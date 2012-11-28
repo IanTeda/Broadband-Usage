@@ -60,7 +60,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 	@Override  
 	protected void onCreate(Bundle icicle) {  
 		super.onCreate(icicle);  
-		this.setContentView(R.layout.authenticator_activity);
+		this.setContentView(R.layout.activity_authenticator);
         
         mMessage = (TextView) findViewById(R.id.message_tv);
         mUsernameEdit = (EditText) findViewById(R.id.username_et);

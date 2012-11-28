@@ -17,13 +17,15 @@
         android:typeface="sans" />
 
     <TextView
-        android:id="@+id/message_tv"
+        android:id="@+id/warning_tv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/authenticator_activity_please_login"
+        android:drawableLeft="@drawable/ic_error"
+        android:drawablePadding="@dimen/icon_padding"
+        android:paddingLeft="@dimen/icon_padding"
+        android:text="Authentication error"
         android:textSize="@dimen/text_medium"
-        android:textColor="@color/flash_message_text"
-        android:background="@drawable/shape_flash_message" />
+        android:textColor="@color/flash_message_error_text" />
 
     <EditText
         android:id="@+id/username_et"
@@ -49,8 +51,8 @@
         android:textSize="@dimen/text_small" />
 
     <Button
-        style="@style/MyTheme.Button"
         android:id="@+id/addAccount_button"
+        style="@style/MyTheme.Button"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/touch"
         android:layout_gravity="center_horizontal"
