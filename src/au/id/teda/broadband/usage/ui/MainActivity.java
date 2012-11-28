@@ -4,38 +4,19 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.Window;
-
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.authenticator.AuthenticatorActivity;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
-import au.id.teda.broadband.usage.ui.fragments.ConfirmationDialogFragment;
-import au.id.teda.broadband.usage.ui.fragments.FragmentLogInDialog;
-import au.id.teda.broadband.usage.ui.fragments.FragmentLogInDialog.FragmentLogInListner;
-import au.id.teda.broadband.usage.ui.fragments.ProgressDialogCircleFragment;
 import au.id.teda.broadband.usage.util.NetworkUtilities;
 
-public class MainActivity extends SherlockFragmentActivity 
-	implements FragmentLogInListner  {
+public class MainActivity extends SherlockFragmentActivity {
 	
-	private static final String DEBUG_TAG = "bbusage";
-	
-	private MenuItem refreshItem;
-	
-	private FragmentManager mFragmentManager;
-	private FragmentLogInDialog fragmentLogInDialog;
+	//private static final String DEBUG_TAG = "bbusage";
 	
 	private AccountInfoHelper mAccount;
 	
@@ -101,36 +82,5 @@ public class MainActivity extends SherlockFragmentActivity
 		//startActivity(authenticatorActivityIntent);
 		
     }
-
-	/**
-	 * Start animation of refresh icon in action bar
-	 */
-	private void animateActionBarRefreshIcon() {
-		// Attach a rotating ImageView to the refresh item as an ActionView
-	     LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	     ImageView iv = (ImageView) inflater.inflate(R.layout.refresh_action_view, null);
-
-	     // Set animation
-	     Animation rotation = AnimationUtils.loadAnimation(this, R.anim.clockwise_refresh);
-	     rotation.setRepeatCount(Animation.INFINITE);
-	     iv.startAnimation(rotation);
-
-	     // Start animation of image view
-	     refreshItem.setActionView(iv);
-	}
-	 
-	 public void completeRefresh() {
-		 
-		 // Stop refresh icon animation
-		 if (refreshItem != null && refreshItem.getActionView() != null){
-			 refreshItem.getActionView().clearAnimation();
-			 refreshItem.setActionView(null);
-		 }
-	}
-    
-	@Override
-	public void onFinishLogInListner(String username, String password) {
-		Toast.makeText(this, "Hi, " + username + " with Password: " + password, Toast.LENGTH_SHORT).show();
-	}
 
 }
