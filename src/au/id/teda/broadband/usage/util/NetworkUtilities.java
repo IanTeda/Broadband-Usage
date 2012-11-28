@@ -13,7 +13,6 @@ import com.actionbarsherlock.view.MenuItem;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
@@ -25,7 +24,6 @@ import android.view.LayoutInflater;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.Toast;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.authenticator.AccountAuthenticator;
 import au.id.teda.broadband.usage.database.VolumeUsageDailyDbAdapter;
@@ -406,15 +404,7 @@ public class NetworkUtilities {
         	return false;
         }
     }
-    
-    // Displays an error if the app is unable to load content.
-    private void showConnectionError() {
-
-    	// TODO fragment toast??
-    	// The specified network connection is not available. Displays error message.
-    	Toast.makeText(mContext, R.string.toast_no_connectivity, Toast.LENGTH_SHORT).show();
-    }
-    
+   
     /**
      * Clear the task object
      * TODO: Do i need to do this?
@@ -447,7 +437,6 @@ public class NetworkUtilities {
 	 * Start stop animation of the refresh icon in the action bar
 	 */
 	private void completeAnimateRefreshIcon() {
-		Log.d(DEBUG_TAG, "completeAnimateRefreshIcon");
 		 // Stop refresh icon animation
 		 if (refreshItem != null && refreshItem.getActionView() != null){
 			 refreshItem.getActionView().clearAnimation();
