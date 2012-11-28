@@ -51,8 +51,8 @@ public class MainActivity extends SherlockFragmentActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
         case R.id.menu_settings:
-                Intent settingsActivity = new Intent(getBaseContext(), SettingsActivity.class);
-                startActivity(settingsActivity);
+                Intent settingsActivityIntent = new Intent(getBaseContext(), SettingsActivity.class);
+                startActivity(settingsActivityIntent);
                 return true;
         case R.id.menu_refresh:
         		NetworkUtilities mNetworkUtilities = new NetworkUtilities(this);
