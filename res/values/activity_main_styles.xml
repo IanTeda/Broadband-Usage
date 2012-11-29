@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="MyTheme.MainActivity"></style>
+
+    <style name="MyTheme.MainActivity.Number">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:textColor">@color/accent</item>
+        <item name="android:textSize">@dimen/text_xxlarge</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="MyTheme.MainActivity.LowerDescription">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">@dimen/icon_margin</item>
+        <item name="android:textColor">@color/base_light</item>
+        <item name="android:textSize">@dimen/text_small</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="MyTheme.MainActivity.UpperTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:paddingLeft">@dimen/icon_margin</item>
+        <item name="android:textColor">@color/base</item>
+        <item name="android:textSize">@dimen/text_large</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+</resources>
