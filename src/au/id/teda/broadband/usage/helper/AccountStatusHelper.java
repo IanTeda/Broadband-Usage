@@ -1,5 +1,6 @@
 package au.id.teda.broadband.usage.helper;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import android.content.Context;
@@ -95,6 +96,15 @@ public class AccountStatusHelper {
 		Calendar mCalendar = Calendar.getInstance();
 		mCalendar.setTimeInMillis(milliseconds);
 		return mCalendar;
+	}
+	
+	public String getCurrentMonthString(){
+		
+		String FORMAT_MMMM_yyyy = "MMMM yyyy";
+		Calendar rollover = getQuotaResetDate();
+		SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_MMMM_yyyy);
+		
+		return sdf.format(rollover);
 	}
 	
 	public Calendar getQuotaStartDate(){

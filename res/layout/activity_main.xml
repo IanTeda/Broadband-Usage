@@ -52,7 +52,7 @@
             android:paddingRight="@dimen/vert_margin" >
 
             <TextView
-                android:id="@+id/activity_main_month_tv"
+                android:id="@+id/activity_main_current_month_tv"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/activity_main_current_month"
@@ -128,7 +128,7 @@
                     android:text="@string/activity_main_number" />
 
                 <TextView
-                    android:id="@+id/activity_main_offpeak_used"
+                    android:id="@+id/activity_main_offpeak_used_tv"
                     style="@style/MyTheme.MainActivity.LowerDescription"
                     android:layout_alignBaseline="@+id/activity_main_offpeak_number_tv"
                     android:layout_toRightOf="@+id/activity_main_offpeak_number_tv"

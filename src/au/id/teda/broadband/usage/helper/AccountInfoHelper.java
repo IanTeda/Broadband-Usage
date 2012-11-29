@@ -167,6 +167,10 @@ public class AccountInfoHelper {
 			
 	}
 	
+	public String getProductPlan(){
+		return getProduct() + "(" + getPlan() + ")";
+	}
+	
 	/**
 	 * Method for getting off peak start time
 	 * @return shared preference string

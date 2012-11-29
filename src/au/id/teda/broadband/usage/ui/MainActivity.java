@@ -7,11 +7,13 @@ import com.actionbarsherlock.view.MenuItem;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.authenticator.AuthenticatorActivity;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
+import au.id.teda.broadband.usage.helper.AccountStatusHelper;
 import au.id.teda.broadband.usage.util.NetworkUtilities;
 
 public class MainActivity extends SherlockFragmentActivity {
@@ -35,6 +37,8 @@ public class MainActivity extends SherlockFragmentActivity {
         if(!mAccount.isAccountAuthenticated()){
         	Intent authenticatorActivityIntent = new Intent(this, AuthenticatorActivity.class);
     		startActivity(authenticatorActivityIntent);
+        } else {
+        	loadTextViews();
         }
         
     }
@@ -62,25 +66,31 @@ public class MainActivity extends SherlockFragmentActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-    
-	public void onLogInClick(View button) {
-				
-		//NetworkUtilities mNetworkUtilities = new NetworkUtilities(this);
-		//mNetworkUtilities.getXmlData();
-		
-		AccountInfoHelper mAccountInfoHelper = new AccountInfoHelper(this);
-		Toast.makeText(this, "Authentication: " + mAccountInfoHelper.getPlan(), Toast.LENGTH_SHORT).show();
-		
-		//DownloadVolumeUsage mDownloadDataUsage = new DownloadVolumeUsage(this);
-		//boolean check = mDownloadDataUsage.authCheck();
-		//Toast.makeText(this, "Authentication: " + check, Toast.LENGTH_SHORT).show();
-		//mDownloadDataUsage.getAccountInfo();
-		//mDownloadDataUsage.getAccountStatus();
-		//mDownloadDataUsage.getVolumeUsage();
-		
-		//Intent authenticatorActivityIntent = new Intent(this, AuthenticatorActivity.class);
-		//startActivity(authenticatorActivityIntent);
-		
+
+    private void loadTextViews(){
+    	TextView mUsernameTV = (TextView) findViewById(R.id.activity_main_username_tv);
+    	TextView mProductPlanTV = (TextView) findViewById(R.id.activity_main_product_plan_tv);
+    	TextView mCurrentMonthTV = (TextView) findViewById(R.id.activity_main_current_month_tv);
+    	TextView mRolloverNumberDaysTV = (TextView) findViewById(R.id.activity_main_days_number_tv);
+    	TextView mRolloverDateTV = (TextView) findViewById(R.id.activity_main_days_date_tv);
+    	TextView mPeakDataNumberTV = (TextView) findViewById(R.id.activity_main_peak_number_tv);
+    	TextView mPeakQuotaTV = (TextView) findViewById(R.id.activity_main_peak_quota_tv);
+    	TextView mPeakDataTV = (TextView) findViewById(R.id.activity_main_peak_used_tv);
+    	TextView mOffpeakDataNumberTV = (TextView) findViewById(R.id.activity_main_offpeak_number_tv);
+    	TextView mOffpeakQuotaTV = (TextView) findViewById(R.id.activity_main_offpeak_quota_tv);
+    	TextView mOffpeakDataTV = (TextView) findViewById(R.id.activity_main_offpeak_used_tv);
+    	TextView mUpTimeNumberTV = (TextView) findViewById(R.id.activity_main_uptime_number_tv);
+    	TextView mIpAddresTV = (TextView) findViewById(R.id.activity_main_uptime_ip_tv);
+    	
+    	AccountInfoHelper info = new AccountInfoHelper(this);
+    	AccountStatusHelper status = new AccountStatusHelper(this);
+    	
+    	mUsernameTV.setText(info.getAccountUsername());
+    	mProductPlanTV.setText(info.getProductPlan());
+    	mCurrentMonthTV.setText(status.getCurrentMonthString());
+    	
+    	
+    	
     }
 
 }
