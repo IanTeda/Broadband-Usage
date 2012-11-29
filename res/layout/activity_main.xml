@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:text="November 2012"
+                android:text="NOVEMBER 2012"
                 android:textAllCaps="true"
                 android:textColor="@color/accent"
                 android:textSize="@dimen/text_xlarge"
@@ -69,100 +69,12 @@
                 android:background="@color/base" />
 
             <RelativeLayout
-                android:id="@+id/peak_rl"
+                android:id="@+id/days_container_rl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
                 <TextView
-                    android:id="@+id/peak_data_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    android:text="24"
-                    android:textColor="@color/accent"
-                    android:textSize="@dimen/text_xxlarge"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/peak_used"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@id/peak_data_tv"
-                    android:layout_alignBottom="@id/peak_data_tv"
-                    android:layout_toRightOf="@id/peak_data_tv"
-                    android:paddingLeft="@dimen/icon_margin"
-                    android:text="Used data"
-                    android:textAllCaps="true"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/background"
-                    android:textSize="@dimen/text_small"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/peak_quota_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginTop="8dp"
-                    android:layout_toRightOf="@id/peak_data_tv"
-                    android:paddingLeft="@dimen/icon_margin"
-                    android:text="/50 (GB) Peak"
-                    android:textColor="@color/base"
-                    android:textSize="@dimen/text_large"
-                    android:textStyle="bold" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:id="@+id/peak_data_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    android:text="48"
-                    android:textColor="@color/accent"
-                    android:textSize="@dimen/text_xxlarge"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/peak_used"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@id/peak_data_tv"
-                    android:layout_alignBottom="@id/peak_data_tv"
-                    android:layout_toRightOf="@id/peak_data_tv"
-                    android:paddingLeft="@dimen/icon_margin"
-                    android:text="Used data"
-                    android:textAllCaps="true"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/background"
-                    android:textSize="@dimen/text_small"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/peak_quota_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginTop="8dp"
-                    android:layout_toRightOf="@id/peak_data_tv"
-                    android:paddingLeft="@dimen/icon_margin"
-                    android:text="/50 (GB) Offpeak"
-                    android:textColor="@color/base"
-                    android:textSize="@dimen/text_large"
-                    android:textStyle="bold" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:id="@+id/peak_data_tv"
+                    android:id="@+id/days_number_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -173,17 +85,61 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/peak_used"
+                    android:id="@+id/days_date_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@id/peak_data_tv"
-                    android:layout_alignBottom="@id/peak_data_tv"
-                    android:layout_toRightOf="@id/peak_data_tv"
+                    android:layout_alignBaseline="@id/days_number_tv"
+                    android:layout_toRightOf="@id/days_number_tv"
                     android:paddingLeft="@dimen/icon_margin"
-                    android:text="16 December 2012"
+                    android:text="16 DECEMBER 2012"
                     android:textAllCaps="true"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/background"
+                    android:textColor="@color/base_light"
+                    android:textSize="@dimen/text_small"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/days_until_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="8dp"
+                    android:layout_toRightOf="@id/days_number_tv"
+                    android:paddingLeft="@dimen/icon_margin"
+                    android:text="days until rollover"
+                    android:textColor="@color/base"
+                    android:textSize="@dimen/text_large"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/peak_container_rl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-12dp" >
+
+                <TextView
+                    android:id="@+id/peak_number_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:text="24"
+                    android:textColor="@color/accent"
+                    android:textSize="@dimen/text_xxlarge"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/peak_used_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/peak_number_tv"
+                    android:layout_toRightOf="@id/peak_number_tv"
+                    android:paddingLeft="@dimen/icon_margin"
+                    android:text="USED DATA"
+                    android:textAllCaps="true"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/base_light"
                     android:textSize="@dimen/text_small"
                     android:textStyle="bold" />
 
@@ -193,20 +149,67 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_marginTop="8dp"
-                    android:layout_toRightOf="@id/peak_data_tv"
+                    android:layout_toRightOf="@id/peak_number_tv"
                     android:paddingLeft="@dimen/icon_margin"
-                    android:text="days until rollover"
+                    android:text="/50 (GB) Peak"
                     android:textColor="@color/base"
                     android:textSize="@dimen/text_large"
                     android:textStyle="bold" />
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/offpeak_container_rl"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-12dp" >
 
                 <TextView
-                    android:id="@+id/peak_data_tv"
+                    android:id="@+id/offpeak_number_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:text="48"
+                    android:textColor="@color/accent"
+                    android:textSize="@dimen/text_xxlarge"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/offpeak_used"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/offpeak_number_tv"
+                    android:layout_toRightOf="@id/offpeak_number_tv"
+                    android:paddingLeft="@dimen/icon_margin"
+                    android:text="USED DATA"
+                    android:textAllCaps="true"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/base_light"
+                    android:textSize="@dimen/text_small"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/offpeak_quota_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="8dp"
+                    android:layout_toRightOf="@id/offpeak_number_tv"
+                    android:paddingLeft="@dimen/icon_margin"
+                    android:text="/50 (GB) Offpeak"
+                    android:textColor="@color/base"
+                    android:textSize="@dimen/text_large"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/uptime_container_rl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-12dp" >
+
+                <TextView
+                    android:id="@+id/uptime_number_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -217,27 +220,26 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/peak_used"
+                    android:id="@+id/uptime_ip_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@id/peak_data_tv"
-                    android:layout_alignBottom="@id/peak_data_tv"
-                    android:layout_toRightOf="@id/peak_data_tv"
+                    android:layout_alignBaseline="@id/uptime_number_tv"
+                    android:layout_toRightOf="@id/uptime_number_tv"
                     android:paddingLeft="@dimen/icon_margin"
                     android:text="250.56.2.312 (IP)"
                     android:textAllCaps="true"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/background"
+                    android:textColor="@color/base_light"
                     android:textSize="@dimen/text_small"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/peak_quota_tv"
+                    android:id="@+id/uptime_days_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_marginTop="8dp"
-                    android:layout_toRightOf="@id/peak_data_tv"
+                    android:layout_toRightOf="@id/uptime_number_tv"
                     android:paddingLeft="@dimen/icon_margin"
                     android:text="days up time"
                     android:textColor="@color/base"
