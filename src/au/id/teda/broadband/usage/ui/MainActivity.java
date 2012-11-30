@@ -88,9 +88,16 @@ public class MainActivity extends SherlockFragmentActivity {
     	mUsernameTV.setText(info.getAccountUsername());
     	mProductPlanTV.setText(info.getProductPlan());
     	mCurrentMonthTV.setText(status.getCurrentMonthString());
-    	
-    	
-    	
+    	mRolloverNumberDaysTV.setText(Integer.toString(status.getDaysToGo()));
+    	mRolloverDateTV.setText(status.getRolloverDateString());
+    	mPeakDataNumberTV.setText(Long.toString(status.getPeakDataUsedGb()));
+    	mPeakQuotaTV.setText(info.getPeakQuotaString());
+    	mPeakDataTV.setText(status.getPeakShapedString());
+    	mOffpeakDataNumberTV.setText(Long.toString(status.getOffpeakDataUsedGb()));
+    	mOffpeakQuotaTV.setText(info.getOffpeakQuotaString());
+    	mOffpeakDataTV.setText(status.getOffpeakShapedString());
+    	//mUpTimeNumberTV.setText(Integer.toString(status.getUpTimeDays()));
+    	mIpAddresTV.setText(status.getIpAddressStrng());
     }
 
 }

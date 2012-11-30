@@ -2,14 +2,14 @@ package au.id.teda.broadband.usage.helper;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 public class AccountStatusHelper {
 	
-	//private static final String DEBUG_TAG = "bbusage";
+	private static final String DEBUG_TAG = "bbusage";
 	
 	// Set static string values for preference keys
 	private final static String ACCOUNT = "account";
@@ -98,13 +98,47 @@ public class AccountStatusHelper {
 		return mCalendar;
 	}
 	
-	public String getCurrentMonthString(){
-		
-		String FORMAT_MMMM_yyyy = "MMMM yyyy";
+	public int getDaysToGo(){
+		// What is a day in milli seconds
+		final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
+		// Get current date/time
+		Calendar now = Calendar.getInstance();
+		// Get rollover date/time
 		Calendar rollover = getQuotaResetDate();
+		// Difference in milliseconds divided by day in millisecond
+		int diffInDays = (int) ((rollover.getTimeInMillis() - now.getTimeInMillis())/ DAY_IN_MILLIS );
+		return diffInDays;
+	}
+	
+	public String getCurrentMonthString(){
+		// How to format date
+		String FORMAT_MMMM_yyyy = "MMMMM yyyy";
+		
+		// Set calendar to rollover date
+		Calendar rollover = getQuotaResetDate();
+		
+		//Set up formater
 		SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_MMMM_yyyy);
 		
-		return sdf.format(rollover);
+		// Get date value of calendar and format
+		String currentMonth = sdf.format(rollover.getTime());
+		return currentMonth;
+	}
+	
+	public String getRolloverDateString(){
+		// How to format date
+		String FORMAT_dd_MMMM_yyyy = "dd MMMMM yyyy";
+		
+		// Set calendar to rollover date
+		Calendar rollover = getQuotaResetDate();
+		
+		//Set up formater
+		SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_dd_MMMM_yyyy);
+		
+		// Get date value of calendar and format
+
+		String rolloverDate = sdf.format(rollover.getTime());
+		return rolloverDate;
 	}
 	
 	public Calendar getQuotaStartDate(){
@@ -118,8 +152,23 @@ public class AccountStatusHelper {
 		return mSettings.getLong(PEAK_DATA_USED, 0);
 	}
 	
+	public long getPeakDataUsedGb(){
+		long gb = 100000000;
+		long peak = getPeakDataUsed();
+		return peak / gb;
+	}
+	
 	public boolean isPeakShaped(){
 		return mSettings.getBoolean(PEAK_IS_SHAPED, false);
+	}
+	
+	public String getPeakShapedString(){
+		boolean isShaped = isPeakShaped();
+		if (isShaped){
+			return "USED DATA (SHAPED)";
+		} else {
+			return "USED DATA (UNSHAPED)";
+		}
 	}
 	
 	public int getPeakSpeed(){
@@ -130,8 +179,23 @@ public class AccountStatusHelper {
 		return mSettings.getLong(OFFPEAK_DATA_USED, 0);
 	}
 	
+	public long getOffpeakDataUsedGb(){
+		long gb = 100000000;
+		long peak = getOffpeakDataUsed();
+		return peak / gb;
+	}
+	
 	public boolean isOffpeakShaped(){
 		return mSettings.getBoolean(OFFPEAK_IS_SHAPED, false);
+	}
+	
+	public String getOffpeakShapedString(){
+		boolean isShaped = isOffpeakShaped();
+		if (isShaped){
+			return "USED DATA (SHAPED)";
+		} else {
+			return "USED DATA (UNSHAPED)";
+		}
 	}
 	
 	public int getOffpeakSpeed(){
@@ -150,11 +214,28 @@ public class AccountStatusHelper {
 		return mSettings.getString(IP_ADDRESS, "");
 	}
 	
+	public String getIpAddressStrng(){
+		String ip = mSettings.getString(IP_ADDRESS, "");
+		return ip + " (IP)";
+	}
+	
 	public Calendar getUpTimeDate(){
 		long milliseconds = mSettings.getLong(UP_TIME_DATE, 0);
 		Calendar mCalendar = Calendar.getInstance();
 		mCalendar.setTimeInMillis(milliseconds);
 		return mCalendar;
+	}
+	
+	public int getUpTimeDays(){
+		// What is a day in milli seconds
+		final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
+		// Get current date/time
+		Calendar now = Calendar.getInstance();
+		// Get rollover date/time
+		Calendar rollover = getUpTimeDate();
+		// Difference in milliseconds divided by day in millisecond
+		int diffInDays = (int) (now.getTimeInMillis() - (rollover.getTimeInMillis())/ DAY_IN_MILLIS );
+		return diffInDays;
 	}
 	
 	public boolean isQuotaResetDateSet(){

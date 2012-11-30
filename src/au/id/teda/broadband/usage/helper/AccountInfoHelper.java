@@ -228,6 +228,14 @@ public class AccountInfoHelper {
 		return mSettings.getLong(PEAK_QUOTA, 0);
 	}
 	
+	public String getPeakQuotaString(){
+		Long gb = (long) 1000;
+		Long quota = getPeakQuota();
+		Long quotaGb = quota / gb;
+		
+		return "/ " + Long.toString(quotaGb) + " (Gb) Peak";
+	}
+	
 	/**
 	 * Method for checking if peak quota has been set
 	 * @return true if long is greater then 0
@@ -250,6 +258,14 @@ public class AccountInfoHelper {
 	 */
 	public Long getOffpeakQuota(){
 		return mSettings.getLong(OFF_PEAK_QUOTA, 0);
+	}
+	
+	public String getOffpeakQuotaString(){
+		Long gb = (long) 1000;
+		Long quota = getOffpeakQuota();
+		Long quotaGb = quota / gb;
+		
+		return "/ " + Long.toString(quotaGb) + " (Gb) Offpeak";
 	}
 	
 	/**
