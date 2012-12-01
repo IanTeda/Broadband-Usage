@@ -52,6 +52,7 @@ public class MainActivity extends SherlockFragmentActivity {
         // Restore refresh icon spin if downloading data
         if(savedInstanceState!=null) {
         	boolean downloading = savedInstanceState.getBoolean("waiting");
+        	Log.d(DEBUG_TAG, "onCreate.savedInstanceState: " + mNetworkUtilities.isTaskRunning);
         	if(downloading){
         		mNetworkUtilities.startAnimateRefreshIcon();
         	}
