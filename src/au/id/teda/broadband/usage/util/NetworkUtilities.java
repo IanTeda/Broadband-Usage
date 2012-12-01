@@ -13,7 +13,6 @@ import com.actionbarsherlock.view.MenuItem;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -21,9 +20,9 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.animation.Animation;
@@ -42,7 +41,6 @@ import au.id.teda.broadband.usage.parser.AccountStatusParser.AccountStatus;
 import au.id.teda.broadband.usage.parser.ErrorParser;
 import au.id.teda.broadband.usage.parser.VolumeUsageParser;
 import au.id.teda.broadband.usage.parser.VolumeUsageParser.VolumeUsage;
-import au.id.teda.broadband.usage.ui.fragments.AlertDialogFragment;
 
 
 /**
@@ -69,7 +67,9 @@ public class NetworkUtilities {
     private DownloadXmlTask mDownloadXmlTask = null;
     
     /** Refresh icon reference object **/
-    private MenuItem refreshItem;
+    private MenuItem mRefreshItem;
+    
+    private Handler mHandler;
     
     /** Account manager object **/
     private AccountManager mAccountManager;
@@ -123,13 +123,14 @@ public class NetworkUtilities {
     /**
      * Setup progress dialog and then start download task
      */
-    public void getXmlData(MenuItem item){
+    public void getXmlData(MenuItem item, Handler handler){
     	
     	// Get user account name
 		mAccountUsername = getAccountUsername();
 		
 		// Set up dialog before task
-		refreshItem = item;
+		mRefreshItem = item;
+		mHandler = handler;
     	
     	if (isConnected()){
     		mDownloadXmlTask = new DownloadXmlTask();
@@ -474,7 +475,7 @@ public class NetworkUtilities {
      * Start the animation of the refresh icon in the action bar
      */
 	private void startAnimateRefreshIcon() {
-		if (refreshItem != null){
+		if (mRefreshItem != null){
 			// Attach a rotating ImageView to the refresh item as an ActionView
 			LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			ImageView iv = (ImageView) inflater.inflate(R.layout.refresh_action_view, null);
@@ -485,7 +486,7 @@ public class NetworkUtilities {
 			iv.startAnimation(rotation);
 	
 			// Start animation of image view
-			refreshItem.setActionView(iv);
+			mRefreshItem.setActionView(iv);
 		}
 	}
 	
@@ -494,9 +495,9 @@ public class NetworkUtilities {
 	 */
 	private void completeAnimateRefreshIcon() {
 		 // Stop refresh icon animation
-		 if (refreshItem != null && refreshItem.getActionView() != null){
-			 refreshItem.getActionView().clearAnimation();
-			 refreshItem.setActionView(null);
+		 if (mRefreshItem != null && mRefreshItem.getActionView() != null){
+			 mRefreshItem.getActionView().clearAnimation();
+			 mRefreshItem.setActionView(null);
 		 }
 	}
     
@@ -534,9 +535,9 @@ public class NetworkUtilities {
 		protected void onPostExecute(Void result){
 			// Stop animation of refresh icon
 			completeAnimateRefreshIcon();
-			
+			mHandler.sendEmptyMessage(0);
 			//TODO: Do I need to do this?
-			//closeTask();
+			closeTask();
         }
     	
     }

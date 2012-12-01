@@ -6,6 +6,8 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.widget.TextView;
 import au.id.teda.broadband.usage.R;
@@ -20,7 +22,9 @@ public class MainActivity extends SherlockFragmentActivity {
 	
 	private AccountInfoHelper mAccount;
 	
-	private FragmentManager mFragmentManager ;
+	private FragmentManager mFragmentManager;
+	
+	
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,16 @@ public class MainActivity extends SherlockFragmentActivity {
         
     }
 
+	/**
+	 *  Handler for passing messages from other classes
+	 */
+    public Handler handler = new Handler() {
+        public void handleMessage(Message msg) {
+        	
+        	loadTextViews();
+        }
+    };
+    
     // Create options menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -60,14 +74,14 @@ public class MainActivity extends SherlockFragmentActivity {
                 return true;
         case R.id.menu_refresh:
         		NetworkUtilities mNetworkUtilities = new NetworkUtilities(this);
-        		mNetworkUtilities.getXmlData(item);
+        		mNetworkUtilities.getXmlData(item, handler);
                 return true;
         default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    private void loadTextViews(){
+    public void loadTextViews(){
     	TextView mUsernameTV = (TextView) findViewById(R.id.activity_main_username_tv);
     	TextView mProductPlanTV = (TextView) findViewById(R.id.activity_main_product_plan_tv);
     	TextView mCurrentMonthTV = (TextView) findViewById(R.id.activity_main_current_month_tv);
