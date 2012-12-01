@@ -110,7 +110,7 @@ public class MainActivity extends SherlockFragmentActivity {
     	mOffpeakDataNumberTV.setText(status.getOffpeakDataUsedGbString());
     	mOffpeakQuotaTV.setText(info.getOffpeakQuotaString());
     	mOffpeakDataTV.setText(status.getOffpeakShapedString());
-    	//mUpTimeNumberTV.setText(Integer.toString(status.getUpTimeDays()));
+    	mUpTimeNumberTV.setText(status.getUpTimeDaysString());
     	mIpAddresTV.setText(status.getIpAddressStrng());
     }
 

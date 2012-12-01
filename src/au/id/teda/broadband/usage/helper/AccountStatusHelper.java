@@ -245,16 +245,24 @@ public class AccountStatusHelper {
 		return mCalendar;
 	}
 	
-	public int getUpTimeDays(){
+	public String getUpTimeDaysString(){
 		// What is a day in milli seconds
 		final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
 		// Get current date/time
 		Calendar now = Calendar.getInstance();
+		Log.d(DEBUG_TAG, "now: " + now.getTime());
 		// Get rollover date/time
-		Calendar rollover = getUpTimeDate();
+		Calendar uptime = getUpTimeDate();
+		Log.d(DEBUG_TAG, "now: " + now.getTime());
 		// Difference in milliseconds divided by day in millisecond
-		int diffInDays = (int) (now.getTimeInMillis() - (rollover.getTimeInMillis())/ DAY_IN_MILLIS );
-		return diffInDays;
+		int diffInDays = (int) ((now.getTimeInMillis() - uptime.getTimeInMillis()) / DAY_IN_MILLIS );
+		
+		String days = Long.toString(diffInDays);
+		if (diffInDays < 10 ){
+			days = "0" + days;
+		}
+		
+		return days;
 	}
 	
 	public boolean isQuotaResetDateSet(){
