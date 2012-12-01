@@ -98,7 +98,7 @@ public class AccountStatusHelper {
 		return mCalendar;
 	}
 	
-	public String getDaysToGoString(){
+	public int getDaysToGo(){
 		// What is a day in milli seconds
 		final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
 		// Get current date/time
@@ -107,6 +107,13 @@ public class AccountStatusHelper {
 		Calendar rollover = getQuotaResetDate();
 		// Difference in milliseconds divided by day in millisecond
 		int diffInDays = (int) ((rollover.getTimeInMillis() - now.getTimeInMillis())/ DAY_IN_MILLIS );
+		
+		return diffInDays;
+	}
+	
+	public String getDaysToGoString(){
+
+		int diffInDays = getDaysToGo();
 		
 		String daysToGo = Integer.toString(diffInDays);
 		if (diffInDays < 10 ){
@@ -245,20 +252,28 @@ public class AccountStatusHelper {
 		return mCalendar;
 	}
 	
-	public String getUpTimeDaysString(){
+	public int getUpTimeDays(){
 		// What is a day in milli seconds
 		final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
+		
 		// Get current date/time
 		Calendar now = Calendar.getInstance();
-		Log.d(DEBUG_TAG, "now: " + now.getTime());
+		
 		// Get rollover date/time
 		Calendar uptime = getUpTimeDate();
-		Log.d(DEBUG_TAG, "now: " + now.getTime());
+		
 		// Difference in milliseconds divided by day in millisecond
 		int diffInDays = (int) ((now.getTimeInMillis() - uptime.getTimeInMillis()) / DAY_IN_MILLIS );
 		
-		String days = Long.toString(diffInDays);
-		if (diffInDays < 10 ){
+		return diffInDays;
+	}
+	
+	public String getUpTimeDaysString(){
+
+		int upDays = getUpTimeDays();
+		
+		String days =  Integer.toString(upDays);
+		if (upDays < 10 ){
 			days = "0" + days;
 		}
 		
