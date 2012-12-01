@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.widget.TextView;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.authenticator.AuthenticatorActivity;
@@ -24,6 +25,7 @@ public class MainActivity extends SherlockFragmentActivity {
 	
 	private FragmentManager mFragmentManager;
 	
+	private NetworkUtilities mNetworkUtilities;
 	
 	
     @Override
@@ -35,6 +37,8 @@ public class MainActivity extends SherlockFragmentActivity {
         final ActionBar mActionBar = getSupportActionBar();
         // Set action bar icon for navigation
         mActionBar.setDisplayHomeAsUpEnabled(true);
+        
+        mNetworkUtilities = new NetworkUtilities(this);
 
         // Check to see if account has been authenticated
         mAccount = new AccountInfoHelper(this);
@@ -45,14 +49,28 @@ public class MainActivity extends SherlockFragmentActivity {
         	loadTextViews();
         }
         
+        // Restore refresh icon spin if downloading data
+        if(savedInstanceState!=null) {
+        	boolean downloading = savedInstanceState.getBoolean("waiting");
+        	if(downloading){
+        		mNetworkUtilities.startAnimateRefreshIcon();
+        	}
+        }
+        
+    }
+    
+    @Override
+    protected void onSaveInstanceState(Bundle saveState) {
+        super.onSaveInstanceState(saveState);
+        Log.d(DEBUG_TAG, "onSaveInstanceState: " + mNetworkUtilities.isTaskRunning);
+        saveState.putBoolean("waiting", mNetworkUtilities.isTaskRunning);
     }
 
 	/**
 	 *  Handler for passing messages from other classes
 	 */
     public Handler handler = new Handler() {
-        public void handleMessage(Message msg) {
-        	
+        public void handleMessage(Message msg) {	
         	loadTextViews();
         }
     };

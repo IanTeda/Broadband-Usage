@@ -66,6 +66,9 @@ public class NetworkUtilities {
     /** Task for downloading xml data **/
     private DownloadXmlTask mDownloadXmlTask = null;
     
+    // Track AsyncTask for screen rotation
+    public boolean isTaskRunning = false;
+    
     /** Refresh icon reference object **/
     private MenuItem mRefreshItem;
     
@@ -474,7 +477,7 @@ public class NetworkUtilities {
     /**
      * Start the animation of the refresh icon in the action bar
      */
-	private void startAnimateRefreshIcon() {
+	public void startAnimateRefreshIcon() {
 		if (mRefreshItem != null){
 			// Attach a rotating ImageView to the refresh item as an ActionView
 			LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -493,7 +496,7 @@ public class NetworkUtilities {
 	/**
 	 * Start stop animation of the refresh icon in the action bar
 	 */
-	private void completeAnimateRefreshIcon() {
+	public void completeAnimateRefreshIcon() {
 		 // Stop refresh icon animation
 		 if (mRefreshItem != null && mRefreshItem.getActionView() != null){
 			 mRefreshItem.getActionView().clearAnimation();
@@ -510,6 +513,8 @@ public class NetworkUtilities {
 
     	/** Complete before we execute task **/
     	protected void onPreExecute(){
+    		isTaskRunning = true;
+    		Log.d(DEBUG_TAG, "onPreExecute.isTaskRunning: " + isTaskRunning);
     		// Start animation of refresh icon
     		startAnimateRefreshIcon();
     	}
@@ -536,6 +541,8 @@ public class NetworkUtilities {
 			// Stop animation of refresh icon
 			completeAnimateRefreshIcon();
 			mHandler.sendEmptyMessage(0);
+			isTaskRunning = false;
+			Log.d(DEBUG_TAG, "onPostExecute.isTaskRunning: " + isTaskRunning);
 			//TODO: Do I need to do this?
 			closeTask();
         }
