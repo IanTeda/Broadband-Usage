@@ -128,7 +128,7 @@ public class AccountStatusHelper {
 		
 		// Get date value of calendar and format
 		String currentMonth = sdf.format(rollover.getTime());
-		return currentMonth;
+		return currentMonth.toUpperCase();
 	}
 	
 	public String getRolloverDateString(){
@@ -144,7 +144,7 @@ public class AccountStatusHelper {
 		// Get date value of calendar and format
 
 		String rolloverDate = sdf.format(rollover.getTime());
-		return rolloverDate;
+		return rolloverDate.toUpperCase();
 	}
 	
 	public Calendar getQuotaStartDate(){
