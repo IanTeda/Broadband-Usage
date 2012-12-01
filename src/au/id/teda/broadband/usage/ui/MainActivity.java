@@ -6,10 +6,8 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.support.v4.app.FragmentManager;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.authenticator.AuthenticatorActivity;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
@@ -18,9 +16,11 @@ import au.id.teda.broadband.usage.util.NetworkUtilities;
 
 public class MainActivity extends SherlockFragmentActivity {
 	
-	//private static final String DEBUG_TAG = "bbusage";
+	private static final String DEBUG_TAG = "bbusage";
 	
 	private AccountInfoHelper mAccount;
+	
+	private FragmentManager mFragmentManager ;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -88,12 +88,12 @@ public class MainActivity extends SherlockFragmentActivity {
     	mUsernameTV.setText(info.getAccountUsername());
     	mProductPlanTV.setText(info.getProductPlan());
     	mCurrentMonthTV.setText(status.getCurrentMonthString());
-    	mRolloverNumberDaysTV.setText(Integer.toString(status.getDaysToGo()));
+    	mRolloverNumberDaysTV.setText(status.getDaysToGoString());
     	mRolloverDateTV.setText(status.getRolloverDateString());
-    	mPeakDataNumberTV.setText(Long.toString(status.getPeakDataUsedGb()));
+    	mPeakDataNumberTV.setText(status.getPeakDataUsedGbString());
     	mPeakQuotaTV.setText(info.getPeakQuotaString());
     	mPeakDataTV.setText(status.getPeakShapedString());
-    	mOffpeakDataNumberTV.setText(Long.toString(status.getOffpeakDataUsedGb()));
+    	mOffpeakDataNumberTV.setText(status.getOffpeakDataUsedGbString());
     	mOffpeakQuotaTV.setText(info.getOffpeakQuotaString());
     	mOffpeakDataTV.setText(status.getOffpeakShapedString());
     	//mUpTimeNumberTV.setText(Integer.toString(status.getUpTimeDays()));

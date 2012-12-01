@@ -98,7 +98,7 @@ public class AccountStatusHelper {
 		return mCalendar;
 	}
 	
-	public int getDaysToGo(){
+	public String getDaysToGoString(){
 		// What is a day in milli seconds
 		final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
 		// Get current date/time
@@ -107,7 +107,13 @@ public class AccountStatusHelper {
 		Calendar rollover = getQuotaResetDate();
 		// Difference in milliseconds divided by day in millisecond
 		int diffInDays = (int) ((rollover.getTimeInMillis() - now.getTimeInMillis())/ DAY_IN_MILLIS );
-		return diffInDays;
+		
+		String daysToGo = Integer.toString(diffInDays);
+		if (diffInDays < 10 ){
+			daysToGo = "0" + daysToGo;
+		}
+		
+		return daysToGo;
 	}
 	
 	public String getCurrentMonthString(){
@@ -152,10 +158,17 @@ public class AccountStatusHelper {
 		return mSettings.getLong(PEAK_DATA_USED, 0);
 	}
 	
-	public long getPeakDataUsedGb(){
+	public String getPeakDataUsedGbString(){
 		long gb = 100000000;
 		long peak = getPeakDataUsed();
-		return peak / gb;
+		long peakGb = peak / gb;
+		
+		String used = Long.toString(peakGb);
+		if (peakGb < 10 ){
+			used = "0" + used;
+		}
+		
+		return used;
 	}
 	
 	public boolean isPeakShaped(){
@@ -179,10 +192,16 @@ public class AccountStatusHelper {
 		return mSettings.getLong(OFFPEAK_DATA_USED, 0);
 	}
 	
-	public long getOffpeakDataUsedGb(){
+	public String getOffpeakDataUsedGbString(){
 		long gb = 100000000;
-		long peak = getOffpeakDataUsed();
-		return peak / gb;
+		long offpeak = getOffpeakDataUsed();
+		long offpeakGb = offpeak / gb;
+		
+		String used = Long.toString(offpeakGb);
+		if (offpeakGb < 10 ){
+			used = "0" + used;
+		}
+		return used;
 	}
 	
 	public boolean isOffpeakShaped(){

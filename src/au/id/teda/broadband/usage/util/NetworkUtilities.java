@@ -13,17 +13,23 @@ import com.actionbarsherlock.view.MenuItem;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.Toast;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.authenticator.AccountAuthenticator;
 import au.id.teda.broadband.usage.database.VolumeUsageDailyDbAdapter;
@@ -36,6 +42,7 @@ import au.id.teda.broadband.usage.parser.AccountStatusParser.AccountStatus;
 import au.id.teda.broadband.usage.parser.ErrorParser;
 import au.id.teda.broadband.usage.parser.VolumeUsageParser;
 import au.id.teda.broadband.usage.parser.VolumeUsageParser.VolumeUsage;
+import au.id.teda.broadband.usage.ui.fragments.AlertDialogFragment;
 
 
 /**
@@ -117,14 +124,53 @@ public class NetworkUtilities {
      * Setup progress dialog and then start download task
      */
     public void getXmlData(MenuItem item){
+    	
+    	// Get user account name
+		mAccountUsername = getAccountUsername();
+		
+		// Set up dialog before task
+		refreshItem = item;
+    	
     	if (isConnected()){
-    		mAccountUsername = getAccountUsername();
-    		
-    		// Set up dialog before task
-    		refreshItem = item;
-    		
     		mDownloadXmlTask = new DownloadXmlTask();
     		mDownloadXmlTask.execute();
+    	} else if (is3gConnected()){
+    		
+    		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
+     
+    			// set title
+    			alertDialogBuilder.setTitle("No WiFi Connection");
+     
+    			// set dialog message
+    			alertDialogBuilder
+    				.setMessage("Download Over 3G?")
+    				.setCancelable(false)
+    				.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+    					public void onClick(DialogInterface dialog,int id) {
+    						// if this button is clicked, close
+    						mDownloadXmlTask = new DownloadXmlTask();
+    			    		mDownloadXmlTask.execute();
+    					}
+    				  })
+    				.setNegativeButton("No",new DialogInterface.OnClickListener() {
+    					public void onClick(DialogInterface dialog,int id) {
+    						// if this button is clicked, just close
+    						// the dialog box and do nothing
+    						Toast toast = Toast.makeText(mContext, "No connectivity", Toast.LENGTH_LONG);
+    			    		toast.show();
+    						dialog.cancel();
+    					}
+    				});
+     
+    				// create alert dialog
+    				AlertDialog alertDialog = alertDialogBuilder.create();
+     
+    				// show it
+    				alertDialog.show();
+    		
+    	} else {
+    		Toast toast = Toast.makeText(mContext, "No connectivity", Toast.LENGTH_LONG);
+    		toast.show();
     	}
     }
     
@@ -399,6 +445,16 @@ public class NetworkUtilities {
     	updateConnectionFlags();
     	
         if (wifiConnected || mobileConnected) {
+        	return true;
+        } else {
+        	return false;
+        }
+    }
+    
+    public boolean is3gConnected() {
+    	updateConnectionFlags();
+    	
+        if (mobileConnected) {
         	return true;
         } else {
         	return false;
