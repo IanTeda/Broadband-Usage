@@ -191,13 +191,13 @@ public class AccountStatusParser {
 	    	}
 	    	
 	    	Calendar quotaResetDate = Calendar.getInstance();
-	    	quotaResetDate.set(Calendar.HOUR_OF_DAY, 0);
 	    	quotaResetDate.add(Calendar.DATE, Integer.parseInt(daysRemaining) );
+	    	quotaResetDate.set(Calendar.HOUR_OF_DAY, 0);
 	    	mQuotaResetDate = quotaResetDate.getTimeInMillis();
 
 	    	Calendar quotaStartDate = Calendar.getInstance();
+	    	quotaStartDate.add(Calendar.DATE, ( -1 * Integer.parseInt(daysSoFare) ) );
 	    	quotaStartDate.set(Calendar.HOUR_OF_DAY, 0);
-	    	quotaStartDate.add(Calendar.DATE, Integer.parseInt(daysSoFare) );
 	    	mQuotaStartDate = quotaStartDate.getTimeInMillis();
 	    	
 	    }

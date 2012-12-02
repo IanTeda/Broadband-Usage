@@ -168,7 +168,7 @@ public class AccountInfoHelper {
 	}
 	
 	public String getProductPlan(){
-		return getProduct() + " (" + getPlan() + ")";
+		return getPlan() + " (" + getProduct() + ")";
 	}
 	
 	/**

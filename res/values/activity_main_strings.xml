@@ -4,7 +4,8 @@
     <string name="activity_main_product_plan">account plan (account product)</string>
     <string name="activity_main_current_month">CURRENT MONTH YYYY</string>
     <string name="activity_main_number">00</string>
-    <string name="activity_main_rollover_days">days until rollover</string>
+    <string name="activity_main_days_to_go">days until rollover</string>
+    <string name="activity_main_days_so_far">days so far</string>
     <string name="activity_main_rollover_date">DD CURRENT MONTH YYYY</string>
     <string name="activity_main_used">USED DATA (UNSHAPED)</string>
     <string name="activity_main_peak_quota">/ 00 (Gb) Peak</string>

@@ -121,8 +121,8 @@ public class MainActivity extends SherlockFragmentActivity {
     	mUsernameTV.setText(info.getAccountUsername());
     	mProductPlanTV.setText(info.getProductPlan());
     	mCurrentMonthTV.setText(status.getCurrentMonthString());
-    	mRolloverNumberDaysTV.setText(status.getDaysToGoString());
-    	mRolloverDateTV.setText(status.getRolloverDateString());
+    	mRolloverNumberDaysTV.setText(status.getDaysSoFarString());
+    	mRolloverDateTV.setText(status.getStartDateString());
     	mPeakDataNumberTV.setText(status.getPeakDataUsedGbString());
     	mPeakQuotaTV.setText(info.getPeakQuotaString());
     	mPeakDataTV.setText(status.getPeakShapedString());

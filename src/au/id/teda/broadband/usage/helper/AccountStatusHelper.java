@@ -25,6 +25,9 @@ public class AccountStatusHelper {
 	private final static String FREEZONE_DATA_USED = "freezoneDataUsed";
 	private final static String IP_ADDRESS = "ipAddress";
 	private final static String UP_TIME_DATE = "upTimeDate";
+	
+	private final static long GB = 1000000000;
+	private final static long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
 
 	// Activity context
     private static Context mContext;
@@ -99,8 +102,6 @@ public class AccountStatusHelper {
 	}
 	
 	public int getDaysToGo(){
-		// What is a day in milli seconds
-		final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
 		// Get current date/time
 		Calendar now = Calendar.getInstance();
 		// Get rollover date/time
@@ -160,15 +161,54 @@ public class AccountStatusHelper {
 		mCalendar.setTimeInMillis(milliseconds);
 		return mCalendar;
 	}
+	
+	public int getDaysSoFar(){
+		// Get current date/time
+		Calendar now = Calendar.getInstance();
+		
+		// Get rollover date/time
+		Calendar start = getQuotaStartDate();
+		
+		// Difference in milliseconds divided by day in millisecond
+		int diffInDays = (int) ((now.getTimeInMillis() - start.getTimeInMillis()) / DAY_IN_MILLIS );
+		return diffInDays;
+	}
+	
+	public String getDaysSoFarString(){
+
+		int diffInDays = getDaysSoFar();
+		
+		String daysSoGo = Integer.toString(diffInDays);
+		if (diffInDays < 10 ){
+			daysSoGo = "0" + daysSoGo;
+		}
+		
+		return daysSoGo;
+	}
+	
+	public String getStartDateString(){
+		// How to format date
+		String FORMAT_dd_MMMM_yyyy = "dd MMMMM yyyy";
+		
+		// Set calendar to rollover date
+		Calendar start = getQuotaStartDate();
+		
+		//Set up formater
+		SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_dd_MMMM_yyyy);
+		
+		// Get date value of calendar and format
+
+		String startDate = sdf.format(start.getTime());
+		return startDate.toUpperCase();
+	}
 
 	public long getPeakDataUsed(){
 		return mSettings.getLong(PEAK_DATA_USED, 0);
 	}
 	
 	public String getPeakDataUsedGbString(){
-		long gb = 100000000;
 		long peak = getPeakDataUsed();
-		long peakGb = peak / gb;
+		long peakGb = peak / GB;
 		
 		String used = Long.toString(peakGb);
 		if (peakGb < 10 ){
@@ -200,9 +240,8 @@ public class AccountStatusHelper {
 	}
 	
 	public String getOffpeakDataUsedGbString(){
-		long gb = 100000000;
 		long offpeak = getOffpeakDataUsed();
-		long offpeakGb = offpeak / gb;
+		long offpeakGb = offpeak / GB;
 		
 		String used = Long.toString(offpeakGb);
 		if (offpeakGb < 10 ){
@@ -253,8 +292,6 @@ public class AccountStatusHelper {
 	}
 	
 	public int getUpTimeDays(){
-		// What is a day in milli seconds
-		final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
 		
 		// Get current date/time
 		Calendar now = Calendar.getInstance();
