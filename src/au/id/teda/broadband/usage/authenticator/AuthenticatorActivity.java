@@ -40,40 +40,106 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
     private UserLoginTask mAuthTask = null;
     
     /** Keep track of the progress dialog so we can dismiss it */
-    private Dialog mDialog;
+    private Dialog mDialog = null;
+    
+    private boolean mDialogShowing;
     
     /** Account manager object **/
-    private AccountManager mAccountManager;
-    private String accountType;
+    private static AccountManager mAccountManager;
+    private static String accountType;
     
     /** Download manager **/
-    NetworkUtilities mAccount;
+    static NetworkUtilities mAccount;
     
-    private TextView mMessage;
-    private String mPassword;
+    private static TextView mMessage;
+    private static String mPassword;
     private EditText mPasswordEdit;
-    private String mUsername;
+    private static String mUsername;
     private EditText mUsernameEdit;
     private CheckBox mShowPasswordCbox;
     
 	@Override  
 	protected void onCreate(Bundle icicle) {  
 		super.onCreate(icicle);  
-		this.setContentView(R.layout.activity_authenticator);
-        
+		setContentView(R.layout.activity_authenticator);
+
+        /** Set up account instance **/
+        mAccount = new NetworkUtilities(this);
+        mAccountManager = AccountManager.get(this);
+        accountType = AccountAuthenticator.ACCOUNT_TYPE;
+
+		/** Set up activity view **/
         mMessage = (TextView) findViewById(R.id.message_tv);
         mUsernameEdit = (EditText) findViewById(R.id.username_et);
         mPasswordEdit = (EditText) findViewById(R.id.password_et);
         mShowPasswordCbox = (CheckBox) findViewById(R.id.show_password_cbox);
-        
-        mAccount = new NetworkUtilities(this);
-        mAccountManager = AccountManager.get(this);
-        
-        accountType = AccountAuthenticator.ACCOUNT_TYPE;
-        
         setUsernamePasswordEditText();
         
+        /** Check if there has been a screen orientation change **/
+		Object retained = getLastNonConfigurationInstance(); 
+        if ( retained instanceof UserLoginTask ) { 
+                // Associate orientation new activity with async task 
+                mAuthTask = (UserLoginTask) retained; 
+                mAuthTask.setActivity(this);
+                // Show dialog again
+                showMyDialog();
+        }
+       
 	}
+	
+	/** After a screen orientation change, this method is invoked. **/
+    @Override
+    public Object onRetainNonConfigurationInstance() {
+    	// Using state save task so destroy old task
+    	mAuthTask.setActivity(null);
+    	return(mAuthTask);
+    }
+    
+    @Override
+	protected void onDestroy() {
+		super.onDestroy();
+	}
+    
+    protected void onPause(){
+    	super.onPause();
+    	// Dismiss dialog so we don't get window leaks
+    	dismissMyDialog();
+    }
+    
+    /** Activity method called once asyncTask complete **/
+    private void onTaskCompleted(boolean userPassCheck) { 
+    	
+    	// Tidy up task
+    	mAuthTask = null;
+    	
+        dismissMyDialog();
+        
+    	if (userPassCheck){
+    		addAccount();
+    	} else {
+    		showAuthenticatinFailure();
+    	}
+    }
+    
+    
+    private void showMyDialog(){
+    	// Set up dialog
+		mDialog = new Dialog(this);
+		mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		mDialog.setContentView(R.layout.progress_bar_spinner_custom);
+		mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+		mDialog.show();
+		
+		// Set display boolean to true
+		mDialogShowing = true;
+    }
+    
+    private void dismissMyDialog(){
+    	if (mDialogShowing) {
+    		mDialog.dismiss();
+    		mDialogShowing = false;
+    	}
+    }
 
 	/**
 	 * Set username and password into edit text if set
@@ -104,6 +170,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 	 * @param view
 	 */
     public void onClickAddAccount(View view) {
+    	
     	// Get username and password from edit_text's
         mUsername = mUsernameEdit.getText().toString();
         mPassword = mPasswordEdit.getText().toString();
@@ -116,14 +183,8 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
             // Kick off a background task to perform the user login attempt.
         	if (mAccount.is3gOrWifiConnected()){
         		
-        		// Set up dialog before task
-        		mDialog = new Dialog(this);
-        		mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        		mDialog.setContentView(R.layout.progress_bar_spinner_custom);
-        		mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
-
         		// Start async task
-        		mAuthTask = new UserLoginTask();
+        		mAuthTask = new UserLoginTask(this);
 	            mAuthTask.execute();
         	} else {
         		// Set message text to connection error
@@ -132,6 +193,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         	}
         }
     }
+
     
     /**
      * Returns the message to be displayed at the top of the login dialog box.
@@ -153,10 +215,8 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
      * Add account to manager
      */
     private void addAccount(){
-    	// Our task is complete, so clear it out
-        mAuthTask = null;
     	
-    	// This is the magic that addes the account to the Android Account Manager  
+    	// This is the magic that adds the account to the Android Account Manager  
     	final Account account = new Account(mUsername, accountType);
     	mAccountManager.addAccountExplicitly(account, mPassword, null);
     	ContentResolver.setSyncAutomatically(account, ContactsContract.AUTHORITY, true);
@@ -167,7 +227,6 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         setAccountAuthenticatorResult(intent.getExtras());
         setResult(RESULT_OK, intent);
         finish();
-  
 	}
     
     /**
@@ -196,17 +255,29 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 		Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 	}
 
+	private void showAuthenticatinFailure() {
+		mMessage.setText(R.string.authenticator_activity_failure);
+		toaster(getString(R.string.authenticator_activity_failure));
+	}
+
     /**
      * This class represents an asynchronous task used to authenticate a user against XML parser
      * @author iteda
      *
      */
-    public class UserLoginTask extends AsyncTask<Void, Boolean, Boolean> {
+    static class UserLoginTask extends AsyncTask<Void, Boolean, Boolean> {
+    	
+    	private AuthenticatorActivity activity;
+    	private boolean completed;
+    	
+    	UserLoginTask(AuthenticatorActivity activity){
+    		this.activity = activity;
+    	}
     	
     	/** Complete before we execute task **/
     	protected void onPreExecute(){
-    		// Show progress dialog before executing task
-    		mDialog.show();
+    		// Show progress in UI thread dialog before executing task
+    		activity.showMyDialog();
     	}
     	
     	/** Task to be complete **/
@@ -220,28 +291,36 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
                 Log.i(DEBUG_TAG, ex.toString());
                 return false;
             }
+        	
         }
 
         @Override
         protected void onPostExecute(Boolean userPassCheck) {
-        	
-        	// Dismiss progress dialog if showing
-        	if (mDialog.isShowing()) {
-        		mDialog.dismiss();
-        	}
-        	
-        	if (userPassCheck){
-        		addAccount();
-        	} else {
-        		mMessage.setText(R.string.authenticator_activity_failure);
-        		toaster(getString(R.string.authenticator_activity_failure));
-        	}
+        	completed = true;
+        	notifyActivityTaskCompleted(userPassCheck);
         }
 
         @Override
         protected void onCancelled() {
         	// Nothing to see here
         }
+        
+        void setActivity(AuthenticatorActivity activity) {
+          this.activity = activity;
+          if (completed){
+        	  notifyActivityTaskCompleted(false); 
+          }
+        }
+        
+        /**
+         * Helper method to notify the activity that this task was completed.
+         * @param userPassCheck 
+         */
+        private void notifyActivityTaskCompleted(Boolean userPassCheck) { 
+                if ( null != activity ) { 
+                	activity.onTaskCompleted(userPassCheck); 
+                } 
+        }         
     }
 	
 }

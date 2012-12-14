@@ -41,15 +41,6 @@
             android:layout_marginTop="@dimen/margin"
             android:src="@drawable/mockup_donut_chart" />
 
-        <ToggleButton
-            android:id="@+id/toggleButton1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:text="To Go"
-            android:textOff="So Far"
-            android:textOn="To Go" />
-
         <LinearLayout
             android:id="@+id/activity_main_lower_container"
             android:layout_width="match_parent"
@@ -66,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/activity_main_current_month"
                 android:textColor="@color/accent"
-                android:textSize="@dimen/text_large"
+                android:textSize="@dimen/text_xlarge"
                 android:textStyle="bold" />
 
             <View
