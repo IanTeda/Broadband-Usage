@@ -4,12 +4,18 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.authenticator.AuthenticatorActivity;
@@ -21,11 +27,21 @@ public class MainActivity extends SherlockFragmentActivity {
 	
 	private static final String DEBUG_TAG = "bbusage";
 	
+	public static final int HANDLER_RELOAD_VIEW = 0;
+	public static final int HANDLER_START_REFRESH_ANIMATION = 1;
+	public static final int HANDLER_STOP_REFRESH_ANIMATION = 2;
+	
+    
+    /** Refresh icon reference object **/
+    private MenuItem mRefreshMenuItem;
+    
+    private boolean refreshing;
+    
+    private static final String STATE_REFRESHING = "refresh";
+	
 	private AccountInfoHelper mAccount;
 	
 	private FragmentManager mFragmentManager;
-	
-	private NetworkUtilities mNetworkUtilities;
 	
 	
     @Override
@@ -37,8 +53,6 @@ public class MainActivity extends SherlockFragmentActivity {
         final ActionBar mActionBar = getSupportActionBar();
         // Set action bar icon for navigation
         mActionBar.setDisplayHomeAsUpEnabled(true);
-        
-        mNetworkUtilities = new NetworkUtilities(this);
 
         // Check to see if account has been authenticated
         mAccount = new AccountInfoHelper(this);
@@ -49,30 +63,41 @@ public class MainActivity extends SherlockFragmentActivity {
         	loadTextViews();
         }
         
-        // Restore refresh icon spin if downloading data
-        if(savedInstanceState!=null) {
-        	boolean downloading = savedInstanceState.getBoolean("waiting");
-        	Log.d(DEBUG_TAG, "onCreate.savedInstanceState: " + mNetworkUtilities.isTaskRunning);
-        	if(downloading){
-        		mNetworkUtilities.startAnimateRefreshIcon();
-        	}
-        }
-        
+        if( savedInstanceState != null ) {
+        	refreshing = savedInstanceState.getBoolean(STATE_REFRESHING);
+        	Log.d(DEBUG_TAG, "savedInstanceState > refreshing: " + refreshing);
+         }
     }
     
     @Override
-    protected void onSaveInstanceState(Bundle saveState) {
-        super.onSaveInstanceState(saveState);
-        Log.d(DEBUG_TAG, "onSaveInstanceState: " + mNetworkUtilities.isTaskRunning);
-        saveState.putBoolean("waiting", mNetworkUtilities.isTaskRunning);
+    protected void onSaveInstanceState(Bundle outState) {
+    	Log.d(DEBUG_TAG, "onSaveInstanceState > refreshing: " + refreshing);
+        outState.putBoolean(STATE_REFRESHING, refreshing);
+        super.onSaveInstanceState(outState);
     }
 
 	/**
 	 *  Handler for passing messages from other classes
 	 */
     public Handler handler = new Handler() {
-        public void handleMessage(Message msg) {	
-        	loadTextViews();
+        public void handleMessage(Message msg) {
+        	switch (msg.what) {
+        	case HANDLER_RELOAD_VIEW:
+        		Log.d(DEBUG_TAG, "HANDLER_RELOAD_VIEW");
+        		loadTextViews();
+        		break;
+        	case HANDLER_START_REFRESH_ANIMATION:
+        		Log.d(DEBUG_TAG, "HANDLER_START_REFRESH_ANIMATION");
+        		startAnimateRefreshIcon();
+        		break;
+        	case HANDLER_STOP_REFRESH_ANIMATION:
+        		Log.d(DEBUG_TAG, "HANDLER_FINISH_REFRESH_ANIMATION");
+        		stopAnimateRefreshIcon();
+
+        		break;	
+        	
+        	}
+        	
         }
     };
     
@@ -80,6 +105,11 @@ public class MainActivity extends SherlockFragmentActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getSupportMenuInflater().inflate(R.menu.options_menu, menu);
+        // Set object reference for refresh item
+        mRefreshMenuItem = menu.findItem(R.id.menu_refresh);
+        if (refreshing){
+        	startAnimateRefreshIcon();
+        }
         return true;
     }
     
@@ -93,7 +123,7 @@ public class MainActivity extends SherlockFragmentActivity {
                 return true;
         case R.id.menu_refresh:
         		NetworkUtilities mNetworkUtilities = new NetworkUtilities(this);
-        		mNetworkUtilities.getXmlData(item, handler);
+        		mNetworkUtilities.getXmlData(handler);
                 return true;
         default:
                 return super.onOptionsItemSelected(item);
@@ -132,5 +162,43 @@ public class MainActivity extends SherlockFragmentActivity {
     	mUpTimeNumberTV.setText(status.getUpTimeDaysString());
     	mIpAddresTV.setText(status.getIpAddressStrng());
     }
+    
+    /**
+     * Start the animation of the refresh icon in the action bar
+     */
+	public void startAnimateRefreshIcon() {
+		if (mRefreshMenuItem != null){
+			Log.d(DEBUG_TAG, "startAnimateRefreshIcon");
+			// Attach a rotating ImageView to the refresh item as an ActionView
+			LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			ImageView iv = (ImageView) inflater.inflate(R.layout.refresh_action_view, null);
+	
+			// Set animation
+			Animation rotation = AnimationUtils.loadAnimation(this, R.anim.clockwise_refresh);
+			rotation.setRepeatCount(Animation.INFINITE);
+			iv.startAnimation(rotation);
+	
+			// Start animation of image view
+			mRefreshMenuItem.setActionView(iv);
+			
+			refreshing = true;
+		}
+		Log.d(DEBUG_TAG, "startAnimateRefreshIcon > refreshing: " + refreshing);
+	}
+	
+	/**
+	 * Start stop animation of the refresh icon in the action bar
+	 */
+	public void stopAnimateRefreshIcon() {
+		Log.d(DEBUG_TAG, "stopAnimateRefreshIcon");
+		 // Stop refresh icon animation
+		 if (mRefreshMenuItem != null && mRefreshMenuItem.getActionView() != null){
+			 mRefreshMenuItem.getActionView().clearAnimation();
+			 mRefreshMenuItem.setActionView(null);
+			 
+		 	refreshing = false;
+		 }
+		 Log.d(DEBUG_TAG, "stopAnimateRefreshIcon > refreshing: " + refreshing);
+	}
 
 }

@@ -41,6 +41,7 @@ import au.id.teda.broadband.usage.parser.AccountStatusParser.AccountStatus;
 import au.id.teda.broadband.usage.parser.ErrorParser;
 import au.id.teda.broadband.usage.parser.VolumeUsageParser;
 import au.id.teda.broadband.usage.parser.VolumeUsageParser.VolumeUsage;
+import au.id.teda.broadband.usage.ui.MainActivity;
 
 
 /**
@@ -68,9 +69,6 @@ public class NetworkUtilities {
     
     // Track AsyncTask for screen rotation
     public boolean isTaskRunning = false;
-    
-    /** Refresh icon reference object **/
-    private MenuItem mRefreshItem;
     
     private Handler mHandler;
     
@@ -126,13 +124,11 @@ public class NetworkUtilities {
     /**
      * Setup progress dialog and then start download task
      */
-    public void getXmlData(MenuItem item, Handler handler){
+    public void getXmlData(Handler handler){
     	
     	// Get user account name
 		mAccountUsername = getAccountUsername();
-		
-		// Set up dialog before task
-		mRefreshItem = item;
+
 		mHandler = handler;
     	
     	if (isConnected()){
@@ -474,35 +470,6 @@ public class NetworkUtilities {
     	mDownloadXmlTask = null;
     }
     
-    /**
-     * Start the animation of the refresh icon in the action bar
-     */
-	public void startAnimateRefreshIcon() {
-		if (mRefreshItem != null){
-			// Attach a rotating ImageView to the refresh item as an ActionView
-			LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			ImageView iv = (ImageView) inflater.inflate(R.layout.refresh_action_view, null);
-	
-			// Set animation
-			Animation rotation = AnimationUtils.loadAnimation(mContext, R.anim.clockwise_refresh);
-			rotation.setRepeatCount(Animation.INFINITE);
-			iv.startAnimation(rotation);
-	
-			// Start animation of image view
-			mRefreshItem.setActionView(iv);
-		}
-	}
-	
-	/**
-	 * Start stop animation of the refresh icon in the action bar
-	 */
-	public void completeAnimateRefreshIcon() {
-		 // Stop refresh icon animation
-		 if (mRefreshItem != null && mRefreshItem.getActionView() != null){
-			 mRefreshItem.getActionView().clearAnimation();
-			 mRefreshItem.setActionView(null);
-		 }
-	}
     
     /**
      * AsyncTask for downloading and parsing XML data
@@ -513,9 +480,7 @@ public class NetworkUtilities {
 
     	/** Complete before we execute task **/
     	protected void onPreExecute(){
-    		isTaskRunning = true;
-    		// Start animation of refresh icon
-    		startAnimateRefreshIcon();
+    		mHandler.sendEmptyMessage(MainActivity.HANDLER_START_REFRESH_ANIMATION);
     	}
     	
     	
@@ -538,10 +503,8 @@ public class NetworkUtilities {
 		@Override
 		protected void onPostExecute(Void result){
 			// Stop animation of refresh icon
-			completeAnimateRefreshIcon();
-			mHandler.sendEmptyMessage(0);
-			isTaskRunning = false;
-			Log.d(DEBUG_TAG, "onPostExecute.isTaskRunning: " + isTaskRunning);
+			mHandler.sendEmptyMessage(MainActivity.HANDLER_STOP_REFRESH_ANIMATION);
+			mHandler.sendEmptyMessage(MainActivity.HANDLER_RELOAD_VIEW);
 			//TODO: Do I need to do this?
 			closeTask();
         }
