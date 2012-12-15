@@ -91,7 +91,9 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
     @Override
     public Object onRetainNonConfigurationInstance() {
     	// Using state save task so destroy old task
-    	mAuthTask.setActivity(null);
+    	if (mAuthTask != null){
+    		mAuthTask.detach();
+    	}
     	return(mAuthTask);
     }
     
@@ -304,6 +306,12 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         protected void onCancelled() {
         	// Nothing to see here
         }
+        
+        void detach(){
+        	activity = null;
+        }
+        
+        
         
         void setActivity(AuthenticatorActivity activity) {
           this.activity = activity;

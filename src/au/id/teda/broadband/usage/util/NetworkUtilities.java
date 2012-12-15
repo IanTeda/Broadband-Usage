@@ -514,7 +514,6 @@ public class NetworkUtilities {
     	/** Complete before we execute task **/
     	protected void onPreExecute(){
     		isTaskRunning = true;
-    		Log.d(DEBUG_TAG, "onPreExecute.isTaskRunning: " + isTaskRunning);
     		// Start animation of refresh icon
     		startAnimateRefreshIcon();
     	}
