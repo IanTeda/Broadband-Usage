@@ -503,8 +503,8 @@ public class NetworkUtilities {
 		@Override
 		protected void onPostExecute(Void result){
 			// Stop animation of refresh icon
-			mHandler.sendEmptyMessage(MainActivity.HANDLER_STOP_REFRESH_ANIMATION);
 			mHandler.sendEmptyMessage(MainActivity.HANDLER_RELOAD_VIEW);
+			mHandler.sendEmptyMessage(MainActivity.HANDLER_STOP_REFRESH_ANIMATION);
 			//TODO: Do I need to do this?
 			closeTask();
         }

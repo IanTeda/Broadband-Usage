@@ -25,7 +25,7 @@ import au.id.teda.broadband.usage.util.NetworkUtilities;
 
 public class MainActivity extends SherlockFragmentActivity {
 	
-	private static final String DEBUG_TAG = "bbusage";
+	//private static final String DEBUG_TAG = "bbusage";
 	
 	public static final int HANDLER_RELOAD_VIEW = 0;
 	public static final int HANDLER_START_REFRESH_ANIMATION = 1;
@@ -33,9 +33,9 @@ public class MainActivity extends SherlockFragmentActivity {
 	
     
     /** Refresh icon reference object **/
-    private MenuItem mRefreshMenuItem;
+    private static MenuItem mRefreshMenuItem;
     
-    private boolean refreshing;
+    private static boolean refreshing;
     
     private static final String STATE_REFRESHING = "refresh";
 	
@@ -65,13 +65,12 @@ public class MainActivity extends SherlockFragmentActivity {
         
         if( savedInstanceState != null ) {
         	refreshing = savedInstanceState.getBoolean(STATE_REFRESHING);
-        	Log.d(DEBUG_TAG, "savedInstanceState > refreshing: " + refreshing);
+        	savedInstanceState.clear();
          }
     }
     
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-    	Log.d(DEBUG_TAG, "onSaveInstanceState > refreshing: " + refreshing);
         outState.putBoolean(STATE_REFRESHING, refreshing);
         super.onSaveInstanceState(outState);
     }
@@ -83,17 +82,13 @@ public class MainActivity extends SherlockFragmentActivity {
         public void handleMessage(Message msg) {
         	switch (msg.what) {
         	case HANDLER_RELOAD_VIEW:
-        		Log.d(DEBUG_TAG, "HANDLER_RELOAD_VIEW");
         		loadTextViews();
         		break;
         	case HANDLER_START_REFRESH_ANIMATION:
-        		Log.d(DEBUG_TAG, "HANDLER_START_REFRESH_ANIMATION");
         		startAnimateRefreshIcon();
         		break;
         	case HANDLER_STOP_REFRESH_ANIMATION:
-        		Log.d(DEBUG_TAG, "HANDLER_FINISH_REFRESH_ANIMATION");
         		stopAnimateRefreshIcon();
-
         		break;	
         	
         	}
@@ -168,7 +163,6 @@ public class MainActivity extends SherlockFragmentActivity {
      */
 	public void startAnimateRefreshIcon() {
 		if (mRefreshMenuItem != null){
-			Log.d(DEBUG_TAG, "startAnimateRefreshIcon");
 			// Attach a rotating ImageView to the refresh item as an ActionView
 			LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			ImageView iv = (ImageView) inflater.inflate(R.layout.refresh_action_view, null);
@@ -183,14 +177,12 @@ public class MainActivity extends SherlockFragmentActivity {
 			
 			refreshing = true;
 		}
-		Log.d(DEBUG_TAG, "startAnimateRefreshIcon > refreshing: " + refreshing);
 	}
 	
 	/**
 	 * Start stop animation of the refresh icon in the action bar
 	 */
 	public void stopAnimateRefreshIcon() {
-		Log.d(DEBUG_TAG, "stopAnimateRefreshIcon");
 		 // Stop refresh icon animation
 		 if (mRefreshMenuItem != null && mRefreshMenuItem.getActionView() != null){
 			 mRefreshMenuItem.getActionView().clearAnimation();
@@ -198,7 +190,6 @@ public class MainActivity extends SherlockFragmentActivity {
 			 
 		 	refreshing = false;
 		 }
-		 Log.d(DEBUG_TAG, "stopAnimateRefreshIcon > refreshing: " + refreshing);
 	}
 
 }
