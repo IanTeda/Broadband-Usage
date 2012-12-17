@@ -211,7 +211,7 @@ public class AccountStatusHelper {
 	
 	public String getDaysThisPeriodString(){
 		String days = String.valueOf(getDaysThisPeriod());
-		return "/ " + days + " so far";
+		return "/ " + days + " days so far";
 	}
 	
 	public long getPeakDataUsed(){
