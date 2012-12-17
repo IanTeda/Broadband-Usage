@@ -2,7 +2,6 @@
 <resources>
 
     <style name="MyTheme.ActionBarStyle" parent="Widget.Sherlock.Light.ActionBar.Solid.Inverse">
-        <item name="android:indeterminateProgressStyle">@style/IndeterminateProgress</item>
-        <item name="indeterminateProgressStyle">@style/IndeterminateProgress</item>
+
     </style>
 </resources>

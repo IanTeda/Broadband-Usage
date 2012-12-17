@@ -2,5 +2,5 @@
 <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/icon"
     android:layout_height="@dimen/icon"
-    android:src="@drawable/img_spinner_holo"
+    android:src="@drawable/img_spinner_holo_48"
     style="@style/Widget.Sherlock.ActionButton" />

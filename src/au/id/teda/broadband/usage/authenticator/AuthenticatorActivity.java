@@ -128,7 +128,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
     	// Set up dialog
 		mDialog = new Dialog(this);
 		mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		mDialog.setContentView(R.layout.progress_bar_spinner_custom);
+		mDialog.setContentView(R.layout.dialog_indeterminate_progress_spinner);
 		mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
 		mDialog.show();
 		

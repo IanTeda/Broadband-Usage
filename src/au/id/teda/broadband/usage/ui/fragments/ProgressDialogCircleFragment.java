@@ -30,7 +30,7 @@ public class ProgressDialogCircleFragment extends DialogFragment {
 		// Get the layout inflater
 	    LayoutInflater inflater = getActivity().getLayoutInflater();
 	    
-	    dialog.setContentView(R.layout.progress_bar_spinner_custom);
+	    dialog.setContentView(R.layout.dialog_indeterminate_progress_spinner);
 	    
 	    // Inflate and set the layout for the dialog
 	    // Pass null as the parent view because its going in the dialog layout
