@@ -1,5 +1,7 @@
 package au.id.teda.broadband.usage.ui;
 
+import org.achartengine.GraphicalView;
+
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -16,9 +18,11 @@ import android.view.LayoutInflater;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.authenticator.AuthenticatorActivity;
+import au.id.teda.broadband.usage.chart.DoughnutChart;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
 import au.id.teda.broadband.usage.util.NetworkUtilities;
@@ -43,6 +47,10 @@ public class MainActivity extends SherlockFragmentActivity {
 	
 	private FragmentManager mFragmentManager;
 	
+	private GraphicalView mDoughnutChartView;
+	private DoughnutChart mDoughnutChart;
+	private LinearLayout mDoughnutChartLayout;
+	
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,6 +69,7 @@ public class MainActivity extends SherlockFragmentActivity {
     		startActivity(authenticatorActivityIntent);
         } else {
         	loadTextViews();
+        	loadDoughnutChart();
         }
         
         if( savedInstanceState != null ) {
@@ -83,6 +92,7 @@ public class MainActivity extends SherlockFragmentActivity {
         	switch (msg.what) {
         	case HANDLER_RELOAD_VIEW:
         		loadTextViews();
+            	loadDoughnutChart();
         		break;
         	case HANDLER_START_REFRESH_ANIMATION:
         		startAnimateRefreshIcon();
@@ -159,6 +169,30 @@ public class MainActivity extends SherlockFragmentActivity {
     	mUpTimeNumberTV.setText(status.getUpTimeDaysString());
     	mIpAddresTV.setText(status.getIpAddressStrng());
     }
+    
+	/**
+	 * Method for loading doughnut into view
+	 */
+	public void loadDoughnutChart() {
+		// Initialize layout for chart
+		mDoughnutChartLayout = (LinearLayout) findViewById(R.id.doughnut_chart);
+
+		// Initialize chart class
+		mDoughnutChart = new DoughnutChart(this);
+
+		// Check if the chart doesn't already exist
+		if (mDoughnutChartView == null) {
+
+			// Get chart view from library
+			mDoughnutChartView = (GraphicalView) mDoughnutChart.getDoughnutChartView();
+
+			// Add chart view to layout view
+			mDoughnutChartLayout.addView(mDoughnutChartView);
+
+		} else {
+			// use this whenever data has changed and you want to redraw
+		}
+	}
     
     /**
      * Start the animation of the refresh icon in the action bar

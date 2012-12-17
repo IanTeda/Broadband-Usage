@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Chart Colors -->
+    <color name="chart_peak_color">#95FF5900</color>
+    <color name="chart_peak_fill_color">#50FF5900</color>
+    <color name="chart_peak_trend_color">#95CC3333</color>
+    <color name="chart_offpeak_color">#65FF5900</color>
+    <color name="chart_offpeak_fill_color">#25FF5900</color>
+    <color name="chart_offpeak_trend_color">#65CC3333</color>
+    <color name="chart_remaining_color">#90CC3333</color>
+    <color name="chart_remaining_fill_color">#40CC3333</color>
+    <color name="chart_axes_color">#75b9b9b9</color>
+    <color name="chart_label_color">#b9b9b9</color>
+
+</resources>
