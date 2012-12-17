@@ -202,6 +202,18 @@ public class AccountStatusHelper {
 		return startDate.toUpperCase();
 	}
 
+	public int getDaysThisPeriod(){
+		int daysToGo = getDaysToGo();
+		int daysSoFar = getDaysSoFar();
+		int daysThisPeriod = daysSoFar + daysToGo;
+		return daysThisPeriod;
+	}
+	
+	public String getDaysThisPeriodString(){
+		String days = String.valueOf(getDaysThisPeriod());
+		return "/ " + days + " so far";
+	}
+	
 	public long getPeakDataUsed(){
 		return mSettings.getLong(PEAK_DATA_USED, 0);
 	}

@@ -130,6 +130,7 @@ public class MainActivity extends SherlockFragmentActivity {
     	TextView mProductPlanTV = (TextView) findViewById(R.id.activity_main_product_plan_tv);
     	TextView mCurrentMonthTV = (TextView) findViewById(R.id.activity_main_current_month_tv);
     	TextView mRolloverNumberDaysTV = (TextView) findViewById(R.id.activity_main_days_number_tv);
+    	TextView mRolloverQuotaDaysTV = (TextView) findViewById(R.id.activity_main_days_until_tv);
     	TextView mRolloverDateTV = (TextView) findViewById(R.id.activity_main_days_date_tv);
     	TextView mPeakDataNumberTV = (TextView) findViewById(R.id.activity_main_peak_number_tv);
     	TextView mPeakQuotaTV = (TextView) findViewById(R.id.activity_main_peak_quota_tv);
@@ -147,6 +148,7 @@ public class MainActivity extends SherlockFragmentActivity {
     	mProductPlanTV.setText(info.getProductPlan());
     	mCurrentMonthTV.setText(status.getCurrentMonthString());
     	mRolloverNumberDaysTV.setText(status.getDaysSoFarString());
+    	mRolloverQuotaDaysTV.setText(status.getDaysThisPeriodString());
     	mRolloverDateTV.setText(status.getStartDateString());
     	mPeakDataNumberTV.setText(status.getPeakDataUsedGbString());
     	mPeakQuotaTV.setText(info.getPeakQuotaString());
