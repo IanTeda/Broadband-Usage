@@ -19,7 +19,7 @@ import au.id.teda.broadband.usage.helper.AccountStatusHelper;
  */
 public class DoughnutChart extends ChartBuilder {
 
-	private static final String DEBUG_TAG = "bbusage";
+	//private static final String DEBUG_TAG = "bbusage";
 	
 	// Activity context
 	private Context mContext;
@@ -34,7 +34,6 @@ public class DoughnutChart extends ChartBuilder {
 	 */
 	public DoughnutChart(Context context) {
 		super(context);
-		Log.d(DEBUG_TAG, "DoughnutChart");
 		mContext = context;
 	}
 	
@@ -43,7 +42,6 @@ public class DoughnutChart extends ChartBuilder {
 	 * @return doughnut chart view
 	 */
 	public View getDoughnutChartView() {
-		Log.d(DEBUG_TAG, "getDoughnutChartView: " + getDoughnutChartDataSeries() + " " + getDoughnutChartRenderer());
 		return ChartFactory.getDoughnutChartView(mContext
 				,getDoughnutChartDataSeries()
 				,getDoughnutChartRenderer());
@@ -91,14 +89,6 @@ public class DoughnutChart extends ChartBuilder {
 		long daysToGo = status.getDaysToGo();
 		double[] daysDouble = { daysSoFare, daysToGo };
 		String[] dayCats = { DAYS_SO_FAR, DAYS_TO_GO };
-
-		Log.d(DEBUG_TAG, "getDoughnutChartDataSeries > peak: " + peak 
-				+ " / peak quota: " + peakQuota 
-				+ " / peak reamaing: " + peakRemaining);
-		
-		Log.d(DEBUG_TAG, "getDoughnutChartDataSeries > offpeak: " + offpeak 
-				+ " / offpeak quota: " + offpeakQuota 
-				+ " / offpeak reamaing: " + offpeakRemaining);
 		
 		// Data series and initialise
 		MultipleCategorySeries series = new MultipleCategorySeries(DAYS);
@@ -115,8 +105,6 @@ public class DoughnutChart extends ChartBuilder {
 	 * @return chart renderer
 	 */
 	private DefaultRenderer getDoughnutChartRenderer() {
-		
-		Log.d(DEBUG_TAG, "getDoughnutChartRenderer");
 
 	    DefaultRenderer renderer = new DefaultRenderer();
 	    

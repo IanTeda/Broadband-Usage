@@ -2,8 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:fillViewport="true" 
-    android:orientation="vertical" >
+    android:fillViewport="true" >
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -13,7 +12,8 @@
         <LinearLayout
             android:id="@+id/activity_main_account_info_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dip"
+            android:layout_weight="1"
             android:orientation="vertical"
             android:paddingLeft="@dimen/vert_margin"
             android:paddingRight="@dimen/vert_margin" >
@@ -40,13 +40,15 @@
 		<LinearLayout
 		    android:id="@+id/activity_main_chart_container"
 		    android:layout_width="fill_parent"
-        	android:layout_height="wrap_content"
+        	android:layout_height="0dip"
+            android:layout_weight="1"
         	android:orientation="horizontal" />
         
         <LinearLayout
             android:id="@+id/activity_main_lower_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dip"
+            android:layout_weight="1"
             android:layout_marginTop="@dimen/margin"
             android:background="@color/background_alt"
             android:orientation="vertical"

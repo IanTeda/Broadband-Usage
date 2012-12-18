@@ -175,7 +175,6 @@ public class MainActivity extends SherlockFragmentActivity {
 	 * Method for loading doughnut into view
 	 */
 	public void loadDoughnutChart() {
-		Log.d(DEBUG_TAG, "loadDoughnutChart");
 		
 		// Initialize layout for chart
 		mDoughnutChartLayout = (LinearLayout) findViewById(R.id.activity_main_chart_container);
@@ -185,8 +184,6 @@ public class MainActivity extends SherlockFragmentActivity {
 
 		// Check if the chart doesn't already exist
 		if (mDoughnutChartView == null) {
-			
-			Log.d(DEBUG_TAG, "loadDoughnutChart > mDoughnutChartView");
 
 			// Get chart view from library
 			mDoughnutChartView = (GraphicalView) mDoughnutChart.getDoughnutChartView();
