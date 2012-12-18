@@ -43,10 +43,10 @@ public class DoughnutChart extends ChartBuilder {
 	 * @return doughnut chart view
 	 */
 	public View getDoughnutChartView() {
-		Log.d(DEBUG_TAG, "getDoughnutChartView");
-		return ChartFactory.getDoughnutChartView(mContext, 
-				getDoughnutChartDataSeries(),
-				getDoughnutChartRenderer());
+		Log.d(DEBUG_TAG, "getDoughnutChartView: " + getDoughnutChartDataSeries() + " " + getDoughnutChartRenderer());
+		return ChartFactory.getDoughnutChartView(mContext
+				,getDoughnutChartDataSeries()
+				,getDoughnutChartRenderer());
 	}
 
 	/**
@@ -121,11 +121,11 @@ public class DoughnutChart extends ChartBuilder {
 	    DefaultRenderer renderer = new DefaultRenderer();
 	    
 	    SimpleSeriesRenderer r = new SimpleSeriesRenderer();
-	    r.setColor(getPeakColor());
+	    //r.setColor(getPeakColor());
 		renderer.addSeriesRenderer(r);
 	    
 		r = new SimpleSeriesRenderer();
-		r.setColor(getPeakFillColor());
+		//r.setColor(getPeakFillColor());
 		renderer.addSeriesRenderer(r);
 		
 	    renderer.setLabelsTextSize(getLabelsTextSize());
