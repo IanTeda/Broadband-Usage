@@ -135,6 +135,8 @@ public class DoughnutChart extends ChartBuilder {
 	    renderer.setShowLegend(false);
 	    renderer.setFitLegend(true);
 	    
+	    //renderer.setInScroll(true);
+	    
 	    return renderer;
 	}
 
