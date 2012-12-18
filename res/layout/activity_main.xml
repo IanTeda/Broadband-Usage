@@ -5,10 +5,11 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:orientation="vertical" >
 
         <LinearLayout
+            android:id="@+id/activity_main_account_info_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -32,16 +33,15 @@
                 android:textColor="@color/base"
                 android:textSize="@dimen/text_micro" />
             
-           	<LinearLayout
-                android:id="@+id/activity_main_chart_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="center"
-            	android:layout_marginTop="@dimen/margin" />
-           	
         </LinearLayout>
 
+		<LinearLayout
+		    android:id="@+id/activity_main_chart_container"
+		    android:layout_width="fill_parent"
+        	android:layout_height="wrap_content"
+        	android:layout_weight="1"
+        	android:orientation="horizontal" />
+        
         <LinearLayout
             android:id="@+id/activity_main_lower_container"
             android:layout_width="match_parent"

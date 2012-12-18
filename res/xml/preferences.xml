@@ -12,5 +12,12 @@
              android:targetPackage="au.id.teda.broadband.usage"
              android:targetClass="au.id.teda.broadband.usage.authenticator.AuthenticatorActivity" />         
     </PreferenceScreen>
+    
+  <PreferenceScreen
+        android:title="Chart Temp">
+        <intent
+             android:targetPackage="au.id.teda.broadband.usage"
+             android:targetClass="au.id.teda.broadband.usage.ui.ChartActivity" />         
+    </PreferenceScreen>
 
 </PreferenceScreen>

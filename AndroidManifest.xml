@@ -17,7 +17,6 @@
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
 
     <application
         android:icon="@drawable/ic_launcher"
@@ -82,6 +81,14 @@
                 <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />
 
                 <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.ChartActivity"
+            android:label="Temp Chart Activity" >
+            <intent-filter>
+                <action android:name=".ui.ChartActivity" />
+               <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
     </application>

@@ -23,7 +23,6 @@ import android.widget.TextView;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.authenticator.AuthenticatorActivity;
 import au.id.teda.broadband.usage.chart.DoughnutChart;
-import au.id.teda.broadband.usage.chart.PieChart;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
 import au.id.teda.broadband.usage.util.NetworkUtilities;
@@ -54,11 +53,6 @@ public class MainActivity extends SherlockFragmentActivity {
 	// Chart container
 	private LinearLayout mDoughnutChartLayout;
 	
-	private GraphicalView mPieChartView;
-	private PieChart mPieChart;
-	private LinearLayout chartContainer;
-	
-	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +70,7 @@ public class MainActivity extends SherlockFragmentActivity {
     		startActivity(authenticatorActivityIntent);
         } else {
         	loadTextViews();
-        	loadPieChart();
+        	loadDoughnutChart();
         }
         
         if( savedInstanceState != null ) {
@@ -99,7 +93,7 @@ public class MainActivity extends SherlockFragmentActivity {
         	switch (msg.what) {
         	case HANDLER_RELOAD_VIEW:
         		loadTextViews();
-        		loadPieChart();
+        		loadDoughnutChart();
         		break;
         	case HANDLER_START_REFRESH_ANIMATION:
         		startAnimateRefreshIcon();
@@ -199,30 +193,6 @@ public class MainActivity extends SherlockFragmentActivity {
 
 			// Add chart view to layout view
 			mDoughnutChartLayout.addView(mDoughnutChartView);
-
-		} else {
-			// use this whenever data has changed and you want to redraw
-		}
-	}
-	
-	/**
-	 * Method for loading pie chart into view
-	 */
-	public void loadPieChart() {
-		// Initialise layout for chart
-		chartContainer = (LinearLayout) findViewById(R.id.activity_main_chart_container);
-
-		// Initialise chart class
-		mPieChart = new PieChart(this);
-
-		// Check if the chart doesn't already exist
-		if (mPieChartView == null) {
-
-			// Get chart view from library
-			mPieChartView = (GraphicalView) mPieChart.getPieChartView();
-
-			// Add chart view to layout view
-			chartContainer.addView(mPieChartView);
 
 		} else {
 			// use this whenever data has changed and you want to redraw
