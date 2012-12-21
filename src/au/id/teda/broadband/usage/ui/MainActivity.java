@@ -200,11 +200,11 @@ public class MainActivity extends SherlockFragmentActivity {
 			
 		    // Get layout parameters
 			LayoutParams params = mChartLayoutContainer.getLayoutParams();
-			// Set height equal to sceen width
+			// Set height equal to screen width
 			params.height = width;
-			//mDoughnutChartLayout.addView(mDoughnutChartView);
 		} else {
 			// use this whenever data has changed and you want to redraw
+			mDoughnutChartView.repaint();
 		}
 	}
     
