@@ -13,7 +13,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
@@ -52,7 +54,7 @@ public class MainActivity extends SherlockFragmentActivity {
 	
 	private DoughnutChart mDoughnutChart;
 	// Chart container
-	private LinearLayout mDoughnutChartLayout;
+	private LinearLayout mChartLayoutContainer;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -178,7 +180,7 @@ public class MainActivity extends SherlockFragmentActivity {
 	public void loadDoughnutChart() {
 		
 		// Initialize layout for chart
-		mDoughnutChartLayout = (LinearLayout) findViewById(R.id.activity_main_chart_container);
+		mChartLayoutContainer = (LinearLayout) findViewById(R.id.activity_main_chart_container);
 
 		// Initialize chart class
 		mDoughnutChart = new DoughnutChart(this);
@@ -190,7 +192,16 @@ public class MainActivity extends SherlockFragmentActivity {
 			mDoughnutChartView = (GraphicalView) mDoughnutChart.getDoughnutChartView();
 
 			// Add chart view to layout view
-			mDoughnutChartLayout.addView(mDoughnutChartView, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+			mChartLayoutContainer.addView(mDoughnutChartView, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+			
+			// Get screen specs
+			Display display = getWindowManager().getDefaultDisplay();
+			int width = display.getWidth();
+			
+		    // Get layout parameters
+			LayoutParams params = mChartLayoutContainer.getLayoutParams();
+			// Set height equal to sceen width
+			params.height = width;
 			//mDoughnutChartLayout.addView(mDoughnutChartView);
 		} else {
 			// use this whenever data has changed and you want to redraw
