@@ -15,6 +15,7 @@ import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -189,8 +190,8 @@ public class MainActivity extends SherlockFragmentActivity {
 			mDoughnutChartView = (GraphicalView) mDoughnutChart.getDoughnutChartView();
 
 			// Add chart view to layout view
-			mDoughnutChartLayout.addView(mDoughnutChartView);
-
+			mDoughnutChartLayout.addView(mDoughnutChartView, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
+			//mDoughnutChartLayout.addView(mDoughnutChartView);
 		} else {
 			// use this whenever data has changed and you want to redraw
 		}

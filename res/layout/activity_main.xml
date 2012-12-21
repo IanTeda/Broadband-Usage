@@ -1,19 +1,20 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="wrap_content"
     android:fillViewport="true" >
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/activity_main_ll_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
         <LinearLayout
             android:id="@+id/activity_main_account_info_container"
-            android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
             android:orientation="vertical"
             android:paddingLeft="@dimen/vert_margin"
             android:paddingRight="@dimen/vert_margin" >
@@ -34,21 +35,21 @@
                 android:text="@string/activity_main_product_plan"
                 android:textColor="@color/base"
                 android:textSize="@dimen/text_micro" />
-            
         </LinearLayout>
 
-		<LinearLayout
-		    android:id="@+id/activity_main_chart_container"
-		    android:layout_width="fill_parent"
-        	android:layout_height="0dip"
-            android:layout_weight="1"
-        	android:orientation="horizontal" />
-        
+        <LinearLayout
+            android:id="@+id/activity_main_chart_container"
+            android:layout_width="fill_parent"
+            android:layout_height="400dp"
+            android:layout_below="@+id/activity_main_account_info_container"
+            android:orientation="vertical" >
+        </LinearLayout>
+
         <LinearLayout
             android:id="@+id/activity_main_lower_container"
-            android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1"
+            android:layout_below="@+id/activity_main_chart_container"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin"
             android:background="@color/background_alt"
             android:orientation="vertical"
@@ -169,6 +170,6 @@
                     android:text="@string/activity_main_uptime_days" />
             </RelativeLayout>
         </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
 </ScrollView>

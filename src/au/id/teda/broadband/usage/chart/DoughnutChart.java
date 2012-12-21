@@ -121,9 +121,11 @@ public class DoughnutChart extends ChartBuilder {
 		
 	    renderer.setPanEnabled(false);
 	    renderer.setShowLegend(false);
-	    renderer.setFitLegend(true);
+	    renderer.setFitLegend(false);
 	    
-	    //renderer.setInScroll(true);
+	    //renderer.setSelectableBuffer(100);  // for fixed chart
+	    
+	    renderer.setInScroll(true); // for inscoroll
 	    
 	    return renderer;
 	}
