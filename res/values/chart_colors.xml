@@ -12,5 +12,16 @@
     <color name="chart_remaining_fill_color">#40CC3333</color>
     <color name="chart_axes_color">#75b9b9b9</color>
     <color name="chart_label_color">#b9b9b9</color>
+    
+    <color name="chart_base">#564e47</color>
+    <color name="chart_base_light">#ABA29A</color>
+    <color name="chart_base_lighter">#ABA29A</color>
+    <color name="chart_base_dark">#AB9F94</color>
+    <color name="chart_base_darker">#382717</color>
+    
+    
+    
+    
+    
 
 </resources>

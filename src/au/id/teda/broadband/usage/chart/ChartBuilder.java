@@ -31,6 +31,13 @@ public class ChartBuilder {
 	long accumOffpeak = 0;
 
 	// Color values for focus and alternate
+	private final int colorBase;
+	private final int colorBaseLight;
+	private final int colorBaseLighter;
+	private final int colorBaseDark;
+	private final int colorBaseDarker;
+	
+	
 	private final int peakColor;
 	private final int peakFillColor;
 	private final int peakTrendColor;
@@ -65,6 +72,12 @@ public class ChartBuilder {
 		labelColor = mContext.getResources().getColor(R.color.chart_label_color);
 		backgroundColor = mContext.getResources().getColor(R.color.background);
 
+		colorBase = mContext.getResources().getColor(R.color.chart_base);
+		colorBaseLight = mContext.getResources().getColor(R.color.chart_base_light);
+		colorBaseLighter = mContext.getResources().getColor(R.color.chart_base_lighter);
+		colorBaseDark = mContext.getResources().getColor(R.color.chart_base_dark);
+		colorBaseDarker = mContext.getResources().getColor(R.color.chart_base_darker);
+		
 		// Chart strings
 		xAxes = mContext.getResources().getString(R.string.chart_x_title);
 
@@ -90,6 +103,26 @@ public class ChartBuilder {
 	}
 
 
+	public int getBaseColor(){
+		return colorBase;
+	}
+	
+	public int getBaseLightColor(){
+		return colorBaseLight;
+	}
+	
+	public int getBaseLighterColor(){
+		return colorBaseLighter;
+	}
+	
+	public int getBaseDarkColor(){
+		return colorBaseDark;
+	}
+	
+	public int getBaseDarkerColor(){
+		return colorBaseDarker;
+	}
+	
 	/**
 	 * Get peak color from XML
 	 * 
