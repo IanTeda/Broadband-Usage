@@ -9,7 +9,7 @@
         android:summary="Sync frequency, notifications, etc.">
         <intent
             android:action="au.id.teda.broadband.usage.account.EDIT"
-            android:targetPackage="au.id.teda.broadband.usage.authenticator"
+            android:targetPackage="au.id.teda.broadband.usage"
             android:targetClass="au.id.teda.broadband.usage.authenticator.AccountPreferences" />
     </PreferenceScreen>
     

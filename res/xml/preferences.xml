@@ -12,5 +12,15 @@
              android:targetPackage="au.id.teda.broadband.usage"
              android:targetClass="au.id.teda.broadband.usage.authenticator.AuthenticatorActivity" />         
     </PreferenceScreen>
+    
+    <PreferenceScreen
+        android:key="account_settings"
+        android:title="Account Settings"
+        android:summary="Sync frequency, notifications, etc.">
+        <intent
+            android:action="au.id.teda.broadband.usage.account.EDIT"
+            android:targetPackage="au.id.teda.broadband.usage"
+            android:targetClass="au.id.teda.broadband.usage.authenticator.AccountPreferences" />
+    </PreferenceScreen>
 
 </PreferenceScreen>

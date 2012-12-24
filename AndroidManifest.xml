@@ -83,9 +83,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="au.id.teda.broadband.usage.authenticator.AccountPreferences" 
+            android:name=".authenticator.AccountPreferences" 
             android:label="Account Preferences" 
-   			android:theme="@android:style/Theme.Dialog" 
    			android:excludeFromRecents="true" />
     </application>
 
