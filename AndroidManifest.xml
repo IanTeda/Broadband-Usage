@@ -79,18 +79,14 @@
             android:label="Settings Activity" >
             <intent-filter>
                 <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.ChartActivity"
-            android:label="Temp Chart Activity" >
-            <intent-filter>
-                <action android:name=".ui.ChartActivity" />
-               <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+            android:name="au.id.teda.broadband.usage.authenticator.AccountPreferences" 
+            android:label="Account Preferences" 
+   			android:theme="@android:style/Theme.Dialog" 
+   			android:excludeFromRecents="true" />
     </application>
 
 </manifest>

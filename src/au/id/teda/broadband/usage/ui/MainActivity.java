@@ -63,8 +63,6 @@ public class MainActivity extends SherlockFragmentActivity {
         
         // Set up the action bar.
         final ActionBar mActionBar = getSupportActionBar();
-        // Set action bar icon for navigation
-        mActionBar.setDisplayHomeAsUpEnabled(true);
 
         // Check to see if account has been authenticated
         mAccount = new AccountInfoHelper(this);

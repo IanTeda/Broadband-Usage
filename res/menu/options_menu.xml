@@ -3,7 +3,12 @@
         android:title="@string/menu_refresh"
         android:icon="@drawable/ic_action_refresh"
         android:orderInCategory="100"
-        android:showAsAction="ifRoom|withText" />
+        android:showAsAction="always" />
+    <item android:id="@+id/menu_analysis"
+        android:title="@string/menu_analyse"
+        android:icon="@drawable/ic_action_refresh"
+        android:orderInCategory="110"
+        android:showAsAction="collapseActionView|withText" />
     <item android:id="@+id/menu_settings"
         android:title="@string/menu_settings"
         android:icon="@drawable/ic_action_settings"

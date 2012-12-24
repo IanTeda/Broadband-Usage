@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="Privacy preferences" />
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="privacy_contacts"
+        android:summary="Keep contacts private"
+        android:title="Contacts" />
+
+    <PreferenceCategory android:title="Outgoing" />
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="allow_mail"
+        android:summary="Allow email"
+        android:title="Email" />
+
+</PreferenceScreen>
