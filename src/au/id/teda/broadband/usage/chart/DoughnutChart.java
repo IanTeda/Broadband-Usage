@@ -111,15 +111,17 @@ public class DoughnutChart extends ChartBuilder {
 	    SimpleSeriesRenderer r;
 	    
 	    r = new SimpleSeriesRenderer();
-	    r.setColor(getBaseColor());
+	    r.setColor(colorBase);
 		renderer.addSeriesRenderer(r);
 	    
 		r = new SimpleSeriesRenderer();
-		r.setColor(getBaseLighterColor());
+		r.setColor(colorBaseLight);
 		renderer.addSeriesRenderer(r);
 		
 		renderer.setShowLabels(true);
 		renderer.setLabelsTextSize(getPixelDip(12));
+		renderer.setLabelsColor(colorBaseDark);
+		
 		renderer.setPanEnabled(false);
 	    renderer.setShowLegend(false);
 	    renderer.setFitLegend(false);

@@ -31,46 +31,20 @@ public class ChartBuilder {
 	long accumOffpeak = 0;
 
 	// Color values for focus and alternate
-	private final int colorBase;
-	private final int colorBaseLight;
-	private final int colorBaseLighter;
-	private final int colorBaseDark;
-	private final int colorBaseDarker;
+	public final int colorBase;
+	public final int colorBaseLight;
+	public final int colorBaseLighter;
+	public final int colorBaseDark;
+	public final int colorBaseDarker;
 	
-	
-	private final int peakColor;
-	private final int peakFillColor;
-	private final int peakTrendColor;
-	private final int offpeakColor;
-	private final int offpeakFillColor;
-	private final int offpeakTrendColor;
-	private final int remainingColor;
-	private final int remainingFillColor;
-	private final int axesColor;
-	private final int labelColor;
-	private final int backgroundColor;
-
 	private final String xAxes;
 	
-	private final static int legendTextSize = 18;
-	private final static int labelsTextSize = 12;
+	private final static int LEGEND_TEXT_SIZE = 18;
+	private final static int LABEL_TEXT_SIZE = 12;
 
 	// Chart builder constructor
 	public ChartBuilder(Context context) {
 		mContext = context;
-
-		// Chart colours
-		peakColor = mContext.getResources().getColor(R.color.chart_peak_color);
-		peakFillColor = mContext.getResources().getColor(R.color.chart_peak_fill_color);
-		peakTrendColor = mContext.getResources().getColor(R.color.chart_peak_trend_color);
-		offpeakColor = mContext.getResources().getColor(R.color.chart_offpeak_color);
-		offpeakFillColor = mContext.getResources().getColor(R.color.chart_offpeak_fill_color);
-		offpeakTrendColor = mContext.getResources().getColor(R.color.chart_offpeak_trend_color);
-		remainingColor = mContext.getResources().getColor(R.color.chart_remaining_color);
-		remainingFillColor = mContext.getResources().getColor(R.color.chart_remaining_fill_color);
-		axesColor = mContext.getResources().getColor(R.color.chart_axes_color);
-		labelColor = mContext.getResources().getColor(R.color.chart_label_color);
-		backgroundColor = mContext.getResources().getColor(R.color.background);
 
 		colorBase = mContext.getResources().getColor(R.color.chart_base);
 		colorBaseLight = mContext.getResources().getColor(R.color.chart_base_light);
@@ -93,106 +67,7 @@ public class ChartBuilder {
 		int pixels = (int) (dip * scale + 0.5f);
 		return pixels;
 	}
-	
-	public int getLegendTextSize(){
-		return getPixelDip(legendTextSize);
-	}
-	
-	public int getLabelsTextSize(){
-		return getPixelDip(labelsTextSize);
-	}
 
-
-	public int getBaseColor(){
-		return colorBase;
-	}
-	
-	public int getBaseLightColor(){
-		return colorBaseLight;
-	}
-	
-	public int getBaseLighterColor(){
-		return colorBaseLighter;
-	}
-	
-	public int getBaseDarkColor(){
-		return colorBaseDark;
-	}
-	
-	public int getBaseDarkerColor(){
-		return colorBaseDarker;
-	}
-	
-	/**
-	 * Get peak color from XML
-	 * 
-	 * @return int color value
-	 */
-	public int getPeakColor() {
-		return peakColor;
-	}
-	
-	public int getPeakTrendColor(){
-		return peakTrendColor;
-	}
-	
-	public int getOffpeakTrendColor(){
-		return offpeakTrendColor;
-	}
-
-	/**
-	 * Get offpeak color from XML
-	 * 
-	 * @return int color value
-	 */
-	public int getOffpeakColor() {
-		return offpeakColor;
-	}
-
-	/**
-	 * Get chart axes color from XML
-	 * 
-	 * @return int color value
-	 */
-	public int getAxesColor() {
-		return axesColor;
-	}
-
-	/**
-	 * Get chart labal color from XML
-	 * 
-	 * @return int color value
-	 */
-	public int getLabelColor() {
-		return labelColor;
-	}
-
-	/**
-	 * Get chart background color from XML
-	 * 
-	 * @return int color value
-	 */
-	public int getBackgroundColor() {
-		return backgroundColor;
-	}
-
-	/**
-	 * Get peak fill color from XML
-	 * 
-	 * @return int color value
-	 */
-	public int getPeakFillColor() {
-		return peakFillColor;
-	}
-
-	/**
-	 * Get offpeak fill color from XML
-	 * 
-	 * @return int color value
-	 */
-	public int getOffpeakFillColor() {
-		return offpeakFillColor;
-	}
 
 	/**
 	 * Get string X-Axis from XML
@@ -201,24 +76,6 @@ public class ChartBuilder {
 	 */
 	public String getXAxes() {
 		return xAxes;
-	}
-
-	/**
-	 * Get remaining color from XML
-	 * 
-	 * @return int color value
-	 */
-	public int getRemainingColor() {
-		return remainingColor;
-	}
-	
-	/**
-	 * Get remaining fill color from XML
-	 * 
-	 * @return int color value
-	 */
-	public int getRemainingFillColor() {
-		return remainingFillColor;
 	}
 
 	/**
