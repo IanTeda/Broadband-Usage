@@ -18,6 +18,13 @@ public class AccountPreferences extends SherlockPreferenceActivity implements On
 	
 	private static final String DEBUG_TAG = "bbusage";
 	
+	public static final long HALF_HOUR = 60 * 30;
+	public static final long HOUR = HALF_HOUR * 2;
+	public static final long THREE_HOURS = HOUR * 3;
+	public static final long SIX_HOURS = THREE_HOURS * 2;
+	public static final long TWELVE_HOURS = SIX_HOURS * 2;
+	public static final long TWENTY_FOUR_HOURS = TWELVE_HOURS * 2;
+	
 	@Override
 	public void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
