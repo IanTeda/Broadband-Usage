@@ -58,10 +58,9 @@ public class AccountInfoHelper {
 	}
     
     public boolean isAccountAuthenticated(){
-    	
-    	String type = AccountAuthenticator.ACCOUNT_TYPE;
-    	
+
     	// Get accounts based on account type
+    	String type = AccountAuthenticator.ACCOUNT_TYPE;
     	Account[] accounts = mAccountManager.getAccountsByType(type);
         
         // Get username and password for accounts

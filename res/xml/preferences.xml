@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-  
-  <CheckBoxPreference
-    android:defaultValue="true"
-    android:key="wifi_only"
-    android:title="Sync over Wi-Fi Only" />
-  
-  <PreferenceScreen
-        android:title="Add iiNet Account">
-        <intent
-             android:targetPackage="au.id.teda.broadband.usage"
-             android:targetClass="au.id.teda.broadband.usage.authenticator.AuthenticatorActivity" />         
-    </PreferenceScreen>
-    
+
     <PreferenceScreen
         android:key="account_settings"
-        android:title="Account Settings"
-        android:summary="Sync frequency, notifications, etc.">
+        android:summary="Acount, sync frequency, notifications, etc."
+        android:title="Account Settings" >
         <intent
             android:action="au.id.teda.broadband.usage.account.EDIT"
-            android:targetPackage="au.id.teda.broadband.usage"
-            android:targetClass="au.id.teda.broadband.usage.authenticator.AccountPreferences" />
+            android:targetClass="au.id.teda.broadband.usage.authenticator.AccountPreferences"
+            android:targetPackage="au.id.teda.broadband.usage" />
     </PreferenceScreen>
 
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="wifi_only"
+        android:title="Sync over Wi-Fi Only" />
+    
 </PreferenceScreen>

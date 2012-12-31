@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import au.id.teda.broadband.usage.R;
+import au.id.teda.broadband.usage.syncadapter.DummyContentProvider;
 import au.id.teda.broadband.usage.util.NetworkUtilities;
 
 public class AuthenticatorActivity extends AccountAuthenticatorActivity {
@@ -218,16 +219,21 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
      */
     private void addAccount(){
     	
+    	long ONE_HR = (60 * 60);
+    	
     	// This is the magic that adds the account to the Android Account Manager  
     	final Account account = new Account(mUsername, accountType);
     	mAccountManager.addAccountExplicitly(account, mPassword, null);
-    	ContentResolver.setSyncAutomatically(account, ContactsContract.AUTHORITY, true);
+    	ContentResolver.setIsSyncable(account, DummyContentProvider.PROVIDER, 1);
+    	ContentResolver.setSyncAutomatically(account, DummyContentProvider.PROVIDER, true);
+    	ContentResolver.addPeriodicSync(account, DummyContentProvider.PROVIDER, new Bundle(), 10);
     	
         final Intent intent = new Intent();
         intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, mUsername);
         intent.putExtra(AccountManager.KEY_ACCOUNT_TYPE, accountType);
         setAccountAuthenticatorResult(intent.getExtras());
         setResult(RESULT_OK, intent);
+        
         finish();
 	}
     

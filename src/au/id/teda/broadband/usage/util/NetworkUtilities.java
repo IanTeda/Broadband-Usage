@@ -480,7 +480,9 @@ public class NetworkUtilities {
 
     	/** Complete before we execute task **/
     	protected void onPreExecute(){
-    		mHandler.sendEmptyMessage(MainActivity.HANDLER_START_REFRESH_ANIMATION);
+    		if (mHandler != null){
+    			mHandler.sendEmptyMessage(MainActivity.HANDLER_START_REFRESH_ANIMATION);
+    		}
     	}
     	
     	
@@ -502,9 +504,11 @@ public class NetworkUtilities {
 		
 		@Override
 		protected void onPostExecute(Void result){
+			if (mHandler != null){
 			// Stop animation of refresh icon
-			mHandler.sendEmptyMessage(MainActivity.HANDLER_RELOAD_VIEW);
-			mHandler.sendEmptyMessage(MainActivity.HANDLER_STOP_REFRESH_ANIMATION);
+				mHandler.sendEmptyMessage(MainActivity.HANDLER_RELOAD_VIEW);
+				mHandler.sendEmptyMessage(MainActivity.HANDLER_STOP_REFRESH_ANIMATION);
+			}
 			//TODO: Do I need to do this?
 			closeTask();
         }

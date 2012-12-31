@@ -26,21 +26,21 @@ import android.os.IBinder;
  */
 public class SyncService extends Service {
 
-    private static final Object sSyncAdapterLock = new Object();
+    private static final Object mSyncAdapterLock = new Object();
 
-    private static SyncAdapter sSyncAdapter = null;
+    private static SyncAdapter mSyncAdapter = null;
 
     @Override
     public void onCreate() {
-        synchronized (sSyncAdapterLock) {
-            if (sSyncAdapter == null) {
-                sSyncAdapter = new SyncAdapter(getApplicationContext(), true);
+        synchronized (mSyncAdapterLock) {
+            if (mSyncAdapter == null) {
+                mSyncAdapter = new SyncAdapter(getApplicationContext(), true);
             }
         }
     }
 
     @Override
     public IBinder onBind(Intent intent) {
-        return sSyncAdapter.getSyncAdapterBinder();
+        return mSyncAdapter.getSyncAdapterBinder();
     }
 }

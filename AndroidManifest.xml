@@ -38,11 +38,10 @@
         </service>
         <service
             android:name=".syncadapter.SyncService"
-            android:exported="false" >
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
             </intent-filter>
-
             <meta-data
                 android:name="android.content.SyncAdapter"
                 android:resource="@xml/syncadapter" />
@@ -62,7 +61,7 @@
 
             <!--
                 No intent-filter here! This activity is only ever launched by
-                someone who explicitly knows the class name
+                someone who explicitly knows the class name
             -->
         </activity>
         <activity
@@ -79,13 +78,14 @@
             android:label="Settings Activity" >
             <intent-filter>
                 <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".authenticator.AccountPreferences" 
-            android:label="Account Preferences" 
-   			android:excludeFromRecents="true" />
+            android:name=".authenticator.AccountPreferences"
+            android:excludeFromRecents="true"
+            android:label="Account Preferences" />
     </application>
 
 </manifest>

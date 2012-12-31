@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <PreferenceCategory android:title="Privacy preferences" />
+    <PreferenceCategory android:title="iiNet Accout" />
+    
+    <PreferenceScreen android:title="Change Details"
+        android:summary="Update or modify account details" >
+        <intent
+            android:targetClass="au.id.teda.broadband.usage.authenticator.AuthenticatorActivity"
+            android:targetPackage="au.id.teda.broadband.usage" />
+    </PreferenceScreen>
+    
+    <PreferenceCategory android:title="Sync Frequency" />
 
     <CheckBoxPreference
         android:defaultValue="true"
@@ -9,7 +18,7 @@
         android:summary="Keep contacts private"
         android:title="Contacts" />
 
-    <PreferenceCategory android:title="Outgoing" />
+    <PreferenceCategory android:title="Notification" />
 
     <CheckBoxPreference
         android:defaultValue="true"
