@@ -32,7 +32,7 @@ import au.id.teda.broadband.usage.util.NetworkUtilities;
 
 public class MainActivity extends SherlockFragmentActivity {
 	
-	private static final String DEBUG_TAG = "bbusage";
+	public static final String DEBUG_TAG = "bbusage";
 	
 	public static final int HANDLER_RELOAD_VIEW = 0;
 	public static final int HANDLER_START_REFRESH_ANIMATION = 1;

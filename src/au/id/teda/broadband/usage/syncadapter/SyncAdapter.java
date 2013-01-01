@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.SyncResult;
 import android.os.Bundle;
 import android.util.Log;
+import au.id.teda.broadband.usage.helper.NotificationHelper;
 import au.id.teda.broadband.usage.util.NetworkUtilities;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
@@ -28,6 +29,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		
 		NetworkUtilities mNetworkUtilities = new NetworkUtilities(mContext);
 		mNetworkUtilities.syncXmlData();
+		
+		NotificationHelper mNotificationHelper = new NotificationHelper(mContext);
+		mNotificationHelper.showNotificaiton();
 	}
 
 }
