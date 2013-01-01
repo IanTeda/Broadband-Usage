@@ -6,8 +6,11 @@ import android.content.ContentProviderClient;
 import android.content.Context;
 import android.content.SyncResult;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import au.id.teda.broadband.usage.helper.NotificationHelper;
+import au.id.teda.broadband.usage.ui.MainActivity;
 import au.id.teda.broadband.usage.util.NetworkUtilities;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
@@ -28,10 +31,23 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		Log.d(DEBUG_TAG, "onPerformSync: " + authority );
 		
 		NetworkUtilities mNetworkUtilities = new NetworkUtilities(mContext);
-		mNetworkUtilities.syncXmlData();
+		mNetworkUtilities.syncXmlData(handler);
 		
-		NotificationHelper mNotificationHelper = new NotificationHelper(mContext);
-		mNotificationHelper.showNotificaiton();
+		
 	}
+	
+	/**
+	 *  Handler for passing messages from other classes
+	 */
+    public Handler handler = new Handler() {
+        public void handleMessage(Message msg) {
+        	switch (msg.what) {
+        	case MainActivity.HANDLER_STOP_REFRESH_ANIMATION:
+        		NotificationHelper mNotificationHelper = new NotificationHelper(mContext);
+        		mNotificationHelper.showNotificaiton();
+        		break;	
+        	}   	
+        }
+    };
 
 }

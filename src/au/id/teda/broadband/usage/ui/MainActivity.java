@@ -23,6 +23,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.authenticator.AuthenticatorActivity;
 import au.id.teda.broadband.usage.chart.DoughnutChart;
@@ -37,6 +38,7 @@ public class MainActivity extends SherlockFragmentActivity {
 	public static final int HANDLER_RELOAD_VIEW = 0;
 	public static final int HANDLER_START_REFRESH_ANIMATION = 1;
 	public static final int HANDLER_STOP_REFRESH_ANIMATION = 2;
+	public static final int HANDLER_NO_CONNECTIVITY = 3;
 	
     
     /** Refresh icon reference object **/
@@ -94,7 +96,7 @@ public class MainActivity extends SherlockFragmentActivity {
         	switch (msg.what) {
         	case HANDLER_RELOAD_VIEW:
         		loadTextViews();
-        		loadDoughnutChart();
+        		mDoughnutChartView.repaint();
         		break;
         	case HANDLER_START_REFRESH_ANIMATION:
         		startAnimateRefreshIcon();
@@ -102,11 +104,16 @@ public class MainActivity extends SherlockFragmentActivity {
         	case HANDLER_STOP_REFRESH_ANIMATION:
         		stopAnimateRefreshIcon();
         		break;	
-        	
+        	case HANDLER_NO_CONNECTIVITY:
+        		noConnectivityToast();
         	}
-        	
         }
     };
+    
+    private void noConnectivityToast(){
+    	Toast toast = Toast.makeText(this, "No connectivity", Toast.LENGTH_LONG);
+		toast.show();
+    }
     
     // Create options menu
     @Override
@@ -130,8 +137,13 @@ public class MainActivity extends SherlockFragmentActivity {
                 return true;
         case R.id.menu_refresh:
         		NetworkUtilities mNetworkUtilities = new NetworkUtilities(this);
-        		mNetworkUtilities.getXmlData(handler);
-                return true;
+        		if (mNetworkUtilities.isConnected()){
+        			mNetworkUtilities.syncXmlData(handler);
+        		} else {
+        			Toast toast = Toast.makeText(this, "No connectivity", Toast.LENGTH_LONG);
+            		toast.show();
+        		}
+        		return true;
         default:
                 return super.onOptionsItemSelected(item);
         }

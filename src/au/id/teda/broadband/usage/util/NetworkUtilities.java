@@ -121,62 +121,13 @@ public class NetworkUtilities {
     /**
      * Setup progress dialog and then start download task
      */
-    public void getXmlData(Handler handler){
+    public void syncXmlData(Handler handler){
     	
     	// Get user account name
 		mAccountUsername = getAccountUsername();
 
 		mHandler = handler;
     	
-    	if (isConnected()){
-    		mDownloadXmlTask = new DownloadXmlTask();
-    		mDownloadXmlTask.execute();
-    	} else if (is3gConnected()){
-    		
-    		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
-     
-    			// set title
-    			alertDialogBuilder.setTitle("No WiFi Connection");
-     
-    			// set dialog message
-    			alertDialogBuilder
-    				.setMessage("Download Over 3G?")
-    				.setCancelable(false)
-    				.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
-    					public void onClick(DialogInterface dialog,int id) {
-    						// if this button is clicked, close
-    						mDownloadXmlTask = new DownloadXmlTask();
-    			    		mDownloadXmlTask.execute();
-    					}
-    				  })
-    				.setNegativeButton("No",new DialogInterface.OnClickListener() {
-    					public void onClick(DialogInterface dialog,int id) {
-    						// if this button is clicked, just close
-    						// the dialog box and do nothing
-    						Toast toast = Toast.makeText(mContext, "No connectivity", Toast.LENGTH_LONG);
-    			    		toast.show();
-    						dialog.cancel();
-    					}
-    				});
-     
-    				// create alert dialog
-    				AlertDialog alertDialog = alertDialogBuilder.create();
-     
-    				// show it
-    				alertDialog.show();
-    		
-    	} else {
-    		Toast toast = Toast.makeText(mContext, "No connectivity", Toast.LENGTH_LONG);
-    		toast.show();
-    	}
-    }
-    
-    /**
-     * Setup progress dialog and then start download task
-     */
-    public void syncXmlData(){
-    	mAccountUsername = getAccountUsername();
-    		
     	mDownloadXmlTask = new DownloadXmlTask();
     	mDownloadXmlTask.execute();
     }
