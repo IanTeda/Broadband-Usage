@@ -83,9 +83,6 @@ public class NetworkUtilities {
     
     // Error texts from XML
     private static final String AUTHENTICATION_FAILURE = "Authentication failure";
-    
-    // Shared pref key value for wifi only setting
-    private static final String WIFI_ONLY = "wifi_only";
 
     /**
      * Class constructor
@@ -426,7 +423,7 @@ public class NetworkUtilities {
     	updateConnectionFlags();
     	
         // Are we only syncing when connected through WiFi
-        boolean wifiOnly = sharedPrefs.getBoolean(WIFI_ONLY, true);
+        boolean wifiOnly = sharedPrefs.getBoolean(mContext.getString(R.string.pref_sync_wifi_key), true);
     	
         if (( (!wifiOnly) && (wifiConnected || mobileConnected))
                 || ( (wifiOnly) && (wifiConnected))) {

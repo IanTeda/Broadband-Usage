@@ -61,8 +61,7 @@
 
             <!--
                 No intent-filter here! This activity is only ever launched by
-                someone who explicitly knows the class name
-            -->
+                someone who explicitly knows the class name            -->
         </activity>
         <activity
             android:name=".ui.MainActivity"
@@ -75,7 +74,7 @@
         </activity>
         <activity
             android:name=".ui.SettingsActivity"
-            android:label="Settings Activity" >
+            android:label="Broadband Usage Setting" >
             <intent-filter>
                 <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />
 

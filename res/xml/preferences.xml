@@ -1,19 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
+    <PreferenceCategory android:title="@string/pref_account_category" />
+
     <PreferenceScreen
-        android:key="account_settings"
-        android:summary="Acount, sync frequency, notifications, etc."
-        android:title="Account Settings" >
+        android:title="@string/pref_account_modifiy_title"
+        android:summary="@string/pref_account_modifiy_summary">
         <intent
-            android:action="au.id.teda.broadband.usage.account.EDIT"
-            android:targetClass="au.id.teda.broadband.usage.authenticator.AccountPreferences"
+            android:targetClass="au.id.teda.broadband.usage.authenticator.AuthenticatorActivity"
             android:targetPackage="au.id.teda.broadband.usage" />
     </PreferenceScreen>
 
+    <PreferenceCategory android:title="@string/pref_sync_category" />
+
+    <ListPreference
+        android:defaultValue="twenty_four_hours"
+        android:entries="@array/pref_sync_freq_array_entries"
+        android:entryValues="@array/pref_sync_freq_array_values"
+        android:key="@string/pref_sync_freq_key"
+        android:title="@string/pref_sync_freq_title" />
+        
     <CheckBoxPreference
         android:defaultValue="true"
-        android:key="wifi_only"
-        android:title="Sync over Wi-Fi Only" />
-    
+        android:key="@string/pref_sync_wifi_key"
+        android:title="@string/pref_sync_wifi_title" />
+
+    <PreferenceCategory android:title="Notification" />
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="allow_mail"
+        android:summary="Allow email"
+        android:title="Email" />
+
 </PreferenceScreen>

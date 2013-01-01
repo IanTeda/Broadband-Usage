@@ -15,4 +15,10 @@
     <string name="authenticator_activity_no_password">No password entered</string>
     
     <string name="sync_adapter_label">iiNet Usage</string>
+    
+    <!-- account_preferences.xml -->
+    <string name="pref_authenticator_app_category">General Settings</string>
+    <string name="pref_authenticator_app_settings_title">App Settings</string>
+    <string name="pref_authenticator_app_settings_key">General Settings</string>
+    <string name="pref_authenticator_app_settings_summary">Sync frequency, notifications, etc.</string>
 </resources>

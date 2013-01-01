@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Account Category -->
+    <string name="pref_account_category">iiNet Accout</string>
+    <string name="pref_account_modifiy_title">Modify Account</string>
+    <string name="pref_account_modifiy_summary">Update or modify account details</string>
+    
+    <!-- Sync frequency strings -->
+    <string name="pref_sync_category">Sync Settings</string>
+    
+    <string name="pref_sync_wifi_title">Sync Wi-Fi Only</string>
+    <string name="pref_sync_wifi_key">wifi_only</string>
+    
+    
+    <string name="pref_sync_freq_title">Sync Frequency</string>
+    <string name="pref_sync_freq_key">sync_freq</string>
+
+    <string-array name="pref_sync_freq_array_entries">
+        <item>30 Mins</item>
+        <item>1 Hour</item>
+        <item>3 Hours</item>
+        <item>6 Hours</item>
+        <item>12 Hours</item>
+        <item>24 Hours</item>
+    </string-array>
+    <string-array name="pref_sync_freq_array_values">
+        <item>half_hour</item>
+        <item>hour</item>
+        <item>three_hours</item>
+        <item>six_hours</item>
+        <item>twelve_hours</item>
+        <item>twenty_four_hours</item>
+    </string-array>
+
+</resources>

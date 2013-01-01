@@ -1,16 +1,16 @@
 <PreferenceScreen
   xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
-            android:title="General Settings" />
+            android:title="@string/pref_authenticator_app_category" />
 
     <PreferenceScreen
-        android:key="account_settings"
-        android:title="Account Settings"
-        android:summary="Sync frequency, notifications, etc.">
+        android:title="@string/pref_authenticator_app_settings_title"
+        android:key="@string/pref_authenticator_app_settings_key"
+        android:summary="@string/pref_authenticator_app_settings_summary">
         <intent
             android:action="au.id.teda.broadband.usage.account.EDIT"
             android:targetPackage="au.id.teda.broadband.usage"
-            android:targetClass="au.id.teda.broadband.usage.authenticator.AccountPreferences" />
+            android:targetClass="au.id.teda.broadband.usage.ui.SettingsActivity" />
     </PreferenceScreen>
     
 </PreferenceScreen>

@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -21,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.syncadapter.DummyContentProvider;
+import au.id.teda.broadband.usage.ui.SettingsActivity;
 import au.id.teda.broadband.usage.util.NetworkUtilities;
 
 public class AuthenticatorActivity extends AccountAuthenticatorActivity {
@@ -226,7 +226,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
     	// Sync account automatically
     	ContentResolver.setSyncAutomatically(account, DummyContentProvider.PROVIDER, true);
     	// Sync every day as default
-    	ContentResolver.addPeriodicSync(account, DummyContentProvider.PROVIDER, new Bundle(), AccountPreferences.TWENTY_FOUR_HOURS);
+    	ContentResolver.addPeriodicSync(account, DummyContentProvider.PROVIDER, new Bundle(), SettingsActivity.TWENTY_FOUR_HOURS);
     	
         final Intent intent = new Intent();
         intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, mUsername);
