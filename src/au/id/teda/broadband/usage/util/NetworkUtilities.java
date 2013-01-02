@@ -14,12 +14,14 @@ import com.actionbarsherlock.view.MenuItem;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.AlertDialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.preference.PreferenceManager;
@@ -41,6 +43,7 @@ import au.id.teda.broadband.usage.parser.AccountStatusParser.AccountStatus;
 import au.id.teda.broadband.usage.parser.ErrorParser;
 import au.id.teda.broadband.usage.parser.VolumeUsageParser;
 import au.id.teda.broadband.usage.parser.VolumeUsageParser.VolumeUsage;
+import au.id.teda.broadband.usage.syncadapter.DummyContentProvider;
 import au.id.teda.broadband.usage.ui.MainActivity;
 
 
@@ -72,10 +75,12 @@ public class NetworkUtilities {
     
     private Handler mHandler;
     
-    /** Account manager object **/
-    private AccountManager mAccountManager;
-    private String accountType;
-    private String mAccountUsername;
+    private AccountAuthenticator mAccountAuthenticator;
+    
+    private static String mUsername;
+    
+	public static final int HANDLER_START_ASYNC_TASK = 0;
+	public static final int HANDLER_COMPLETE_ASYNC_TASK = 1;
 
     // Connection flags.
     private static boolean wifiConnected = false;
@@ -91,14 +96,10 @@ public class NetworkUtilities {
     public NetworkUtilities(Context context) {
     	// Set context based on activity context passed to constructor
     	NetworkUtilities.mContext = context;
-
-    	// Set shared preference
-    	sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+     
+    	mAccountAuthenticator = new AccountAuthenticator(mContext);
     	
-    	// Set account manager
-        mAccountManager = AccountManager.get(mContext);
-        accountType = AccountAuthenticator.ACCOUNT_TYPE;
-        
+    	mUsername = mAccountAuthenticator.getUsername();
     }
     
     /**
@@ -117,31 +118,15 @@ public class NetworkUtilities {
             mobileConnected = false;
         }
     }
-    
+	
     /**
      * Setup progress dialog and then start download task
      */
     public void syncXmlData(Handler handler){
-    	
-    	// Get user account name
-		mAccountUsername = getAccountUsername();
-
 		mHandler = handler;
     	
     	mDownloadXmlTask = new DownloadXmlTask();
     	mDownloadXmlTask.execute();
-    }
-    
-    private String getAccountUsername(){
-    	// Get accounts based on account type
-    	Account[] accounts = mAccountManager.getAccountsByType(accountType);
-        
-        // Get username and password for accounts
-        String username = "";
-        for (Account account : accounts) {
-        	username = account.name;
-        }
-        return username;
     }
     
     /**
@@ -150,19 +135,9 @@ public class NetworkUtilities {
      * @throws IOException
      */
     private UnclosableBufferedInputStream getXmlBufferedInputStream() throws IOException {
-    	// Get accounts based on account type
-    	Account[] accounts = mAccountManager.getAccountsByType(accountType);
-        
-        // Get username and password for accounts
-        String username = "";
-        String password = "";
-        for (Account account : accounts) {
-        	username = account.name;
-        	password = mAccountManager.getPassword(account);
-        }
-        
+       
     	// Get input stream
-        InputStream inputStream = getUrlInputStream(urlBuilder(username, password));
+        InputStream inputStream = getUrlInputStream(urlBuilder(mUsername, mAccountAuthenticator.getPassword()));
     	
     	//InputStream inputStream = mContext.getResources().openRawResource(R.raw.naked_dsl_home_5);
     	
@@ -268,7 +243,7 @@ public class NetworkUtilities {
         	peakQuota = accountInfo.offpeakQuota;
         	offpeakQuota = accountInfo.offpeakQuota;
         	
-        	mAccountInfoHelper.setAccountInfo(mAccountUsername, plan, product, offpeakStartTime, offpeakEndTime, peakQuota, offpeakQuota);
+        	mAccountInfoHelper.setAccountInfo(mUsername, plan, product, offpeakStartTime, offpeakEndTime, peakQuota, offpeakQuota);
         	
         }
                  
@@ -319,7 +294,7 @@ public class NetworkUtilities {
         	ipAddress = accountStatus.ipAddress;
         	upTimeDate = accountStatus.upTimeDate;
         	
-        	mAccountStatusHelper.setAccoutStatus(mAccountUsername, quotaResetDate, quotaStartDate
+        	mAccountStatusHelper.setAccoutStatus(mUsername, quotaResetDate, quotaStartDate
         			, peakDataUsed, peakIsShaped, peakSpeed
         			, offpeakDataUsed, offpeakIsShaped, offpeakSpeed
         			, uploadsDataUsed, freezoneDataUsed
@@ -358,30 +333,11 @@ public class NetworkUtilities {
         	Long uploads = volumeUsage.uploads;
         	Long freezone = volumeUsage.freezone;
         	
-        	mVolumeUsageDb.addReplaceEntry(mAccountUsername, day, month, peak, offpeak, uploads, freezone);
+        	mVolumeUsageDb.addReplaceEntry(mUsername, day, month, peak, offpeak, uploads, freezone);
         }
         
         mVolumeUsageDb.close();
                  
-    }
-    
-    /**
-     * Do we have a connection to the internet?
-     * 
-     * @return true if connection present (including WiFi settings)
-     */
-    public boolean isConnected() {
-    	updateConnectionFlags();
-    	
-        // Are we only syncing when connected through WiFi
-        boolean wifiOnly = sharedPrefs.getBoolean(mContext.getString(R.string.pref_sync_wifi_key), true);
-    	
-        if (( (!wifiOnly) && (wifiConnected || mobileConnected))
-                || ( (wifiOnly) && (wifiConnected))) {
-        	return true;
-        } else {
-        	return false;
-        }
     }
     
     /**
@@ -429,7 +385,7 @@ public class NetworkUtilities {
     	/** Complete before we execute task **/
     	protected void onPreExecute(){
     		if (mHandler != null){
-    			mHandler.sendEmptyMessage(MainActivity.HANDLER_START_REFRESH_ANIMATION);
+    			mHandler.sendEmptyMessage(HANDLER_START_ASYNC_TASK);
     		}
     	}
     	
@@ -454,8 +410,7 @@ public class NetworkUtilities {
 		protected void onPostExecute(Void result){
 			if (mHandler != null){
 			// Stop animation of refresh icon
-				mHandler.sendEmptyMessage(MainActivity.HANDLER_RELOAD_VIEW);
-				mHandler.sendEmptyMessage(MainActivity.HANDLER_STOP_REFRESH_ANIMATION);
+				mHandler.sendEmptyMessage(HANDLER_COMPLETE_ASYNC_TASK);
 			}
 			//TODO: Do I need to do this?
 			closeTask();

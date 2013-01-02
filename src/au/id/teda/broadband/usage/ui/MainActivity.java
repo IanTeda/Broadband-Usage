@@ -7,6 +7,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,18 +30,14 @@ import au.id.teda.broadband.usage.authenticator.AuthenticatorActivity;
 import au.id.teda.broadband.usage.chart.DoughnutChart;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
+import au.id.teda.broadband.usage.syncadapter.DummyContentProvider;
+import au.id.teda.broadband.usage.syncadapter.SyncAdapter;
 import au.id.teda.broadband.usage.util.NetworkUtilities;
 
 public class MainActivity extends SherlockFragmentActivity {
 	
 	public static final String DEBUG_TAG = "bbusage";
 	
-	public static final int HANDLER_RELOAD_VIEW = 0;
-	public static final int HANDLER_START_REFRESH_ANIMATION = 1;
-	public static final int HANDLER_STOP_REFRESH_ANIMATION = 2;
-	public static final int HANDLER_NO_CONNECTIVITY = 3;
-	
-    
     /** Refresh icon reference object **/
     private static MenuItem mRefreshMenuItem;
     
@@ -88,24 +85,15 @@ public class MainActivity extends SherlockFragmentActivity {
         super.onSaveInstanceState(outState);
     }
 
-	/**
-	 *  Handler for passing messages from other classes
-	 */
     public Handler handler = new Handler() {
         public void handleMessage(Message msg) {
         	switch (msg.what) {
-        	case HANDLER_RELOAD_VIEW:
-        		loadTextViews();
-        		mDoughnutChartView.repaint();
-        		break;
-        	case HANDLER_START_REFRESH_ANIMATION:
+        	case NetworkUtilities.HANDLER_START_ASYNC_TASK:
         		startAnimateRefreshIcon();
         		break;
-        	case HANDLER_STOP_REFRESH_ANIMATION:
+        	case NetworkUtilities.HANDLER_COMPLETE_ASYNC_TASK:
         		stopAnimateRefreshIcon();
-        		break;	
-        	case HANDLER_NO_CONNECTIVITY:
-        		noConnectivityToast();
+        		break;
         	}
         }
     };
@@ -137,11 +125,11 @@ public class MainActivity extends SherlockFragmentActivity {
                 return true;
         case R.id.menu_refresh:
         		NetworkUtilities mNetworkUtilities = new NetworkUtilities(this);
-        		if (mNetworkUtilities.isConnected()){
-        			mNetworkUtilities.syncXmlData(handler);
+        		if(mNetworkUtilities.is3gOrWifiConnected()){
+        			SyncAdapter mSyncAdapter = new SyncAdapter(this, false);
+        			mSyncAdapter.requestSync(handler);
         		} else {
-        			Toast toast = Toast.makeText(this, "No connectivity", Toast.LENGTH_LONG);
-            		toast.show();
+        			noConnectivityToast();
         		}
         		return true;
         default:
@@ -251,5 +239,6 @@ public class MainActivity extends SherlockFragmentActivity {
 		 	refreshing = false;
 		 }
 	}
+
 
 }

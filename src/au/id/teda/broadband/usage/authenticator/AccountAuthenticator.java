@@ -16,6 +16,8 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
 	
 	/** Account type String. This needs to match authenticator.xml type **/
     public static final String ACCOUNT_TYPE = "au.net.iinet.account";
+    
+    private static AccountManager mAccountManager;
 
 	// Activity context
     private static Context mContext;
@@ -23,6 +25,8 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
 	public AccountAuthenticator(Context context) {
 		super(context);
 		AccountAuthenticator.mContext = context;
+		
+		mAccountManager = AccountManager.get(mContext);
 	}
 
 	@Override
@@ -81,6 +85,20 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
             String authTokenType, Bundle loginOptions) {
         Log.d(DEBUG_TAG, "updateCredentials()");
         return null;
+    }
+    
+    public Account getAccount(){
+    	// Get accounts based on account type
+    	Account[] accounts = mAccountManager.getAccountsByType(ACCOUNT_TYPE);
+        return accounts[0];
+    }
+
+    public String getUsername(){
+    	return getAccount().name;
+    }
+    
+    public String getPassword(){
+    	return mAccountManager.getPassword(getAccount());
     }
 
 }
