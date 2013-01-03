@@ -54,26 +54,19 @@ public class NotificationHelper {
 	}
 	
 	public void checkStatus(){
-		String period = mStatus.getCurrentMonthString();
 		
-		if (isNewPeriod(period)){
-			resetNotificationStatus(period);
-		} else if (isEndOfPeriodNear() && !isEndOfPeriodNearNotified()) {
+		if (isEndOfPeriodNear() && !isEndOfPeriodNearNotified()) {
 			Log.d(DEBUG_TAG, "End of period near");
 			notifyEndOfPeriodNear();
+		} else if (isNewPeriod() && !isEndOfPeriodOverNotified()){
+			Log.d(DEBUG_TAG, "New period");
+			notifyEndOfPeriodOver();
+			resetNotificationStatus();
 		}
 	}
 	
-	private boolean isNewPeriod(String period){
-		if (period.equals(getNotificationPeriod())){
-			return false;
-		} else {
-			return true;
-		}
-		
-	}
-	
-	private void resetNotificationStatus(String period){
+	private void resetNotificationStatus(){
+		String period = mStatus.getCurrentMonthString();
 		setNotificationPeriod(period);
 		setEndOfPeriodNearNotified(false);
 		setEndOfPeriodOverNotified(false);
@@ -126,9 +119,25 @@ public class NotificationHelper {
 		return mSettings.getBoolean(KEY_NOTIFY_END_OF_PERIOD_NEAR, false);
 	}
 	
+	private boolean isNewPeriod(){
+		String period = mStatus.getCurrentMonthString();
+		if (period.equals(getNotificationPeriod())){
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 	private void setEndOfPeriodOverNotified(boolean flag){
 		mEditor.putBoolean(KEY_NOTIFY_END_OF_PERIOD_OVER, flag);
 		mEditor.commit();
+	}
+	
+	private void notifyEndOfPeriodOver(){
+		String title = mContext.getString(R.string.notification_end_of_period_over_title);
+		String message = mContext.getString(R.string.notification_end_of_period_over_message);
+		showNotificaiton(title, message);
+		setEndOfPeriodOverNotified(true);
 	}
 	
 	private boolean isEndOfPeriodOverNotified(){

@@ -3,5 +3,8 @@
     <string name="notification_end_of_period_near_title">Quota Reset Near</string>
     <string name="notification_end_of_period_near_message">Days to quota reset</string>
     
+    <string name="notification_end_of_period_over_title">Quota Reset</string>
+    <string name="notification_end_of_period_over_message">Time to start downloading</string>
+    
     
 </resources>
