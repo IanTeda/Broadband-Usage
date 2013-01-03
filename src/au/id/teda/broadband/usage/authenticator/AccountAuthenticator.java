@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import au.id.teda.broadband.usage.R;
 
 public class AccountAuthenticator extends AbstractAccountAuthenticator {
 	
@@ -95,11 +96,19 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
     }
 
     public String getUsername(){
-    	return getAccount().name;
+    	if (getAccount() != null){
+    		return getAccount().name;
+    	} else {
+    		return mContext.getString(R.string.activity_main_username);
+    	}
     }
     
     public String getPassword(){
-    	return mAccountManager.getPassword(getAccount());
+    	if (getAccount() != null){
+    		return mAccountManager.getPassword(getAccount());
+    	} else {
+    		return "";
+    	}
     }
     
     public boolean isAccountAuthenticated(){

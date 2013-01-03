@@ -58,6 +58,9 @@ public class NotificationHelper {
 		
 		if (isNewPeriod(period)){
 			resetNotificationStatus(period);
+		} else if (isEndOfPeriodNear() && !isEndOfPeriodNearNotified()) {
+			Log.d(DEBUG_TAG, "End of period near");
+			notifyEndOfPeriodNear();
 		}
 	}
 	
@@ -89,15 +92,34 @@ public class NotificationHelper {
 		return mSettings.getString(KEY_NOTIFICATION_PERIOD, "");
 	}
 	
+	private boolean isEndOfPeriodNear(){
+		
+		String days = mSettings.getString(mContext.getString(R.string.pref_notify_days2go_array_key), "seven_days");
+		long warning = daysStringtoInt(days);
+		long daysToGo = mStatus.getDaysToGoMillis();
+		
+		Log.d(DEBUG_TAG, "isEndOfPeriodNear > warning: " + warning + " / daysToGo: " + warning);
+		
+		if (daysToGo > warning){
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	private void notifyEndOfPeriodNear(){
+		
+		// TODO: Add long message with download stats remaining
+		String title = mContext.getString(R.string.notification_end_of_period_near_title);
+		String message = mStatus.getDaysToGoString() + " " + mContext.getString(R.string.notification_end_of_period_near_message);
+			
+		showNotificaiton(title, message);
+		setEndOfPeriodNearNotified(true);
+	}
+
 	private void setEndOfPeriodNearNotified(boolean flag){
 		mEditor.putBoolean(KEY_NOTIFY_END_OF_PERIOD_NEAR, flag);
 		mEditor.commit();
-	}
-	
-	private boolean isEndOfPeriodNear(){
-		int daysToGo = mStatus.getDaysToGo();
-		//int warning = mSettings.getInt(mContext.getString(R.string.pref_notify_days2go_array_key), defValue)
-		return false;
 	}
 	
 	private boolean isEndOfPeriodNearNotified(){
@@ -149,7 +171,7 @@ public class NotificationHelper {
 		return mSettings.getBoolean(KEY_NOTIFY_OFFPEAK_QUOTA_OVER, false);
 	}
 	
-	private long daysArraytoInt(String value){
+	private long daysStringtoInt(String value){
       
 		if (value.equals("one_day")){
 			return ONE_DAY;
@@ -167,12 +189,12 @@ public class NotificationHelper {
 		
 	}
 	
-	private void showNotificaiton(){
+	private void showNotificaiton(String title, String message){
 		Log.d(DEBUG_TAG, "NotificationHelper.showNotificaiton()");
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext);
 		mBuilder.setSmallIcon(R.drawable.ic_iinet_logo);
-		mBuilder.setContentTitle("My notification");
-		mBuilder.setContentText("Hello World!");
+		mBuilder.setContentTitle(title);
+		mBuilder.setContentText(message);
 		
 		// Creates an explicit intent for an Activity in your app
 		Intent resultIntent = new Intent(mContext, MainActivity.class);

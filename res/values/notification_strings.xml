@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="notification_end_of_period_near_title">Quota Reset Near</string>
+    <string name="notification_end_of_period_near_message">Days to quota reset</string>
+    
+    
+</resources>

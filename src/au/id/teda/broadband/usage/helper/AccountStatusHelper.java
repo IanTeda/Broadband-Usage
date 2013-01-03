@@ -101,14 +101,18 @@ public class AccountStatusHelper {
 		return mCalendar;
 	}
 	
-	public int getDaysToGo(){
+	public long getDaysToGoMillis(){
 		// Get current date/time
 		Calendar now = Calendar.getInstance();
 		// Get rollover date/time
 		Calendar rollover = getQuotaResetDate();
 		// Difference in milliseconds divided by day in millisecond
-		int diffInDays = (int) ((rollover.getTimeInMillis() - now.getTimeInMillis())/ DAY_IN_MILLIS );
-		
+		long diffInDays = (rollover.getTimeInMillis() - now.getTimeInMillis());
+		return diffInDays;
+	}
+	
+	public int getDaysToGo(){
+		int diffInDays = (int) (getDaysToGoMillis() / DAY_IN_MILLIS);
 		return diffInDays;
 	}
 	
