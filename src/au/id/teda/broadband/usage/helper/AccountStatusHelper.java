@@ -225,12 +225,15 @@ public class AccountStatusHelper {
 		return mSettings.getLong(PEAK_DATA_USED, 0);
 	}
 	
+	public int getPeakDataUsedGb(){
+		return (int) (mSettings.getLong(PEAK_DATA_USED, 0) / GB);
+	}
+	
 	public String getPeakDataUsedGbString(){
-		long peak = getPeakDataUsed();
-		long peakGb = peak / GB;
+		long peak = getPeakDataUsedGb();
 		
-		String used = Long.toString(peakGb);
-		if (peakGb < 10 ){
+		String used = Long.toString(peak);
+		if (peak < 10 ){
 			used = "0" + used;
 		}
 		
@@ -271,12 +274,15 @@ public class AccountStatusHelper {
 		return mSettings.getLong(OFFPEAK_DATA_USED, 0);
 	}
 	
+	public long getOffpeakDataUsedGb(){
+		return mSettings.getLong(OFFPEAK_DATA_USED, 0) / GB;
+	}
+	
 	public String getOffpeakDataUsedGbString(){
-		long offpeak = getOffpeakDataUsed();
-		long offpeakGb = offpeak / GB;
+		long offpeak = getOffpeakDataUsedGb();
 		
-		String used = Long.toString(offpeakGb);
-		if (offpeakGb < 10 ){
+		String used = Long.toString(offpeak);
+		if (offpeak < 10 ){
 			used = "0" + used;
 		}
 		return used;

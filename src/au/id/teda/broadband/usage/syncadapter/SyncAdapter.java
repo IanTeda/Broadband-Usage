@@ -51,16 +51,16 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         public void handleMessage(Message msg) {
         	switch (msg.what) {
         	case NetworkUtilities.HANDLER_START_ASYNC_TASK:
+        		Log.d(DEBUG_TAG, "SyncAdapter HANDLER_START_ASYNC_TASK");
         		if (mActivityHandler != null){
         			mActivityHandler.sendEmptyMessage(NetworkUtilities.HANDLER_START_ASYNC_TASK);
         		}
-        		Log.d(DEBUG_TAG, "SyncAdapter HANDLER_START_ASYNC_TASK");
         		break;
         	case NetworkUtilities.HANDLER_COMPLETE_ASYNC_TASK:
+        		Log.d(DEBUG_TAG, "SyncAdapter HANDLER_COMPLETE_ASYNC_TASK");
         		if (mActivityHandler != null){
         			mActivityHandler.sendEmptyMessage(NetworkUtilities.HANDLER_COMPLETE_ASYNC_TASK);
         		}
-        		Log.d(DEBUG_TAG, "SyncAdapter HANDLER_COMPLETE_ASYNC_TASK");
         		NotificationHelper mNotificationHelper = new NotificationHelper(mContext);
         		mNotificationHelper.checkStatus();
         		break;

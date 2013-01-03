@@ -71,15 +71,15 @@ public class DoughnutChart extends ChartBuilder {
 		AccountInfoHelper info = new AccountInfoHelper(mContext);
 
 		// Peak data
-		long peak = status.getPeakDataUsed() / GB;
-		long peakQuota = info.getPeakQuota() / MB;
+		long peak = status.getPeakDataUsedGb();
+		long peakQuota = info.getPeakQuotaGb();
 		long peakRemaining = peakQuota - peak;
 		double[] peakDouble = { peak, peakRemaining }; 
 		String[] peakCats = { PEAK_SO_FAR, PEAK_TO_GO };
 		
 		// Offpeak data
-		long offpeak = status.getOffpeakDataUsed() / GB;
-		long offpeakQuota = info.getPeakQuota() / MB;
+		long offpeak = status.getOffpeakDataUsedGb();
+		long offpeakQuota = info.getPeakQuotaGb();
 		long offpeakRemaining = offpeakQuota - offpeak;
 		double[] offpeakDouble = { offpeak, offpeakRemaining };
 		String[] offpeakCats = { OFFPEAK_SO_FAR, OFFPEAK_TO_GO };
