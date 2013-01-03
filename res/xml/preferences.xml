@@ -19,18 +19,68 @@
         android:entryValues="@array/pref_sync_freq_array_values"
         android:key="@string/pref_sync_freq_key"
         android:title="@string/pref_sync_freq_title" />
-        
-    <CheckBoxPreference
-        android:defaultValue="true"
-        android:key="@string/pref_sync_wifi_key"
-        android:title="@string/pref_sync_wifi_title" />
 
     <PreferenceCategory android:title="Notification" />
 
+    <!-- Days to Go -->
     <CheckBoxPreference
-        android:defaultValue="true"
-        android:key="allow_mail"
-        android:summary="Allow email"
-        android:title="Email" />
+        android:title="@string/pref_notify_days2go_checkbox_title"
+        android:summary="@string/pref_notify_days2go_checkbox_summary"
+        android:key="@string/pref_notify_days2go_checkbox_key"
+        android:defaultValue="true" />
+    
+    <ListPreference
+        android:title="@string/pref_notify_days2go_array_title"
+        android:key="@string/pref_notify_days2go_array_key"
+        android:defaultValue="three_days"
+        android:dependency="@string/pref_notify_days2go_checkbox_key"
+        android:entries="@array/pref_notify_days2go_array_entries"
+        android:entryValues="@array/pref_notify_days2go_array_values" />
+    
+    <!-- Nearing Peak Quota -->
+    <CheckBoxPreference
+        android:title="@string/pref_notify_peak_near_checkbox_title"
+        android:summary="@string/pref_notify_peak_near_checkbox_summary"
+        android:key="@string/pref_notify_peak_near_checkbox_key"
+        android:defaultValue="true" />
+    
+    <ListPreference
+        android:title="@string/pref_notify_peak_near_array_title"
+        android:key="@string/pref_notify_peak_near_array_key"
+        android:defaultValue="five_gb"
+        android:dependency="@string/pref_notify_peak_near_checkbox_key"
+        android:entries="@array/pref_notify_peak_near_array_entries"
+        android:entryValues="@array/pref_notify_peak_near_array_values" />
+    
+    <!-- Over Peak Quota -->
+    <CheckBoxPreference
+        android:title="@string/pref_notify_peak_over_checkbox_title"
+        android:summary="@string/pref_notify_peak_over_checkbox_summary"
+        android:key="@string/pref_notify_peak_over_checkbox_key"
+        android:defaultValue="true" />
+    
+    <!-- Nearing Offpeak Quota -->
+    <CheckBoxPreference
+        android:title="@string/pref_notify_offpeak_near_checkbox_title"
+        android:summary="@string/pref_notify_offpeak_near_checkbox_summary"
+        android:key="@string/pref_notify_offpeak_near_checkbox_key"
+        android:defaultValue="true" />
+    
+    <ListPreference
+        android:title="@string/pref_notify_offpeak_near_array_title"
+        android:key="@string/pref_notify_offpeak_near_array_key"
+        android:defaultValue="five_gb"
+        android:dependency="@string/pref_notify_offpeak_near_checkbox_key"
+        android:entries="@array/pref_notify_offpeak_near_array_entries"
+        android:entryValues="@array/pref_notify_offpeak_near_array_values" />
+    
+    <!-- Over Offpeak Quota -->
+    <CheckBoxPreference
+        android:title="@string/pref_notify_offpeak_over_checkbox_title"
+        android:summary="@string/pref_notify_offpeak_over_checkbox_summary"
+        android:key="@string/pref_notify_offpeak_over_checkbox_key"
+        android:defaultValue="true" />
+    
+    
 
 </PreferenceScreen>

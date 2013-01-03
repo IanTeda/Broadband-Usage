@@ -48,6 +48,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
     /** Account manager object **/
     private static AccountManager mAccountManager;
     private static String accountType;
+    private static AccountAuthenticator mAccountAuthenticator;
     
     /** Download manager **/
     static NetworkUtilities mAccount;
@@ -65,6 +66,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 		setContentView(R.layout.activity_authenticator);
 
         /** Set up account instance **/
+		mAccountAuthenticator = new AccountAuthenticator(this);
         mAccount = new NetworkUtilities(this);
         mAccountManager = AccountManager.get(this);
         accountType = AccountAuthenticator.ACCOUNT_TYPE;
@@ -148,18 +150,10 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 	 * Set username and password into edit text if set
 	 */
 	private void setUsernamePasswordEditText() {
-		// Get account type and then retrieve accounts
-		
-        Account[] accounts = mAccountManager.getAccountsByType(accountType);
-        
         // Get username and password for account
-        String accountName = "";
-        String accountPass = "";
-        for (Account account : accounts) {
-        	accountName = account.name;
-        	accountPass = mAccountManager.getPassword(account);
-        }
-        
+        String accountName = mAccountAuthenticator.getUsername();
+        String accountPass = mAccountAuthenticator.getPassword();
+
         // If we get something set edit text values
         if (accountName.length()>0 && accountPass.length() >0){
         	mUsernameEdit.setText(accountName);
@@ -181,14 +175,14 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         // Check if we like what was put into the username and password et's
         if (TextUtils.isEmpty(mUsername) || TextUtils.isEmpty(mPassword)) {
             mMessage.setText(getMessage());
-            //setDrawableWarning();
         } else {
+        	
             // Kick off a background task to perform the user login attempt.
         	if (mAccount.is3gOrWifiConnected()){
-        		
         		// Start async task
         		mAuthTask = new UserLoginTask(this);
 	            mAuthTask.execute();
+	            
         	} else {
         		// Set message text to connection error
         		mMessage.setText(R.string.authenticator_activity_no_connectivity);

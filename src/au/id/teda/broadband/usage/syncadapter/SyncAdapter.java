@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import au.id.teda.broadband.usage.authenticator.AccountAuthenticator;
+import au.id.teda.broadband.usage.helper.NotificationHelper;
 import au.id.teda.broadband.usage.util.NetworkUtilities;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
@@ -20,12 +21,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     private final Context mContext;
     private final NetworkUtilities mNetworkUtilities;
     private static Handler mActivityHandler;
+    private final NotificationHelper mNotificationHelper;
     
     public SyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
         mContext = context;
         
         mNetworkUtilities = new NetworkUtilities(mContext);
+        mNotificationHelper = new NotificationHelper(mContext);
     }
 
 	@Override
@@ -46,7 +49,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	/**
 	 *  Handler for passing messages from other classes
 	 */
-    public static Handler syncHandler = new Handler() {
+    public Handler syncHandler = new Handler() {
         public void handleMessage(Message msg) {
         	switch (msg.what) {
         	case NetworkUtilities.HANDLER_START_ASYNC_TASK:
@@ -60,6 +63,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         			mActivityHandler.sendEmptyMessage(NetworkUtilities.HANDLER_COMPLETE_ASYNC_TASK);
         		}
         		Log.d(DEBUG_TAG, "SyncAdapter HANDLER_COMPLETE_ASYNC_TASK");
+        		mNotificationHelper.checkStatus();
         		break;
         	}
         }

@@ -32,5 +32,79 @@
         <item>twelve_hours</item>
         <item>twenty_four_hours</item>
     </string-array>
+    
+    <!-- Notification Strings -->
+    
+    <!-- Days To Go -->
+    <string name="pref_notify_days2go_checkbox_title">Quota Period</string>
+    <string name="pref_notify_days2go_checkbox_summary">Warn when approaching quota reset</string>
+    <string name="pref_notify_days2go_checkbox_key">quota_reset_warning</string>
+    
+    <string name="pref_notify_days2go_array_title">Days Before Warning</string>
+    <string name="pref_notify_days2go_array_key">days2go_array</string>
+    <string-array name="pref_notify_days2go_array_entries">
+        <item>1 Day</item>
+        <item>2 Days</item>
+        <item>3 Days</item>
+        <item>7 Days</item>
+        <item>14 Days</item>
+    </string-array>
+    <string-array name="pref_notify_days2go_array_values">
+        <item>one_day</item>
+        <item>two_days</item>
+        <item>three_days</item>
+        <item>seven_days</item>
+        <item>fourteen_days</item>
+    </string-array>
+    
+    <!-- Nearing Peak Quota -->
+    <string name="pref_notify_peak_near_checkbox_title">Peak Quota Near</string>
+    <string name="pref_notify_peak_near_checkbox_summary">Warn when approaching peak quota</string>
+    <string name="pref_notify_peak_near_checkbox_key">near_peak_quota</string>
+    
+    <string name="pref_notify_peak_near_array_title">Remaining Peak Before Warning</string>
+    <string name="pref_notify_peak_near_array_key">peak_near_array</string>
+    <string-array name="pref_notify_peak_near_array_entries">
+        <item>1 Gb</item>
+        <item>2 Gb</item>
+        <item>5 Gb</item>
+        <item>10 Gb</item>
+    </string-array>
+    <string-array name="pref_notify_peak_near_array_values">
+        <item>one_gb</item>
+        <item>two_gb</item>
+        <item>five_gb</item>
+        <item>ten_gb</item>
+    </string-array>
+    
+    <!-- Over Peak Quota -->
+    <string name="pref_notify_peak_over_checkbox_title">Peak Quota Over</string>
+    <string name="pref_notify_peak_over_checkbox_summary">Warn when peak quota over</string>
+    <string name="pref_notify_peak_over_checkbox_key">peak_over_quota</string>
+    
+    <!-- Nearing Offpeak Quota -->
+    <string name="pref_notify_offpeak_near_checkbox_title">Offpeak Quota Near</string>
+    <string name="pref_notify_offpeak_near_checkbox_summary">Warn when approaching offpeak quota</string>
+    <string name="pref_notify_offpeak_near_checkbox_key">offpeak_near_quota</string>
+    
+    <string name="pref_notify_offpeak_near_array_title">Remaining Offpeak Before Warning</string>
+    <string name="pref_notify_offpeak_near_array_key">offpeak_near_array</string>
+    <string-array name="pref_notify_offpeak_near_array_entries">
+        <item>1 Gb</item>
+        <item>2 Gb</item>
+        <item>5 Gb</item>
+        <item>10 Gb</item>
+    </string-array>
+    <string-array name="pref_notify_offpeak_near_array_values">
+        <item>one_gb</item>
+        <item>two_gb</item>
+        <item>five_gb</item>
+        <item>ten_gb</item>
+    </string-array>
+    
+    <!-- Over Peak Quota -->
+    <string name="pref_notify_offpeak_over_checkbox_title">Offpeak Quota Over</string>
+    <string name="pref_notify_offpeak_over_checkbox_summary">Warn when offpeak quota over</string>
+    <string name="pref_notify_offpeak_over_checkbox_key">offpeak_over_quota</string>
 
 </resources>

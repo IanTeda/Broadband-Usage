@@ -33,6 +33,9 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnSh
     SharedPreferences mSettings;
     
     private ListPreference mFreqListPreference;
+    private ListPreference mDaysToGoListPreference;
+    private ListPreference mPeakNearPreference;
+    private ListPreference mOffpeakNearPreference;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +46,10 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnSh
         
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
         
-        mFreqListPreference = (ListPreference)getPreferenceScreen().findPreference(this.getString(R.string.pref_sync_freq_key));
+        mFreqListPreference = (ListPreference) getPreferenceScreen().findPreference(this.getString(R.string.pref_sync_freq_key));
+        mDaysToGoListPreference = (ListPreference) getPreferenceScreen().findPreference(this.getString(R.string.pref_notify_days2go_array_key));
+        mPeakNearPreference = (ListPreference) getPreferenceScreen().findPreference(this.getString(R.string.pref_notify_peak_near_array_key));
+        mOffpeakNearPreference = (ListPreference) getPreferenceScreen().findPreference(this.getString(R.string.pref_notify_offpeak_near_array_key));
     }
 
     @Override
@@ -53,8 +59,15 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnSh
         // Registers a callback to be invoked whenever a user changes a preference.
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
         
-        mFreqListPreference.setSummary(mFreqListPreference.getEntry()); 
+        setListPreferenceSummaries();
     }
+
+	private void setListPreferenceSummaries() {
+		mFreqListPreference.setSummary(mFreqListPreference.getEntry());
+        mDaysToGoListPreference.setSummary(mDaysToGoListPreference.getEntry());
+        mPeakNearPreference.setSummary(mPeakNearPreference.getEntry());
+        mOffpeakNearPreference.setSummary(mOffpeakNearPreference.getEntry());
+	}
     
     @Override
     protected void onPause() {

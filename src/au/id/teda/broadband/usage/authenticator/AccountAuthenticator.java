@@ -33,17 +33,13 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
 	public Bundle addAccount(AccountAuthenticatorResponse response, String accountType,
             String authTokenType, String[] requiredFeatures, Bundle options)
 			throws NetworkErrorException {
-		
-		Log.d(DEBUG_TAG, "addAccount()");
+
+		// TODO: delete?
 		
 		final Bundle result = new Bundle();
 		final Intent intent = new Intent(mContext, AuthenticatorActivity.class);
-
         intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
         result.putParcelable(AccountManager.KEY_INTENT, intent);
-        
-        Log.d(DEBUG_TAG, "addAccount() return bundle");
-        
         return result;
 	}
 
