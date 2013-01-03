@@ -83,10 +83,15 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
         return null;
     }
     
+    
     public Account getAccount(){
     	// Get accounts based on account type
     	Account[] accounts = mAccountManager.getAccountsByType(ACCOUNT_TYPE);
-        return accounts[0];
+    	if (accounts.length > 0){
+    		return accounts[0];
+    	} else {
+    		return null;
+    	}
     }
 
     public String getUsername(){
@@ -97,10 +102,13 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
     	return mAccountManager.getPassword(getAccount());
     }
     
-    
     public boolean isAccountAuthenticated(){
-        if (getUsername().length() >0 && getPassword().length() > 0){
-        	return true;
+        if (getAccount() != null){
+        	if (getUsername().length() >0 && getPassword().length() > 0){
+        		return true;
+        	} else {
+        		return false;
+        	}
         } else {
         	return false;
         }

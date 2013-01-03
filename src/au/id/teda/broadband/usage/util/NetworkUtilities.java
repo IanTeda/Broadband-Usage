@@ -98,8 +98,7 @@ public class NetworkUtilities {
     	NetworkUtilities.mContext = context;
      
     	mAccountAuthenticator = new AccountAuthenticator(mContext);
-    	
-    	mUsername = mAccountAuthenticator.getUsername();
+
     }
     
     /**
@@ -123,6 +122,9 @@ public class NetworkUtilities {
      * Setup progress dialog and then start download task
      */
     public void syncXmlData(Handler handler){
+    	
+    	mUsername = mAccountAuthenticator.getUsername();
+    	
 		mHandler = handler;
     	
     	mDownloadXmlTask = new DownloadXmlTask();

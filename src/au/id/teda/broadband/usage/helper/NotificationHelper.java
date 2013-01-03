@@ -25,6 +25,12 @@ public class NotificationHelper {
 	private static final String KEY_NOTIFY_OFFPEAK_QUOTA_OVER = "notify_offpeak_quota_over";
 	
 	private static final long DAY_IN_MILLISECONDS = 1000 * 60 * 60 * 24;
+	private static final long ONE_DAY = DAY_IN_MILLISECONDS;
+	private static final long TWO_DAYS = DAY_IN_MILLISECONDS * 2;
+	private static final long THREE_DAYS = DAY_IN_MILLISECONDS * 3;
+	private static final long SEVEN_DAYS = DAY_IN_MILLISECONDS * 7;
+	private static final long FOURTEEN_DAYS = DAY_IN_MILLISECONDS * 14;
+	
 	
 	private final Context mContext;
 	
@@ -90,6 +96,7 @@ public class NotificationHelper {
 	
 	private boolean isEndOfPeriodNear(){
 		int daysToGo = mStatus.getDaysToGo();
+		//int warning = mSettings.getInt(mContext.getString(R.string.pref_notify_days2go_array_key), defValue)
 		return false;
 	}
 	
@@ -140,6 +147,24 @@ public class NotificationHelper {
 	
 	private boolean isOffpeakQuotaOverNotified(){
 		return mSettings.getBoolean(KEY_NOTIFY_OFFPEAK_QUOTA_OVER, false);
+	}
+	
+	private long daysArraytoInt(String value){
+      
+		if (value.equals("one_day")){
+			return ONE_DAY;
+		} else if (value.equals("two_days")){
+			return TWO_DAYS;
+		} else if (value.equals("three_days")){
+			return THREE_DAYS;
+		} else if (value.equals("seven_days")){
+			return SEVEN_DAYS;
+		} else if (value.equals("fourteen_days")){
+			return FOURTEEN_DAYS;
+		} else {
+			return SEVEN_DAYS;
+		}
+		
 	}
 	
 	private void showNotificaiton(){

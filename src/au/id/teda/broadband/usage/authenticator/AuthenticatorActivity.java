@@ -51,7 +51,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
     private static AccountAuthenticator mAccountAuthenticator;
     
     /** Download manager **/
-    static NetworkUtilities mAccount;
+    static NetworkUtilities mNetworkUtilities;
     
     private static TextView mMessage;
     private static String mPassword;
@@ -67,7 +67,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 
         /** Set up account instance **/
 		mAccountAuthenticator = new AccountAuthenticator(this);
-        mAccount = new NetworkUtilities(this);
+        mNetworkUtilities = new NetworkUtilities(this);
         mAccountManager = AccountManager.get(this);
         accountType = AccountAuthenticator.ACCOUNT_TYPE;
 
@@ -151,15 +151,11 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 	 */
 	private void setUsernamePasswordEditText() {
         // Get username and password for account
-        String accountName = mAccountAuthenticator.getUsername();
-        String accountPass = mAccountAuthenticator.getPassword();
-
-        // If we get something set edit text values
-        if (accountName.length()>0 && accountPass.length() >0){
-        	mUsernameEdit.setText(accountName);
-        	mPasswordEdit.setText(accountPass);
+		if (mAccountAuthenticator.isAccountAuthenticated()){
+        	mUsernameEdit.setText(mAccountAuthenticator.getUsername());
+        	mPasswordEdit.setText(mAccountAuthenticator.getPassword());
         	mMessage.setText(R.string.authenticator_activity_account_set);
-        }
+		}
 	}
 	
 	/**
@@ -178,7 +174,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         } else {
         	
             // Kick off a background task to perform the user login attempt.
-        	if (mAccount.is3gOrWifiConnected()){
+        	if (mNetworkUtilities.is3gOrWifiConnected()){
         		// Start async task
         		mAuthTask = new UserLoginTask(this);
 	            mAuthTask.execute();
@@ -289,7 +285,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         protected Boolean doInBackground(Void... params) {
             // We do the actual work of authenticating the user in DownloadVolumeUsage class.
             try {
-            	return mAccount.authenticate(mUsername, mPassword);
+            	return mNetworkUtilities.authenticate(mUsername, mPassword);
             } catch (Exception ex) {
                 Log.e(DEBUG_TAG, "UserLoginTask.doInBackground: failed to authenticate");
                 Log.i(DEBUG_TAG, ex.toString());
