@@ -21,14 +21,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     private final Context mContext;
     private final NetworkUtilities mNetworkUtilities;
     private static Handler mActivityHandler;
-    private final NotificationHelper mNotificationHelper;
     
     public SyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
         mContext = context;
         
         mNetworkUtilities = new NetworkUtilities(mContext);
-        mNotificationHelper = new NotificationHelper(mContext);
     }
 
 	@Override
@@ -63,6 +61,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         			mActivityHandler.sendEmptyMessage(NetworkUtilities.HANDLER_COMPLETE_ASYNC_TASK);
         		}
         		Log.d(DEBUG_TAG, "SyncAdapter HANDLER_COMPLETE_ASYNC_TASK");
+        		NotificationHelper mNotificationHelper = new NotificationHelper(mContext);
         		mNotificationHelper.checkStatus();
         		break;
         	}

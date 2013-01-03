@@ -39,7 +39,7 @@ public class AccountInfoParser {
 	private long mPeakQuota;
 	private long mOffpeakQuota;
 	
-	private long MB = 100000;
+	private long MB = 1000000;
 	    
 	// This class represents the account info in the XML feed.
 	public static class AccountInfo {

@@ -5,7 +5,6 @@ import java.util.Calendar;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 public class AccountStatusHelper {
 	
@@ -246,9 +245,9 @@ public class AccountStatusHelper {
 	}
 	
 	public String getPeakDataRemaingGbString(){
-		long remaing = getPeakDataRemaining() / GB;
+		long remaining = getPeakDataRemaining() / GB;
 		
-		return String.valueOf(remaing);
+		return String.valueOf(remaining);
 	}
 	
 	public boolean isPeakShaped(){

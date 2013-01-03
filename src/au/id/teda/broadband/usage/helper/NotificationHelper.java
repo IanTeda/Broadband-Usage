@@ -12,6 +12,7 @@ import android.util.Log;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.ui.MainActivity;
 
+// TODO: Improve multiply notification (i.e. show as one)
 public class NotificationHelper {
 
 	public static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
@@ -55,8 +56,6 @@ public class NotificationHelper {
     	
     	mInfo = new AccountInfoHelper(mContext);
     	mStatus = new AccountStatusHelper(mContext);
-		
-		Log.d(DEBUG_TAG, "NotificationHelper");
 	}
 	
 	public void checkStatus(){
@@ -64,33 +63,43 @@ public class NotificationHelper {
 		if (isEndOfPeriodNear() 
 				&& !isEndOfPeriodNearNotified()
 				&& showEndOfPeriodNearNotification()) {
-			Log.d(DEBUG_TAG, "End of period near");
+
 			notifyEndOfPeriodNear();
-		} else if (isNewPeriod() 
+		}
+		
+		if (isNewPeriod() 
 				&& !isEndOfPeriodOverNotified()
 				&& showEndOfPeriodNotification()){
-			Log.d(DEBUG_TAG, "New period");
+
 			notifyEndOfPeriodOver();
 			resetNotificationStatus();
-		} else if (isPeakQuotaNear() 
+		}
+		
+		if (isPeakQuotaNear() 
 				&& !isPeakQuotaNearNotified()
 				&& showPeakQuotaNearNotification()){
-			Log.d(DEBUG_TAG, "Peak quota near");
+
 			notifyPeakDataNear();
-		} else if (isPeakQuotaOver() 
+		}
+		
+		if (isPeakQuotaOver() 
 				&& !isPeakQuotaOverNotified()
 				&& showPeakQuotaOverNotification()){
-			Log.d(DEBUG_TAG, "Peak quota over");
+
 			notifyPeakQuotaOver();
-		} else if (isOffpeakQuotaNear() 
+		} 
+		
+		if (isOffpeakQuotaNear() 
 				&& !isOffpeakQuotaNearNotified()
 				&& showOffpeakQuotaNearNotification()){
-			Log.d(DEBUG_TAG, "Offpeak quota near");
+
 			notifyOffpeakDataNear();
-		} else if (isOffpeakQuotaOver() 
+		}
+		
+		if (isOffpeakQuotaOver() 
 				&& !isOffpeakQuotaOverNotified()
 				&& showOffpeakQuotaOverNotification()){
-			Log.d(DEBUG_TAG, "Offpeak quota over");
+			
 			notifyOffpeakQuotaOver();
 		}
 	}
@@ -118,15 +127,13 @@ public class NotificationHelper {
 	private boolean isEndOfPeriodNear(){
 		
 		String days = mSettings.getString(mContext.getString(R.string.pref_notify_days2go_array_key), "seven_days");
-		long warning = daysStringtoInt(days);
+		long warning = daysStringtoMillis(days);
 		long daysToGo = mStatus.getDaysToGoMillis();
 		
-		Log.d(DEBUG_TAG, "isEndOfPeriodNear > warning: " + warning + " / daysToGo: " + warning);
-		
-		if (daysToGo > warning){
-			return false;
-		} else {
+		if (daysToGo < warning){
 			return true;
+		} else {
+			return false;
 		}
 	}
 	
@@ -140,7 +147,7 @@ public class NotificationHelper {
 		String title = mContext.getString(R.string.notification_end_of_period_near_title);
 		String message = mStatus.getDaysToGoString() + " " + mContext.getString(R.string.notification_end_of_period_near_message);
 			
-		showNotificaiton(title, message);
+		showNotificaiton(title, message, 1);
 		setEndOfPeriodNearNotified(true);
 	}
 
@@ -154,7 +161,9 @@ public class NotificationHelper {
 	}
 	
 	private boolean isNewPeriod(){
+
 		String period = mStatus.getCurrentMonthString();
+		
 		if (period.equals(getNotificationPeriod())){
 			return false;
 		} else {
@@ -174,7 +183,7 @@ public class NotificationHelper {
 	private void notifyEndOfPeriodOver(){
 		String title = mContext.getString(R.string.notification_end_of_period_over_title);
 		String message = mContext.getString(R.string.notification_end_of_period_over_message);
-		showNotificaiton(title, message);
+		showNotificaiton(title, message, 2);
 		setEndOfPeriodOverNotified(true);
 	}
 	
@@ -204,7 +213,7 @@ public class NotificationHelper {
 		String title = mContext.getString(R.string.notification_peak_data_near_title);
 		String message = mStatus.getPeakDataRemaingGbString() + " " + mContext.getString(R.string.notification_peak_data_near_message);
 			
-		showNotificaiton(title, message);
+		showNotificaiton(title, message, 3);
 		setPeakQuotaNearNotified(true);
 	}
 	
@@ -218,7 +227,7 @@ public class NotificationHelper {
 	}
 	
 	private boolean isPeakQuotaOver(){
-		Long quota = mInfo.getPeakQuota();
+		long quota = mInfo.getPeakQuota();
 		long used = mStatus.getPeakDataUsed();
 		
 		if (used > quota){
@@ -235,7 +244,7 @@ public class NotificationHelper {
 	private void notifyPeakQuotaOver(){
 		String title = mContext.getString(R.string.notification_peak_data_over_title);
 		String message = mContext.getString(R.string.notification_peak_data_over_message);
-		showNotificaiton(title, message);
+		showNotificaiton(title, message, 4);
 		setPeakQuotaOverNotified(true);
 	}
 	
@@ -252,7 +261,7 @@ public class NotificationHelper {
 		String value = mSettings.getString(mContext.getString(R.string.pref_notify_offpeak_near_array_key), "five_gb");
 		long warning = gbStringToLong(value);
 		long used = mStatus.getOffpeakDataUsed();
-		
+				
 		if (used > warning){
 			return true;
 		} else {
@@ -270,7 +279,7 @@ public class NotificationHelper {
 		String title = mContext.getString(R.string.notification_offpeak_data_near_title);
 		String message = mStatus.getOffpeakDataRemaingGbString() + " " + mContext.getString(R.string.notification_offpeak_data_near_message);
 			
-		showNotificaiton(title, message);
+		showNotificaiton(title, message, 5);
 		setOffpeakQuotaNearNotified(true);
 	}
 	
@@ -284,7 +293,7 @@ public class NotificationHelper {
 	}
 	
 	private boolean isOffpeakQuotaOver(){
-		Long quota = mInfo.getOffpeakQuota();
+		long quota = mInfo.getOffpeakQuota();
 		long used = mStatus.getOffpeakDataUsed();
 		
 		if (used > quota){
@@ -301,7 +310,7 @@ public class NotificationHelper {
 	private void notifyOffpeakQuotaOver(){
 		String title = mContext.getString(R.string.notification_offpeak_data_over_title);
 		String message = mContext.getString(R.string.notification_offpeak_data_over_message);
-		showNotificaiton(title, message);
+		showNotificaiton(title, message, 6);
 		setOffpeakQuotaOverNotified(true);
 	}
 	
@@ -314,7 +323,7 @@ public class NotificationHelper {
 		return mSettings.getBoolean(KEY_NOTIFY_OFFPEAK_QUOTA_OVER, false);
 	}
 	
-	private long daysStringtoInt(String value){
+	private long daysStringtoMillis(String value){
       
 		if (value.equals("one_day")){
 			return ONE_DAY;
@@ -346,8 +355,7 @@ public class NotificationHelper {
 		}
 	}
 	
-	private void showNotificaiton(String title, String message){
-		Log.d(DEBUG_TAG, "NotificationHelper.showNotificaiton()");
+	private void showNotificaiton(String title, String message, int id){
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext);
 		mBuilder.setSmallIcon(R.drawable.ic_iinet_logo);
 		mBuilder.setContentTitle(title);
@@ -372,7 +380,7 @@ public class NotificationHelper {
 		mBuilder.setContentIntent(resultPendingIntent);
 		
 		// Sets an ID for the notification
-		int mNotificationId = 001;
+		int mNotificationId = id;
 		// Gets an instance of the NotificationManager service
 		NotificationManager mNotifyMgr = (NotificationManager) mContext.getSystemService(mContext.NOTIFICATION_SERVICE);
 		// Builds the notification and issues it.

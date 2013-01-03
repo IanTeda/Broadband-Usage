@@ -82,6 +82,8 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnSh
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		
+		setListPreferenceSummaries();
+		
 		if (key.equals(this.getString(R.string.pref_sync_freq_key))){
 			setSyncFrequency(key);
 			mFreqListPreference.setSummary(mFreqListPreference.getEntry());

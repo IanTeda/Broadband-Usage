@@ -56,8 +56,8 @@
         android:key="@string/pref_notify_peak_near_array_key"
         android:defaultValue="five_gb"
         android:dependency="@string/pref_notify_peak_near_checkbox_key"
-        android:entries="@array/pref_notify_peak_near_array_entries"
-        android:entryValues="@array/pref_notify_peak_near_array_values" />
+        android:entries="@array/pref_notify_gb_array_entries"
+        android:entryValues="@array/pref_notify_gb_array_values" />
     
     <!-- Over Peak Quota -->
     <CheckBoxPreference
@@ -78,8 +78,8 @@
         android:key="@string/pref_notify_offpeak_near_array_key"
         android:defaultValue="five_gb"
         android:dependency="@string/pref_notify_offpeak_near_checkbox_key"
-        android:entries="@array/pref_notify_offpeak_near_array_entries"
-        android:entryValues="@array/pref_notify_offpeak_near_array_values" />
+        android:entries="@array/pref_notify_gb_array_entries"
+        android:entryValues="@array/pref_notify_gb_array_values" />
     
     <!-- Over Offpeak Quota -->
     <CheckBoxPreference
