@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    
+    <!-- Quota Reset -->
     <string name="notification_end_of_period_near_title">Quota Reset Near</string>
     <string name="notification_end_of_period_near_message">Days to quota reset</string>
-    
     <string name="notification_end_of_period_over_title">Quota Reset</string>
     <string name="notification_end_of_period_over_message">Time to start downloading</string>
     
+    <!-- Peak Data -->
+    <string name="notification_peak_data_near_title">Peak Data Usage</string>
+    <string name="notification_peak_data_near_message">Gbs until peak quota reached</string>
+    <string name="notification_peak_data_over_title">Peak Data Over</string>
+    <string name="notification_peak_data_over_message">Peak data used over quota</string>
+    
+    <!-- Offpeak Data -->
+    <string name="notification_offpeak_data_near_title">Offpeak Data Usage</string>
+    <string name="notification_offpeak_data_near_message">Gbs until offpeak quota reached</string>
+    <string name="notification_offpeak_data_over_title">Offpeak Data Over</string>
+    <string name="notification_offpeak_data_over_message">Offpeak data used over quota</string>
     
 </resources>

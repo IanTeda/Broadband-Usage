@@ -38,6 +38,8 @@ public class AccountInfoParser {
 	private long mOffpeakEndTime;
 	private long mPeakQuota;
 	private long mOffpeakQuota;
+	
+	private long MB = 100000;
 	    
 	// This class represents the account info in the XML feed.
 	public static class AccountInfo {
@@ -164,9 +166,9 @@ public class AccountInfoParser {
 	            String tagName = parser.getName();
 	            if (tagName.equals(QUOTA_ALLOCATION)){
 	            	if (classification.equals(PEAK_ATT)){
-	            		mPeakQuota = stringToLong(readQuota(parser));
+	            		mPeakQuota = stringToLong(readQuota(parser)) * MB;
 		    		} else if (classification.equals(OFFPEAK_ATT)){
-		    			mOffpeakQuota = stringToLong(readQuota(parser));
+		    			mOffpeakQuota = stringToLong(readQuota(parser)) * MB;
 		    		}
 	            } else {
 	            	skip(parser);

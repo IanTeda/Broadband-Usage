@@ -36,11 +36,15 @@ public class AccountStatusHelper {
     SharedPreferences mSettings;
     SharedPreferences.Editor mEditor;
     
+    AccountInfoHelper mInfo;
+    
     // Class constructor
     public AccountStatusHelper(Context context) {
     	AccountStatusHelper.mContext = context;
     	mSettings = PreferenceManager.getDefaultSharedPreferences(context);
     	mEditor = mSettings.edit();
+    	
+    	mInfo = new AccountInfoHelper(mContext);
     }
     
     public void setAccoutStatus(String userAccount, long quotaResetDate, long quotaStartDate
@@ -234,6 +238,19 @@ public class AccountStatusHelper {
 		return used;
 	}
 	
+	public long getPeakDataRemaining(){
+		long quota = mInfo.getPeakQuota();
+		long used = getPeakDataUsed();
+		
+		return (quota - used);
+	}
+	
+	public String getPeakDataRemaingGbString(){
+		long remaing = getPeakDataRemaining() / GB;
+		
+		return String.valueOf(remaing);
+	}
+	
 	public boolean isPeakShaped(){
 		return mSettings.getBoolean(PEAK_IS_SHAPED, false);
 	}
@@ -264,6 +281,19 @@ public class AccountStatusHelper {
 			used = "0" + used;
 		}
 		return used;
+	}
+	
+	public long getOffpeakDataRemaining(){
+		long quota = mInfo.getOffpeakQuota();
+		long used = getOffpeakDataUsed();
+		
+		return (quota - used);
+	}
+	
+	public String getOffpeakDataRemaingGbString(){
+		long remaing = getOffpeakDataRemaining() / GB;
+		
+		return String.valueOf(remaing);
 	}
 	
 	public boolean isOffpeakShaped(){

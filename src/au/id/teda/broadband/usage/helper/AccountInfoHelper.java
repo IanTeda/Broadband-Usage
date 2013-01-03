@@ -20,6 +20,8 @@ public class AccountInfoHelper {
 	private final static String OFF_PEAK_END = "offPeakEnd";
 	private final static String PEAK_QUOTA = "peakDataQuota";
 	private final static String OFF_PEAK_QUOTA = "offPeakDataQuota";
+	
+	private final static long GB = 1000000000;
 
 	// Activity context
     private static Context mContext;
@@ -186,12 +188,12 @@ public class AccountInfoHelper {
 		return mSettings.getLong(PEAK_QUOTA, 0);
 	}
 	
+	public int getPeakQuotaGb(){
+		return (int) (getPeakQuota() / GB);
+	}
+	
 	public String getPeakQuotaString(){
-		Long gb = (long) 1000;
-		Long quota = getPeakQuota();
-		Long quotaGb = quota / gb;
-		
-		return "/ " + Long.toString(quotaGb) + " (Gb) Peak";
+		return "/ " + Long.toString(getPeakQuotaGb()) + " (Gb) Peak";
 	}
 	
 	/**
@@ -218,12 +220,12 @@ public class AccountInfoHelper {
 		return mSettings.getLong(OFF_PEAK_QUOTA, 0);
 	}
 	
+	public int getOffpeakQuotaGb(){
+		return (int) (getOffpeakQuota() / GB);
+	}
+	
 	public String getOffpeakQuotaString(){
-		Long gb = (long) 1000;
-		Long quota = getOffpeakQuota();
-		Long quotaGb = quota / gb;
-		
-		return "/ " + Long.toString(quotaGb) + " (Gb) Offpeak";
+		return "/ " + Long.toString(getOffpeakQuotaGb()) + " (Gb) Offpeak";
 	}
 	
 	/**

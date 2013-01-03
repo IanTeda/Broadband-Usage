@@ -31,6 +31,12 @@ public class NotificationHelper {
 	private static final long SEVEN_DAYS = DAY_IN_MILLISECONDS * 7;
 	private static final long FOURTEEN_DAYS = DAY_IN_MILLISECONDS * 14;
 	
+	private final static long GB = 1000000000;
+	private static final long ONE_GB = 1 * GB;
+	private static final long TWO_GB = 2 * GB;
+	private static final long FIVE_GB = 5 * GB;
+	private static final long TEN_GB = 10 * GB;
+	
 	
 	private final Context mContext;
 	
@@ -62,6 +68,18 @@ public class NotificationHelper {
 			Log.d(DEBUG_TAG, "New period");
 			notifyEndOfPeriodOver();
 			resetNotificationStatus();
+		} else if (isPeakQuotaNear() && !isPeakQuotaNearNotified()){
+			Log.d(DEBUG_TAG, "Peak quota near");
+			notifyPeakDataNear();
+		} else if (isPeakQuotaOver() && !isPeakQuotaOverNotified()){
+			Log.d(DEBUG_TAG, "Peak quota over");
+			notifyPeakQuotaOver();
+		} else if (isOffpeakQuotaNear() && !isOffpeakQuotaNearNotified()){
+			Log.d(DEBUG_TAG, "Offpeak quota near");
+			notifyOffpeakDataNear();
+		} else if (isOffpeakQuotaOver() && !isOffpeakQuotaOverNotified()){
+			Log.d(DEBUG_TAG, "Offpeak quota over");
+			notifyOffpeakQuotaOver();
 		}
 	}
 	
@@ -144,6 +162,28 @@ public class NotificationHelper {
 		return mSettings.getBoolean(KEY_NOTIFY_END_OF_PERIOD_OVER, false);
 	}
 	
+	private boolean isPeakQuotaNear(){
+		String value = mSettings.getString(mContext.getString(R.string.pref_notify_peak_near_array_key), "five_gb");
+		long warning = gbStringToLong(value);
+		long used = mStatus.getPeakDataUsed();
+		
+		if (used > warning){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	private void notifyPeakDataNear(){
+		
+		// TODO: Add long message with download stats remaining
+		String title = mContext.getString(R.string.notification_peak_data_near_title);
+		String message = mStatus.getPeakDataRemaingGbString() + " " + mContext.getString(R.string.notification_peak_data_near_message);
+			
+		showNotificaiton(title, message);
+		setPeakQuotaNearNotified(true);
+	}
+	
 	private void setPeakQuotaNearNotified(boolean flag){
 		mEditor.putBoolean(KEY_NOTIFY_PEAK_QUOTA_NEAR, flag);
 		mEditor.commit();
@@ -151,6 +191,24 @@ public class NotificationHelper {
 	
 	private boolean isPeakQuotaNearNotified(){
 		return mSettings.getBoolean(KEY_NOTIFY_PEAK_QUOTA_NEAR, false);
+	}
+	
+	private boolean isPeakQuotaOver(){
+		Long quota = mInfo.getPeakQuota();
+		long used = mStatus.getPeakDataUsed();
+		
+		if (used > quota){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	private void notifyPeakQuotaOver(){
+		String title = mContext.getString(R.string.notification_peak_data_over_title);
+		String message = mContext.getString(R.string.notification_peak_data_over_message);
+		showNotificaiton(title, message);
+		setPeakQuotaOverNotified(true);
 	}
 	
 	private void setPeakQuotaOverNotified(boolean flag){
@@ -162,6 +220,29 @@ public class NotificationHelper {
 		return mSettings.getBoolean(KEY_NOTIFY_PEAK_QUOTA_OVER, false);
 	}
 	
+	
+	private boolean isOffpeakQuotaNear(){
+		String value = mSettings.getString(mContext.getString(R.string.pref_notify_offpeak_near_array_key), "five_gb");
+		long warning = gbStringToLong(value);
+		long used = mStatus.getOffpeakDataUsed();
+		
+		if (used > warning){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	private void notifyOffpeakDataNear(){
+		
+		// TODO: Add long message with download stats remaining
+		String title = mContext.getString(R.string.notification_offpeak_data_near_title);
+		String message = mStatus.getOffpeakDataRemaingGbString() + " " + mContext.getString(R.string.notification_offpeak_data_near_message);
+			
+		showNotificaiton(title, message);
+		setOffpeakQuotaNearNotified(true);
+	}
+	
 	private void setOffpeakQuotaNearNotified(boolean flag){
 		mEditor.putBoolean(KEY_NOTIFY_OFFPEAK_QUOTA_NEAR, flag);
 		mEditor.commit();
@@ -169,6 +250,24 @@ public class NotificationHelper {
 	
 	private boolean isOffpeakQuotaNearNotified(){
 		return mSettings.getBoolean(KEY_NOTIFY_OFFPEAK_QUOTA_NEAR, false);
+	}
+	
+	private boolean isOffpeakQuotaOver(){
+		Long quota = mInfo.getOffpeakQuota();
+		long used = mStatus.getOffpeakDataUsed();
+		
+		if (used > quota){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	private void notifyOffpeakQuotaOver(){
+		String title = mContext.getString(R.string.notification_offpeak_data_over_title);
+		String message = mContext.getString(R.string.notification_offpeak_data_over_message);
+		showNotificaiton(title, message);
+		setOffpeakQuotaOverNotified(true);
 	}
 	
 	private void setOffpeakQuotaOverNotified(boolean flag){
@@ -196,6 +295,20 @@ public class NotificationHelper {
 			return SEVEN_DAYS;
 		}
 		
+	}
+	
+	private long gbStringToLong(String value){
+		if (value.equals("one_gb")){
+			return ONE_GB;
+		} else if (value.equals("two_gb")){
+			return TWO_GB;
+		} else if (value.equals("five_gb")){
+			return FIVE_GB;
+		} else if (value.equals("ten_gb")){
+			return TEN_GB;
+		} else {
+			return FIVE_GB;
+		}
 	}
 	
 	private void showNotificaiton(String title, String message){
