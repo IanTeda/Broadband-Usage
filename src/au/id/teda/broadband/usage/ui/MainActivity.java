@@ -7,15 +7,12 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.ViewGroup.LayoutParams;
@@ -26,11 +23,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import au.id.teda.broadband.usage.R;
+import au.id.teda.broadband.usage.authenticator.AccountAuthenticator;
 import au.id.teda.broadband.usage.authenticator.AuthenticatorActivity;
 import au.id.teda.broadband.usage.chart.DoughnutChart;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
-import au.id.teda.broadband.usage.syncadapter.DummyContentProvider;
 import au.id.teda.broadband.usage.syncadapter.SyncAdapter;
 import au.id.teda.broadband.usage.util.NetworkUtilities;
 
@@ -45,7 +42,7 @@ public class MainActivity extends SherlockFragmentActivity {
     
     private static final String STATE_REFRESHING = "refresh";
 	
-	private AccountInfoHelper mAccount;
+	private AccountAuthenticator mAccountAuthenticator;
 	
 	private FragmentManager mFragmentManager;
 	
@@ -64,8 +61,8 @@ public class MainActivity extends SherlockFragmentActivity {
         final ActionBar mActionBar = getSupportActionBar();
 
         // Check to see if account has been authenticated
-        mAccount = new AccountInfoHelper(this);
-        if(!mAccount.isAccountAuthenticated()){
+        mAccountAuthenticator = new AccountAuthenticator(this);
+        if(!mAccountAuthenticator.isAccountAuthenticated()){
         	Intent authenticatorActivityIntent = new Intent(this, AuthenticatorActivity.class);
     		startActivity(authenticatorActivityIntent);
         } else {
@@ -156,7 +153,7 @@ public class MainActivity extends SherlockFragmentActivity {
     	AccountInfoHelper info = new AccountInfoHelper(this);
     	AccountStatusHelper status = new AccountStatusHelper(this);
     	
-    	mUsernameTV.setText(info.getAccountUsername());
+    	mUsernameTV.setText(mAccountAuthenticator.getUsername());
     	mProductPlanTV.setText(info.getProductPlan());
     	mCurrentMonthTV.setText(status.getCurrentMonthString());
     	mRolloverNumberDaysTV.setText(status.getDaysSoFarString());

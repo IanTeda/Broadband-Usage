@@ -96,5 +96,14 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
     public String getPassword(){
     	return mAccountManager.getPassword(getAccount());
     }
+    
+    
+    public boolean isAccountAuthenticated(){
+        if (getUsername().length() >0 && getPassword().length() > 0){
+        	return true;
+        } else {
+        	return false;
+        }
+    }
 
 }
