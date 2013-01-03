@@ -61,23 +61,35 @@ public class NotificationHelper {
 	
 	public void checkStatus(){
 		
-		if (isEndOfPeriodNear() && !isEndOfPeriodNearNotified()) {
+		if (isEndOfPeriodNear() 
+				&& !isEndOfPeriodNearNotified()
+				&& showEndOfPeriodNearNotification()) {
 			Log.d(DEBUG_TAG, "End of period near");
 			notifyEndOfPeriodNear();
-		} else if (isNewPeriod() && !isEndOfPeriodOverNotified()){
+		} else if (isNewPeriod() 
+				&& !isEndOfPeriodOverNotified()
+				&& showEndOfPeriodNotification()){
 			Log.d(DEBUG_TAG, "New period");
 			notifyEndOfPeriodOver();
 			resetNotificationStatus();
-		} else if (isPeakQuotaNear() && !isPeakQuotaNearNotified()){
+		} else if (isPeakQuotaNear() 
+				&& !isPeakQuotaNearNotified()
+				&& showPeakQuotaNearNotification()){
 			Log.d(DEBUG_TAG, "Peak quota near");
 			notifyPeakDataNear();
-		} else if (isPeakQuotaOver() && !isPeakQuotaOverNotified()){
+		} else if (isPeakQuotaOver() 
+				&& !isPeakQuotaOverNotified()
+				&& showPeakQuotaOverNotification()){
 			Log.d(DEBUG_TAG, "Peak quota over");
 			notifyPeakQuotaOver();
-		} else if (isOffpeakQuotaNear() && !isOffpeakQuotaNearNotified()){
+		} else if (isOffpeakQuotaNear() 
+				&& !isOffpeakQuotaNearNotified()
+				&& showOffpeakQuotaNearNotification()){
 			Log.d(DEBUG_TAG, "Offpeak quota near");
 			notifyOffpeakDataNear();
-		} else if (isOffpeakQuotaOver() && !isOffpeakQuotaOverNotified()){
+		} else if (isOffpeakQuotaOver() 
+				&& !isOffpeakQuotaOverNotified()
+				&& showOffpeakQuotaOverNotification()){
 			Log.d(DEBUG_TAG, "Offpeak quota over");
 			notifyOffpeakQuotaOver();
 		}
@@ -117,6 +129,10 @@ public class NotificationHelper {
 			return true;
 		}
 	}
+	
+	private boolean showEndOfPeriodNearNotification(){
+		return mSettings.getBoolean(mContext.getString(R.string.pref_notify_days2go_checkbox_key), true);
+	}
 
 	private void notifyEndOfPeriodNear(){
 		
@@ -151,6 +167,10 @@ public class NotificationHelper {
 		mEditor.commit();
 	}
 	
+	private boolean showEndOfPeriodNotification(){
+		return mSettings.getBoolean(mContext.getString(R.string.pref_notify_new_period_checkbox_key), true);
+	}
+	
 	private void notifyEndOfPeriodOver(){
 		String title = mContext.getString(R.string.notification_end_of_period_over_title);
 		String message = mContext.getString(R.string.notification_end_of_period_over_message);
@@ -172,6 +192,10 @@ public class NotificationHelper {
 		} else {
 			return false;
 		}
+	}
+	
+	private boolean showPeakQuotaNearNotification(){
+		return mSettings.getBoolean(mContext.getString(R.string.pref_notify_peak_near_checkbox_key), true);
 	}
 	
 	private void notifyPeakDataNear(){
@@ -204,6 +228,10 @@ public class NotificationHelper {
 		}
 	}
 	
+	private boolean showPeakQuotaOverNotification(){
+		return mSettings.getBoolean(mContext.getString(R.string.pref_notify_peak_over_checkbox_key), true);
+	}
+	
 	private void notifyPeakQuotaOver(){
 		String title = mContext.getString(R.string.notification_peak_data_over_title);
 		String message = mContext.getString(R.string.notification_peak_data_over_message);
@@ -220,7 +248,6 @@ public class NotificationHelper {
 		return mSettings.getBoolean(KEY_NOTIFY_PEAK_QUOTA_OVER, false);
 	}
 	
-	
 	private boolean isOffpeakQuotaNear(){
 		String value = mSettings.getString(mContext.getString(R.string.pref_notify_offpeak_near_array_key), "five_gb");
 		long warning = gbStringToLong(value);
@@ -231,6 +258,10 @@ public class NotificationHelper {
 		} else {
 			return false;
 		}
+	}
+	
+	private boolean showOffpeakQuotaNearNotification(){
+		return mSettings.getBoolean(mContext.getString(R.string.pref_notify_offpeak_near_checkbox_key), true);
 	}
 	
 	private void notifyOffpeakDataNear(){
@@ -261,6 +292,10 @@ public class NotificationHelper {
 		} else {
 			return false;
 		}
+	}
+	
+	private boolean showOffpeakQuotaOverNotification(){
+		return mSettings.getBoolean(mContext.getString(R.string.pref_notify_offpeak_over_checkbox_key), true);
 	}
 	
 	private void notifyOffpeakQuotaOver(){

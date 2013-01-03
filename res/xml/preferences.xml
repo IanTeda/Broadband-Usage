@@ -37,6 +37,13 @@
         android:entries="@array/pref_notify_days2go_array_entries"
         android:entryValues="@array/pref_notify_days2go_array_values" />
     
+	<!-- New Quota Period -->
+    <CheckBoxPreference
+        android:title="@string/pref_notify_new_period_checkbox_title"
+        android:summary="@string/pref_notify_new_period_checkbox_summary"
+        android:key="@string/pref_notify_new_period_checkbox_key"
+        android:defaultValue="true" />
+    
     <!-- Nearing Peak Quota -->
     <CheckBoxPreference
         android:title="@string/pref_notify_peak_near_checkbox_title"

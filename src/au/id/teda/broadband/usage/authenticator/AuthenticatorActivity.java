@@ -217,8 +217,6 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
     	ContentResolver.setSyncAutomatically(account, DummyContentProvider.PROVIDER, true);
     	// Sync every day as default
     	ContentResolver.addPeriodicSync(account, DummyContentProvider.PROVIDER, new Bundle(), SettingsActivity.TWENTY_FOUR_HOURS);
-    	// Complete first sync
-    	ContentResolver.requestSync (account, DummyContentProvider.PROVIDER, new Bundle());
     	
         final Intent intent = new Intent();
         intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, mUsername);

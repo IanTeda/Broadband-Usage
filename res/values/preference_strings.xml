@@ -57,6 +57,11 @@
         <item>fourteen_days</item>
     </string-array>
     
+	<!-- Over Peak Quota -->
+    <string name="pref_notify_new_period_checkbox_title">New Data Period</string>
+    <string name="pref_notify_new_period_checkbox_summary">Notify quota rollover</string>
+    <string name="pref_notify_new_period_checkbox_key">new_data_period_cbox</string>
+    
     <!-- Nearing Peak Quota -->
     <string name="pref_notify_peak_near_checkbox_title">Peak Quota Near</string>
     <string name="pref_notify_peak_near_checkbox_summary">Warn when approaching peak quota</string>
