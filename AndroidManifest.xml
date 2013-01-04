@@ -72,6 +72,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+		<activity
+            android:name=".ui.InitialiseActivity"
+            android:label="Initialising" >
+        </activity>
         <activity
             android:name=".ui.SettingsActivity"
             android:label="Broadband Usage Setting" >

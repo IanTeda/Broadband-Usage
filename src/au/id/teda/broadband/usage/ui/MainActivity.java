@@ -9,9 +9,11 @@ import com.actionbarsherlock.view.MenuItem;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -41,12 +43,16 @@ public class MainActivity extends SherlockFragmentActivity {
     private static boolean refreshing;
     
     private static final String STATE_REFRESHING = "refresh";
+    
+    private static final String PREF_INITIALISED_KEY = "pref_initialise_key";
 	
 	private AccountAuthenticator mAccountAuthenticator;
 	
 	private FragmentManager mFragmentManager;
 	
 	private GraphicalView mDoughnutChartView;
+	
+	private SharedPreferences mSettings;
 	
 	private DoughnutChart mDoughnutChart;
 	// Chart container
@@ -60,11 +66,19 @@ public class MainActivity extends SherlockFragmentActivity {
         // Set up the action bar.
         final ActionBar mActionBar = getSupportActionBar();
 
+        mSettings = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean isAppInitialised = mSettings.getBoolean(PREF_INITIALISED_KEY, false);
+        
         // Check to see if account has been authenticated
         mAccountAuthenticator = new AccountAuthenticator(this);
         if(!mAccountAuthenticator.isAccountAuthenticated()){
-        	Intent authenticatorActivityIntent = new Intent(this, AuthenticatorActivity.class);
-    		startActivity(authenticatorActivityIntent);
+        	Intent authenticator = new Intent(this, AuthenticatorActivity.class);
+    		startActivity(authenticator);
+        }
+        
+        if (!isAppInitialised){
+        	Intent initialise = new Intent(this, InitialiseActivity.class);
+    		startActivity(initialise);
         } else {
         	loadTextViews();
         	loadDoughnutChart();
@@ -121,6 +135,7 @@ public class MainActivity extends SherlockFragmentActivity {
                 startActivity(settingsActivityIntent);
                 return true;
         case R.id.menu_refresh:
+        	
         		NetworkUtilities mNetworkUtilities = new NetworkUtilities(this);
         		if(mNetworkUtilities.is3gOrWifiConnected()){
         			SyncAdapter mSyncAdapter = new SyncAdapter(this, false);
@@ -128,6 +143,7 @@ public class MainActivity extends SherlockFragmentActivity {
         		} else {
         			noConnectivityToast();
         		}
+        	
         		return true;
         default:
                 return super.onOptionsItemSelected(item);
