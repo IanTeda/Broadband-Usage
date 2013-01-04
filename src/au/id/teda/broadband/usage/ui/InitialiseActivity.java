@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import au.id.teda.broadband.usage.R;
@@ -16,7 +15,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 public class InitialiseActivity extends SherlockFragmentActivity {
 	
-	private final static String DEBUG_TAG = MainActivity.DEBUG_TAG;
+	//private final static String DEBUG_TAG = MainActivity.DEBUG_TAG;
     
     private static final String PREF_INITIALISEd_KEY = "pref_initialise_key";
     
@@ -38,11 +37,9 @@ public class InitialiseActivity extends SherlockFragmentActivity {
         public void handleMessage(Message msg) {
         	switch (msg.what) {
         	case NetworkUtilities.HANDLER_START_ASYNC_TASK:
-        		Log.d(DEBUG_TAG, "InitialiseActivity.HANDLER_START_ASYNC_TASK");
         		startProgressBar();
         		break;
         	case NetworkUtilities.HANDLER_COMPLETE_ASYNC_TASK:
-        		Log.d(DEBUG_TAG, "InitialiseActivity.HANDLER_COMPLETE_ASYNC_TASK");
         		setInitialised(true);
         		finish();
         		break;

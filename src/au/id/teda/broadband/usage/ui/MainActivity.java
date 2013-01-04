@@ -66,34 +66,43 @@ public class MainActivity extends SherlockFragmentActivity {
         // Set up the action bar.
         final ActionBar mActionBar = getSupportActionBar();
 
-        mSettings = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean isAppInitialised = mSettings.getBoolean(PREF_INITIALISED_KEY, false);
-        
-        // Check to see if account has been authenticated
-        mAccountAuthenticator = new AccountAuthenticator(this);
-        if(!mAccountAuthenticator.isAccountAuthenticated()){
-        	Intent authenticator = new Intent(this, AuthenticatorActivity.class);
-    		startActivity(authenticator);
-        }
-        
-        if (!isAppInitialised){
-        	Intent initialise = new Intent(this, InitialiseActivity.class);
-    		startActivity(initialise);
-        } else {
-        	loadTextViews();
-        	loadDoughnutChart();
-        }
         
         if( savedInstanceState != null ) {
         	refreshing = savedInstanceState.getBoolean(STATE_REFRESHING);
         	savedInstanceState.clear();
          }
+        
     }
     
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putBoolean(STATE_REFRESHING, refreshing);
         super.onSaveInstanceState(outState);
+    }
+    
+    protected void onResume(){
+    	super.onResume();
+    	
+        mSettings = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean isAppInitialised = mSettings.getBoolean(PREF_INITIALISED_KEY, false);
+    	
+        // Check to see if account has been authenticated
+        mAccountAuthenticator = new AccountAuthenticator(this);
+        if(!mAccountAuthenticator.isAccountAuthenticated()){
+        	Intent authenticator = new Intent(this, AuthenticatorActivity.class);
+    		startActivity(authenticator);
+    		
+    	// Check to see if account has been initialised
+        } else if (!isAppInitialised){
+        	Intent initialise = new Intent(this, InitialiseActivity.class);
+    		startActivity(initialise);
+    		
+    	// Else load views
+        } else {
+        	loadTextViews();
+        	loadDoughnutChart();
+        }
+
     }
 
     public Handler handler = new Handler() {
