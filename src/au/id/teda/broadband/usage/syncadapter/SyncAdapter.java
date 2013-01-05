@@ -5,22 +5,25 @@ import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SyncResult;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.authenticator.AccountAuthenticator;
 import au.id.teda.broadband.usage.helper.NotificationHelper;
+import au.id.teda.broadband.usage.ui.MainActivity;
+import au.id.teda.broadband.usage.ui.SettingsActivity;
 import au.id.teda.broadband.usage.util.NetworkUtilities;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	
-	private static final String DEBUG_TAG = "bbusage";
+	private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
 
     private final Context mContext;
     private final NetworkUtilities mNetworkUtilities;
-    private static Handler mActivityHandler;
     
     public SyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
@@ -37,11 +40,23 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		mNetworkUtilities.syncXmlData(syncHandler);
 	}
 	
-	public void requestSync(Handler handler){
-		mActivityHandler = handler;
-		
+	public void requestSync(){
 		AccountAuthenticator mAccountAuthenticator = new AccountAuthenticator(mContext);
 		ContentResolver.requestSync (mAccountAuthenticator.getAccount(), DummyContentProvider.PROVIDER, new Bundle());
+	}
+	
+	public void firstSync(){
+		AccountAuthenticator mAccountAuthenticator = new AccountAuthenticator(mContext);
+		Account account = mAccountAuthenticator.getAccount();
+
+    	// Account is Syncable
+    	ContentResolver.setIsSyncable(account, DummyContentProvider.PROVIDER, 1);
+    	// Sync account automatically
+    	ContentResolver.setSyncAutomatically(account, DummyContentProvider.PROVIDER, true);
+    	// Sync every day as default
+    	ContentResolver.addPeriodicSync(account, DummyContentProvider.PROVIDER, new Bundle(), SettingsActivity.TWENTY_FOUR_HOURS);
+    	// Request sync
+		ContentResolver.requestSync (account, DummyContentProvider.PROVIDER, new Bundle());
 	}
 	
 	/**
@@ -51,21 +66,30 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         public void handleMessage(Message msg) {
         	switch (msg.what) {
         	case NetworkUtilities.HANDLER_START_ASYNC_TASK:
-        		Log.d(DEBUG_TAG, "SyncAdapter HANDLER_START_ASYNC_TASK");
-        		if (mActivityHandler != null){
-        			mActivityHandler.sendEmptyMessage(NetworkUtilities.HANDLER_START_ASYNC_TASK);
-        		}
+        		
+        		// Send broadcast sync started
+        		String start = mContext.getString(R.string.sync_broadcast_start);
+        		sendBroadcastMessage(start);
         		break;
         	case NetworkUtilities.HANDLER_COMPLETE_ASYNC_TASK:
-        		Log.d(DEBUG_TAG, "SyncAdapter HANDLER_COMPLETE_ASYNC_TASK");
-        		if (mActivityHandler != null){
-        			mActivityHandler.sendEmptyMessage(NetworkUtilities.HANDLER_COMPLETE_ASYNC_TASK);
-        		}
+        		
+        		String complete = mContext.getString(R.string.sync_broadcast_complete);
+        		sendBroadcastMessage(complete);
+        		
         		NotificationHelper mNotificationHelper = new NotificationHelper(mContext);
         		mNotificationHelper.checkStatus();
         		break;
         	}
         }
     };
+    
+    private void sendBroadcastMessage(String msg){
+    	String BROADCAST = mContext.getString(R.string.sync_broadcast_action);
+    	String MESSAGE = mContext.getString(R.string.sync_broadcast_message);
+    	
+    	Intent i = new Intent(BROADCAST);
+    	i.putExtra(MESSAGE, msg);
+    	mContext.sendBroadcast(i);
+    }
 
 }

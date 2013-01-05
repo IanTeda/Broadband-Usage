@@ -211,12 +211,6 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
     	// This is the magic that adds the account to the Android Account Manager  
     	final Account account = new Account(mUsername, accountType);
     	mAccountManager.addAccountExplicitly(account, mPassword, null);
-    	// Account is Syncable
-    	ContentResolver.setIsSyncable(account, DummyContentProvider.PROVIDER, 1);
-    	// Sync account automatically
-    	ContentResolver.setSyncAutomatically(account, DummyContentProvider.PROVIDER, true);
-    	// Sync every day as default
-    	ContentResolver.addPeriodicSync(account, DummyContentProvider.PROVIDER, new Bundle(), SettingsActivity.TWENTY_FOUR_HOURS);
     	
         final Intent intent = new Intent();
         intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, mUsername);

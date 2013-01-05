@@ -3,4 +3,9 @@
     <string name="app_name">Broadband Usage</string>
     <string name="account_manager_name">iiNet</string>
     
+    <string name="sync_broadcast_action">au.id.teda.broadband.usage.BROADCAST</string>
+    <string name="sync_broadcast_message">sync_message</string>
+    <string name="sync_broadcast_start">sync_started</string>
+    <string name="sync_broadcast_complete">sync_completed</string>
+    
 </resources>

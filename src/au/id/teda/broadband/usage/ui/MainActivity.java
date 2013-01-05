@@ -7,14 +7,17 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.ViewGroup.LayoutParams;
@@ -54,6 +57,9 @@ public class MainActivity extends SherlockFragmentActivity {
 	
 	private SharedPreferences mSettings;
 	
+	private SyncReceiver mSyncReceiver;
+    private IntentFilter filter;
+	
 	private DoughnutChart mDoughnutChart;
 	// Chart container
 	private LinearLayout mChartLayoutContainer;
@@ -66,11 +72,16 @@ public class MainActivity extends SherlockFragmentActivity {
         // Set up the action bar.
         final ActionBar mActionBar = getSupportActionBar();
 
+        String BROADCAST = getString(R.string.sync_broadcast_action);
+        filter = new IntentFilter(BROADCAST);
+        mSyncReceiver = new SyncReceiver();
         
         if( savedInstanceState != null ) {
         	refreshing = savedInstanceState.getBoolean(STATE_REFRESHING);
         	savedInstanceState.clear();
          }
+        
+        
         
     }
     
@@ -80,8 +91,17 @@ public class MainActivity extends SherlockFragmentActivity {
         super.onSaveInstanceState(outState);
     }
     
+    @Override
+    protected void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        unregisterReceiver(mSyncReceiver);
+     }
+    
     protected void onResume(){
     	super.onResume();
+    	
+    	registerReceiver(mSyncReceiver, filter);
     	
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
         boolean isAppInitialised = mSettings.getBoolean(PREF_INITIALISED_KEY, false);
@@ -94,9 +114,8 @@ public class MainActivity extends SherlockFragmentActivity {
     		
     	// Check to see if account has been initialised
         } else if (!isAppInitialised){
-        	Intent initialise = new Intent(this, InitialiseActivity.class);
-    		startActivity(initialise);
-    		
+        	SyncAdapter mSyncAdapter = new SyncAdapter(this, false);
+			mSyncAdapter.firstSync();
     	// Else load views
         } else {
         	loadTextViews();
@@ -104,19 +123,6 @@ public class MainActivity extends SherlockFragmentActivity {
         }
 
     }
-
-    public Handler handler = new Handler() {
-        public void handleMessage(Message msg) {
-        	switch (msg.what) {
-        	case NetworkUtilities.HANDLER_START_ASYNC_TASK:
-        		startAnimateRefreshIcon();
-        		break;
-        	case NetworkUtilities.HANDLER_COMPLETE_ASYNC_TASK:
-        		stopAnimateRefreshIcon();
-        		break;
-        	}
-        }
-    };
     
     private void noConnectivityToast(){
     	Toast toast = Toast.makeText(this, "No connectivity", Toast.LENGTH_LONG);
@@ -148,7 +154,7 @@ public class MainActivity extends SherlockFragmentActivity {
         		NetworkUtilities mNetworkUtilities = new NetworkUtilities(this);
         		if(mNetworkUtilities.is3gOrWifiConnected()){
         			SyncAdapter mSyncAdapter = new SyncAdapter(this, false);
-        			mSyncAdapter.requestSync(handler);
+        			mSyncAdapter.requestSync();
         		} else {
         			noConnectivityToast();
         		}
@@ -261,6 +267,27 @@ public class MainActivity extends SherlockFragmentActivity {
 		 	refreshing = false;
 		 }
 	}
+	
+	public class SyncReceiver extends BroadcastReceiver {
+		
+        @Override
+        public void onReceive(Context context, Intent i) {
+            
+            String MESSAGE = getString(R.string.sync_broadcast_message);
+            String START_SYNC = getString(R.string.sync_broadcast_start);
+            String COMPLETE_SYNC = getString(R.string.sync_broadcast_complete);
+            
+            String msg = i.getStringExtra(MESSAGE);
+            if (msg.equals(START_SYNC)){
+        		startAnimateRefreshIcon();
+            } else if (msg.equals(COMPLETE_SYNC)){
+        		stopAnimateRefreshIcon();
+            	loadTextViews();
+            	loadDoughnutChart();
+            }
+        }
+         
+    }
 
 
 }
