@@ -59,6 +59,8 @@ public class NotificationHelper {
 	
 	public void checkStatus(){
 		
+		resetNotificationStatus();
+		
 		if (isEndOfPeriodNear() 
 				&& !isEndOfPeriodNearNotified()
 				&& showEndOfPeriodNearNotification()) {
@@ -68,7 +70,7 @@ public class NotificationHelper {
 		
 		if (isNewPeriod() 
 				&& !isEndOfPeriodOverNotified()
-				&& showEndOfPeriodNotification()
+				&& showEndOfPeriodOverNotification()
 				&& isAppInitalised()){
 
 			notifyEndOfPeriodOver();
@@ -107,6 +109,7 @@ public class NotificationHelper {
 	}
 	
 	private void resetNotificationStatus(){
+		
 		String period = mStatus.getCurrentMonthString();
 		setNotificationPeriod(period);
 		setEndOfPeriodNearNotified(false);
@@ -126,21 +129,30 @@ public class NotificationHelper {
 		return mSettings.getString(KEY_NOTIFICATION_PERIOD, "");
 	}
 	
+	private String getEndPeriodNearDays(){
+		return mSettings.getString(mContext.getString(R.string.pref_notify_days2go_array_key), "seven_days");
+	}
+	
 	private boolean isEndOfPeriodNear(){
 		
-		String days = mSettings.getString(mContext.getString(R.string.pref_notify_days2go_array_key), "seven_days");
+		String days = getEndPeriodNearDays();
 		long warning = daysStringtoMillis(days);
 		long daysToGo = mStatus.getDaysToGoMillis();
 		
-		if (daysToGo < warning){
-			return true;
+		if (daysToGo > warning){
+			return false;
 		} else {
 			return false;
 		}
 	}
 	
 	private boolean showEndOfPeriodNearNotification(){
-		return mSettings.getBoolean(mContext.getString(R.string.pref_notify_days2go_checkbox_key), true);
+		String days = getEndPeriodNearDays();
+		if (days.equals("never")){
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	private void notifyEndOfPeriodNear(){
@@ -187,7 +199,7 @@ public class NotificationHelper {
 		mEditor.commit();
 	}
 	
-	private boolean showEndOfPeriodNotification(){
+	private boolean showEndOfPeriodOverNotification(){
 		return mSettings.getBoolean(mContext.getString(R.string.pref_notify_new_period_checkbox_key), true);
 	}
 	
@@ -202,12 +214,16 @@ public class NotificationHelper {
 		return mSettings.getBoolean(KEY_NOTIFY_END_OF_PERIOD_OVER, false);
 	}
 	
+	private String getPeakQuotaNearWarning(){
+		return mSettings.getString(mContext.getString(R.string.pref_notify_peak_near_array_key), "five_gb");
+	}
+	
 	private boolean isPeakQuotaNear(){
-		String value = mSettings.getString(mContext.getString(R.string.pref_notify_peak_near_array_key), "five_gb");
+		String value = getPeakQuotaNearWarning();
 		long warning = gbStringToLong(value);
-		long used = mStatus.getPeakDataUsed();
+		long remaining = mStatus.getPeakDataRemaining();
 		
-		if (used > warning){
+		if (remaining < warning){
 			return true;
 		} else {
 			return false;
@@ -215,7 +231,13 @@ public class NotificationHelper {
 	}
 	
 	private boolean showPeakQuotaNearNotification(){
-		return mSettings.getBoolean(mContext.getString(R.string.pref_notify_peak_near_checkbox_key), true);
+		String value = getPeakQuotaNearWarning();
+		
+		if (value.equals("never")){
+			return false;
+		} else {
+			return true;
+		}
 	}
 	
 	private void notifyPeakDataNear(){
@@ -268,12 +290,16 @@ public class NotificationHelper {
 		return mSettings.getBoolean(KEY_NOTIFY_PEAK_QUOTA_OVER, false);
 	}
 	
+	private String getOffpeakQuotaWarning(){
+		return mSettings.getString(mContext.getString(R.string.pref_notify_offpeak_near_array_key), "five_gb"); 
+	}
+	
 	private boolean isOffpeakQuotaNear(){
-		String value = mSettings.getString(mContext.getString(R.string.pref_notify_offpeak_near_array_key), "five_gb");
+		String value = getOffpeakQuotaWarning();
 		long warning = gbStringToLong(value);
-		long used = mStatus.getOffpeakDataUsed();
+		long remaining = mStatus.getOffpeakDataRemaining();
 				
-		if (used > warning){
+		if (remaining < warning){
 			return true;
 		} else {
 			return false;
@@ -281,7 +307,13 @@ public class NotificationHelper {
 	}
 	
 	private boolean showOffpeakQuotaNearNotification(){
-		return mSettings.getBoolean(mContext.getString(R.string.pref_notify_offpeak_near_checkbox_key), true);
+		String value = getOffpeakQuotaWarning();
+		
+		if (value.equals("never")){
+			return false;
+		} else {
+			return true;
+		}
 	}
 	
 	private void notifyOffpeakDataNear(){

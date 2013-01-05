@@ -22,40 +22,26 @@
 
     <PreferenceCategory android:title="Notification" />
 
-    <!-- Days to Go -->
-    <CheckBoxPreference
-        android:title="@string/pref_notify_days2go_checkbox_title"
-        android:summary="@string/pref_notify_days2go_checkbox_summary"
-        android:key="@string/pref_notify_days2go_checkbox_key"
-        android:defaultValue="true" />
-    
-    <ListPreference
-        android:title="@string/pref_notify_days2go_array_title"
-        android:key="@string/pref_notify_days2go_array_key"
-        android:defaultValue="three_days"
-        android:dependency="@string/pref_notify_days2go_checkbox_key"
-        android:entries="@array/pref_notify_days2go_array_entries"
-        android:entryValues="@array/pref_notify_days2go_array_values" />
-    
-	<!-- New Quota Period -->
+    	<!-- New Quota Period -->
     <CheckBoxPreference
         android:title="@string/pref_notify_new_period_checkbox_title"
         android:summary="@string/pref_notify_new_period_checkbox_summary"
         android:key="@string/pref_notify_new_period_checkbox_key"
         android:defaultValue="true" />
     
-    <!-- Nearing Peak Quota -->
-    <CheckBoxPreference
-        android:title="@string/pref_notify_peak_near_checkbox_title"
-        android:summary="@string/pref_notify_peak_near_checkbox_summary"
-        android:key="@string/pref_notify_peak_near_checkbox_key"
-        android:defaultValue="true" />
+    <!-- Days to Go -->
+    <ListPreference
+        android:title="@string/pref_notify_days2go_array_title"
+        android:key="@string/pref_notify_days2go_array_key"
+        android:defaultValue="three_days"
+        android:entries="@array/pref_notify_days2go_array_entries"
+        android:entryValues="@array/pref_notify_days2go_array_values" />
     
+    <!-- Nearing Peak Quota -->
     <ListPreference
         android:title="@string/pref_notify_peak_near_array_title"
         android:key="@string/pref_notify_peak_near_array_key"
         android:defaultValue="five_gb"
-        android:dependency="@string/pref_notify_peak_near_checkbox_key"
         android:entries="@array/pref_notify_gb_array_entries"
         android:entryValues="@array/pref_notify_gb_array_values" />
     
@@ -67,17 +53,10 @@
         android:defaultValue="true" />
     
     <!-- Nearing Offpeak Quota -->
-    <CheckBoxPreference
-        android:title="@string/pref_notify_offpeak_near_checkbox_title"
-        android:summary="@string/pref_notify_offpeak_near_checkbox_summary"
-        android:key="@string/pref_notify_offpeak_near_checkbox_key"
-        android:defaultValue="true" />
-    
     <ListPreference
         android:title="@string/pref_notify_offpeak_near_array_title"
         android:key="@string/pref_notify_offpeak_near_array_key"
         android:defaultValue="five_gb"
-        android:dependency="@string/pref_notify_offpeak_near_checkbox_key"
         android:entries="@array/pref_notify_gb_array_entries"
         android:entryValues="@array/pref_notify_gb_array_values" />
     
