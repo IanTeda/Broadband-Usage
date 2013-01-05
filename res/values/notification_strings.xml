@@ -13,12 +13,12 @@
     <string name="notification_peak_data_near_title">Peak Data Usage</string>
     <string name="notification_peak_data_near_message">Gbs until peak quota reached</string>
     <string name="notification_peak_data_over_title">Peak Data Over</string>
-    <string name="notification_peak_data_over_message">Peak data used over quota</string>
+    <string name="notification_peak_data_over_message">Days until quota reset</string>
     
     <!-- Offpeak Data -->
     <string name="notification_offpeak_data_near_title">Offpeak Data Usage</string>
     <string name="notification_offpeak_data_near_message">Gbs until offpeak quota reached</string>
     <string name="notification_offpeak_data_over_title">Offpeak Data Over</string>
-    <string name="notification_offpeak_data_over_message">Offpeak data used over quota</string>
+    <string name="notification_offpeak_data_over_message">Days until quota reset</string>
     
 </resources>

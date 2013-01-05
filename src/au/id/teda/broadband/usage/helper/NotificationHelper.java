@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
-import android.util.Log;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.ui.MainActivity;
 
@@ -276,7 +275,7 @@ public class NotificationHelper {
 	
 	private void notifyPeakQuotaOver(){
 		String title = mContext.getString(R.string.notification_peak_data_over_title);
-		String message = mContext.getString(R.string.notification_peak_data_over_message);
+		String message = mStatus.getDaysToGoString() + " " + mContext.getString(R.string.notification_peak_data_over_message);
 		showNotificaiton(title, message, 4);
 		setPeakQuotaOverNotified(true);
 	}
@@ -352,7 +351,7 @@ public class NotificationHelper {
 	
 	private void notifyOffpeakQuotaOver(){
 		String title = mContext.getString(R.string.notification_offpeak_data_over_title);
-		String message = mContext.getString(R.string.notification_offpeak_data_over_message);
+		String message = mStatus.getDaysToGoString() + " " + mContext.getString(R.string.notification_offpeak_data_over_message);
 		showNotificaiton(title, message, 6);
 		setOffpeakQuotaOverNotified(true);
 	}
