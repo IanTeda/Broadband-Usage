@@ -10,17 +10,14 @@ import android.content.SyncResult;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.authenticator.AccountAuthenticator;
 import au.id.teda.broadband.usage.helper.NotificationHelper;
-import au.id.teda.broadband.usage.ui.MainActivity;
-import au.id.teda.broadband.usage.ui.SettingsActivity;
 import au.id.teda.broadband.usage.util.NetworkUtilities;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	
-	private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
+	//private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
 
     private final Context mContext;
     private final NetworkUtilities mNetworkUtilities;
@@ -36,7 +33,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	public void onPerformSync(Account account, Bundle extras, String authority,
 			ContentProviderClient provider, SyncResult syncResult) {
 		
-		Log.d(DEBUG_TAG, "onPerformSync");
 		mNetworkUtilities.syncXmlData(syncHandler);
 	}
 	

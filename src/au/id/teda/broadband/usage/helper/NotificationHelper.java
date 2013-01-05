@@ -38,7 +38,6 @@ public class NotificationHelper {
 	private static final long FIVE_GB = 5 * GB;
 	private static final long TEN_GB = 10 * GB;
 	
-	
 	private final Context mContext;
 	
     // Activity shared preferences
@@ -69,10 +68,13 @@ public class NotificationHelper {
 		
 		if (isNewPeriod() 
 				&& !isEndOfPeriodOverNotified()
-				&& showEndOfPeriodNotification()){
+				&& showEndOfPeriodNotification()
+				&& isAppInitalised()){
 
 			notifyEndOfPeriodOver();
 			resetNotificationStatus();
+		} else {
+			setAppInitalised(true);
 		}
 		
 		if (isPeakQuotaNear() 
@@ -169,6 +171,15 @@ public class NotificationHelper {
 		} else {
 			return true;
 		}
+	}
+	
+	private boolean isAppInitalised(){
+		return mSettings.getBoolean(mContext.getString(R.string.notification_app_intialised_key), false);
+	}
+	
+	private void setAppInitalised(boolean flag){
+		mEditor.putBoolean(mContext.getString(R.string.notification_app_intialised_key), flag);
+		mEditor.commit();
 	}
 
 	private void setEndOfPeriodOverNotified(boolean flag){

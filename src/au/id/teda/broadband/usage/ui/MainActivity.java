@@ -46,8 +46,6 @@ public class MainActivity extends SherlockFragmentActivity {
     private static boolean refreshing;
     
     private static final String STATE_REFRESHING = "refresh";
-    
-    private static final String PREF_INITIALISED_KEY = "pref_initialise_key";
 	
 	private AccountAuthenticator mAccountAuthenticator;
 	
@@ -56,6 +54,9 @@ public class MainActivity extends SherlockFragmentActivity {
 	private GraphicalView mDoughnutChartView;
 	
 	private SharedPreferences mSettings;
+	
+	private AccountInfoHelper mAccountInfo;
+	AccountStatusHelper mAccountStatus;
 	
 	private SyncReceiver mSyncReceiver;
     private IntentFilter filter;
@@ -71,6 +72,9 @@ public class MainActivity extends SherlockFragmentActivity {
         
         // Set up the action bar.
         final ActionBar mActionBar = getSupportActionBar();
+        
+    	mAccountInfo = new AccountInfoHelper(this);
+    	mAccountStatus = new AccountStatusHelper(this);
 
         String BROADCAST = getString(R.string.sync_broadcast_action);
         filter = new IntentFilter(BROADCAST);
@@ -104,14 +108,12 @@ public class MainActivity extends SherlockFragmentActivity {
     	registerReceiver(mSyncReceiver, filter);
     	
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean isAppInitialised = mSettings.getBoolean(PREF_INITIALISED_KEY, false);
-    	
+        
         // Check to see if account has been authenticated
         mAccountAuthenticator = new AccountAuthenticator(this);
         if(!mAccountAuthenticator.isAccountAuthenticated()){
         	Intent authenticator = new Intent(this, AuthenticatorActivity.class);
     		startActivity(authenticator);
-
     	// Else load views
         } else {
         	loadTextViews();
@@ -162,38 +164,39 @@ public class MainActivity extends SherlockFragmentActivity {
     }
 
     public void loadTextViews(){
-    	TextView mUsernameTV = (TextView) findViewById(R.id.activity_main_username_tv);
-    	TextView mProductPlanTV = (TextView) findViewById(R.id.activity_main_product_plan_tv);
-    	TextView mCurrentMonthTV = (TextView) findViewById(R.id.activity_main_current_month_tv);
-    	TextView mRolloverNumberDaysTV = (TextView) findViewById(R.id.activity_main_days_number_tv);
-    	TextView mRolloverQuotaDaysTV = (TextView) findViewById(R.id.activity_main_days_until_tv);
-    	TextView mRolloverDateTV = (TextView) findViewById(R.id.activity_main_days_date_tv);
-    	TextView mPeakDataNumberTV = (TextView) findViewById(R.id.activity_main_peak_number_tv);
-    	TextView mPeakQuotaTV = (TextView) findViewById(R.id.activity_main_peak_quota_tv);
-    	TextView mPeakDataTV = (TextView) findViewById(R.id.activity_main_peak_used_tv);
-    	TextView mOffpeakDataNumberTV = (TextView) findViewById(R.id.activity_main_offpeak_number_tv);
-    	TextView mOffpeakQuotaTV = (TextView) findViewById(R.id.activity_main_offpeak_quota_tv);
-    	TextView mOffpeakDataTV = (TextView) findViewById(R.id.activity_main_offpeak_used_tv);
-    	TextView mUpTimeNumberTV = (TextView) findViewById(R.id.activity_main_uptime_number_tv);
-    	TextView mIpAddresTV = (TextView) findViewById(R.id.activity_main_uptime_ip_tv);
     	
-    	AccountInfoHelper info = new AccountInfoHelper(this);
-    	AccountStatusHelper status = new AccountStatusHelper(this);
+    	if (mAccountInfo.isInfoSet() && mAccountStatus.isStatusSet()){
     	
-    	mUsernameTV.setText(mAccountAuthenticator.getUsername());
-    	mProductPlanTV.setText(info.getProductPlan());
-    	mCurrentMonthTV.setText(status.getCurrentMonthString());
-    	mRolloverNumberDaysTV.setText(status.getDaysSoFarString());
-    	mRolloverQuotaDaysTV.setText(status.getDaysThisPeriodString());
-    	mRolloverDateTV.setText(status.getStartDateString());
-    	mPeakDataNumberTV.setText(status.getPeakDataUsedGbString());
-    	mPeakQuotaTV.setText(info.getPeakQuotaString());
-    	mPeakDataTV.setText(status.getPeakShapedString());
-    	mOffpeakDataNumberTV.setText(status.getOffpeakDataUsedGbString());
-    	mOffpeakQuotaTV.setText(info.getOffpeakQuotaString());
-    	mOffpeakDataTV.setText(status.getOffpeakShapedString());
-    	mUpTimeNumberTV.setText(status.getUpTimeDaysString());
-    	mIpAddresTV.setText(status.getIpAddressStrng());
+	    	TextView mUsernameTV = (TextView) findViewById(R.id.activity_main_username_tv);
+	    	TextView mProductPlanTV = (TextView) findViewById(R.id.activity_main_product_plan_tv);
+	    	TextView mCurrentMonthTV = (TextView) findViewById(R.id.activity_main_current_month_tv);
+	    	TextView mRolloverNumberDaysTV = (TextView) findViewById(R.id.activity_main_days_number_tv);
+	    	TextView mRolloverQuotaDaysTV = (TextView) findViewById(R.id.activity_main_days_until_tv);
+	    	TextView mRolloverDateTV = (TextView) findViewById(R.id.activity_main_days_date_tv);
+	    	TextView mPeakDataNumberTV = (TextView) findViewById(R.id.activity_main_peak_number_tv);
+	    	TextView mPeakQuotaTV = (TextView) findViewById(R.id.activity_main_peak_quota_tv);
+	    	TextView mPeakDataTV = (TextView) findViewById(R.id.activity_main_peak_used_tv);
+	    	TextView mOffpeakDataNumberTV = (TextView) findViewById(R.id.activity_main_offpeak_number_tv);
+	    	TextView mOffpeakQuotaTV = (TextView) findViewById(R.id.activity_main_offpeak_quota_tv);
+	    	TextView mOffpeakDataTV = (TextView) findViewById(R.id.activity_main_offpeak_used_tv);
+	    	TextView mUpTimeNumberTV = (TextView) findViewById(R.id.activity_main_uptime_number_tv);
+	    	TextView mIpAddresTV = (TextView) findViewById(R.id.activity_main_uptime_ip_tv);
+	    	
+	    	mUsernameTV.setText(mAccountAuthenticator.getUsername());
+	    	mProductPlanTV.setText(mAccountInfo.getProductPlan());
+	    	mCurrentMonthTV.setText(mAccountStatus.getCurrentMonthString());
+	    	mRolloverNumberDaysTV.setText(mAccountStatus.getDaysSoFarString());
+	    	mRolloverQuotaDaysTV.setText(mAccountStatus.getDaysThisPeriodString());
+	    	mRolloverDateTV.setText(mAccountStatus.getStartDateString());
+	    	mPeakDataNumberTV.setText(mAccountStatus.getPeakDataUsedGbString());
+	    	mPeakQuotaTV.setText(mAccountInfo.getPeakQuotaString());
+	    	mPeakDataTV.setText(mAccountStatus.getPeakShapedString());
+	    	mOffpeakDataNumberTV.setText(mAccountStatus.getOffpeakDataUsedGbString());
+	    	mOffpeakQuotaTV.setText(mAccountInfo.getOffpeakQuotaString());
+	    	mOffpeakDataTV.setText(mAccountStatus.getOffpeakShapedString());
+	    	mUpTimeNumberTV.setText(mAccountStatus.getUpTimeDaysString());
+	    	mIpAddresTV.setText(mAccountStatus.getIpAddressStrng());
+    	}
     }
     
 	/**
@@ -201,27 +204,29 @@ public class MainActivity extends SherlockFragmentActivity {
 	 */
 	public void loadDoughnutChart() {
 		
-		// Initialize layout for chart
-		mChartLayoutContainer = (LinearLayout) findViewById(R.id.activity_main_chart_container);
-
-		// Initialize chart class
-		mDoughnutChart = new DoughnutChart(this);
-
-		// Get chart view from library
-		mDoughnutChartView = (GraphicalView) mDoughnutChart.getDoughnutChartView();
-
-		// Add chart view to layout view
-		mChartLayoutContainer.removeAllViews();
-		mChartLayoutContainer.addView(mDoughnutChartView, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-		
-		// Get screen specs
-		Display display = getWindowManager().getDefaultDisplay();
-		int width = display.getWidth();
+		if (mAccountInfo.isInfoSet() && mAccountStatus.isStatusSet()){
+			// Initialize layout for chart
+			mChartLayoutContainer = (LinearLayout) findViewById(R.id.activity_main_chart_container);
+	
+			// Initialize chart class
+			mDoughnutChart = new DoughnutChart(this);
+	
+			// Get chart view from library
+			mDoughnutChartView = (GraphicalView) mDoughnutChart.getDoughnutChartView();
+	
+			// Add chart view to layout view
+			mChartLayoutContainer.removeAllViews();
+			mChartLayoutContainer.addView(mDoughnutChartView, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 			
-		// Get layout parameters
-		LayoutParams params = mChartLayoutContainer.getLayoutParams();
-		// Set height equal to screen width
-		params.height = width;
+			// Get screen specs
+			Display display = getWindowManager().getDefaultDisplay();
+			int width = display.getWidth();
+				
+			// Get layout parameters
+			LayoutParams params = mChartLayoutContainer.getLayoutParams();
+			// Set height equal to screen width
+			params.height = width;
+		}
 	}
     
     /**

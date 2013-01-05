@@ -1,16 +1,12 @@
 package au.id.teda.broadband.usage.helper;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
-import au.id.teda.broadband.usage.authenticator.AccountAuthenticator;
 
 public class AccountInfoHelper {
 	
-	private static final String DEBUG_TAG = "bbusage";
+	//private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
 	
 	// Set static string values for preference keys
 	private final static String ACCOUNT = "account";
@@ -58,14 +54,15 @@ public class AccountInfoHelper {
 	 * Method for checking if all account information exists
 	 * @return true if all data present
 	 */
-	public boolean infoExists() {
+	public boolean isInfoSet() {
+		
 		// Check to see if we have all the account information stored
-		if (getPlan().length() > 0
-				&& getProduct().length() >0
-				&& getOffpeakStart().length() > 0
-				&& getOffpeakEnd().length() > 0
-				&& getPeakQuota() > 0
-				&& getOffpeakQuota() > 0){
+		if (isPlanSet()
+				&& isProductSet()
+				&& isOffpeakStartSet()
+				&& isOffpeakEndSet()
+				&& isPeakQuotaSet()
+				&& isOffpeakQuotaSet()) {
 			
 			// Looks like it does so lets return true
 			return true;
@@ -135,8 +132,8 @@ public class AccountInfoHelper {
 	 * Method for getting off peak start time
 	 * @return shared preference string
 	 */
-	public String getOffpeakStart(){
-		return mSettings.getString(OFF_PEAK_START, "");
+	public long getOffpeakStart(){
+		return mSettings.getLong(OFF_PEAK_START, 0);
 	}
 	
 	/**
@@ -145,7 +142,7 @@ public class AccountInfoHelper {
 	 */
 	public boolean isOffpeakStartSet(){
 		// Check if string length is greater then 0
-		if (getOffpeakStart().length() > 0){
+		if (getOffpeakStart() > 0){
 			// Looks like it is so return true
 			return true;
 		} 
@@ -160,8 +157,8 @@ public class AccountInfoHelper {
 	 * Method for getting off peak end time
 	 * @return shared preference string
 	 */
-	public String getOffpeakEnd(){
-		return mSettings.getString(OFF_PEAK_END, "");
+	public long getOffpeakEnd(){
+		return mSettings.getLong(OFF_PEAK_END, 0);
 	}
 	
 	/**
@@ -170,7 +167,7 @@ public class AccountInfoHelper {
 	 */
 	public boolean isOffpeakEndSet(){
 		// Check if string length is greater then 0
-		if (getOffpeakEnd().length() > 0){
+		if (getOffpeakEnd() > 0){
 			// Looks like it is so return true
 			return true;
 		} 
@@ -184,7 +181,7 @@ public class AccountInfoHelper {
 	 * Method for getting peak quota value
 	 * @return shared preference Long
 	 */
-	public Long getPeakQuota(){
+	public long getPeakQuota(){
 		return mSettings.getLong(PEAK_QUOTA, 0);
 	}
 	
@@ -216,7 +213,7 @@ public class AccountInfoHelper {
 	 * Method for getting off peak quota vale
 	 * @return shared preference Long
 	 */
-	public Long getOffpeakQuota(){
+	public long getOffpeakQuota(){
 		return mSettings.getLong(OFF_PEAK_QUOTA, 0);
 	}
 	

@@ -296,7 +296,8 @@ public class NetworkUtilities {
         	ipAddress = accountStatus.ipAddress;
         	upTimeDate = accountStatus.upTimeDate;
         	
-        	mAccountStatusHelper.setAccoutStatus(mUsername, quotaResetDate, quotaStartDate
+        	mAccountStatusHelper.setAccoutStatus(mUsername
+        			, quotaResetDate, quotaStartDate
         			, peakDataUsed, peakIsShaped, peakSpeed
         			, offpeakDataUsed, offpeakIsShaped, offpeakSpeed
         			, uploadsDataUsed, freezoneDataUsed

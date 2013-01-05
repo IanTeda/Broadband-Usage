@@ -5,10 +5,12 @@ import java.util.Calendar;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
+import au.id.teda.broadband.usage.ui.MainActivity;
 
 public class AccountStatusHelper {
 	
-	private static final String DEBUG_TAG = "bbusage";
+	//private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
 	
 	// Set static string values for preference keys
 	private final static String ACCOUNT = "account";
@@ -47,18 +49,18 @@ public class AccountStatusHelper {
     }
     
     public void setAccoutStatus(String userAccount, long quotaResetDate, long quotaStartDate
-    		, long peakDataUsed, boolean peakIsShaped, int peakSpeed
-    		, long offpeakDataUsed, boolean offpeakIsShaped, int offpeakSpeed
+    		, long peakDataUsed, boolean peakIsShaped, long peakSpeed
+    		, long offpeakDataUsed, boolean offpeakIsShaped, long offpeakSpeed
     		, long uploadsDataUsed
     		, long freezoneDataUsed
     		, String ipAddress, long upTimeDate) {
-		
+    	
     	mEditor.putString(ACCOUNT, userAccount);
     	mEditor.putLong(QUOTA_RESET_DATE, quotaResetDate);
 		mEditor.putLong(QUOTA_START_DATE, quotaStartDate);
 		mEditor.putLong(PEAK_DATA_USED, peakDataUsed);
 		mEditor.putBoolean(PEAK_IS_SHAPED, peakIsShaped);
-		mEditor.putLong(PEAK_SPEED, peakDataUsed);
+		mEditor.putLong(PEAK_SPEED, peakSpeed);
 		mEditor.putLong(OFFPEAK_DATA_USED, offpeakDataUsed);
 		mEditor.putBoolean(OFFPEAK_IS_SHAPED, offpeakIsShaped);
 		mEditor.putLong(OFFPEAK_SPEED, offpeakSpeed);
@@ -73,6 +75,7 @@ public class AccountStatusHelper {
 	}
     
     public boolean isStatusSet() {
+    	
 		// Check to see if we have all the account status information stored
 		if (isQuotaResetDateSet()
 				&& isQuotaStartDateSet()
@@ -84,13 +87,12 @@ public class AccountStatusHelper {
 				&& isOffpeakSpeedSet()
 				&& isUploadsDataSet()
 				&& isFreezoneDataSet()
-				&& isUpTimeDateSet()
 				&& isUpTimeDateSet()){
 			
 			// Looks like we have every thing, so return true
 			return true;
 		} else {
-			
+
 			// Dosen't seem to be all there so return false
 			return false;
 			
@@ -266,8 +268,8 @@ public class AccountStatusHelper {
 		}
 	}
 	
-	public int getPeakSpeed(){
-		return mSettings.getInt(PEAK_SPEED, 0);
+	public long getPeakSpeed(){
+		return mSettings.getLong(PEAK_SPEED, -1);
 	}
 	
 	public long getOffpeakDataUsed(){
@@ -314,8 +316,8 @@ public class AccountStatusHelper {
 		}
 	}
 	
-	public int getOffpeakSpeed(){
-		return mSettings.getInt(OFFPEAK_SPEED, 0);
+	public long getOffpeakSpeed(){
+		return mSettings.getLong(OFFPEAK_SPEED, -1);
 	}
 	
 	public long getUploadsDataUsed(){
@@ -406,7 +408,7 @@ public class AccountStatusHelper {
 	}
 	
 	public boolean isPeakSpeedSet(){
-		if (getPeakSpeed() > 0){
+		if (getPeakSpeed() > -1){
 			return true;
 		} 
 		else {
@@ -434,7 +436,7 @@ public class AccountStatusHelper {
 	}
 	
 	public boolean isOffpeakSpeedSet(){
-		if (getOffpeakSpeed() > 0){
+		if (getOffpeakSpeed() > -1){
 			return true;
 		} 
 		else {
