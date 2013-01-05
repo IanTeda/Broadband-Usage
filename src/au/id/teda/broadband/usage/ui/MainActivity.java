@@ -111,11 +111,7 @@ public class MainActivity extends SherlockFragmentActivity {
         if(!mAccountAuthenticator.isAccountAuthenticated()){
         	Intent authenticator = new Intent(this, AuthenticatorActivity.class);
     		startActivity(authenticator);
-    		
-    	// Check to see if account has been initialised
-        } else if (!isAppInitialised){
-        	SyncAdapter mSyncAdapter = new SyncAdapter(this, false);
-			mSyncAdapter.firstSync();
+
     	// Else load views
         } else {
         	loadTextViews();
@@ -211,27 +207,21 @@ public class MainActivity extends SherlockFragmentActivity {
 		// Initialize chart class
 		mDoughnutChart = new DoughnutChart(this);
 
-		// Check if the chart doesn't already exist
-		if (mDoughnutChartView == null) {
+		// Get chart view from library
+		mDoughnutChartView = (GraphicalView) mDoughnutChart.getDoughnutChartView();
 
-			// Get chart view from library
-			mDoughnutChartView = (GraphicalView) mDoughnutChart.getDoughnutChartView();
-
-			// Add chart view to layout view
-			mChartLayoutContainer.addView(mDoughnutChartView, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+		// Add chart view to layout view
+		mChartLayoutContainer.removeAllViews();
+		mChartLayoutContainer.addView(mDoughnutChartView, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+		
+		// Get screen specs
+		Display display = getWindowManager().getDefaultDisplay();
+		int width = display.getWidth();
 			
-			// Get screen specs
-			Display display = getWindowManager().getDefaultDisplay();
-			int width = display.getWidth();
-			
-		    // Get layout parameters
-			LayoutParams params = mChartLayoutContainer.getLayoutParams();
-			// Set height equal to screen width
-			params.height = width;
-		} else {
-			// use this whenever data has changed and you want to redraw
-			mDoughnutChartView.repaint();
-		}
+		// Get layout parameters
+		LayoutParams params = mChartLayoutContainer.getLayoutParams();
+		// Set height equal to screen width
+		params.height = width;
 	}
     
     /**
@@ -247,6 +237,8 @@ public class MainActivity extends SherlockFragmentActivity {
 			Animation rotation = AnimationUtils.loadAnimation(this, R.anim.clockwise_refresh);
 			rotation.setRepeatCount(Animation.INFINITE);
 			iv.startAnimation(rotation);
+			iv.setDrawingCacheEnabled(true);
+			iv.buildDrawingCache();
 	
 			// Start animation of image view
 			mRefreshMenuItem.setActionView(iv);
@@ -274,13 +266,13 @@ public class MainActivity extends SherlockFragmentActivity {
         public void onReceive(Context context, Intent i) {
             
             String MESSAGE = getString(R.string.sync_broadcast_message);
-            String START_SYNC = getString(R.string.sync_broadcast_start);
-            String COMPLETE_SYNC = getString(R.string.sync_broadcast_complete);
+            String SYNC_START = getString(R.string.sync_broadcast_start);
+            String SYNC_COMPLETE = getString(R.string.sync_broadcast_complete);
             
             String msg = i.getStringExtra(MESSAGE);
-            if (msg.equals(START_SYNC)){
+            if (msg.equals(SYNC_START)){
         		startAnimateRefreshIcon();
-            } else if (msg.equals(COMPLETE_SYNC)){
+            } else if (msg.equals(SYNC_COMPLETE)){
         		stopAnimateRefreshIcon();
             	loadTextViews();
             	loadDoughnutChart();

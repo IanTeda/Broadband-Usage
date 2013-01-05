@@ -45,20 +45,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		ContentResolver.requestSync (mAccountAuthenticator.getAccount(), DummyContentProvider.PROVIDER, new Bundle());
 	}
 	
-	public void firstSync(){
-		AccountAuthenticator mAccountAuthenticator = new AccountAuthenticator(mContext);
-		Account account = mAccountAuthenticator.getAccount();
-
-    	// Account is Syncable
-    	ContentResolver.setIsSyncable(account, DummyContentProvider.PROVIDER, 1);
-    	// Sync account automatically
-    	ContentResolver.setSyncAutomatically(account, DummyContentProvider.PROVIDER, true);
-    	// Sync every day as default
-    	ContentResolver.addPeriodicSync(account, DummyContentProvider.PROVIDER, new Bundle(), SettingsActivity.TWENTY_FOUR_HOURS);
-    	// Request sync
-		ContentResolver.requestSync (account, DummyContentProvider.PROVIDER, new Bundle());
-	}
-	
 	/**
 	 *  Handler for passing messages from other classes
 	 */
