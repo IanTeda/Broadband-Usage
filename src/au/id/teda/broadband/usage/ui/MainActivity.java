@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -113,9 +114,11 @@ public class MainActivity extends SherlockFragmentActivity {
         	Intent authenticator = new Intent(this, AuthenticatorActivity.class);
     		startActivity(authenticator);
     	// Else load views
-        } else {
+        } else if (isScreenPortrait()) {
         	loadTextViews();
         	loadDoughnutChart();
+        } else {
+        	Log.d(DEBUG_TAG, "Landscape");
         }
 
     }
@@ -163,7 +166,9 @@ public class MainActivity extends SherlockFragmentActivity {
 
     public void loadTextViews(){
     	
-    	if (mAccountInfo.isInfoSet() && mAccountStatus.isStatusSet()){
+    	if (mAccountInfo.isInfoSet() 
+    			&& mAccountStatus.isStatusSet()
+    			&& isScreenPortrait()){
     	
 	    	TextView mUsernameTV = (TextView) findViewById(R.id.activity_main_username_tv);
 	    	TextView mProductPlanTV = (TextView) findViewById(R.id.activity_main_product_plan_tv);
@@ -204,7 +209,9 @@ public class MainActivity extends SherlockFragmentActivity {
 	 */
 	public void loadDoughnutChart() {
 		
-		if (mAccountInfo.isInfoSet() && mAccountStatus.isStatusSet()){
+		if (mAccountInfo.isInfoSet() 
+				&& mAccountStatus.isStatusSet()
+				&& isScreenPortrait()){
 			// Initialize layout for chart
 			mChartLayoutContainer = (LinearLayout) findViewById(R.id.activity_main_chart_container);
 	
@@ -285,6 +292,31 @@ public class MainActivity extends SherlockFragmentActivity {
         }
          
     }
+	
+	public int getScreenOrientation() {
+	    Display getOrient = getWindowManager().getDefaultDisplay();
+	    int orientation = Configuration.ORIENTATION_UNDEFINED;
+	    if(getOrient.getWidth()==getOrient.getHeight()){
+	        orientation = Configuration.ORIENTATION_SQUARE;
+	    } else{ 
+	        if(getOrient.getWidth() < getOrient.getHeight()){
+	            orientation = Configuration.ORIENTATION_PORTRAIT;
+	        }else { 
+	             orientation = Configuration.ORIENTATION_LANDSCAPE;
+	        }
+	    }
+	    return orientation;
+	}
+	
+	public boolean isScreenPortrait(){
+		int screen = getScreenOrientation();
+		
+		if (screen == Configuration.ORIENTATION_PORTRAIT){
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 
 }

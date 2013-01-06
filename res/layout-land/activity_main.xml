@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:paddingBottom="1dp" >
+
+        <TextView
+            style="@style/MyTheme.MainActivity.ListviewHeader"
+            android:layout_width="33dp"
+            android:layout_weight="0"
+            android:text="Date" />
+
+        <TextView
+            style="@style/MyTheme.MainActivity.ListviewHeader"
+            android:text="Peak" />
+
+        <TextView
+            style="@style/MyTheme.MainActivity.ListviewHeader"
+            android:text="Offpeak" />
+
+        <TextView
+            style="@style/MyTheme.MainActivity.ListviewHeader"
+            android:text="Upload" />
+
+        <TextView
+            style="@style/MyTheme.MainActivity.ListviewHeader"
+            android:text="Freezone" />
+
+        <TextView
+            style="@style/MyTheme.MainActivity.ListviewHeader"
+            android:text="Total" />
+    </LinearLayout>
+    
+  <ListView
+      android:id="@android:id/list"
+      android:layout_width="fill_parent"
+      android:layout_height="0dip"
+      android:layout_weight="1.0"
+      android:orientation="vertical" />
+    
+  <TextView 
+    android:id="@android:id/empty"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" 
+    android:text="No Data" />
+
+</LinearLayout>
