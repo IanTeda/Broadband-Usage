@@ -120,6 +120,10 @@ public class MainActivity extends SherlockFragmentActivity {
         } else {
         	Log.d(DEBUG_TAG, "Landscape");
         }
+        
+        Log.d(DEBUG_TAG, "mAccountInfo.isInfoSet():" + mAccountInfo.isInfoSet() 
+        		+ " mAccountStatus.isStatusSet():" + mAccountStatus.isStatusSet()
+        		+ " isScreenPortrait():" + isScreenPortrait());
 
     }
     
