@@ -3,19 +3,21 @@ package au.id.teda.broadband.usage.helper;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
+import au.id.teda.broadband.usage.ui.MainActivity;
 
 public class AccountInfoHelper {
 	
-	//private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
+	private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
 	
 	// Set static string values for preference keys
-	private final static String ACCOUNT = "account";
-	private final static String PLAN = "plan";
-	private final static String PRODUCT = "product";
-	private final static String OFF_PEAK_START = "offPeakStart";
-	private final static String OFF_PEAK_END = "offPeakEnd";
-	private final static String PEAK_QUOTA = "peakDataQuota";
-	private final static String OFF_PEAK_QUOTA = "offPeakDataQuota";
+	private final static String PREF_ACCOUNT_KEY = "pref_account_key";
+	private final static String PREF_PLAN_KEY = "pref_plan_key";
+	private final static String PREF_PRODUCT_KEY = "pref_product";
+	private final static String PREF_OFFPEAK_START_KEY = "pref_offpeak_start";
+	private final static String PREF_OFFPEAK_END_KEY = "pref_offpeak_end";
+	private final static String PREF_PEAK_QUOTA_KEY = "pref_peak_quota";
+	private final static String PREF_OFFPEAK_QUOTA_KEY = "pref_offpeak_quota";
 	
 	private final static long GB = 1000000000;
 
@@ -38,13 +40,13 @@ public class AccountInfoHelper {
 			long offpeakStartTime, long offpeakEndTime, long peakQuota,
 			long offpeakQuota){
 		
-    	mEditor.putString(ACCOUNT, userAccount);
-    	mEditor.putString(PLAN, plan);
-    	mEditor.putString(PRODUCT, product);
-    	mEditor.putLong(OFF_PEAK_START, offpeakStartTime);
-    	mEditor.putLong(OFF_PEAK_END, offpeakEndTime);
-    	mEditor.putLong(PEAK_QUOTA, peakQuota);
-    	mEditor.putLong(OFF_PEAK_QUOTA, offpeakQuota);
+    	mEditor.putString(PREF_ACCOUNT_KEY, userAccount);
+    	mEditor.putString(PREF_PLAN_KEY, plan);
+    	mEditor.putString(PREF_PRODUCT_KEY, product);
+    	mEditor.putLong(PREF_OFFPEAK_START_KEY, offpeakStartTime);
+    	mEditor.putLong(PREF_OFFPEAK_END_KEY, offpeakEndTime);
+    	mEditor.putLong(PREF_PEAK_QUOTA_KEY, peakQuota);
+    	mEditor.putLong(PREF_OFFPEAK_QUOTA_KEY, offpeakQuota);
     	
     	// Commit values to preferences
     	mEditor.commit();
@@ -78,7 +80,7 @@ public class AccountInfoHelper {
 	 * @return shared preference string
 	 */
 	public String getPlan(){
-		return mSettings.getString(PLAN, "");
+		return mSettings.getString(PREF_PLAN_KEY, "");
 	}
 	
 	/**
@@ -103,7 +105,7 @@ public class AccountInfoHelper {
 	 * @return shared preference string
 	 */
 	public String getProduct(){
-		return mSettings.getString(PRODUCT, "");
+		return mSettings.getString(PREF_PRODUCT_KEY, "");
 	}
 	
 	
@@ -133,7 +135,7 @@ public class AccountInfoHelper {
 	 * @return shared preference string
 	 */
 	public long getOffpeakStart(){
-		return mSettings.getLong(OFF_PEAK_START, 0);
+		return mSettings.getLong(PREF_OFFPEAK_START_KEY, 0);
 	}
 	
 	/**
@@ -158,7 +160,7 @@ public class AccountInfoHelper {
 	 * @return shared preference string
 	 */
 	public long getOffpeakEnd(){
-		return mSettings.getLong(OFF_PEAK_END, 0);
+		return mSettings.getLong(PREF_OFFPEAK_END_KEY, 0);
 	}
 	
 	/**
@@ -182,7 +184,7 @@ public class AccountInfoHelper {
 	 * @return shared preference Long
 	 */
 	public long getPeakQuota(){
-		return mSettings.getLong(PEAK_QUOTA, 0);
+		return mSettings.getLong(PREF_PEAK_QUOTA_KEY, 0);
 	}
 	
 	public int getPeakQuotaGb(){
@@ -214,7 +216,7 @@ public class AccountInfoHelper {
 	 * @return shared preference Long
 	 */
 	public long getOffpeakQuota(){
-		return mSettings.getLong(OFF_PEAK_QUOTA, 0);
+		return mSettings.getLong(PREF_OFFPEAK_QUOTA_KEY, 0);
 	}
 	
 	public int getOffpeakQuotaGb(){
