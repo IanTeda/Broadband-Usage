@@ -12,5 +12,6 @@
     <string name="activity_main_offpeak_quota">/ 00 (Gb) Offpeak</string>
     <string name="activity_main_ip">000.000.000.000 (IP)</string>
     <string name="activity_main_uptime_days">days uptime</string>
+    <string name="activity_main_last_sync">Last Synced: dd-Mmm-YYYY HH:mm</string>
     
 </resources>

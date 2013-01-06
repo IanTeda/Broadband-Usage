@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import au.id.teda.broadband.usage.syncadapter.SyncAdapter;
 import au.id.teda.broadband.usage.ui.MainActivity;
 
 public class AccountStatusHelper {
@@ -29,6 +30,8 @@ public class AccountStatusHelper {
 	
 	private final static long GB = 1000000000;
 	private final static long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
+	
+	private final static String FORMAT_dd_MMM_YY = "dd-MMM-yy HH:mm";
 
 	// Activity context
     private static Context mContext;
@@ -369,6 +372,27 @@ public class AccountStatusHelper {
 		
 		return days;
 	}
+	
+    
+    private Long getLastSyncTime(){
+    	return mSettings.getLong(SyncAdapter.PREF_LAST_SYNC_KEY, 0);
+    }
+    
+    public String getLastSyncTimeString(){
+    	long lastSyncMillis = getLastSyncTime();
+    	
+    	Calendar lastSyncCal = Calendar.getInstance();
+		lastSyncCal.setTimeInMillis(lastSyncMillis);
+		
+		//TODO Add local to formatter
+		//Set up formatter
+		SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_dd_MMM_YY);
+		
+		// Get date value of calendar and format
+		String syncDateTime = sdf.format(lastSyncCal.getTime());
+    	
+		return "Last Synced: " + syncDateTime;
+    }
 	
 	public boolean isQuotaResetDateSet(){
 		if (getQuotaResetDate().getTimeInMillis() > 0){

@@ -1,15 +1,19 @@
 package au.id.teda.broadband.usage.syncadapter;
 
+import java.util.Calendar;
+
 import android.accounts.Account;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.SyncResult;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.authenticator.AccountAuthenticator;
 import au.id.teda.broadband.usage.helper.NotificationHelper;
@@ -18,22 +22,23 @@ import au.id.teda.broadband.usage.util.NetworkUtilities;
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	
 	//private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
+	
+	public final static String PREF_LAST_SYNC_KEY = "last_sync_timestamp";
 
     private final Context mContext;
-    private final NetworkUtilities mNetworkUtilities;
     
     public SyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
         mContext = context;
-        
-        mNetworkUtilities = new NetworkUtilities(mContext);
+
     }
 
 	@Override
 	public void onPerformSync(Account account, Bundle extras, String authority,
 			ContentProviderClient provider, SyncResult syncResult) {
 		
-		mNetworkUtilities.syncXmlData(syncHandler);
+		NetworkUtilities mNetworkUtilities = new NetworkUtilities(mContext);
+		mNetworkUtilities.syncXmlData(handler);
 	}
 	
 	public void requestSync(){
@@ -44,7 +49,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	/**
 	 *  Handler for passing messages from other classes
 	 */
-    public Handler syncHandler = new Handler() {
+    public Handler handler = new Handler() {
         public void handleMessage(Message msg) {
         	switch (msg.what) {
         	case NetworkUtilities.HANDLER_START_ASYNC_TASK:
@@ -60,6 +65,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         		
         		NotificationHelper mNotificationHelper = new NotificationHelper(mContext);
         		mNotificationHelper.checkStatus();
+        		
+        		setSyncTimeStamp();
         		break;
         	}
         }
@@ -72,6 +79,20 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     	Intent i = new Intent(BROADCAST);
     	i.putExtra(MESSAGE, msg);
     	mContext.sendBroadcast(i);
+    }
+    
+    private void setSyncTimeStamp(){
+    	
+    	SharedPreferences mSettings = PreferenceManager.getDefaultSharedPreferences(mContext);
+        SharedPreferences.Editor mEditor = mSettings.edit();
+    	
+        // Get current date/time
+        Calendar now = Calendar.getInstance();
+        long nowInMillis = now.getTimeInMillis();
+       
+        // Put into shared prefferences
+        mEditor.putLong(PREF_LAST_SYNC_KEY, nowInMillis);
+        mEditor.commit();
     }
 
 }

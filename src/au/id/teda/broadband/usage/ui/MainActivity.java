@@ -85,8 +85,6 @@ public class MainActivity extends SherlockFragmentActivity {
         	savedInstanceState.clear();
          }
         
-        
-        
     }
     
     @Override
@@ -181,6 +179,7 @@ public class MainActivity extends SherlockFragmentActivity {
 	    	TextView mOffpeakDataTV = (TextView) findViewById(R.id.activity_main_offpeak_used_tv);
 	    	TextView mUpTimeNumberTV = (TextView) findViewById(R.id.activity_main_uptime_number_tv);
 	    	TextView mIpAddresTV = (TextView) findViewById(R.id.activity_main_uptime_ip_tv);
+	    	TextView mLastSyncTV = (TextView) findViewById(R.id.activity_main_last_sync_tv);
 	    	
 	    	mUsernameTV.setText(mAccountAuthenticator.getUsername());
 	    	mProductPlanTV.setText(mAccountInfo.getProductPlan());
@@ -196,6 +195,7 @@ public class MainActivity extends SherlockFragmentActivity {
 	    	mOffpeakDataTV.setText(mAccountStatus.getOffpeakShapedString());
 	    	mUpTimeNumberTV.setText(mAccountStatus.getUpTimeDaysString());
 	    	mIpAddresTV.setText(mAccountStatus.getIpAddressStrng());
+	    	mLastSyncTV.setText(mAccountStatus.getLastSyncTimeString());
     	}
     }
     
