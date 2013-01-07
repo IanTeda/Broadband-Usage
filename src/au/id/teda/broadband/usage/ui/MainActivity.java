@@ -121,21 +121,6 @@ public class MainActivity extends SherlockFragmentActivity {
         	Log.d(DEBUG_TAG, "Landscape");
         }
 
-        Log.d(DEBUG_TAG, "mAccountInfo.isInfoSet():" + mAccountInfo.isInfoSet() 
-        		+ " mAccountStatus.isStatusSet():" + mAccountStatus.isStatusSet()
-        		+ " isScreenPortrait():" + isScreenPortrait());
-        
-		
-		Log.d(DEBUG_TAG, "isPlanSet():" + mAccountInfo.isPlanSet()
-				+ " isProductSet():" + mAccountInfo.isProductSet()
-				+ " isOffpeakStartSet():" + mAccountInfo.isOffpeakStartSet()
-				+ " isOffpeakEndSet():" + mAccountInfo.isOffpeakEndSet()
-				+ " isPeakQuotaSet():" + mAccountInfo.isPeakQuotaSet()
-				+ " isOffpeakQuotaSet():" + mAccountInfo.isOffpeakQuotaSet());
-		
-		Log.d(DEBUG_TAG, "getOffpeakStart():" + mAccountInfo.getOffpeakStart()
-				+ " mAccountInfo.getOffpeakEnd():" + mAccountInfo.getOffpeakEnd());
-
     }
     
     private void noConnectivityToast(){

@@ -144,7 +144,7 @@ public class AccountInfoHelper {
 	 */
 	public boolean isOffpeakStartSet(){
 		// Check if string length is greater then 0
-		if (getOffpeakStart() > 0){
+		if (getOffpeakStart() != 0){
 			// Looks like it is so return true
 			return true;
 		} 
@@ -169,7 +169,7 @@ public class AccountInfoHelper {
 	 */
 	public boolean isOffpeakEndSet(){
 		// Check if string length is greater then 0
-		if (getOffpeakEnd() > 0){
+		if (getOffpeakEnd() != 0){
 			// Looks like it is so return true
 			return true;
 		} 
