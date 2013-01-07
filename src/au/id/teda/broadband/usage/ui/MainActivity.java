@@ -13,9 +13,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -26,16 +25,22 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.authenticator.AccountAuthenticator;
 import au.id.teda.broadband.usage.authenticator.AuthenticatorActivity;
 import au.id.teda.broadband.usage.chart.DoughnutChart;
+import au.id.teda.broadband.usage.cursoradapter.DailyDataTableCursorAdapter;
+import au.id.teda.broadband.usage.database.DailyDataDatabaseAdapter;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
 import au.id.teda.broadband.usage.syncadapter.SyncAdapter;
 import au.id.teda.broadband.usage.util.NetworkUtilities;
+import au.id.teda.volumeusage.database.DailyDataDBAdapter;
+import au.id.teda.volumeusage.helper.AccountHelper;
+import au.id.teda.volumeusage.view.DailyDataCursorAdapter;
 
 public class MainActivity extends SherlockFragmentActivity {
 	
@@ -57,7 +62,7 @@ public class MainActivity extends SherlockFragmentActivity {
 	private SharedPreferences mSettings;
 	
 	private AccountInfoHelper mAccountInfo;
-	AccountStatusHelper mAccountStatus;
+	private AccountStatusHelper mAccountStatus;
 	
 	private SyncReceiver mSyncReceiver;
     private IntentFilter filter;
@@ -119,6 +124,7 @@ public class MainActivity extends SherlockFragmentActivity {
         	loadDoughnutChart();
         } else {
         	Log.d(DEBUG_TAG, "Landscape");
+        	loadListView();
         }
 
     }
@@ -162,6 +168,34 @@ public class MainActivity extends SherlockFragmentActivity {
         default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    
+    
+    public void loadListView(){
+    	
+    	ListView mListView = (ListView)findViewById(android.R.id.list);
+    	
+    	AccountStatusHelper mStatus = new AccountStatusHelper(this);
+		String month = mStatus.getCurrentMonthString();
+		
+		DailyDataDatabaseAdapter mDataBaseAdapther = new DailyDataDatabaseAdapter(this);
+		mDataBaseAdapther.open();
+		Cursor mDatabaseCursor = mDataBaseAdapther.fetchPeriodUsage(month);
+		startManagingCursor(mDatabaseCursor);
+		setListAdapter(new DailyDataTableCursorAdapter(this, mDatabaseCursor));
+		mDataBaseAdapther.close();
+    	
+    	
+    	
+    	mListView.setAdapter(adapter);
+    	mListView.setOnItemClickListener(new OnItemClickListener()
+    	{
+    	     @Override
+    	     public void onItemClick(AdapterView<?> a, View v,int position, long id) 
+    	     {
+    	          Toast.makeText(getBaseContext(), "Click", Toast.LENGTH_LONG).show();
+    	      }
+    	});
     }
 
     public void loadTextViews(){

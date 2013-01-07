@@ -33,7 +33,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.authenticator.AccountAuthenticator;
-import au.id.teda.broadband.usage.database.VolumeUsageDailyDbAdapter;
+import au.id.teda.broadband.usage.database.DailyDataDatabaseAdapter;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
 import au.id.teda.broadband.usage.parser.AccountInfoParser;
@@ -325,7 +325,7 @@ public class NetworkUtilities {
         }
         
         // Initiate database
-        VolumeUsageDailyDbAdapter mVolumeUsageDb = new VolumeUsageDailyDbAdapter(mContext);
+        DailyDataDatabaseAdapter mVolumeUsageDb = new DailyDataDatabaseAdapter(mContext);
         mVolumeUsageDb.open();
         
         for (VolumeUsage volumeUsage : usage) {

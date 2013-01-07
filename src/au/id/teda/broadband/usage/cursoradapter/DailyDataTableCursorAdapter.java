@@ -8,11 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import au.id.teda.broadband.usage.ui.MainActivity;
 
-public class DailyDataCursorAdapter extends CursorAdapter {
+public class DailyDataTableCursorAdapter extends CursorAdapter {
 	
 	private final static String DEBUG_TAG = MainActivity.DEBUG_TAG;
 
-	public DailyDataCursorAdapter(Context context, Cursor c, boolean autoRequery) {
+	public DailyDataTableCursorAdapter(Context context, Cursor c, boolean autoRequery) {
 		super(context, c, autoRequery);
 		
 		Log.d(DEBUG_TAG, "DailyDataCursorAdapter");

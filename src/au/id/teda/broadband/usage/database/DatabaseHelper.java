@@ -11,18 +11,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "VolumeUsage.db";
     
     private static final String VOLUME_USAGE_TABLE_CREATE = 
-			"create table " + VolumeUsageDailyDbAdapter.TABLE_NAME +
-			" (" + VolumeUsageDailyDbAdapter.KEY_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-			+ VolumeUsageDailyDbAdapter.ACCOUNT + " INTEGER NOT NULL, "
-			+ VolumeUsageDailyDbAdapter.DAY + " INTEGER UNIQUE, "
-			+ VolumeUsageDailyDbAdapter.MONTH + " TEXT NOT NULL, "
-			+ VolumeUsageDailyDbAdapter.PEAK + " INTEGER NOT NULL, "
-			+ VolumeUsageDailyDbAdapter.OFFPEAK + " INTEGER NOT NULL, "
-			+ VolumeUsageDailyDbAdapter.UPLOADS + " INTEGER NOT NULL, "
-			+ VolumeUsageDailyDbAdapter.FREEZONE + " INTEGER NOT NULL);";
+			"create table " + DailyDataDatabaseAdapter.TABLE_NAME +
+			" (" + DailyDataDatabaseAdapter.KEY_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+			+ DailyDataDatabaseAdapter.ACCOUNT + " INTEGER NOT NULL, "
+			+ DailyDataDatabaseAdapter.DAY + " INTEGER UNIQUE, "
+			+ DailyDataDatabaseAdapter.MONTH + " TEXT NOT NULL, "
+			+ DailyDataDatabaseAdapter.PEAK + " INTEGER NOT NULL, "
+			+ DailyDataDatabaseAdapter.OFFPEAK + " INTEGER NOT NULL, "
+			+ DailyDataDatabaseAdapter.UPLOADS + " INTEGER NOT NULL, "
+			+ DailyDataDatabaseAdapter.FREEZONE + " INTEGER NOT NULL);";
     
     private static final String VOLUME_USAGE_DELETE_ENTRIES =
-    	    "DROP TABLE IF EXISTS " + VolumeUsageDailyDbAdapter.TABLE_NAME;
+    	    "DROP TABLE IF EXISTS " + DailyDataDatabaseAdapter.TABLE_NAME;
 
 	public DatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);

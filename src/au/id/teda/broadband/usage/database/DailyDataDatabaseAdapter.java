@@ -1,11 +1,13 @@
 package au.id.teda.broadband.usage.database;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
+import android.util.Log;
 
-public class VolumeUsageDailyDbAdapter {
+public class DailyDataDatabaseAdapter {
 	
 	//private static final String DEBUG_TAG = "bbusage";
 	
@@ -27,7 +29,7 @@ public class VolumeUsageDailyDbAdapter {
 	 * VolumeUsageDailyDbAdapter class constructor 
 	 * @param context
 	 */
-    public VolumeUsageDailyDbAdapter (Context context){
+    public DailyDataDatabaseAdapter (Context context){
     	mDatabbaseHelper = new DatabaseHelper(context);
 	}
     
@@ -83,5 +85,18 @@ public class VolumeUsageDailyDbAdapter {
  		
  		return newRowId;
  	}
+ 	
+	// Return a cursor for a given period
+	public Cursor fetchPeriodUsage (String period) throws SQLException {
+		
+		SQLiteDatabase database = mDatabbaseHelper.getWritableDatabase();
+		
+		//Log.d(DEBUG_TAG, "DailyDataDBAdapter > fetchPeriodUsage(): " + period);
+		String dbQuery = "SELECT * FROM " + TABLE_NAME
+				+ " WHERE " + MONTH
+				+ " = '" + period +"';";
+		Cursor cursor = database.rawQuery(dbQuery, null);
+		return cursor;
+	}
     
 }
