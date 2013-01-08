@@ -87,7 +87,7 @@ public class DailyDataDatabaseAdapter {
  	}
  	
 	// Return a cursor for a given period
-	public Cursor fetchPeriodUsage (String period) throws SQLException {
+	public Cursor getPriodUsageCursor (String period) throws SQLException {
 		
 		SQLiteDatabase database = mDatabbaseHelper.getWritableDatabase();
 		

@@ -170,17 +170,28 @@ public class MainActivity extends SherlockFragmentActivity {
     
     public void loadListView(){
     	
-    	/**
-    	ListView mListView = (ListView)findViewById(android.R.id.list);
-    	
-    	AccountStatusHelper mStatus = new AccountStatusHelper(this);
-		String month = mStatus.getCurrentMonthString();
-		
+    	// Load and open database
 		DailyDataDatabaseAdapter mDataBaseAdapther = new DailyDataDatabaseAdapter(this);
 		mDataBaseAdapther.open();
-		Cursor mDatabaseCursor = mDataBaseAdapther.fetchPeriodUsage(month);
-		startManagingCursor(mDatabaseCursor);
+		
+		// Get current data month
+		AccountStatusHelper mStatus = new AccountStatusHelper(this);
+		String month = mStatus.getCurrentMonthString();
+		
+		// Get cursor for current month
+		Cursor mDatabaseCursor = mDataBaseAdapther.getPriodUsageCursor(month);
+		startManagingCursor(mDatabaseCursor); // TODO: Is this needed??
+		
 		setListAdapter(new DailyDataTableCursorAdapter(this, mDatabaseCursor));
+		
+		
+    	ListView mListView = (ListView)findViewById(android.R.id.list);
+    	
+    	
+		
+
+		
+		
 		mDataBaseAdapther.close();
     	
     	
@@ -194,7 +205,6 @@ public class MainActivity extends SherlockFragmentActivity {
     	          Toast.makeText(getBaseContext(), "Click", Toast.LENGTH_LONG).show();
     	      }
     	});
-    	**/
     }
 
     public void loadTextViews(){
