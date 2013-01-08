@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import au.id.teda.broadband.usage.syncadapter.SyncAdapter;
 import au.id.teda.broadband.usage.ui.MainActivity;
+import au.id.teda.broadband.usage.util.NetworkUtilities;
 
 public class AccountStatusHelper {
 	
@@ -375,7 +376,7 @@ public class AccountStatusHelper {
 	
     
     private Long getLastSyncTime(){
-    	return mSettings.getLong(SyncAdapter.PREF_LAST_SYNC_KEY, 0);
+    	return mSettings.getLong(NetworkUtilities.PREF_LAST_SYNC_KEY, 0);
     }
     
     public String getLastSyncTimeString(){

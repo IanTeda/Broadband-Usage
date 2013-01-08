@@ -38,9 +38,6 @@ import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
 import au.id.teda.broadband.usage.syncadapter.SyncAdapter;
 import au.id.teda.broadband.usage.util.NetworkUtilities;
-import au.id.teda.volumeusage.database.DailyDataDBAdapter;
-import au.id.teda.volumeusage.helper.AccountHelper;
-import au.id.teda.volumeusage.view.DailyDataCursorAdapter;
 
 public class MainActivity extends SherlockFragmentActivity {
 	
@@ -173,6 +170,7 @@ public class MainActivity extends SherlockFragmentActivity {
     
     public void loadListView(){
     	
+    	/**
     	ListView mListView = (ListView)findViewById(android.R.id.list);
     	
     	AccountStatusHelper mStatus = new AccountStatusHelper(this);
@@ -196,6 +194,7 @@ public class MainActivity extends SherlockFragmentActivity {
     	          Toast.makeText(getBaseContext(), "Click", Toast.LENGTH_LONG).show();
     	      }
     	});
+    	**/
     }
 
     public void loadTextViews(){

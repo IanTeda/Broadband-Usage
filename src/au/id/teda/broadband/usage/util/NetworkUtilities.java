@@ -5,37 +5,25 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Calendar;
 import java.util.List;
 
 import org.xmlpull.v1.XmlPullParserException;
 
-import com.actionbarsherlock.view.MenuItem;
-
-import android.accounts.Account;
-import android.accounts.AccountManager;
-import android.app.AlertDialog;
-import android.content.ContentResolver;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.HandlerThread;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
-import android.widget.Toast;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.authenticator.AccountAuthenticator;
 import au.id.teda.broadband.usage.database.DailyDataDatabaseAdapter;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
+import au.id.teda.broadband.usage.helper.NotificationHelper;
 import au.id.teda.broadband.usage.parser.AccountInfoParser;
 import au.id.teda.broadband.usage.parser.AccountInfoParser.AccountInfo;
 import au.id.teda.broadband.usage.parser.AccountStatusParser;
@@ -43,8 +31,6 @@ import au.id.teda.broadband.usage.parser.AccountStatusParser.AccountStatus;
 import au.id.teda.broadband.usage.parser.ErrorParser;
 import au.id.teda.broadband.usage.parser.VolumeUsageParser;
 import au.id.teda.broadband.usage.parser.VolumeUsageParser.VolumeUsage;
-import au.id.teda.broadband.usage.syncadapter.DummyContentProvider;
-import au.id.teda.broadband.usage.ui.MainActivity;
 
 
 /**
@@ -73,8 +59,6 @@ public class NetworkUtilities {
     // Track AsyncTask for screen rotation
     public boolean isTaskRunning = false;
     
-    private Handler mHandler;
-    
     private AccountAuthenticator mAccountAuthenticator;
     
     private static String mUsername;
@@ -88,6 +72,8 @@ public class NetworkUtilities {
     
     // Error texts from XML
     private static final String AUTHENTICATION_FAILURE = "Authentication failure";
+	
+    public final static String PREF_LAST_SYNC_KEY = "last_sync_timestamp";
 
     /**
      * Class constructor
@@ -121,11 +107,9 @@ public class NetworkUtilities {
     /**
      * Setup progress dialog and then start download task
      */
-    public void syncXmlData(Handler handler){
+    public void syncXmlData(){
     	
     	mUsername = mAccountAuthenticator.getUsername();
-    	
-		mHandler = handler;
     	
     	mDownloadXmlTask = new DownloadXmlTask();
     	mDownloadXmlTask.execute();
@@ -387,9 +371,9 @@ public class NetworkUtilities {
 
     	/** Complete before we execute task **/
     	protected void onPreExecute(){
-    		if (mHandler != null){
-    			mHandler.sendEmptyMessage(HANDLER_START_ASYNC_TASK);
-    		}
+    		// Send broadcast sync started
+    		String start = mContext.getString(R.string.sync_broadcast_start);
+    		sendBroadcastMessage(start);
     	}
     	
     	
@@ -411,14 +395,41 @@ public class NetworkUtilities {
 		
 		@Override
 		protected void onPostExecute(Void result){
-			if (mHandler != null){
-			// Stop animation of refresh icon
-				mHandler.sendEmptyMessage(HANDLER_COMPLETE_ASYNC_TASK);
-			}
+    		String complete = mContext.getString(R.string.sync_broadcast_complete);
+    		sendBroadcastMessage(complete);
+    		
+    		NotificationHelper mNotificationHelper = new NotificationHelper(mContext);
+    		mNotificationHelper.checkStatus();
+    		
+    		setSyncTimeStamp();
+    		
 			//TODO: Do I need to do this?
 			closeTask();
         }
     	
+    }
+    
+    private void sendBroadcastMessage(String msg){
+    	String BROADCAST = mContext.getString(R.string.sync_broadcast_action);
+    	String MESSAGE = mContext.getString(R.string.sync_broadcast_message);
+    	
+    	Intent i = new Intent(BROADCAST);
+    	i.putExtra(MESSAGE, msg);
+    	mContext.sendBroadcast(i);
+    }
+    
+    private void setSyncTimeStamp(){
+    	
+    	SharedPreferences mSettings = PreferenceManager.getDefaultSharedPreferences(mContext);
+        SharedPreferences.Editor mEditor = mSettings.edit();
+    	
+        // Get current date/time
+        Calendar now = Calendar.getInstance();
+        long nowInMillis = now.getTimeInMillis();
+       
+        // Put into shared prefferences
+        mEditor.putLong(PREF_LAST_SYNC_KEY, nowInMillis);
+        mEditor.commit();
     }
     
     /**
