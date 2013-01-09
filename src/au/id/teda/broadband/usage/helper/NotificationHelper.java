@@ -398,6 +398,7 @@ public class NotificationHelper {
 	}
 	
 	private void showNotificaiton(String title, String message, int id){
+		/**
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext);
 		mBuilder.setSmallIcon(R.drawable.ic_launcher);
 		mBuilder.setContentTitle(title);
@@ -427,6 +428,7 @@ public class NotificationHelper {
 		NotificationManager mNotifyMgr = (NotificationManager) mContext.getSystemService(mContext.NOTIFICATION_SERVICE);
 		// Builds the notification and issues it.
 		mNotifyMgr.notify(mNotificationId, mBuilder.build());
+		**/
 	}
 
 }

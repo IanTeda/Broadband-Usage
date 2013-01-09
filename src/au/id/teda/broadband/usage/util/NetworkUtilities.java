@@ -48,27 +48,14 @@ public class NetworkUtilities {
 	private static final String DEBUG_TAG = "bbusage";
 
 	/** Activity context **/
-    private static Context mContext;
+    private Context mContext;
     
     /** Activity shared preferences **/
     SharedPreferences sharedPrefs;
     
-    /** Task for downloading xml data **/
-    private DownloadXmlTask mDownloadXmlTask = null;
-    
-    // Track AsyncTask for screen rotation
-    public boolean isTaskRunning = false;
-    
     private AccountAuthenticator mAccountAuthenticator;
     
     private static String mUsername;
-    
-	public static final int HANDLER_START_ASYNC_TASK = 0;
-	public static final int HANDLER_COMPLETE_ASYNC_TASK = 1;
-
-    // Connection flags.
-    private static boolean wifiConnected = false;
-    private static boolean mobileConnected = false;
     
     // Error texts from XML
     private static final String AUTHENTICATION_FAILURE = "Authentication failure";
@@ -81,28 +68,12 @@ public class NetworkUtilities {
      */
     public NetworkUtilities(Context context) {
     	// Set context based on activity context passed to constructor
-    	NetworkUtilities.mContext = context;
+    	mContext = context;
      
     	mAccountAuthenticator = new AccountAuthenticator(mContext);
 
     }
-    
-    /**
-     * Check network connectivity and set wifiConnected and mobileConnected flags
-     */
-    private void updateConnectionFlags() {
 
-        ConnectivityManager connMgr = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkStatus = connMgr.getActiveNetworkInfo();
-        
-        if (networkStatus != null && networkStatus.isConnected()) {
-            wifiConnected = networkStatus.getType() == ConnectivityManager.TYPE_WIFI;
-            mobileConnected = networkStatus.getType() == ConnectivityManager.TYPE_MOBILE;
-        } else {
-            wifiConnected = false;
-            mobileConnected = false;
-        }
-    }
 	
     /**
      * Setup progress dialog and then start download task
@@ -111,8 +82,11 @@ public class NetworkUtilities {
     	
     	mUsername = mAccountAuthenticator.getUsername();
     	
-    	mDownloadXmlTask = new DownloadXmlTask();
-    	mDownloadXmlTask.execute();
+    	//mDownloadXmlTask = new DownloadXmlTask();
+    	//mDownloadXmlTask.execute();
+    	
+    	SyncXmlThread mSyncThread = new SyncXmlThread();
+    	mSyncThread.run();
     }
     
     /**
@@ -327,85 +301,33 @@ public class NetworkUtilities {
                  
     }
     
-    /**
-     * Do we have a any type connection to the internet?
-     * 
-     * @return true if connection present (including WiFi settings)
-     */
-    public boolean is3gOrWifiConnected() {
-    	updateConnectionFlags();
-    	
-        if (wifiConnected || mobileConnected) {
-        	return true;
-        } else {
-        	return false;
-        }
-    }
-    
-    public boolean is3gConnected() {
-    	updateConnectionFlags();
-    	
-        if (mobileConnected) {
-        	return true;
-        } else {
-        	return false;
-        }
-    }
-   
-    /**
-     * Clear the task object
-     * TODO: Do i need to do this?
-     */
-    private void closeTask(){
-    	// Our task is complete, so clear it out
-    	mDownloadXmlTask = null;
-    }
-    
-    
-    /**
-     * AsyncTask for downloading and parsing XML data
-     * @author iteda
-     *
-     */
-    private class DownloadXmlTask extends AsyncTask<Void, Void, Void> {
+    private class SyncXmlThread implements Runnable{
 
-    	/** Complete before we execute task **/
-    	protected void onPreExecute(){
-    		// Send broadcast sync started
-    		String start = mContext.getString(R.string.sync_broadcast_start);
-    		sendBroadcastMessage(start);
-    	}
-    	
-    	
 		@Override
-		protected Void doInBackground(Void... params) {
+		public void run() {
+			String start = mContext.getString(R.string.sync_broadcast_start);
+    		sendBroadcastMessage(start);
+    		
+    		UnclosableBufferedInputStream stream;
 			try {
-				UnclosableBufferedInputStream stream = getXmlBufferedInputStream();
+				stream = getXmlBufferedInputStream();
 				setAccountInfo(stream);
 				setAccountStatus(stream);
 				setVolumeUsage(stream);
-				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			return null;
-		}
-		
-		@Override
-		protected void onPostExecute(Void result){
-    		String complete = mContext.getString(R.string.sync_broadcast_complete);
+
+			String complete = mContext.getString(R.string.sync_broadcast_complete);
     		sendBroadcastMessage(complete);
     		
-    		//NotificationHelper mNotificationHelper = new NotificationHelper(mContext);
-    		//mNotificationHelper.checkStatus();
+    		NotificationHelper mNotificationHelper = new NotificationHelper(mContext);
+    		mNotificationHelper.checkStatus();
     		
     		setSyncTimeStamp();
-    		
-			//TODO: Do I need to do this?
-			closeTask();
-        }
+			
+		}
     	
     }
     

@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import au.id.teda.broadband.usage.R;
+import au.id.teda.broadband.usage.helper.ConnectivityHelper;
 import au.id.teda.broadband.usage.syncadapter.DummyContentProvider;
 import au.id.teda.broadband.usage.ui.SettingsActivity;
 import au.id.teda.broadband.usage.util.NetworkUtilities;
@@ -168,13 +169,15 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         mUsername = mUsernameEdit.getText().toString();
         mPassword = mPasswordEdit.getText().toString();
         
+        ConnectivityHelper mNetwork = new ConnectivityHelper(this);
+        
         // Check if we like what was put into the username and password et's
         if (TextUtils.isEmpty(mUsername) || TextUtils.isEmpty(mPassword)) {
             mMessage.setText(getMessage());
         } else {
         	
             // Kick off a background task to perform the user login attempt.
-        	if (mNetworkUtilities.is3gOrWifiConnected()){
+        	if (mNetwork.isConnected()){
         		// Start async task
         		mAuthTask = new UserLoginTask(this);
 	            mAuthTask.execute();

@@ -29,12 +29,5 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		NetworkUtilities mNetworkUtilities = new NetworkUtilities(mContext);
 		mNetworkUtilities.syncXmlData();
 	}
-	
-	public void requestSync(){
-		AccountAuthenticator mAccountAuthenticator = new AccountAuthenticator(mContext);
-		ContentResolver.requestSync (mAccountAuthenticator.getAccount(), DummyContentProvider.PROVIDER, new Bundle());
-	}
-    
-
 
 }

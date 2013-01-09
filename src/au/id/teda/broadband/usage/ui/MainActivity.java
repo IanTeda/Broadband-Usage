@@ -36,6 +36,7 @@ import au.id.teda.broadband.usage.cursoradapter.DailyDataTableCursorAdapter;
 import au.id.teda.broadband.usage.database.DailyDataDatabaseAdapter;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
+import au.id.teda.broadband.usage.helper.ConnectivityHelper;
 import au.id.teda.broadband.usage.syncadapter.SyncAdapter;
 import au.id.teda.broadband.usage.util.NetworkUtilities;
 
@@ -157,10 +158,9 @@ public class MainActivity extends SherlockFragmentActivity {
                 return true;
         case R.id.menu_refresh:
         	
-        		NetworkUtilities mNetworkUtilities = new NetworkUtilities(this);
-        		if(mNetworkUtilities.is3gOrWifiConnected()){
-        			SyncAdapter mSyncAdapter = new SyncAdapter(this, false);
-        			mSyncAdapter.requestSync();
+        		ConnectivityHelper mNetwork = new ConnectivityHelper(this);
+        		if(mNetwork.isConnected()){
+        			mNetwork.requestSync();
         		} else {
         			noConnectivityToast();
         		}
