@@ -20,4 +20,7 @@
     <dimen name="text_xlarge">36sp</dimen>
     <dimen name="text_xxlarge">48sp</dimen>
     
+    <!-- Fixed width for date column -->
+    <dimen name="daily_data_date_width">40dp</dimen>
+    
 </resources>

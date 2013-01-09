@@ -24,8 +24,8 @@ public class DailyDataTableCursorAdapter extends CursorAdapter {
 	
 	private final LayoutInflater mInflater;
 
-	public DailyDataTableCursorAdapter(Context context, Cursor c, boolean autoRequery) {
-		super(context, c, autoRequery);
+	public DailyDataTableCursorAdapter(Context context, Cursor cursor, boolean autoRequery) {
+		super(context, cursor, autoRequery);
 		
 		Log.d(DEBUG_TAG, "DailyDataCursorAdapter");
 		
@@ -34,6 +34,15 @@ public class DailyDataTableCursorAdapter extends CursorAdapter {
 
 	@Override
 	public void bindView(View view, Context context, Cursor cursor) {
+		// Set usage textviews
+		TextView dateTV = (TextView) view.findViewById(R.id.data_table_column_date);
+		TextView peakTV = (TextView) view.findViewById(R.id.data_table_column_peak);
+		TextView offpeakTV = (TextView) view.findViewById(R.id.data_table_column_offpeak);
+		TextView uploadTV = (TextView) view.findViewById(R.id.data_table_column_upload);
+		TextView freezoneTV = (TextView) view.findViewById(R.id.data_table_column_freezone);
+		TextView totalTV = (TextView) view.findViewById(R.id.data_table_column_total);
+		TextView accumTV = (TextView) view.findViewById(R.id.data_table_column_accum);
+
 		// Set variables and pull data from database cursor
 		// TODO: Change DailyDataDBAdapter to dailyDataDBHelper???
 		long dateLong = cursor.getLong(cursor.getColumnIndex(DailyDataDatabaseAdapter.DAY)); // Pull date time stamp from cursor
@@ -42,28 +51,21 @@ public class DailyDataTableCursorAdapter extends CursorAdapter {
 		long uploadUsageLong = cursor.getLong(cursor.getColumnIndex(DailyDataDatabaseAdapter.UPLOADS)); // Pull upload usage from cursor
 		long freezoneUsageLong = cursor.getLong(cursor.getColumnIndex(DailyDataDatabaseAdapter.FREEZONE)); // Pull upload usage from cursor
 		long totalUsageLong = (peakUsageLong + offpeakUsageLong); // Add up the total for the day
-		
-		
-		// Set usage textviews
-		TextView dateTV = (TextView) view.findViewById(R.id.listview_date_tv);
+
 		dateTV.setText(LongDateToString(dateLong, "dateOfMouth")); // Day of the mouth
-		TextView peakTV = (TextView) view.findViewById(R.id.listview_peak_tv);
 		peakTV.setText(IntUsageToString(peakUsageLong)); // Peak usage
-		TextView offpeakTV = (TextView) view.findViewById(R.id.listview_offpeak_tv);
 		offpeakTV.setText(IntUsageToString(offpeakUsageLong)); // Offpeak usage
-		TextView uploadTV = (TextView) view.findViewById(R.id.listview_upload_tv);
 		uploadTV.setText(IntUsageToString(uploadUsageLong)); // Upload usage
-		TextView freezoneTV = (TextView) view.findViewById(R.id.listview_freezone_tv);
 		freezoneTV.setText(IntUsageToString(freezoneUsageLong)); // Freezone usage
-		TextView totalTV = (TextView) view.findViewById(R.id.listview_total_tv);
 		totalTV.setText(IntUsageToString(totalUsageLong)); // Freezone usage
 
 	}
 
 	@Override
-	public View newView(Context arg0, Cursor arg1, ViewGroup arg2) {
-		// TODO Auto-generated method stub
-		return null;
+	public View newView(Context context, Cursor cursor, ViewGroup parent) {
+		// Inflate the listview with the changes above
+		View view = mInflater.inflate(R.layout.table_row, parent, false);
+		return view;
 	}
 	
 	// Return string values for date long millisec stored in db

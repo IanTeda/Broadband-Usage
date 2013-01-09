@@ -1,0 +1,49 @@
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/daily_data_row"
+  android:layout_width="fill_parent"
+  android:layout_height="wrap_content"
+  android:orientation="horizontal"
+  android:layout_weight="1" >
+  
+	<TextView
+		android:id="@+id/data_table_column_date"
+		style="@style/MyTheme.MainActivity.Listview"
+		android:text="Date" 
+		android:layout_width="@dimen/daily_data_date_width"
+		android:layout_weight="0"
+		android:gravity="center_horizontal" />
+    
+	<TextView
+		android:id="@+id/data_table_column_peak"
+		style="@style/MyTheme.MainActivity.Listview"
+		android:text="Peak" />
+	
+	<TextView
+		android:id="@+id/data_table_column_offpeak"
+		style="@style/MyTheme.MainActivity.Listview"
+		android:text="Offpeak" />
+    
+	<TextView
+		android:id="@+id/data_table_column_upload"
+		style="@style/MyTheme.MainActivity.Listview"
+		android:text="Uploads" />
+	
+		<TextView
+		android:id="@+id/data_table_column_freezone"
+		style="@style/MyTheme.MainActivity.Listview"
+		android:text="Freezone" />
+
+	<TextView
+		android:id="@+id/data_table_column_total"
+		style="@style/MyTheme.MainActivity.Listview"
+		android:textStyle="bold"
+		android:text="Total" />
+	
+		<TextView
+		android:id="@+id/data_table_column_accum"
+		style="@style/MyTheme.MainActivity.Listview"
+		android:textStyle="bold"
+		android:text="Accum Total" />
+             
+</LinearLayout>
