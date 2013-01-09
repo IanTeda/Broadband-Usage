@@ -2,12 +2,12 @@ package au.id.teda.broadband.usage.ui.fragments;
 
 import java.text.ParseException;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.cursoradapter.DailyDataTableCursorAdapter;
@@ -19,29 +19,33 @@ import com.actionbarsherlock.app.SherlockListFragment;
 
 public class DataTableFragment extends SherlockListFragment {
 
+	private Context mContext;
+	
 	private AccountInfoHelper mAccountInfo;
 	private AccountStatusHelper mAccountStatus;
 	
 	private DailyDataDatabaseAdapter mDatabase;
 	
 	// Set TextView Objects
-	private TextView mPeriod;
+	private TextView mPeriodTv;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		
-    	mAccountInfo = new AccountInfoHelper(getSherlockActivity());
-    	mAccountStatus = new AccountStatusHelper(getSherlockActivity());
+		mContext = getSherlockActivity();
+		
+    	mAccountInfo = new AccountInfoHelper(mContext);
+    	mAccountStatus = new AccountStatusHelper(mContext);
     	
-    	mDatabase = new DailyDataDatabaseAdapter(getSherlockActivity());
+    	mDatabase = new DailyDataDatabaseAdapter(mContext);
     	mDatabase.open();
     	
     	String period = mAccountStatus.getCurrentMonthString();
     	Cursor cursor = mDatabase.getPriodUsageCursor(period);
     	
-    	DailyDataTableCursorAdapter adapter = new DailyDataTableCursorAdapter(getSherlockActivity(), cursor, false);
+    	DailyDataTableCursorAdapter adapter = new DailyDataTableCursorAdapter(mContext, cursor, false);
     	setListAdapter(adapter);
     	
     	mDatabase.close();
@@ -49,29 +53,12 @@ public class DataTableFragment extends SherlockListFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		 return inflater.inflate(R.layout.listfragment_data_table, container, false);
-	}
-	
-	private void loadData() throws ParseException{
-		/**
-		// Get string value of current data period
-		String preiod = myAccount.getCurrentDataPeriod();
+		View mFragementView = inflater.inflate(R.layout.listfragment_data_table, container, false);
 		
-		// Open database (i.e. set tables if needed)
-		myDailyDataDB.open();
+		mPeriodTv = (TextView) mFragementView.findViewById(R.id.listfragment_data_table_title);
+		mPeriodTv.setText(mAccountStatus.getCurrentMonthString());
 		
-		// Set cursor object
-		myDailyDBCursor = myDailyDataDB.fetchPeriodUsage(preiod);
-		
-		// Start managing cursor TODO: What does this mean?
-		startManagingCursor(myDailyDBCursor);
-		
-		// Load data into cursor array
-		setListAdapter(new DailyDataCursorAdapter(this, myDailyDBCursor));
-		
-		// Close database
-		myDailyDataDB.close();
-		**/
+		return mFragementView;
 	}
 
 }

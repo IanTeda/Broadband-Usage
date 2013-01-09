@@ -4,19 +4,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <include layout="@layout/daily_data_row_header" />
-
-    <ListView
-        android:id="@android:id/list"
-        android:layout_width="fill_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1.0"
-        android:orientation="vertical" />
-
-    <TextView
-        android:id="@android:id/empty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="No Data" />
+    <fragment android:name="au.id.teda.broadband.usage.ui.fragments.DataTableFragment"
+              android:id="@+id/listfragment_data_table_container"
+              android:layout_weight="1"
+              android:layout_width="0dp"
+              android:layout_height="match_parent" />
 
 </LinearLayout>
