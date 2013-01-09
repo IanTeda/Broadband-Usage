@@ -1,7 +1,5 @@
 package au.id.teda.broadband.usage.ui.fragments;
 
-import java.text.ParseException;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -55,8 +53,8 @@ public class DataTableFragment extends SherlockListFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View mFragementView = inflater.inflate(R.layout.listfragment_data_table, container, false);
 		
-		mPeriodTv = (TextView) mFragementView.findViewById(R.id.listfragment_data_table_title);
-		mPeriodTv.setText(mAccountStatus.getCurrentMonthString());
+		//mPeriodTv = (TextView) mFragementView.findViewById(R.id.listfragment_data_table_title);
+		//mPeriodTv.setText(mAccountStatus.getCurrentMonthString());
 		
 		return mFragementView;
 	}

@@ -71,7 +71,11 @@ public class MainActivity extends SherlockFragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        
+        
+        if (isScreenPortrait()){
+        	setContentView(R.layout.activity_main);
+        }
         
         // Set up the action bar.
         final ActionBar mActionBar = getSupportActionBar();
@@ -86,7 +90,7 @@ public class MainActivity extends SherlockFragmentActivity {
         if( savedInstanceState != null ) {
         	refreshing = savedInstanceState.getBoolean(STATE_REFRESHING);
         	savedInstanceState.clear();
-         }
+        }
         
     }
     

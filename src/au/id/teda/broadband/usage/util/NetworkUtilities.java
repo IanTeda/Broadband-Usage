@@ -398,8 +398,8 @@ public class NetworkUtilities {
     		String complete = mContext.getString(R.string.sync_broadcast_complete);
     		sendBroadcastMessage(complete);
     		
-    		NotificationHelper mNotificationHelper = new NotificationHelper(mContext);
-    		mNotificationHelper.checkStatus();
+    		//NotificationHelper mNotificationHelper = new NotificationHelper(mContext);
+    		//mNotificationHelper.checkStatus();
     		
     		setSyncTimeStamp();
     		
