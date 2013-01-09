@@ -182,6 +182,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		Cursor cursor = adapter.getPriodUsageCursor(month);
 		startManagingCursor(cursor); // TODO: Is this needed??
 		
+		ListView mListView = (ListView)findViewById(android.R.id.list);
 		
 		/**
 		setListAdapter(new DailyDataTableCursorAdapter(this, cursor));
