@@ -5,14 +5,11 @@ import java.util.Calendar;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
-import au.id.teda.broadband.usage.syncadapter.SyncAdapter;
-import au.id.teda.broadband.usage.ui.MainActivity;
 import au.id.teda.broadband.usage.util.NetworkUtilities;
 
 public class AccountStatusHelper {
 	
-	private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
+	//private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
 	
 	// Set static string values for preference keys
 	private final static String ACCOUNT = "account";
@@ -161,9 +158,6 @@ public class AccountStatusHelper {
 		
 		//Set up formater
 		SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_YYYYMM);
-		
-		Log.d(DEBUG_TAG, "Month:" + sdf.format(rollover.getTime()));
-		Log.d(DEBUG_TAG, "From" + rollover.getTime());
 		
 		return sdf.format(rollover.getTime());
 	}
