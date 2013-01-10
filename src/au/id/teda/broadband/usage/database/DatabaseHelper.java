@@ -8,7 +8,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	
 	// If you change the database schema, you must increment the database version.
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "VolumeUsage.db";
+    private static final String DATABASE_NAME = "iiNetUsage.db";
     
     private static final String VOLUME_USAGE_TABLE_CREATE = 
 			"create table " + DailyDataDatabaseAdapter.TABLE_NAME +

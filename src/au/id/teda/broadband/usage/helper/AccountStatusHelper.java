@@ -12,7 +12,7 @@ import au.id.teda.broadband.usage.util.NetworkUtilities;
 
 public class AccountStatusHelper {
 	
-	//private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
+	private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
 	
 	// Set static string values for preference keys
 	private final static String ACCOUNT = "account";
@@ -32,7 +32,7 @@ public class AccountStatusHelper {
 	private final static long GB = 1000000000;
 	private final static long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
 	
-	private final static String FORMAT_dd_MMM_YY = "dd-MMM-yy HH:mm";
+	private final static String FORMAT_dd_MMM_YYYY = "dd-MMM-yyyy HH:mm";
 
 	// Activity context
     private static Context mContext;
@@ -152,6 +152,22 @@ public class AccountStatusHelper {
 		return currentMonth.toUpperCase();
 	}
 	
+	public String getDataBaseMonthString(){
+		// How to format date
+		String FORMAT_YYYYMM = "yyyyMM";
+		
+		// Set calendar to rollover date
+		Calendar rollover = getQuotaResetDate();
+		
+		//Set up formater
+		SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_YYYYMM);
+		
+		Log.d(DEBUG_TAG, "Month:" + sdf.format(rollover.getTime()));
+		Log.d(DEBUG_TAG, "From" + rollover.getTime());
+		
+		return sdf.format(rollover.getTime());
+	}
+	
 	public String getRolloverDateString(){
 		// How to format date
 		String FORMAT_dd_MMMM_yyyy = "dd MMMMM yyyy";
@@ -163,7 +179,6 @@ public class AccountStatusHelper {
 		SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_dd_MMMM_yyyy);
 		
 		// Get date value of calendar and format
-
 		String rolloverDate = sdf.format(rollover.getTime());
 		return rolloverDate.toUpperCase();
 	}
@@ -387,7 +402,7 @@ public class AccountStatusHelper {
 		
 		//TODO Add local to formatter
 		//Set up formatter
-		SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_dd_MMM_YY);
+		SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_dd_MMM_YYYY);
 		
 		// Get date value of calendar and format
 		String syncDateTime = sdf.format(lastSyncCal.getTime());

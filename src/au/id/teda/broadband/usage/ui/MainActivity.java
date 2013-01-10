@@ -72,11 +72,7 @@ public class MainActivity extends SherlockFragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-        
-        if (isScreenPortrait()){
-        	setContentView(R.layout.activity_main);
-        }
+       	setContentView(R.layout.activity_main);
         
         // Set up the action bar.
         final ActionBar mActionBar = getSupportActionBar();
@@ -126,7 +122,6 @@ public class MainActivity extends SherlockFragmentActivity {
         	loadDoughnutChart();
         } else {
         	Log.d(DEBUG_TAG, "Landscape");
-        	loadListView();
         }
 
     }
@@ -170,50 +165,6 @@ public class MainActivity extends SherlockFragmentActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-    
-    
-    public void loadListView(){
-    	
-    	// Load and open database
-		DailyDataDatabaseAdapter adapter = new DailyDataDatabaseAdapter(this);
-		adapter.open();
-		
-		// Get current data month
-		AccountStatusHelper mStatus = new AccountStatusHelper(this);
-		String month = mStatus.getCurrentMonthString();
-		
-		// Get cursor for current month
-		Cursor cursor = adapter.getPriodUsageCursor(month);
-		startManagingCursor(cursor); // TODO: Is this needed??
-		
-		ListView mListView = (ListView)findViewById(android.R.id.list);
-		
-		/**
-		setListAdapter(new DailyDataTableCursorAdapter(this, cursor));
-		
-		
-    	ListView mListView = (ListView)findViewById(android.R.id.list);
-    	
-    	
-		
-
-		
-		
-		adapter.close();
-    	
-    	
-    	
-    	mListView.setAdapter(adapter);
-    	mListView.setOnItemClickListener(new OnItemClickListener()
-    	{
-    	     @Override
-    	     public void onItemClick(AdapterView<?> a, View v,int position, long id) 
-    	     {
-    	          Toast.makeText(getBaseContext(), "Click", Toast.LENGTH_LONG).show();
-    	      }
-    	});
-    	**/
-    }
 
     public void loadTextViews(){
     	
@@ -242,7 +193,7 @@ public class MainActivity extends SherlockFragmentActivity {
 	    	mCurrentMonthTV.setText(mAccountStatus.getCurrentMonthString());
 	    	mRolloverNumberDaysTV.setText(mAccountStatus.getDaysSoFarString());
 	    	mRolloverQuotaDaysTV.setText(mAccountStatus.getDaysThisPeriodString());
-	    	mRolloverDateTV.setText(mAccountStatus.getStartDateString());
+	    	mRolloverDateTV.setText(mAccountStatus.getRolloverDateString());
 	    	mPeakDataNumberTV.setText(mAccountStatus.getPeakDataUsedGbString());
 	    	mPeakQuotaTV.setText(mAccountInfo.getPeakQuotaString());
 	    	mPeakDataTV.setText(mAccountStatus.getPeakShapedString());

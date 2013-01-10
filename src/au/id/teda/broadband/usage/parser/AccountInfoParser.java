@@ -17,7 +17,7 @@ import au.id.teda.broadband.usage.ui.MainActivity;
 
 public class AccountInfoParser {
 	
-	private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
+	//private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
 	
 	private static final String ns = null; // We don't use namespaces
 	private static final String FEED_TAG = "ii_feed";
@@ -98,13 +98,6 @@ public class AccountInfoParser {
 	    	accountInfo.add(new AccountInfo(mPlan, mProduct
 	    			, mOffpeakStartTime, mOffpeakEndTime
 	    			, mPeakQuota, mOffpeakQuota));
-	    	
-	    	Log.d(DEBUG_TAG, "mPlan:" + mPlan
-	    			+ " mProduct:" + mProduct
-	    			+ " mOffpeakStartTime:" + mOffpeakStartTime
-	    			+ " mOffpeakEndTime:" + mOffpeakEndTime
-	    			+ " mPeakQuota:" + mPeakQuota
-	    			+ " mOffpeakQuota:" + mOffpeakQuota);
 	    	
 	        return accountInfo;
 	    }

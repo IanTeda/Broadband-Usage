@@ -6,10 +6,11 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
+import au.id.teda.broadband.usage.ui.MainActivity;
 
 public class DailyDataDatabaseAdapter {
 	
-	//private static final String DEBUG_TAG = "bbusage";
+	private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
 	
 	// Set variables for adapter
 	public static final String KEY_ROWID = "_id";
@@ -40,6 +41,7 @@ public class DailyDataDatabaseAdapter {
      */
     public void open() throws SQLException {
     	mDatabase = mDatabbaseHelper.getWritableDatabase();
+    	Log.d(DEBUG_TAG, "DailyDataDatabaseAdapter.open()");
 	}
     
     /**
@@ -47,6 +49,7 @@ public class DailyDataDatabaseAdapter {
      */
     public void close() {
     	mDatabbaseHelper.close();
+    	Log.d(DEBUG_TAG, "DailyDataDatabaseAdapter.close()");
 	}
  	
     /**

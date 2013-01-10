@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <fragment android:name="au.id.teda.broadband.usage.ui.fragments.DataTableFragment"
+    <fragment android:name="au.id.teda.broadband.usage.ui.fragments.DataTableListFragment"
               android:id="@+id/listfragment_data_table_container"
               android:layout_weight="1"
               android:layout_width="0dp"

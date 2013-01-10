@@ -3,6 +3,7 @@ package au.id.teda.broadband.usage.ui.fragments;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +13,14 @@ import au.id.teda.broadband.usage.cursoradapter.DailyDataTableCursorAdapter;
 import au.id.teda.broadband.usage.database.DailyDataDatabaseAdapter;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
+import au.id.teda.broadband.usage.ui.MainActivity;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 
-public class DataTableFragment extends SherlockListFragment {
+public class DataTableListFragment extends SherlockListFragment {
 
+	private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
+	
 	private Context mContext;
 	
 	private AccountInfoHelper mAccountInfo;
@@ -32,6 +36,8 @@ public class DataTableFragment extends SherlockListFragment {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		
+		Log.d(DEBUG_TAG, "DataTableListFragment.onCreate()");
+		
 		mContext = getSherlockActivity();
 		
     	mAccountInfo = new AccountInfoHelper(mContext);
@@ -40,17 +46,20 @@ public class DataTableFragment extends SherlockListFragment {
     	mDatabase = new DailyDataDatabaseAdapter(mContext);
     	mDatabase.open();
     	
-    	String period = mAccountStatus.getCurrentMonthString();
+    	String period = mAccountStatus.getDataBaseMonthString();
     	Cursor cursor = mDatabase.getPriodUsageCursor(period);
     	
     	DailyDataTableCursorAdapter adapter = new DailyDataTableCursorAdapter(mContext, cursor, false);
     	setListAdapter(adapter);
     	
-    	mDatabase.close();
+    	mDatabase.close();    	
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		
+		Log.d(DEBUG_TAG, "DataTableListFragment.onCreateView()");
+		
 		View mFragementView = inflater.inflate(R.layout.listfragment_data_table, container, false);
 		
 		//mPeriodTv = (TextView) mFragementView.findViewById(R.id.listfragment_data_table_title);

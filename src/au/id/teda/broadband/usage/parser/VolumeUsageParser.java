@@ -11,11 +11,13 @@ import java.util.List;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import android.util.Log;
 import android.util.Xml;
+import au.id.teda.broadband.usage.ui.MainActivity;
 
 public class VolumeUsageParser {
 	
-	//private static final String DEBUG_TAG = "bbusage";
+	//private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
 	
 	private static final String ns = null; // We don't use namespaces
 	private static final String FEED_TAG = "ii_feed";
@@ -29,23 +31,20 @@ public class VolumeUsageParser {
 	private static final String UPLOADS = "uploads";
 	private static final String FREEZONE = "freezone";
 	
-	private static final String FORMAT_YYYYMM = "yyyymm";
-	private static final String FORMAT_YYYY_MM_DD  = "yyyy-MM-dd";
-	
 	// Flag to make sure we set the month only once during parsing
 	private boolean monthSetFlag = false;
 	private String mDataMonth = null;
 	
 	// This class represents the account info in the XML feed.
 	public static class VolumeUsage {
-		public final Calendar day;
+		public final Long day;
 		public final String month;
 	    public final Long peak;
 	    public final Long offpeak;
 	    public final Long uploads;
 	    public final Long freezone;
 
-	    private VolumeUsage(Calendar day, String month
+	    private VolumeUsage(Long day, String month
 	    		, Long peak, Long offpeak
 	    		, Long uploads, Long freezone) {
 	    	
@@ -132,16 +131,16 @@ public class VolumeUsageParser {
     }
     
     public VolumeUsage readDayHour(XmlPullParser parser) throws XmlPullParserException, IOException {
-    	Calendar mPeriod = getPeriodValue(parser.getAttributeValue(null, PERIOD_ATT));
+    	Calendar day = getDay(parser.getAttributeValue(null, PERIOD_ATT));
     	
     	parser.require(XmlPullParser.START_TAG, ns, DAY_HOUR_TAG);
     	
     	if (!monthSetFlag){
-    		mDataMonth = getMonthString(mPeriod);
+    		mDataMonth = getMonthString(day);
     		monthSetFlag = true;
     	}
     	
-    	
+    	Long mDay = day.getTimeInMillis();
     	Long mPeak = null;
     	Long mOffPeak = null;
     	Long mUploads  = null;
@@ -169,7 +168,7 @@ public class VolumeUsageParser {
             }
     	}
     	
-    	return new VolumeUsage(mPeriod, mDataMonth, mPeak, mOffPeak, mUploads, mFreezone );
+    	return new VolumeUsage(mDay, mDataMonth, mPeak, mOffPeak, mUploads, mFreezone );
     }
 	
     private Long readUsage(XmlPullParser parser) throws IOException, XmlPullParserException {
@@ -188,23 +187,29 @@ public class VolumeUsageParser {
         return text;
     }
     
-    private Calendar getPeriodValue(String period){
-    	SimpleDateFormat hourMintueFormat = new SimpleDateFormat(FORMAT_YYYY_MM_DD);
-    	Calendar timeValue = Calendar.getInstance();
+    private Calendar getDay(String period){
+    	String FORMAT_YYYY_MM_DD  = "yyyy-MM-dd";
+    	SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_YYYY_MM_DD);
+    	Calendar day = Calendar.getInstance();
 		try {
-			timeValue.setTime(hourMintueFormat.parse(period));
+			day.setTime(sdf.parse(period));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	return timeValue;
+		
+    	return day;
     }
     
     private String getMonthString(Calendar period){
+    	
+    	String FORMAT_YYYYMM = "yyyyMM";
     	period.add(Calendar.DATE, 27 );
+    	
     	SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_YYYYMM);
-    	String dataMonth = sdf.format(period.getTime());
-    	return dataMonth;
+    	String month = sdf.format(period.getTime());
+    	
+    	return month;
     }
 	
     private Long stringToLong(String s){

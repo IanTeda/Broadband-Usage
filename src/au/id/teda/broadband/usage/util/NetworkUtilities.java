@@ -82,9 +82,6 @@ public class NetworkUtilities {
     	
     	mUsername = mAccountAuthenticator.getUsername();
     	
-    	//mDownloadXmlTask = new DownloadXmlTask();
-    	//mDownloadXmlTask.execute();
-    	
     	SyncXmlThread mSyncThread = new SyncXmlThread();
     	mSyncThread.run();
     }
@@ -287,7 +284,7 @@ public class NetworkUtilities {
         mVolumeUsageDb.open();
         
         for (VolumeUsage volumeUsage : usage) {
-        	Long day = volumeUsage.day.getTimeInMillis();
+        	Long day = volumeUsage.day;
         	String month = volumeUsage.month;
         	Long peak = volumeUsage.peak;
         	Long offpeak = volumeUsage.offpeak;

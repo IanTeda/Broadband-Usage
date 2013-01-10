@@ -11,11 +11,13 @@ import java.util.List;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import android.util.Log;
 import android.util.Xml;
+import au.id.teda.broadband.usage.ui.MainActivity;
 
 public class AccountStatusParser {
 	
-	//private static final String DEBUG_TAG = "bbusage";
+	private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
 	
 	// We don't use namespaces
 	private static final String ns = null;
