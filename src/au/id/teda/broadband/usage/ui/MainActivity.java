@@ -33,6 +33,7 @@ import au.id.teda.broadband.usage.chart.DoughnutChart;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
 import au.id.teda.broadband.usage.helper.ConnectivityHelper;
+import au.id.teda.broadband.usage.ui.fragments.DataTableFragment;
 
 public class MainActivity extends SherlockFragmentActivity {
 	
@@ -55,6 +56,8 @@ public class MainActivity extends SherlockFragmentActivity {
 	
 	private AccountInfoHelper mAccountInfo;
 	private AccountStatusHelper mAccountStatus;
+	
+	private DataTableFragment mListFragment;
 	
 	private SyncReceiver mSyncReceiver;
     private IntentFilter filter;
@@ -116,6 +119,7 @@ public class MainActivity extends SherlockFragmentActivity {
         	loadDoughnutChart();
         } else {
         	// Landscape
+        	
         }
 
     }

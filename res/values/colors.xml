@@ -3,6 +3,7 @@
     
     <color name="background">#ffffff</color>
     <color name="background_alt">#cbc8c2</color>
+    <color name="background_alt_dark">#aca79d</color>
     <color name="base">#564e47</color>
     <color name="base_light">#8d8175</color>
     <color name="accent">#f2483a</color>

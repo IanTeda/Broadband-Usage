@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_data_summary"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/fragment_data_summary_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin"
+        android:background="@color/background_alt"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/vert_margin"
+        android:paddingRight="@dimen/vert_margin" >
+
+        <TextView
+            android:id="@+id/fragment_data_summary_current_month_tv"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/fragment_data_summary_current_month"
+            android:textColor="@color/accent"
+            android:textSize="@dimen/text_xlarge"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:background="@color/base" />
+
+        <RelativeLayout
+            android:id="@+id/fragment_data_summary_days_container_rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-6dp" >
+
+            <TextView
+                android:id="@+id/fragment_data_summary_days_number_tv"
+                style="@style/MyTheme.MainActivity.Number"
+                android:text="@string/fragment_data_summary_number" />
+
+            <TextView
+                android:id="@+id/fragment_data_summary_days_date_tv"
+                style="@style/MyTheme.MainActivity.LowerDescription"
+                android:layout_alignBaseline="@+id/fragment_data_summary_days_number_tv"
+                android:layout_toRightOf="@+id/fragment_data_summary_days_number_tv"
+                android:text="@string/fragment_data_summary_rollover_date" />
+
+            <TextView
+                android:id="@+id/fragment_data_summary_days_until_tv"
+                style="@style/MyTheme.MainActivity.UpperTitle"
+                android:layout_toRightOf="@+id/fragment_data_summary_days_number_tv"
+                android:text="@string/fragment_data_summary_days_so_far" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/fragment_data_summary_peak_container_rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-14dp" >
+
+            <TextView
+                android:id="@+id/fragment_data_summary_peak_number_tv"
+                style="@style/MyTheme.MainActivity.Number"
+                android:text="@string/fragment_data_summary_number" />
+
+            <TextView
+                android:id="@+id/fragment_data_summary_peak_used_tv"
+                style="@style/MyTheme.MainActivity.LowerDescription"
+                android:layout_alignBaseline="@+id/fragment_data_summary_peak_number_tv"
+                android:layout_toRightOf="@+id/fragment_data_summary_peak_number_tv"
+                android:text="@string/fragment_data_summary_used" />
+
+            <TextView
+                android:id="@+id/fragment_data_summary_peak_quota_tv"
+                style="@style/MyTheme.MainActivity.UpperTitle"
+                android:layout_toRightOf="@+id/fragment_data_summary_peak_number_tv"
+                android:text="@string/fragment_data_summary_peak_quota" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/fragment_data_summary_offpeak_container_rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-14dp" >
+
+            <TextView
+                android:id="@+id/fragment_data_summary_offpeak_number_tv"
+                style="@style/MyTheme.MainActivity.Number"
+                android:text="@string/fragment_data_summary_number" />
+
+            <TextView
+                android:id="@+id/fragment_data_summary_offpeak_used_tv"
+                style="@style/MyTheme.MainActivity.LowerDescription"
+                android:layout_alignBaseline="@+id/fragment_data_summary_offpeak_number_tv"
+                android:layout_toRightOf="@+id/fragment_data_summary_offpeak_number_tv"
+                android:text="@string/fragment_data_summary_used" />
+
+            <TextView
+                android:id="@+id/fragment_data_summary_offpeak_quota_tv"
+                style="@style/MyTheme.MainActivity.UpperTitle"
+                android:layout_toRightOf="@+id/fragment_data_summary_offpeak_number_tv"
+                android:text="@string/fragment_data_summary_offpeak_quota" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/fragment_data_summary_uptime_container_rl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-14dp" >
+
+            <TextView
+                android:id="@+id/fragment_data_summary_uptime_number_tv"
+                style="@style/MyTheme.MainActivity.Number"
+                android:text="@string/fragment_data_summary_number" />
+
+            <TextView
+                android:id="@+id/fragment_data_summary_uptime_ip_tv"
+                style="@style/MyTheme.MainActivity.LowerDescription"
+                android:layout_alignBaseline="@+id/fragment_data_summary_uptime_number_tv"
+                android:layout_toRightOf="@+id/fragment_data_summary_uptime_number_tv"
+                android:text="@string/fragment_data_summary_ip" />
+
+            <TextView
+                android:id="@+id/fragment_data_summary_uptime_days_tv"
+                style="@style/MyTheme.MainActivity.UpperTitle"
+                android:layout_toRightOf="@+id/fragment_data_summary_uptime_number_tv"
+                android:text="@string/fragment_data_summary_uptime_days" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/fragment_data_summary_last_sync_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background_alt_dark"
+        android:paddingTop="@dimen/icon_padding"
+        android:paddingBottom="@dimen/icon_padding"
+        android:paddingLeft="@dimen/padding"
+        android:paddingRight="@dimen/padding"
+        android:text="@string/fragment_data_summary_last_sync"
+        android:textSize="@dimen/text_micro" />
+
+</LinearLayout>
