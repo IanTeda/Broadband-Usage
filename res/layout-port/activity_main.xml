@@ -44,13 +44,20 @@
             android:layout_below="@+id/activity_main_account_info_container"
             android:orientation="vertical" >
         </LinearLayout>
+        
+		<fragment
+            android:id="@+id/fragment_summary_charts"
+            android:name="au.id.teda.broadband.usage.ui.fragments.SummaryChartsFragment"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/activity_main_chart_container" />
 
         <fragment
             android:id="@+id/fragment_data_summary"
             android:name="au.id.teda.broadband.usage.ui.fragments.DataSummaryFragment"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/activity_main_chart_container" />
+            android:layout_below="@+id/fragment_summary_charts" />
 
     </RelativeLayout>
 

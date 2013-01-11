@@ -21,16 +21,26 @@ import com.actionbarsherlock.app.SherlockFragment;
 
 public class DataSummaryFragment extends SherlockFragment {
 	
+	// Debug tag pulled from main activity
 	private final static String DEBUG_TAG = MainActivity.DEBUG_TAG;
 	
+	// View inflated by fragment
+	private View mFragmentView;
+	
+	// Helper classes
 	private AccountInfoHelper mAccountInfo;
 	private AccountStatusHelper mAccountStatus;
 	
+	// Recieve sync broadcasts
 	private SyncReceiver mSyncReceiver;
     private IntentFilter filter;
 	
+    // Activity context to be used
 	private Context mContext;
 	
+	/**
+	 * Called 1st in the fragment life cycle
+	 */
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -39,9 +49,10 @@ public class DataSummaryFragment extends SherlockFragment {
 		mAccountInfo = new AccountInfoHelper(activity);
 		mAccountStatus = new AccountStatusHelper(activity);
 	}
-
-	private View mFragmentView;
 	
+	/**
+	 * Called 2nd in the fragment life cycle
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -56,7 +67,9 @@ public class DataSummaryFragment extends SherlockFragment {
         mSyncReceiver = new SyncReceiver();
 	}
 	
-
+	/**
+	 * Called 3rd in the fragment life cycle
+	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -66,6 +79,9 @@ public class DataSummaryFragment extends SherlockFragment {
 		return mFragmentView;
 	}
 	
+	/**
+	 * Called 4th in the fragment life cycle
+	 */
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -73,6 +89,9 @@ public class DataSummaryFragment extends SherlockFragment {
 		loadFragmentView();
 	}
 	
+	/**
+	 * Called 5th in the fragment life cycle
+	 */
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -81,6 +100,9 @@ public class DataSummaryFragment extends SherlockFragment {
 		getActivity().registerReceiver(mSyncReceiver, filter);
 	}
 	
+	/**
+	 * First call in the death of fragment
+	 */
 	@Override
 	public void onPause() {
 		super.onPause();
