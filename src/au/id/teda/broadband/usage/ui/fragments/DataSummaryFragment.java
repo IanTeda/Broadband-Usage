@@ -1,7 +1,12 @@
 package au.id.teda.broadband.usage.ui.fragments;
 
+import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,67 +14,99 @@ import android.widget.TextView;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
+import au.id.teda.broadband.usage.ui.MainActivity;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
 public class DataSummaryFragment extends SherlockFragment {
 	
+	private final static String DEBUG_TAG = MainActivity.DEBUG_TAG;
+	
 	private AccountInfoHelper mAccountInfo;
 	private AccountStatusHelper mAccountStatus;
 	
+	private SyncReceiver mSyncReceiver;
+    private IntentFilter filter;
+	
 	private Context mContext;
 	
-	// Container Activity must implement this interface
-    public interface DataSummaryFragmentListiner {
-        public void refreshViews();
-    }
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		
+		// Load helper classes
+		mAccountInfo = new AccountInfoHelper(activity);
+		mAccountStatus = new AccountStatusHelper(activity);
+	}
 
+	private View mFragmentView;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		// Set context for fragment
-		mContext = getSherlockActivity();
+		// Set context for fragment. 
+		// Activity extends context so we get it from there
+		mContext = getActivity();
 		
-		// Load helper classes
-		mAccountInfo = new AccountInfoHelper(mContext);
-		mAccountStatus = new AccountStatusHelper(mContext);
+		// Setup broadcast receiver for background sync
+        String BROADCAST = getString(R.string.sync_broadcast_action);
+        filter = new IntentFilter(BROADCAST);
+        mSyncReceiver = new SyncReceiver();
 	}
+	
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// Fragment layout to be inflated
-		View view = inflater.inflate(R.layout.fragment_data_summary, container, false);
+		// Set fragment layout to be inflated
+		mFragmentView = inflater.inflate(R.layout.fragment_data_summary, container, false);
 		
-		loadView(view);
-		
-		return view;
+		return mFragmentView;
 	}
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
+
+		loadFragmentView();
 	}
 	
-	private void loadView(View v){
+	@Override
+	public void onResume() {
+		super.onResume();
+		
+		// Register broadcast receiver for background sync
+		getActivity().registerReceiver(mSyncReceiver, filter);
+	}
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		
+		// Unregister broadcast receiver for background sync
+		getActivity().unregisterReceiver(mSyncReceiver);
+	}
+	
+	private void loadFragmentView(){
 		if (mAccountInfo.isInfoSet() 
     			&& mAccountStatus.isStatusSet()){
 			
-	    	TextView mCurrentMonthTV = (TextView) v.findViewById(R.id.fragment_data_summary_current_month_tv);
-	    	TextView mRolloverNumberDaysTV = (TextView) v.findViewById(R.id.fragment_data_summary_days_number_tv);
-	    	TextView mRolloverQuotaDaysTV = (TextView) v.findViewById(R.id.fragment_data_summary_days_until_tv);
-	    	TextView mRolloverDateTV = (TextView) v.findViewById(R.id.fragment_data_summary_days_date_tv);
-	    	TextView mPeakDataNumberTV = (TextView) v.findViewById(R.id.fragment_data_summary_peak_number_tv);
-	    	TextView mPeakQuotaTV = (TextView) v.findViewById(R.id.fragment_data_summary_peak_quota_tv);
-	    	TextView mPeakDataTV = (TextView) v.findViewById(R.id.fragment_data_summary_peak_used_tv);
-	    	TextView mOffpeakDataNumberTV = (TextView) v.findViewById(R.id.fragment_data_summary_offpeak_number_tv);
-	    	TextView mOffpeakQuotaTV = (TextView) v.findViewById(R.id.fragment_data_summary_offpeak_quota_tv);
-	    	TextView mOffpeakDataTV = (TextView) v.findViewById(R.id.fragment_data_summary_offpeak_used_tv);
-	    	TextView mUpTimeNumberTV = (TextView) v.findViewById(R.id.fragment_data_summary_uptime_number_tv);
-	    	TextView mIpAddresTV = (TextView) v.findViewById(R.id.fragment_data_summary_uptime_ip_tv);
-	    	TextView mLastSyncTV = (TextView) v.findViewById(R.id.fragment_data_summary_last_sync_tv);
+			Log.d(DEBUG_TAG, "loadFragmentView");
+			
+	    	TextView mCurrentMonthTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_current_month_tv);
+	    	TextView mRolloverNumberDaysTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_days_number_tv);
+	    	TextView mRolloverQuotaDaysTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_days_until_tv);
+	    	TextView mRolloverDateTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_days_date_tv);
+	    	TextView mPeakDataNumberTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_peak_number_tv);
+	    	TextView mPeakQuotaTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_peak_quota_tv);
+	    	TextView mPeakDataTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_peak_used_tv);
+	    	TextView mOffpeakDataNumberTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_offpeak_number_tv);
+	    	TextView mOffpeakQuotaTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_offpeak_quota_tv);
+	    	TextView mOffpeakDataTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_offpeak_used_tv);
+	    	TextView mUpTimeNumberTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_uptime_number_tv);
+	    	TextView mIpAddresTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_uptime_ip_tv);
+	    	TextView mLastSyncTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_last_sync_tv);
 	    	
 	    	mCurrentMonthTV.setText(mAccountStatus.getCurrentMonthString());
 	    	mRolloverNumberDaysTV.setText(mAccountStatus.getDaysSoFarString());
@@ -87,5 +124,24 @@ public class DataSummaryFragment extends SherlockFragment {
 			
 		}
 	}
+	
+	public class SyncReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent i) {
+            
+            String MESSAGE = getString(R.string.sync_broadcast_message);
+            String SYNC_START = getString(R.string.sync_broadcast_start);
+            String SYNC_COMPLETE = getString(R.string.sync_broadcast_complete);
+            
+            String msg = i.getStringExtra(MESSAGE);
+            if (msg.equals(SYNC_START)){
+            	// Nothing to do see here move along
+            } else if (msg.equals(SYNC_COMPLETE)){
+            	loadFragmentView();
+            }
+        }
+         
+    }
 
 }

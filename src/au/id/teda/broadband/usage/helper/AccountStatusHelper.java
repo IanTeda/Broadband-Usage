@@ -401,7 +401,7 @@ public class AccountStatusHelper {
 		// Get date value of calendar and format
 		String syncDateTime = sdf.format(lastSyncCal.getTime());
     	
-		return "Last Synced: " + syncDateTime;
+		return "Synced: " + syncDateTime;
     }
 	
 	public boolean isQuotaResetDateSet(){
