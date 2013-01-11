@@ -259,8 +259,6 @@ public class AccountInfoHelper {
 		int hourEnd = end.get(Calendar.HOUR_OF_DAY);
 		int hourNow = now.get(Calendar.HOUR_OF_DAY);
 		
-		Log.d(DEBUG_TAG, "Start:" + hourStart + " End:" + hourEnd + " Now:" + hourNow);
-		
 		if (hourNow > hourStart && hourNow < hourEnd){
 			return true;
 		} else {

@@ -2,6 +2,8 @@ package au.id.teda.broadband.usage.helper;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -142,7 +144,7 @@ public class AccountStatusHelper {
 		Calendar rollover = getQuotaResetDate();
 		
 		//Set up formater
-		SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_MMMM_yyyy);
+		SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_MMMM_yyyy, Locale.UK);
 		
 		// Get date value of calendar and format
 		String currentMonth = sdf.format(rollover.getTime());
@@ -157,7 +159,7 @@ public class AccountStatusHelper {
 		Calendar rollover = getQuotaResetDate();
 		
 		//Set up formater
-		SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_YYYYMM);
+		SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_YYYYMM, Locale.UK);
 		
 		return sdf.format(rollover.getTime());
 	}
