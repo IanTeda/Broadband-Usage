@@ -1,5 +1,8 @@
 package au.id.teda.broadband.usage.helper;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -134,7 +137,7 @@ public class AccountInfoHelper {
 	 * Method for getting off peak start time
 	 * @return shared preference string
 	 */
-	public long getOffpeakStart(){
+	public long getOffpeakStartTime(){
 		return mSettings.getLong(PREF_OFFPEAK_START_KEY, 0);
 	}
 	
@@ -144,7 +147,7 @@ public class AccountInfoHelper {
 	 */
 	public boolean isOffpeakStartSet(){
 		// Check if string length is greater then 0
-		if (getOffpeakStart() != 0){
+		if (getOffpeakStartTime() != 0){
 			// Looks like it is so return true
 			return true;
 		} 
@@ -159,7 +162,7 @@ public class AccountInfoHelper {
 	 * Method for getting off peak end time
 	 * @return shared preference string
 	 */
-	public long getOffpeakEnd(){
+	public long getOffpeakEndTime(){
 		return mSettings.getLong(PREF_OFFPEAK_END_KEY, 0);
 	}
 	
@@ -169,7 +172,7 @@ public class AccountInfoHelper {
 	 */
 	public boolean isOffpeakEndSet(){
 		// Check if string length is greater then 0
-		if (getOffpeakEnd() != 0){
+		if (getOffpeakEndTime() != 0){
 			// Looks like it is so return true
 			return true;
 		} 
@@ -240,6 +243,36 @@ public class AccountInfoHelper {
 		else {
 			// Else it must be 0 and not set so return false
 			return false;
+		}
+	}
+	
+	public boolean isNowOffpeakTime(){
+		Calendar start = Calendar.getInstance();
+		start.setTimeInMillis(getOffpeakStartTime());
+		
+		Calendar end = Calendar.getInstance();
+		end.setTimeInMillis(getOffpeakEndTime());
+		
+		Calendar now = Calendar.getInstance();
+
+		int hourStart = start.get(Calendar.HOUR_OF_DAY);
+		int hourEnd = end.get(Calendar.HOUR_OF_DAY);
+		int hourNow = now.get(Calendar.HOUR_OF_DAY);
+		
+		Log.d(DEBUG_TAG, "Start:" + hourStart + " End:" + hourEnd + " Now:" + hourNow);
+		
+		if (hourNow > hourStart && hourNow < hourEnd){
+			return true;
+		} else {
+			return false;
+		}	
+	}
+	
+	public String getDataPeriodString(){
+		if (isNowOffpeakTime()){
+			return "Currently: <b>Offpeak</b>";
+		} else {
+			return "Currently: <b>Peak</b>";
 		}
 	}
 

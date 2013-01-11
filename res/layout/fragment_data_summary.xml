@@ -129,17 +129,33 @@
                 android:text="@string/fragment_data_summary_uptime_days" />
         </RelativeLayout>
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/fragment_data_summary_last_sync_tv"
+    
+    <RelativeLayout
+        android:id="@+id/fragment_data_summary_footer_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background_alt_dark"
+                android:background="@color/background_alt_dark"
         android:paddingTop="@dimen/icon_padding"
         android:paddingBottom="@dimen/icon_padding"
         android:paddingLeft="@dimen/padding"
-        android:paddingRight="@dimen/padding"
+        android:paddingRight="@dimen/padding">
+
+    <TextView
+        android:id="@+id/fragment_data_summary_last_sync_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
         android:text="@string/fragment_data_summary_last_sync"
         android:textSize="@dimen/text_micro" />
+    
+    <TextView
+        android:id="@+id/fragment_data_summary_data_period_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="@string/fragment_data_summary_peroid"
+        android:textSize="@dimen/text_micro" />
+    
+    </RelativeLayout>
 
 </LinearLayout>

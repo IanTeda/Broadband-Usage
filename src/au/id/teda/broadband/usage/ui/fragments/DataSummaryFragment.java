@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -93,6 +94,7 @@ public class DataSummaryFragment extends SherlockFragment {
     			&& mAccountStatus.isStatusSet()){
 			
 			Log.d(DEBUG_TAG, "loadFragmentView");
+			// TODO: Is view reloaded post sync?
 			
 	    	TextView mCurrentMonthTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_current_month_tv);
 	    	TextView mRolloverNumberDaysTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_days_number_tv);
@@ -107,6 +109,7 @@ public class DataSummaryFragment extends SherlockFragment {
 	    	TextView mUpTimeNumberTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_uptime_number_tv);
 	    	TextView mIpAddresTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_uptime_ip_tv);
 	    	TextView mLastSyncTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_last_sync_tv);
+	    	TextView mDataPeriodTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_data_period_tv);
 	    	
 	    	mCurrentMonthTV.setText(mAccountStatus.getCurrentMonthString());
 	    	mRolloverNumberDaysTV.setText(mAccountStatus.getDaysSoFarString());
@@ -121,7 +124,7 @@ public class DataSummaryFragment extends SherlockFragment {
 	    	mUpTimeNumberTV.setText(mAccountStatus.getUpTimeDaysString());
 	    	mIpAddresTV.setText(mAccountStatus.getIpAddressStrng());
 	    	mLastSyncTV.setText(mAccountStatus.getLastSyncTimeString());
-			
+	    	mDataPeriodTV.setText(Html.fromHtml(mAccountInfo.getDataPeriodString()));
 		}
 	}
 	
