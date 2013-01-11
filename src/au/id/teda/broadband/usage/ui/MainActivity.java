@@ -115,7 +115,6 @@ public class MainActivity extends SherlockFragmentActivity {
     		startActivity(authenticator);
     	// Else load views
         } else if (isScreenPortrait()) {
-        	loadTextViews();
         	loadDoughnutChart();
         } else {
         	// Landscape
@@ -162,46 +161,6 @@ public class MainActivity extends SherlockFragmentActivity {
         default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    public void loadTextViews(){
-    	
-    	if (mAccountInfo.isInfoSet() 
-    			&& mAccountStatus.isStatusSet()
-    			&& isScreenPortrait()){
-    	
-	    	TextView mUsernameTV = (TextView) findViewById(R.id.activity_main_username_tv);
-	    	TextView mProductPlanTV = (TextView) findViewById(R.id.activity_main_product_plan_tv);
-	    	TextView mCurrentMonthTV = (TextView) findViewById(R.id.activity_main_current_month_tv);
-	    	TextView mRolloverNumberDaysTV = (TextView) findViewById(R.id.activity_main_days_number_tv);
-	    	TextView mRolloverQuotaDaysTV = (TextView) findViewById(R.id.activity_main_days_until_tv);
-	    	TextView mRolloverDateTV = (TextView) findViewById(R.id.activity_main_days_date_tv);
-	    	TextView mPeakDataNumberTV = (TextView) findViewById(R.id.activity_main_peak_number_tv);
-	    	TextView mPeakQuotaTV = (TextView) findViewById(R.id.activity_main_peak_quota_tv);
-	    	TextView mPeakDataTV = (TextView) findViewById(R.id.activity_main_peak_used_tv);
-	    	TextView mOffpeakDataNumberTV = (TextView) findViewById(R.id.activity_main_offpeak_number_tv);
-	    	TextView mOffpeakQuotaTV = (TextView) findViewById(R.id.activity_main_offpeak_quota_tv);
-	    	TextView mOffpeakDataTV = (TextView) findViewById(R.id.activity_main_offpeak_used_tv);
-	    	TextView mUpTimeNumberTV = (TextView) findViewById(R.id.activity_main_uptime_number_tv);
-	    	TextView mIpAddresTV = (TextView) findViewById(R.id.activity_main_uptime_ip_tv);
-	    	TextView mLastSyncTV = (TextView) findViewById(R.id.activity_main_last_sync_tv);
-	    	
-	    	mUsernameTV.setText(mAccountAuthenticator.getUsername());
-	    	mProductPlanTV.setText(mAccountInfo.getProductPlan());
-	    	mCurrentMonthTV.setText(mAccountStatus.getCurrentMonthString());
-	    	mRolloverNumberDaysTV.setText(mAccountStatus.getDaysSoFarString());
-	    	mRolloverQuotaDaysTV.setText(mAccountStatus.getDaysThisPeriodString());
-	    	mRolloverDateTV.setText(mAccountStatus.getRolloverDateString());
-	    	mPeakDataNumberTV.setText(mAccountStatus.getPeakDataUsedGbString());
-	    	mPeakQuotaTV.setText(mAccountInfo.getPeakQuotaString());
-	    	mPeakDataTV.setText(mAccountStatus.getPeakShapedString());
-	    	mOffpeakDataNumberTV.setText(mAccountStatus.getOffpeakDataUsedGbString());
-	    	mOffpeakQuotaTV.setText(mAccountInfo.getOffpeakQuotaString());
-	    	mOffpeakDataTV.setText(mAccountStatus.getOffpeakShapedString());
-	    	mUpTimeNumberTV.setText(mAccountStatus.getUpTimeDaysString());
-	    	mIpAddresTV.setText(mAccountStatus.getIpAddressStrng());
-	    	mLastSyncTV.setText(mAccountStatus.getLastSyncTimeString());
-    	}
     }
     
 	/**
@@ -286,7 +245,6 @@ public class MainActivity extends SherlockFragmentActivity {
         		startAnimateRefreshIcon();
             } else if (msg.equals(SYNC_COMPLETE)){
         		stopAnimateRefreshIcon();
-            	loadTextViews();
             	loadDoughnutChart();
             }
         }
