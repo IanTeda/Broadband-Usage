@@ -115,7 +115,7 @@ public class MainActivity extends SherlockFragmentActivity {
         	loadTextViews();
         	loadDoughnutChart();
         } else {
-        	Log.d(DEBUG_TAG, "Landscape");
+        	// Landscape
         }
 
     }
