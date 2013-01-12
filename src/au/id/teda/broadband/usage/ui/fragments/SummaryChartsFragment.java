@@ -6,10 +6,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.FrameLayout;
 import au.id.teda.broadband.usage.R;
+import au.id.teda.broadband.usage.chart.CustomDonughtChart;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
 import au.id.teda.broadband.usage.ui.MainActivity;
@@ -71,6 +75,22 @@ public class SummaryChartsFragment extends SherlockFragment {
 		// Set fragment layout to be inflated
 		mFragmentView = inflater.inflate(R.layout.fragment_summary_charts, container, false);
 		
+		int mDaysSoFar = mAccountStatus.getDaysSoFar();
+		int mDaysToGo = mAccountStatus.getDaysToGo();
+		int mDaysTotal = mDaysSoFar + mDaysToGo;
+		
+		Log.d(DEBUG_TAG, "mDaysSoFar:" + mDaysSoFar + " mDaysToGo:" + mDaysToGo + " = mDaysTotal:" + mDaysTotal );
+		
+		FrameLayout mChartContainer = (FrameLayout) mFragmentView.findViewById(R.id.fragment_summary_chart_donught);
+		
+		CustomDonughtChart mChart = new CustomDonughtChart(mContext);
+		
+		FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(300, 300);
+
+		// Add chart view to layout view
+		mChartContainer.removeAllViews();
+		mChartContainer.addView(mChart, params);
+	
 		return mFragmentView;
 	}
 	
@@ -105,8 +125,6 @@ public class SummaryChartsFragment extends SherlockFragment {
 		// Unregister broadcast receiver for background sync
 		getActivity().unregisterReceiver(mSyncReceiver);
 	}
-	
-	
 	
 	public class SyncReceiver extends BroadcastReceiver {
 
