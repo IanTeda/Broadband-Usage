@@ -74,11 +74,11 @@ public class CustomDonughtChart extends View {
 	    
 	    float mRadius2 = (float) (mRadius * 1);
 		final RectF rect2 = new RectF();
-	    rect2.set(mWidth/2- mRadius2, mHeight/2 - mRadius2, mWidth/2 + mRadius2, mHeight/2 + mRadius2); 
+	    rect2.set(mWidth/2 - mRadius2, mHeight/2 - mRadius2, mWidth/2 + mRadius2, mHeight/2 + mRadius2); 
 	    drawPeak(canvas, rect2);
 	    
 	    //Used to restrain canvas	
-		float mRadius3 = (float) (mRadius * 0.70);
+		float mRadius3 = (float) (mRadius * 0.7);
 		final RectF rect3 = new RectF();
 		rect3.set(mWidth/2- mRadius3, mHeight/2 - mRadius3, mWidth/2 + mRadius3, mHeight/2 + mRadius3); 
 		drawOffpeak(canvas, rect3);
@@ -143,7 +143,7 @@ public class CustomDonughtChart extends View {
 	    //Set the canvas values
 		Paint paint = new Paint();
 	    paint.setColor(Color.GRAY);
-	    paint.setStrokeWidth(80);
+	    paint.setStrokeWidth(100);
 	    paint.setAntiAlias(true);
 	    paint.setStrokeCap(Paint.Cap.BUTT);
 	    paint.setStyle(Paint.Style.STROKE);
@@ -151,7 +151,7 @@ public class CustomDonughtChart extends View {
 	    
 	    Paint paint2 = new Paint();
 	    paint2.setColor(Color.LTGRAY);
-	    paint2.setStrokeWidth(80);
+	    paint2.setStrokeWidth(100);
 	    paint2.setAntiAlias(true);
 	    paint2.setStrokeCap(Paint.Cap.BUTT);
 	    paint2.setStyle(Paint.Style.STROKE);
