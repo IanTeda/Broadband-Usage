@@ -1,7 +1,5 @@
 package au.id.teda.broadband.usage.ui;
 
-import org.achartengine.GraphicalView;
-
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
@@ -11,29 +9,18 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
-import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.authenticator.AccountAuthenticator;
 import au.id.teda.broadband.usage.authenticator.AuthenticatorActivity;
-import au.id.teda.broadband.usage.chart.DoughnutChart;
-import au.id.teda.broadband.usage.helper.AccountInfoHelper;
-import au.id.teda.broadband.usage.helper.AccountStatusHelper;
 import au.id.teda.broadband.usage.helper.ConnectivityHelper;
-import au.id.teda.broadband.usage.ui.fragments.DataTableFragment;
 
 public class MainActivity extends SherlockFragmentActivity {
 	
@@ -48,23 +35,8 @@ public class MainActivity extends SherlockFragmentActivity {
 	
 	private AccountAuthenticator mAccountAuthenticator;
 	
-	private FragmentManager mFragmentManager;
-	
-	private GraphicalView mDoughnutChartView;
-	
-	private SharedPreferences mSettings;
-	
-	private AccountInfoHelper mAccountInfo;
-	private AccountStatusHelper mAccountStatus;
-	
-	private DataTableFragment mListFragment;
-	
 	private SyncReceiver mSyncReceiver;
     private IntentFilter filter;
-	
-	private DoughnutChart mDoughnutChart;
-	// Chart container
-	private LinearLayout mChartLayoutContainer;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,9 +45,6 @@ public class MainActivity extends SherlockFragmentActivity {
         
         // Set up the action bar.
         final ActionBar mActionBar = getSupportActionBar();
-        
-    	mAccountInfo = new AccountInfoHelper(this);
-    	mAccountStatus = new AccountStatusHelper(this);
 
         String BROADCAST = getString(R.string.sync_broadcast_action);
         filter = new IntentFilter(BROADCAST);
@@ -105,20 +74,12 @@ public class MainActivity extends SherlockFragmentActivity {
     	super.onResume();
     	
     	registerReceiver(mSyncReceiver, filter);
-    	
-        mSettings = PreferenceManager.getDefaultSharedPreferences(this);
         
         // Check to see if account has been authenticated
         mAccountAuthenticator = new AccountAuthenticator(this);
         if(!mAccountAuthenticator.isAccountAuthenticated()){
         	Intent authenticator = new Intent(this, AuthenticatorActivity.class);
     		startActivity(authenticator);
-    	// Else load views
-        } else if (isScreenPortrait()) {
-        	loadDoughnutChart();
-        } else {
-        	// Landscape
-        	
         }
 
     }
@@ -162,38 +123,6 @@ public class MainActivity extends SherlockFragmentActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-    
-	/**
-	 * Method for loading doughnut into view
-	 */
-	public void loadDoughnutChart() {
-		
-		if (mAccountInfo.isInfoSet() 
-				&& mAccountStatus.isStatusSet()
-				&& isScreenPortrait()){
-			// Initialize layout for chart
-			mChartLayoutContainer = (LinearLayout) findViewById(R.id.activity_main_chart_container);
-	
-			// Initialize chart class
-			mDoughnutChart = new DoughnutChart(this);
-	
-			// Get chart view from library
-			mDoughnutChartView = (GraphicalView) mDoughnutChart.getDoughnutChartView();
-	
-			// Add chart view to layout view
-			mChartLayoutContainer.removeAllViews();
-			mChartLayoutContainer.addView(mDoughnutChartView, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-			
-			// Get screen specs
-			Display display = getWindowManager().getDefaultDisplay();
-			int width = display.getWidth();
-				
-			// Get layout parameters
-			LayoutParams params = mChartLayoutContainer.getLayoutParams();
-			// Set height equal to screen width
-			params.height = width;
-		}
-	}
     
     /**
      * Start the animation of the refresh icon in the action bar
@@ -245,7 +174,6 @@ public class MainActivity extends SherlockFragmentActivity {
         		startAnimateRefreshIcon();
             } else if (msg.equals(SYNC_COMPLETE)){
         		stopAnimateRefreshIcon();
-            	loadDoughnutChart();
             }
         }
          
