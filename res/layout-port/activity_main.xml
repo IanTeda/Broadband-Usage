@@ -10,39 +10,19 @@
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
-        <LinearLayout
-            android:id="@+id/activity_main_account_info_container"
+        <fragment
+            android:id="@+id/fragment_product_plan"
+            android:name="au.id.teda.broadband.usage.ui.fragments.ProductPlanFragment"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:orientation="vertical"
-            android:paddingLeft="@dimen/vert_margin"
-            android:paddingRight="@dimen/vert_margin" >
-
-            <TextView
-                android:id="@+id/activity_main_username_tv"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin"
-                android:text="@string/activity_main_username"
-                android:textColor="@color/accent"
-                android:textSize="@dimen/text_large" />
-
-            <TextView
-                android:id="@+id/activity_main_product_plan_tv"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/activity_main_product_plan"
-                android:textColor="@color/base"
-                android:textSize="@dimen/text_micro" />
-        </LinearLayout>
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"/>
         
 		<fragment
             android:id="@+id/fragment_summary_charts"
             android:name="au.id.teda.broadband.usage.ui.fragments.SummaryChartsFragment"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/activity_main_account_info_container" />
+            android:layout_below="@+id/fragment_product_plan" />
 
         <fragment
             android:id="@+id/fragment_data_summary"

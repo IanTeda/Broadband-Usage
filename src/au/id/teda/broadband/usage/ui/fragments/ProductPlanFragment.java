@@ -13,13 +13,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import au.id.teda.broadband.usage.R;
+import au.id.teda.broadband.usage.authenticator.AccountAuthenticator;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
 import au.id.teda.broadband.usage.ui.MainActivity;
+import au.id.teda.broadband.usage.ui.fragments.DataSummaryFragment.SyncReceiver;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
-public class DataSummaryFragment extends SherlockFragment {
+public class ProductPlanFragment extends SherlockFragment {
 	
 	// Debug tag pulled from main activity
 	private final static String DEBUG_TAG = MainActivity.DEBUG_TAG;
@@ -30,6 +32,7 @@ public class DataSummaryFragment extends SherlockFragment {
 	// Helper classes
 	private AccountInfoHelper mAccountInfo;
 	private AccountStatusHelper mAccountStatus;
+	private AccountAuthenticator mAccountAuthenticator;
 	
 	// Recieve sync broadcasts
 	private SyncReceiver mSyncReceiver;
@@ -48,6 +51,7 @@ public class DataSummaryFragment extends SherlockFragment {
 		// Load helper classes
 		mAccountInfo = new AccountInfoHelper(activity);
 		mAccountStatus = new AccountStatusHelper(activity);
+		mAccountAuthenticator = new AccountAuthenticator(activity);
 	}
 	
 	/**
@@ -74,7 +78,7 @@ public class DataSummaryFragment extends SherlockFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// Set fragment layout to be inflated
-		mFragmentView = inflater.inflate(R.layout.fragment_data_summary, container, false);
+		mFragmentView = inflater.inflate(R.layout.fragment_product_plan, container, false);
 		
 		return mFragmentView;
 	}
@@ -115,37 +119,11 @@ public class DataSummaryFragment extends SherlockFragment {
 		if (mAccountInfo.isInfoSet() 
     			&& mAccountStatus.isStatusSet()){
 			
-			// TODO: Is view reloaded post sync?
-			
-	    	TextView mCurrentMonthTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_current_month_tv);
-	    	TextView mRolloverNumberDaysTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_days_number_tv);
-	    	TextView mRolloverQuotaDaysTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_days_until_tv);
-	    	TextView mRolloverDateTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_days_date_tv);
-	    	TextView mPeakDataNumberTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_peak_number_tv);
-	    	TextView mPeakQuotaTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_peak_quota_tv);
-	    	TextView mPeakDataTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_peak_used_tv);
-	    	TextView mOffpeakDataNumberTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_offpeak_number_tv);
-	    	TextView mOffpeakQuotaTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_offpeak_quota_tv);
-	    	TextView mOffpeakDataTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_offpeak_used_tv);
-	    	TextView mUpTimeNumberTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_uptime_number_tv);
-	    	TextView mIpAddresTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_uptime_ip_tv);
-	    	TextView mLastSyncTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_last_sync_tv);
-	    	TextView mDataPeriodTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_data_period_tv);
+	    	TextView mUsernameTV = (TextView) mFragmentView.findViewById(R.id.fragment_product_plan_username_tv);
+	    	TextView mProductPlanTV = (TextView) mFragmentView.findViewById(R.id.fragment_product_plan_product_plan_tv);
 	    	
-	    	mCurrentMonthTV.setText(mAccountStatus.getCurrentMonthString());
-	    	mRolloverNumberDaysTV.setText(mAccountStatus.getDaysSoFarString());
-	    	mRolloverQuotaDaysTV.setText(mAccountStatus.getDaysThisPeriodString());
-	    	mRolloverDateTV.setText(mAccountStatus.getRolloverDateString());
-	    	mPeakDataNumberTV.setText(mAccountStatus.getPeakDataUsedGbString());
-	    	mPeakQuotaTV.setText(mAccountInfo.getPeakQuotaString());
-	    	mPeakDataTV.setText(mAccountStatus.getPeakShapedString());
-	    	mOffpeakDataNumberTV.setText(mAccountStatus.getOffpeakDataUsedGbString());
-	    	mOffpeakQuotaTV.setText(mAccountInfo.getOffpeakQuotaString());
-	    	mOffpeakDataTV.setText(mAccountStatus.getOffpeakShapedString());
-	    	mUpTimeNumberTV.setText(mAccountStatus.getUpTimeDaysString());
-	    	mIpAddresTV.setText(mAccountStatus.getIpAddressStrng());
-	    	mLastSyncTV.setText(mAccountStatus.getLastSyncTimeString());
-	    	mDataPeriodTV.setText(Html.fromHtml(mAccountInfo.getDataPeriodString()));
+	    	mUsernameTV.setText(mAccountAuthenticator.getUsername());
+	    	mProductPlanTV.setText(mAccountInfo.getProductPlan());
 		}
 	}
 	
