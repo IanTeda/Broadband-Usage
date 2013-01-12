@@ -291,8 +291,8 @@ public class AccountStatusHelper {
 		return mSettings.getLong(OFFPEAK_DATA_USED, 0);
 	}
 	
-	public long getOffpeakDataUsedGb(){
-		return mSettings.getLong(OFFPEAK_DATA_USED, 0) / GB;
+	public int getOffpeakDataUsedGb(){
+		return (int) (mSettings.getLong(OFFPEAK_DATA_USED, 0) / GB);
 	}
 	
 	public String getOffpeakDataUsedGbString(){

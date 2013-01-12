@@ -7,11 +7,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.chart.CustomDonughtChart;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
@@ -74,22 +76,36 @@ public class SummaryChartsFragment extends SherlockFragment {
 			Bundle savedInstanceState) {
 		// Set fragment layout to be inflated
 		mFragmentView = inflater.inflate(R.layout.fragment_summary_charts, container, false);
+
+		
+		LinearLayout mChartContainer = (LinearLayout) mFragmentView.findViewById(R.id.fragment_summary_chart_donught);
+		CustomDonughtChart mChart = new CustomDonughtChart(mContext);
 		
 		int mDaysSoFar = mAccountStatus.getDaysSoFar();
 		int mDaysToGo = mAccountStatus.getDaysToGo();
-		int mDaysTotal = mDaysSoFar + mDaysToGo;
+		mChart.setDays(mDaysSoFar, mDaysToGo);
 		
-		Log.d(DEBUG_TAG, "mDaysSoFar:" + mDaysSoFar + " mDaysToGo:" + mDaysToGo + " = mDaysTotal:" + mDaysTotal );
+		int peakUsed = mAccountStatus.getPeakDataUsedGb();
+		int peakQuota = mAccountInfo.getPeakQuotaGb();
+		mChart.setPeakUsage(peakUsed, peakQuota);
 		
-		FrameLayout mChartContainer = (FrameLayout) mFragmentView.findViewById(R.id.fragment_summary_chart_donught);
+		int offpeakUsed = mAccountStatus.getOffpeakDataUsedGb();
+		int offpeakQuota = mAccountInfo.getOffpeakQuotaGb();
+		mChart.setOffpeakUsage(offpeakUsed, offpeakQuota);
 		
-		CustomDonughtChart mChart = new CustomDonughtChart(mContext);
-		
-		FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(300, 300);
+		LayoutParams params = new LayoutParams(300, 300);
 
 		// Add chart view to layout view
-		mChartContainer.removeAllViews();
 		mChartContainer.addView(mChart, params);
+		
+		// Get screen specs
+		Display display = getActivity().getWindowManager().getDefaultDisplay();
+		int width = display.getWidth();
+			
+		// Get layout parameters
+		LayoutParams p2 = mChartContainer.getLayoutParams();
+		// Set height equal to screen width
+		p2.height = width;
 	
 		return mFragmentView;
 	}
