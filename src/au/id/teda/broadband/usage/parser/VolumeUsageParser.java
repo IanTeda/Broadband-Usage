@@ -38,7 +38,7 @@ public class VolumeUsageParser {
 	// This class represents the account info in the XML feed.
 	public static class VolumeUsage {
 		public final Long day;
-		public final String month;
+		public final String period;
 	    public final Long peak;
 	    public final Long offpeak;
 	    public final Long uploads;
@@ -48,8 +48,8 @@ public class VolumeUsageParser {
 	    		, Long peak, Long offpeak
 	    		, Long uploads, Long freezone) {
 	    	
-	    	this.month = month;
 	    	this.day = day;
+	    	this.period = month;
 	        this.peak = peak;
 	        this.offpeak = offpeak;
 	        this.uploads = uploads;

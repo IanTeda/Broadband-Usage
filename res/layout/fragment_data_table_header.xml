@@ -1,21 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout 
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" 
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"> 
-        
-     <TextView android:id="@+id/txtHeader"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:gravity="center_vertical"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentBottom="true"
-        android:textStyle="bold"
-        android:textSize="22dp"
-        android:textColor="#FFFFFF"
-        android:padding="10dp"
-        android:text="Weather Photos"
-        android:background="#336699" />
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="30dp"
+    android:layout_marginTop="5dp"
+    android:background="@color/background_alt"
+    android:orientation="horizontal" >
+
+    <TextView
+        style="@style/MyTheme.MainActivity.Listview.Header"
+        android:layout_width="@dimen/daily_data_date_width"
+        android:layout_weight="0"
+        android:text="Day" />
+
+    <ImageView
+        style="@style/MyTheme.MainActivity.Listview.Separator"/>
+
+    <TextView
+        style="@style/MyTheme.MainActivity.Listview.Header"
+        android:text="Peak" />
+
+    <ImageView
+        style="@style/MyTheme.MainActivity.Listview.Separator" />
+
+    <TextView
+        style="@style/MyTheme.MainActivity.Listview.Header"
+        android:text="Offpeak" />
+
+    <ImageView
+        style="@style/MyTheme.MainActivity.Listview.Separator" />
+
+    <TextView
+        style="@style/MyTheme.MainActivity.Listview.Header"
+        android:text="Uploads" />
+
+    <ImageView
+        style="@style/MyTheme.MainActivity.Listview.Separator" />
+
+    <TextView
+        style="@style/MyTheme.MainActivity.Listview.Separator"
+        android:text="Freezone" />
+
+    <ImageView
+        style="@style/MyTheme.MainActivity.Listview.Separator" />
+
+    <TextView
+        style="@style/MyTheme.MainActivity.Listview.Header"
+        android:text="Total" />
+
+    <ImageView
+        style="@style/MyTheme.MainActivity.Listview.Separator" />
+
+    <TextView
+        style="@style/MyTheme.MainActivity.Listview.Header"
+        android:text="Accum Total" />
 
 </LinearLayout>

@@ -285,7 +285,7 @@ public class NetworkUtilities {
         
         for (VolumeUsage volumeUsage : usage) {
         	Long day = volumeUsage.day;
-        	String month = volumeUsage.month;
+        	String month = volumeUsage.period;
         	Long peak = volumeUsage.peak;
         	Long offpeak = volumeUsage.offpeak;
         	Long uploads = volumeUsage.uploads;

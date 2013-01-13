@@ -21,15 +21,22 @@ import au.id.teda.broadband.usage.ui.MainActivity;
 public class DailyDataTableCursorAdapter extends CursorAdapter {
 	
 	private final static String DEBUG_TAG = MainActivity.DEBUG_TAG;
-	
-	private final LayoutInflater mInflater;
 
+	private Context mContext;
+	
 	public DailyDataTableCursorAdapter(Context context, Cursor cursor, boolean autoRequery) {
 		super(context, cursor, autoRequery);
-		
 		Log.d(DEBUG_TAG, "DailyDataCursorAdapter");
 		
-		mInflater = LayoutInflater.from(context);
+		mContext = context;
+	}
+
+	@Override
+	public View newView(Context context, Cursor cursor, ViewGroup parent) {
+		// Inflate the listview with the changes above
+		LayoutInflater mInflater = LayoutInflater.from(parent.getContext());
+		View view = mInflater.inflate(R.layout.table_row, parent, false);
+		return view;
 	}
 
 	@Override
@@ -69,13 +76,6 @@ public class DailyDataTableCursorAdapter extends CursorAdapter {
 
 	}
 
-	@Override
-	public View newView(Context context, Cursor cursor, ViewGroup parent) {
-		// Inflate the listview with the changes above
-		View view = mInflater.inflate(R.layout.table_row, parent, false);
-		return view;
-	}
-	
 	// Return string values for date long millisec stored in db
 	private String LongDateToString(long millisecs, String convertTo) {
 		DateFormat date_format = null;

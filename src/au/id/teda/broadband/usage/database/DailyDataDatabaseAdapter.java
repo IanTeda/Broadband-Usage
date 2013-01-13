@@ -105,4 +105,21 @@ public class DailyDataDatabaseAdapter {
 		Cursor cursor = database.rawQuery(dbQuery, null);
 		return cursor;
 	}
+	
+	public void getPeriodUsageArray(String period){
+		Cursor cursor = getPriodUsageCursor(period);
+		cursor.moveToFirst();
+		
+		//List<VolumeUsage> usage = new ArrayList<VolumeUsage>;
+		
+		if (cursor != null){
+			while (cursor.moveToNext()){
+				
+				
+			}
+			cursor.close();
+		}
+		
+		
+	}
 }
