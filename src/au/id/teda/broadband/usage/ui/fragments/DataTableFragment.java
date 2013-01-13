@@ -97,7 +97,7 @@ public class DataTableFragment extends SherlockListFragment {
 		Cursor cursor = mDatabase.getPriodUsageCursor(period);
 		DailyDataTableCursorAdapter adapter = new DailyDataTableCursorAdapter(mContext, cursor, false);
 		setListAdapter(adapter);
-		cursor.close();
+		//cursor.close();
 		mDatabase.close();
 	}
 	

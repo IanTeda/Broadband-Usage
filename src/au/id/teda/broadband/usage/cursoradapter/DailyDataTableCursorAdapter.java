@@ -34,6 +34,7 @@ public class DailyDataTableCursorAdapter extends CursorAdapter {
 
 	@Override
 	public void bindView(View view, Context context, Cursor cursor) {
+		Log.d(DEBUG_TAG, "DailyDataCursorAdapter.bindView()");
 		// Set usage textviews
 		TextView dateTV = (TextView) view.findViewById(R.id.data_table_column_date);
 		TextView peakTV = (TextView) view.findViewById(R.id.data_table_column_peak);
