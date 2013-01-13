@@ -1,11 +1,15 @@
 package au.id.teda.broadband.usage.database;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
+import au.id.teda.broadband.usage.parser.VolumeUsageParser.VolumeUsage;
 import au.id.teda.broadband.usage.ui.MainActivity;
 
 public class DailyDataDatabaseAdapter {
@@ -101,5 +105,4 @@ public class DailyDataDatabaseAdapter {
 		Cursor cursor = database.rawQuery(dbQuery, null);
 		return cursor;
 	}
-    
 }

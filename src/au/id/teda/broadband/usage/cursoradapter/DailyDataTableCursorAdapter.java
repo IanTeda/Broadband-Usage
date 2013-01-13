@@ -51,6 +51,13 @@ public class DailyDataTableCursorAdapter extends CursorAdapter {
 		long uploadUsageLong = cursor.getLong(cursor.getColumnIndex(DailyDataDatabaseAdapter.UPLOADS)); // Pull upload usage from cursor
 		long freezoneUsageLong = cursor.getLong(cursor.getColumnIndex(DailyDataDatabaseAdapter.FREEZONE)); // Pull upload usage from cursor
 		long totalUsageLong = (peakUsageLong + offpeakUsageLong); // Add up the total for the day
+		
+		Log.d(DEBUG_TAG, "dateLong:" + dateLong);
+		Log.d(DEBUG_TAG, "peakUsageLong:" + peakUsageLong);
+		Log.d(DEBUG_TAG, "offpeakUsageLong:" + offpeakUsageLong);
+		Log.d(DEBUG_TAG, "uploadUsageLong:" + uploadUsageLong);
+		Log.d(DEBUG_TAG, "freezoneUsageLong:" + freezoneUsageLong);
+		Log.d(DEBUG_TAG, "totalUsageLong:" + totalUsageLong);
 
 		dateTV.setText(LongDateToString(dateLong, "dateOfMouth")); // Day of the mouth
 		peakTV.setText(IntUsageToString(peakUsageLong)); // Peak usage

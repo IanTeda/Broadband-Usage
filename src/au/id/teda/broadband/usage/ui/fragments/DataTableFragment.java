@@ -5,19 +5,21 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.authenticator.AccountAuthenticator;
+import au.id.teda.broadband.usage.cursoradapter.DailyDataTableCursorAdapter;
+import au.id.teda.broadband.usage.database.DailyDataDatabaseAdapter;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
 import au.id.teda.broadband.usage.ui.MainActivity;
-import au.id.teda.broadband.usage.ui.fragments.ProductPlanFragment.SyncReceiver;
-
-import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockListFragment;
 
 public class DataTableFragment extends SherlockListFragment {
@@ -88,7 +90,15 @@ public class DataTableFragment extends SherlockListFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
+		
+		DailyDataDatabaseAdapter mDatabase = new DailyDataDatabaseAdapter(mContext);
+		mDatabase.open();
+		String period = mAccountStatus.getDataBaseMonthString();
+		Cursor cursor = mDatabase.getPriodUsageCursor(period);
+		DailyDataTableCursorAdapter adapter = new DailyDataTableCursorAdapter(mContext, cursor, false);
+		setListAdapter(adapter);
+		cursor.close();
+		mDatabase.close();
 	}
 	
 	/**
@@ -112,6 +122,11 @@ public class DataTableFragment extends SherlockListFragment {
 		// Unregister broadcast receiver for background sync
 		getActivity().unregisterReceiver(mSyncReceiver);
 	}
+	
+	@Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        Log.d(DEBUG_TAG, "Item clicked: " + id);
+    }
 	
 	public class SyncReceiver extends BroadcastReceiver {
 

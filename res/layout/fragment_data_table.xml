@@ -4,10 +4,13 @@
     android:layout_height="fill_parent"
     android:orientation="horizontal" >
 
+    <include layout="@layout/fragment_data_table_header" />
+
     <ListView
         android:id="@android:id/list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
         android:drawSelectorOnTop="false" />
 
     <TextView
