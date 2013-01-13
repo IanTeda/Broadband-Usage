@@ -4,11 +4,19 @@
     android:layout_height="fill_parent"
     android:orientation="horizontal" >
 
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:drawSelectorOnTop="false" />
+
     <TextView
+        android:id="@android:id/empty"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:gravity="center"
         android:text="No Data"
-        android:textColor="#FF33CC" />
+        android:textColor="@color/accent"
+        android:textSize="@dimen/text_xlarge" />
 
 </LinearLayout>

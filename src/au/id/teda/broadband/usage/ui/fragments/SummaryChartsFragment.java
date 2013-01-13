@@ -80,34 +80,11 @@ public class SummaryChartsFragment extends SherlockFragment {
 		// Set fragment layout to be inflated
 		mFragmentView = inflater.inflate(R.layout.fragment_summary_charts, container, false);
 
-		if (mAccountInfo.isInfoSet() 
-				&& mAccountStatus.isStatusSet()){
-			// Set layout container for chart
-			LinearLayout mChartContainer = (LinearLayout) mFragmentView.findViewById(R.id.fragment_summary_chart_donught);
-	
-			// Initialize chart class
-			DoughnutChart mDoughnutChart = new DoughnutChart(mContext);
-	
-			// Get chart view from library
-			GraphicalView mDoughnutChartView = (GraphicalView) mDoughnutChart.getDoughnutChartView();
-	
-			// Add chart view to layout view
-			mChartContainer.removeAllViews();
-			mChartContainer.addView(mDoughnutChartView, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-			
-			// Get screen specs
-			Display display = getActivity().getWindowManager().getDefaultDisplay();
-			int width = display.getWidth();
-				
-			// Get layout parameters
-			LayoutParams params = mChartContainer.getLayoutParams();
-			// Set height equal to screen width
-			params.height = width;
-		}
+		loadFragmentView();
 		
 		return mFragmentView;
 	}
-	
+
 	/**
 	 * Called 4th in the fragment life cycle
 	 */
@@ -115,7 +92,7 @@ public class SummaryChartsFragment extends SherlockFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		//loadFragmentView();
+		loadFragmentView();
 	}
 	
 	/**
@@ -140,6 +117,33 @@ public class SummaryChartsFragment extends SherlockFragment {
 		getActivity().unregisterReceiver(mSyncReceiver);
 	}
 	
+	private void loadFragmentView() {
+		if (mAccountInfo.isInfoSet() 
+				&& mAccountStatus.isStatusSet()){
+			// Set layout container for chart
+			LinearLayout mChartContainer = (LinearLayout) mFragmentView.findViewById(R.id.fragment_summary_chart_donught);
+	
+			// Initialize chart class
+			DoughnutChart mDoughnutChart = new DoughnutChart(mContext);
+	
+			// Get chart view from library
+			GraphicalView mDoughnutChartView = (GraphicalView) mDoughnutChart.getDoughnutChartView();
+	
+			// Add chart view to layout view
+			mChartContainer.removeAllViews();
+			mChartContainer.addView(mDoughnutChartView, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+			
+			// Get screen specs
+			Display display = getActivity().getWindowManager().getDefaultDisplay();
+			int width = display.getWidth();
+				
+			// Get layout parameters
+			LayoutParams params = mChartContainer.getLayoutParams();
+			// Set height equal to screen width
+			params.height = width;
+		}
+	}
+
 	public class SyncReceiver extends BroadcastReceiver {
 
         @Override
@@ -153,7 +157,7 @@ public class SummaryChartsFragment extends SherlockFragment {
             if (msg.equals(SYNC_START)){
             	// Nothing to do see here move along
             } else if (msg.equals(SYNC_COMPLETE)){
-            	// On sync complete
+            	loadFragmentView();
             }
         }
          
