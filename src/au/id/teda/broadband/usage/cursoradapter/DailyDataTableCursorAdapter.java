@@ -79,6 +79,8 @@ public class DailyDataTableCursorAdapter extends CursorAdapter {
         return position;
     }
     
+    /**
+    @Override
     public View getView(int position, View view, ViewGroup parent) {
     	
     	Log.d(DEBUG_TAG, "DailyDataCursorAdapter.getView()");
@@ -130,13 +132,13 @@ public class DailyDataTableCursorAdapter extends CursorAdapter {
 
         return view;
     }
+    **/
 
-    /**
 	@Override
 	public View newView(Context context, Cursor cursor, ViewGroup parent) {
 		Log.d(DEBUG_TAG, "DailyDataCursorAdapter.newView()");
 		// Inflate the list view with the changes above
-		final View view = mLayoutInflater.inflate(R.layout.fragment_data_table_row, parent, false);
+		final View view = mLayoutInflater.inflate(mLayout, parent, false);
 		return view;
 	}
 
@@ -154,11 +156,11 @@ public class DailyDataTableCursorAdapter extends CursorAdapter {
 
 		// Set variables and pull data from database cursor
 		// TODO: Change DailyDataDBAdapter to dailyDataDBHelper???
-		long dateLong = cursor.getLong(cursor.getColumnIndex(DailyDataDatabaseAdapter.DAY));
-		long peakUsageLong = cursor.getLong(cursor.getColumnIndex(DailyDataDatabaseAdapter.PEAK));
-		long offpeakUsageLong = cursor.getLong(cursor.getColumnIndex(DailyDataDatabaseAdapter.OFFPEAK));
-		long uploadUsageLong = cursor.getLong(cursor.getColumnIndex(DailyDataDatabaseAdapter.UPLOADS));
-		long freezoneUsageLong = cursor.getLong(cursor.getColumnIndex(DailyDataDatabaseAdapter.FREEZONE));
+		long dateLong = cursor.getLong(COLUMN_INDEX_DAY);
+		long peakUsageLong = cursor.getLong(COLUMN_INDEX_PEAK);
+		long offpeakUsageLong = cursor.getLong(COLUMN_INDEX_OFFPEAK);
+		long uploadUsageLong = cursor.getLong(COLUMN_INDEX_UPLOADS);
+		long freezoneUsageLong = cursor.getLong(COLUMN_INDEX_FREEZONE);
 		long totalUsageLong = (peakUsageLong + offpeakUsageLong);
 		
 		Log.d(DEBUG_TAG, "dateLong:" + dateLong);
@@ -176,7 +178,34 @@ public class DailyDataTableCursorAdapter extends CursorAdapter {
 		totalTV.setText(IntUsageToString(totalUsageLong));
 
 	}
-	**/
+	
+	public void testCursor(Cursor cursor){
+		
+		cursor.moveToFirst();
+		
+		//List<VolumeUsage> usage = new ArrayList<VolumeUsage>;
+		
+		if (cursor != null){
+			while (cursor.moveToNext()){
+				
+				long dateLong = cursor.getLong(COLUMN_INDEX_DAY);
+				long peakUsageLong = cursor.getLong(COLUMN_INDEX_PEAK);
+				long offpeakUsageLong = cursor.getLong(COLUMN_INDEX_OFFPEAK);
+				long uploadUsageLong = cursor.getLong(COLUMN_INDEX_UPLOADS);
+				long freezoneUsageLong = cursor.getLong(COLUMN_INDEX_FREEZONE);
+				long totalUsageLong = (peakUsageLong + offpeakUsageLong);
+				
+				Log.d(DEBUG_TAG, "dateLong:" + dateLong);
+				Log.d(DEBUG_TAG, "peakUsageLong:" + peakUsageLong);
+				Log.d(DEBUG_TAG, "offpeakUsageLong:" + offpeakUsageLong);
+				Log.d(DEBUG_TAG, "uploadUsageLong:" + uploadUsageLong);
+				Log.d(DEBUG_TAG, "freezoneUsageLong:" + freezoneUsageLong);
+				Log.d(DEBUG_TAG, "totalUsageLong:" + totalUsageLong);
+				
+			}
+			cursor.close();
+		}
+	}
 
 	// Return string values for date long millisec stored in db
 	private String LongDateToString(long millisecs, String convertTo) {
@@ -198,18 +227,6 @@ public class DailyDataTableCursorAdapter extends CursorAdapter {
 		long usage = usageLong/1000000;
 		return numberFormat.format(usage);
 		
-	}
-
-	@Override
-	public void bindView(View arg0, Context arg1, Cursor arg2) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public View newView(Context arg0, Cursor arg1, ViewGroup arg2) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

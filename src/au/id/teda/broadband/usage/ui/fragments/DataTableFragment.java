@@ -101,6 +101,7 @@ public class DataTableFragment extends SherlockListFragment {
 		Log.d(DEBUG_TAG, "Cursor Length:" + cursor.getCount());
 		
 		DailyDataTableCursorAdapter adapter = new DailyDataTableCursorAdapter(mContext, R.layout.fragment_data_table_row, cursor, false);
+		//adapter.testCursor(cursor);
 		setListAdapter(adapter);
 		//cursor.close();
 		mDatabase.close();
