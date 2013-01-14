@@ -22,11 +22,20 @@ public class DailyDataTableCursorAdapter extends CursorAdapter {
 	
 	private final static String DEBUG_TAG = MainActivity.DEBUG_TAG;
 	
-	LayoutInflater mInflater; 
-
+	private int mLayout;
+	private LayoutInflater mLayoutInflater;
+	private Cursor mCursor;
 	private Context mContext;
 	
+	private int COLUMN_INDEX_DAY;
+	private int COLUMN_INDEX_PEAK;
+	private int COLUMN_INDEX_OFFPEAK;
+	private int COLUMN_INDEX_UPLOADS;
+	private int COLUMN_INDEX_FREEZONE;
+	
 	private int count;
+	
+	private int GB = 1000000;
 	
 	private final class ViewHolder {
 	    public TextView day;
@@ -38,13 +47,20 @@ public class DailyDataTableCursorAdapter extends CursorAdapter {
 	    public TextView accum;
 	}
 	
-	public DailyDataTableCursorAdapter(Context context, Cursor cursor, boolean autoRequery) {
+	public DailyDataTableCursorAdapter(Context context, int layout, Cursor cursor, boolean autoRequery) {
 		super(context, cursor, autoRequery);
 		Log.d(DEBUG_TAG, "DailyDataCursorAdapter");
 		
-		// Set layout inflater
-		mInflater = LayoutInflater.from(context);
 		this.mContext = context;
+		this.mLayout = layout;
+		this.mCursor = cursor;
+		this.mLayoutInflater = LayoutInflater.from(context);
+		
+		this.COLUMN_INDEX_DAY = mCursor.getColumnIndex(DailyDataDatabaseAdapter.DAY);
+		this.COLUMN_INDEX_PEAK = mCursor.getColumnIndex(DailyDataDatabaseAdapter.PEAK);
+		this.COLUMN_INDEX_OFFPEAK = mCursor.getColumnIndex(DailyDataDatabaseAdapter.OFFPEAK);
+		this.COLUMN_INDEX_UPLOADS = mCursor.getColumnIndex(DailyDataDatabaseAdapter.UPLOADS);
+		this.COLUMN_INDEX_FREEZONE = mCursor.getColumnIndex(DailyDataDatabaseAdapter.FREEZONE);
 		
 	}
 	
@@ -52,7 +68,6 @@ public class DailyDataTableCursorAdapter extends CursorAdapter {
     public int getCount() {
         return count;
     }
-
 
     @Override
     public Object getItem(int position) {
@@ -63,12 +78,65 @@ public class DailyDataTableCursorAdapter extends CursorAdapter {
     public long getItemId(int position) {
         return position;
     }
+    
+    public View getView(int position, View view, ViewGroup parent) {
+    	
+    	Log.d(DEBUG_TAG, "DailyDataCursorAdapter.getView()");
+    	
+        if (mCursor.moveToPosition(position)) {
+            ViewHolder holder;
 
+            if (view == null) {
+                view = mLayoutInflater.inflate(mLayout, null);
+
+                holder = new ViewHolder();
+                holder.day = (TextView) view.findViewById(R.id.fragment_data_table_row_date);
+                holder.peak = (TextView) view.findViewById(R.id.fragment_data_table_row_peak);
+                holder.offpeak = (TextView) view.findViewById(R.id.fragment_data_table_row_offpeak);
+                holder.uploads = (TextView) view.findViewById(R.id.fragment_data_table_row_uploads);
+                holder.freezone = (TextView) view.findViewById(R.id.fragment_data_table_row_freezone);
+                holder.total = (TextView) view.findViewById(R.id.fragment_data_table_row_total);
+                holder.accum  = (TextView) view.findViewById(R.id.fragment_data_table_row_accum);
+
+
+                view.setTag(holder);
+            }
+            else {
+                holder = (ViewHolder) view.getTag();
+            }
+
+            String day = LongDateToString(mCursor.getLong(COLUMN_INDEX_DAY), "dateOfMouth");
+    		String peak = IntUsageToString(mCursor.getLong(COLUMN_INDEX_PEAK));
+    		String offpeak = IntUsageToString(mCursor.getLong(COLUMN_INDEX_OFFPEAK));
+    		String uploads = IntUsageToString(mCursor.getLong(COLUMN_INDEX_UPLOADS));
+    		String freezone = IntUsageToString(mCursor.getLong(COLUMN_INDEX_FREEZONE));
+    		String total = IntUsageToString( mCursor.getLong(COLUMN_INDEX_PEAK)
+    				+ mCursor.getLong(COLUMN_INDEX_OFFPEAK) );
+    		
+    		Log.d(DEBUG_TAG, "day:" + day);
+    		Log.d(DEBUG_TAG, "peak:" + peak);
+    		Log.d(DEBUG_TAG, "offpeak:" + offpeak);
+    		Log.d(DEBUG_TAG, "uploads:" + uploads);
+    		Log.d(DEBUG_TAG, "freezone:" + freezone);
+    		Log.d(DEBUG_TAG, "totalUsageLong:" + total);
+
+    		holder.day.setText(day);
+    		holder.peak.setText(peak);
+    		holder.offpeak.setText(offpeak);
+    		holder.uploads.setText(uploads);
+    		holder.freezone.setText(freezone);
+    		holder.total.setText(total);
+        }
+
+        return view;
+    }
+
+    /**
 	@Override
 	public View newView(Context context, Cursor cursor, ViewGroup parent) {
 		Log.d(DEBUG_TAG, "DailyDataCursorAdapter.newView()");
 		// Inflate the list view with the changes above
-		final View view = mInflater.inflate(R.layout.fragment_data_table_row, parent, false);
+		final View view = mLayoutInflater.inflate(R.layout.fragment_data_table_row, parent, false);
 		return view;
 	}
 
@@ -108,6 +176,7 @@ public class DailyDataTableCursorAdapter extends CursorAdapter {
 		totalTV.setText(IntUsageToString(totalUsageLong));
 
 	}
+	**/
 
 	// Return string values for date long millisec stored in db
 	private String LongDateToString(long millisecs, String convertTo) {
@@ -129,6 +198,18 @@ public class DailyDataTableCursorAdapter extends CursorAdapter {
 		long usage = usageLong/1000000;
 		return numberFormat.format(usage);
 		
+	}
+
+	@Override
+	public void bindView(View arg0, Context arg1, Cursor arg2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public View newView(Context arg0, Cursor arg1, ViewGroup arg2) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

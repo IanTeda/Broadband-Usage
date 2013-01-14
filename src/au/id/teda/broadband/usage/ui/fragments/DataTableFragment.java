@@ -93,12 +93,14 @@ public class DataTableFragment extends SherlockListFragment {
 		
 		DailyDataDatabaseAdapter mDatabase = new DailyDataDatabaseAdapter(mContext);
 		mDatabase.open();
+		
 		String period = mAccountStatus.getDataBaseMonthString();
 		Log.d(DEBUG_TAG, "Period to query database:" + period);
+		
 		Cursor cursor = mDatabase.getPriodUsageCursor(period);
-		getActivity().startManagingCursor(cursor);
 		Log.d(DEBUG_TAG, "Cursor Length:" + cursor.getCount());
-		DailyDataTableCursorAdapter adapter = new DailyDataTableCursorAdapter(mContext, cursor, false);
+		
+		DailyDataTableCursorAdapter adapter = new DailyDataTableCursorAdapter(mContext, R.layout.fragment_data_table_row, cursor, false);
 		setListAdapter(adapter);
 		//cursor.close();
 		mDatabase.close();
