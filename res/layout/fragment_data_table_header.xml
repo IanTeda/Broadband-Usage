@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
     android:layout_height="30dp"
-    android:layout_marginTop="5dp"
     android:background="@color/background_alt"
     android:orientation="horizontal" >
 
+    <TextView
+        style="@style/MyTheme.MainActivity.Listview.Header"
+        android:text="Table Header" />
+    
+    <!-- 
     <TextView
         style="@style/MyTheme.MainActivity.Listview.Header"
         android:layout_width="@dimen/daily_data_date_width"
         android:layout_weight="0"
         android:text="Day" />
 
+    
     <ImageView
         style="@style/MyTheme.MainActivity.Listview.Separator"/>
 
@@ -53,5 +58,6 @@
     <TextView
         style="@style/MyTheme.MainActivity.Listview.Header"
         android:text="Accum Total" />
+         -->
 
 </LinearLayout>
