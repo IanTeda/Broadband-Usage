@@ -5,6 +5,6 @@
     android:paddingLeft="@dimen/vert_margin"
     android:paddingRight="@dimen/vert_margin" >
 
-    <include layout="@layout/include_authenticator_activity"/>
+    <include layout="@layout/include_activity_authenticator_login"/>
 
 </ScrollView>

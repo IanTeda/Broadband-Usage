@@ -22,14 +22,14 @@
             android:name="au.id.teda.broadband.usage.ui.fragments.SummaryChartsFragment"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/fragment_product_plan" />
+            android:layout_below="@+id/fragment_product_plan" tools:layout="@layout/fragment_summary_charts"/>
 
         <fragment
             android:id="@+id/fragment_data_summary"
             android:name="au.id.teda.broadband.usage.ui.fragments.DataSummaryFragment"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/fragment_summary_charts" />
+            android:layout_below="@+id/fragment_summary_charts" tools:layout="@layout/fragment_data_summary"/>
 
     </RelativeLayout>
 

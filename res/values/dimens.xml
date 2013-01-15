@@ -20,6 +20,10 @@
     <dimen name="text_xlarge">36sp</dimen>
     <dimen name="text_xxlarge">48sp</dimen>
     
+    <!-- Multi Pan Layout Dimens -->
+    <dimen name="left_column_width">320dp</dimen>
+    
+    
     <!-- Fixed width for date column -->
     <dimen name="daily_data_date_width">40dp</dimen>
     

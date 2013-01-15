@@ -57,7 +57,7 @@ public class MainActivity extends SherlockFragmentActivity {
         	savedInstanceState.clear();
         }
         
-        logScreenSpecs();
+        //logScreenSpecs();
         
     }
     
