@@ -129,9 +129,7 @@ public class DataSummaryFragment extends SherlockFragment {
 	    	TextView mOffpeakDataTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_offpeak_used_tv);
 	    	TextView mUpTimeNumberTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_uptime_number_tv);
 	    	TextView mIpAddresTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_uptime_ip_tv);
-	    	TextView mLastSyncTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_last_sync_tv);
-	    	TextView mDataPeriodTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_data_period_tv);
-	    	
+	    		    	
 	    	mCurrentMonthTV.setText(mAccountStatus.getCurrentMonthString());
 	    	mRolloverNumberDaysTV.setText(mAccountStatus.getDaysSoFarString());
 	    	mRolloverQuotaDaysTV.setText(mAccountStatus.getDaysThisPeriodString());
@@ -144,8 +142,6 @@ public class DataSummaryFragment extends SherlockFragment {
 	    	mOffpeakDataTV.setText(mAccountStatus.getOffpeakShapedString());
 	    	mUpTimeNumberTV.setText(mAccountStatus.getUpTimeDaysString());
 	    	mIpAddresTV.setText(mAccountStatus.getIpAddressStrng());
-	    	mLastSyncTV.setText(mAccountStatus.getLastSyncTimeString());
-	    	mDataPeriodTV.setText(Html.fromHtml(mAccountInfo.getDataPeriodString()));
 		}
 	}
 	

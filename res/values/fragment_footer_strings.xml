@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+	<string name="fragment_footer_last_sync">Last Synced: dd-Mmm-YYYY HH:mm</string>
+    <string name="fragment_footer_peroid">Period: Status</string>
+    
+</resources>

@@ -32,4 +32,12 @@
         android:layout_below="@+id/fragment_summary_charts"
         tools:layout="@layout/fragment_data_summary" />
 
+    <fragment
+        android:id="@+id/fragment_footer"
+        android:name="au.id.teda.broadband.usage.ui.fragments.FragmentFooter"
+        android:layout_width="@dimen/left_column_width"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        tools:layout="@layout/fragment_footer" />
+
 </RelativeLayout>
