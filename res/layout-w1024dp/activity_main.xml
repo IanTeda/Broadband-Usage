@@ -1,0 +1,35 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_main_ll_container"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="320dp"
+        android:layout_height="fill_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="#ddEE44"
+        android:orientation="vertical" >
+
+        <fragment
+            android:id="@+id/fragment_product_plan"
+            android:name="au.id.teda.broadband.usage.ui.fragments.ProductPlanFragment"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <fragment
+            android:id="@+id/fragment_summary_charts"
+            android:name="au.id.teda.broadband.usage.ui.fragments.SummaryChartsFragment"
+            android:layout_width="320dp"
+            android:layout_height="320dp" />
+
+        <fragment
+            android:id="@+id/fragment_data_summary"
+            android:name="au.id.teda.broadband.usage.ui.fragments.DataSummaryFragment"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+</RelativeLayout>

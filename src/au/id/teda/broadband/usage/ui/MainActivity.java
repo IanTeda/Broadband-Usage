@@ -11,6 +11,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.animation.Animation;
@@ -54,6 +56,8 @@ public class MainActivity extends SherlockFragmentActivity {
         	refreshing = savedInstanceState.getBoolean(STATE_REFRESHING);
         	savedInstanceState.clear();
         }
+        
+        logScreenSpecs();
         
     }
     
@@ -202,6 +206,18 @@ public class MainActivity extends SherlockFragmentActivity {
 		} else {
 			return false;
 		}
+	}
+	
+	private void logScreenSpecs(){
+		Display display = getWindowManager().getDefaultDisplay();
+	    DisplayMetrics outMetrics = new DisplayMetrics ();
+	    display.getMetrics(outMetrics);
+
+	    float density  = getResources().getDisplayMetrics().density;
+	    float dpHeight = outMetrics.heightPixels / density;
+	    float dpWidth  = outMetrics.widthPixels / density;
+	    
+	    Log.d(DEBUG_TAG, "Density:" + density + " | dpHeight:" + dpHeight + " | dpWidth:" + dpWidth);
 	}
 
 
