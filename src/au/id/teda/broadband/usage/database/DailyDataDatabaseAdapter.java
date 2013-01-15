@@ -45,7 +45,7 @@ public class DailyDataDatabaseAdapter {
      */
     public void open() throws SQLException {
     	mDatabase = mDatabbaseHelper.getWritableDatabase();
-    	Log.d(DEBUG_TAG, "DailyDataDatabaseAdapter.open()");
+    	//Log.d(DEBUG_TAG, "DailyDataDatabaseAdapter.open()");
 	}
     
     /**
@@ -53,7 +53,7 @@ public class DailyDataDatabaseAdapter {
      */
     public void close() {
     	mDatabbaseHelper.close();
-    	Log.d(DEBUG_TAG, "DailyDataDatabaseAdapter.close()");
+    	//Log.d(DEBUG_TAG, "DailyDataDatabaseAdapter.close()");
 	}
  	
     /**

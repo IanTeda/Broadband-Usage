@@ -19,10 +19,9 @@ import au.id.teda.broadband.usage.database.DailyDataDatabaseAdapter;
 import au.id.teda.broadband.usage.ui.MainActivity;
 
 public class DailyDataTableCursorAdapter extends CursorAdapter {
-	
+
 	private final static String DEBUG_TAG = MainActivity.DEBUG_TAG;
-	
-	private int mLayout;
+
 	private LayoutInflater mLayoutInflater;
 	private Cursor mCursor;
 	private Context mContext;
@@ -37,22 +36,11 @@ public class DailyDataTableCursorAdapter extends CursorAdapter {
 	
 	private int GB = 1000000;
 	
-	private final class ViewHolder {
-	    public TextView day;
-	    public TextView peak;
-	    public TextView offpeak;
-	    public TextView uploads;
-	    public TextView freezone;
-	    public TextView total;
-	    public TextView accum;
-	}
-	
-	public DailyDataTableCursorAdapter(Context context, int layout, Cursor cursor, boolean autoRequery) {
+	public DailyDataTableCursorAdapter(Context context, Cursor cursor, boolean autoRequery) {
 		super(context, cursor, autoRequery);
 		Log.d(DEBUG_TAG, "DailyDataCursorAdapter");
 		
 		this.mContext = context;
-		this.mLayout = layout;
 		this.mCursor = cursor;
 		this.mLayoutInflater = LayoutInflater.from(context);
 		
@@ -69,7 +57,7 @@ public class DailyDataTableCursorAdapter extends CursorAdapter {
         return count;
     }
 
-    @Override
+	@Override
     public Object getItem(int position) {
         return position;
     }
@@ -80,6 +68,18 @@ public class DailyDataTableCursorAdapter extends CursorAdapter {
     }
     
     /**
+
+    private final class ViewHolder {
+	    public TextView day;
+	    public TextView peak;
+	    public TextView offpeak;
+	    public TextView uploads;
+	    public TextView freezone;
+	    public TextView total;
+	    public TextView accum;
+	}
+	
+	
     @Override
     public View getView(int position, View view, ViewGroup parent) {
     	
@@ -89,7 +89,7 @@ public class DailyDataTableCursorAdapter extends CursorAdapter {
             ViewHolder holder;
 
             if (view == null) {
-                view = mLayoutInflater.inflate(mLayout, null);
+                view = mLayoutInflater.inflate(R.layout.fragment_data_table_row, null);
 
                 holder = new ViewHolder();
                 holder.day = (TextView) view.findViewById(R.id.fragment_data_table_row_date);
@@ -138,69 +138,66 @@ public class DailyDataTableCursorAdapter extends CursorAdapter {
 	public View newView(Context context, Cursor cursor, ViewGroup parent) {
 		Log.d(DEBUG_TAG, "DailyDataCursorAdapter.newView()");
 		// Inflate the list view with the changes above
-		final View view = mLayoutInflater.inflate(mLayout, parent, false);
+		View view = mLayoutInflater.inflate(R.layout.fragment_data_table_row, parent, false);
 		return view;
 	}
 
 	@Override
-	public void bindView(View view, Context context, Cursor cursor) {
+	public void bindView(View row, Context context, Cursor cursor) {
 		Log.d(DEBUG_TAG, "DailyDataCursorAdapter.bindView()");
 		// Set usage text views
-		TextView dateTV = (TextView) view.findViewById(R.id.fragment_data_table_row_date);
-		TextView peakTV = (TextView) view.findViewById(R.id.fragment_data_table_row_peak);
-		TextView offpeakTV = (TextView) view.findViewById(R.id.fragment_data_table_row_offpeak);
-		TextView uploadTV = (TextView) view.findViewById(R.id.fragment_data_table_row_uploads);
-		TextView freezoneTV = (TextView) view.findViewById(R.id.fragment_data_table_row_freezone);
-		TextView totalTV = (TextView) view.findViewById(R.id.fragment_data_table_row_total);
-		TextView accumTV = (TextView) view.findViewById(R.id.fragment_data_table_row_accum);
+		TextView dateTV = (TextView) row.findViewById(R.id.fragment_data_table_row_date);
+		TextView peakTV = (TextView) row.findViewById(R.id.fragment_data_table_row_peak);
+		TextView offpeakTV = (TextView) row.findViewById(R.id.fragment_data_table_row_offpeak);
+		TextView uploadTV = (TextView) row.findViewById(R.id.fragment_data_table_row_uploads);
+		TextView freezoneTV = (TextView) row.findViewById(R.id.fragment_data_table_row_freezone);
+		TextView totalTV = (TextView) row.findViewById(R.id.fragment_data_table_row_total);
+		TextView accumTV = (TextView) row.findViewById(R.id.fragment_data_table_row_accum);
 
 		// Set variables and pull data from database cursor
 		// TODO: Change DailyDataDBAdapter to dailyDataDBHelper???
-		long dateLong = cursor.getLong(COLUMN_INDEX_DAY);
-		long peakUsageLong = cursor.getLong(COLUMN_INDEX_PEAK);
-		long offpeakUsageLong = cursor.getLong(COLUMN_INDEX_OFFPEAK);
-		long uploadUsageLong = cursor.getLong(COLUMN_INDEX_UPLOADS);
-		long freezoneUsageLong = cursor.getLong(COLUMN_INDEX_FREEZONE);
-		long totalUsageLong = (peakUsageLong + offpeakUsageLong);
+		long day = cursor.getLong(COLUMN_INDEX_DAY);
+		long peak = cursor.getLong(COLUMN_INDEX_PEAK);
+		long offpeak = cursor.getLong(COLUMN_INDEX_OFFPEAK);
+		long uploads = cursor.getLong(COLUMN_INDEX_UPLOADS);
+		long freezone = cursor.getLong(COLUMN_INDEX_FREEZONE);
+		long total = (peak + offpeak);
 		
-		Log.d(DEBUG_TAG, "dateLong:" + dateLong);
-		Log.d(DEBUG_TAG, "peakUsageLong:" + peakUsageLong);
-		Log.d(DEBUG_TAG, "offpeakUsageLong:" + offpeakUsageLong);
-		Log.d(DEBUG_TAG, "uploadUsageLong:" + uploadUsageLong);
-		Log.d(DEBUG_TAG, "freezoneUsageLong:" + freezoneUsageLong);
-		Log.d(DEBUG_TAG, "totalUsageLong:" + totalUsageLong);
+		Log.d(DEBUG_TAG, "day:" + day);
+		Log.d(DEBUG_TAG, "peak:" + peak);
+		Log.d(DEBUG_TAG, "offpeak:" + offpeak);
+		Log.d(DEBUG_TAG, "uploads:" + uploads);
+		Log.d(DEBUG_TAG, "freezone:" + freezone);
+		Log.d(DEBUG_TAG, "total:" + total);
 
-		dateTV.setText(LongDateToString(dateLong, "dateOfMouth"));
-		peakTV.setText(IntUsageToString(peakUsageLong));
-		offpeakTV.setText(IntUsageToString(offpeakUsageLong));
-		uploadTV.setText(IntUsageToString(uploadUsageLong));
-		freezoneTV.setText(IntUsageToString(freezoneUsageLong));
-		totalTV.setText(IntUsageToString(totalUsageLong));
+		dateTV.setText(LongDateToString(day, "dateOfMouth"));
+		peakTV.setText(IntUsageToString(peak));
+		offpeakTV.setText(IntUsageToString(offpeak));
+		uploadTV.setText(IntUsageToString(uploads));
+		freezoneTV.setText(IntUsageToString(freezone));
+		totalTV.setText(IntUsageToString(total));
 
 	}
 	
 	public void testCursor(Cursor cursor){
 		
 		cursor.moveToFirst();
-		
-		//List<VolumeUsage> usage = new ArrayList<VolumeUsage>;
-		
 		if (cursor != null){
 			while (cursor.moveToNext()){
 				
-				long dateLong = cursor.getLong(COLUMN_INDEX_DAY);
-				long peakUsageLong = cursor.getLong(COLUMN_INDEX_PEAK);
-				long offpeakUsageLong = cursor.getLong(COLUMN_INDEX_OFFPEAK);
-				long uploadUsageLong = cursor.getLong(COLUMN_INDEX_UPLOADS);
-				long freezoneUsageLong = cursor.getLong(COLUMN_INDEX_FREEZONE);
-				long totalUsageLong = (peakUsageLong + offpeakUsageLong);
+				long day = cursor.getLong(COLUMN_INDEX_DAY);
+				long peak = cursor.getLong(COLUMN_INDEX_PEAK);
+				long offpeak = cursor.getLong(COLUMN_INDEX_OFFPEAK);
+				long uploads = cursor.getLong(COLUMN_INDEX_UPLOADS);
+				long freezone = cursor.getLong(COLUMN_INDEX_FREEZONE);
+				long total = (peak + offpeak);
 				
-				Log.d(DEBUG_TAG, "dateLong:" + dateLong);
-				Log.d(DEBUG_TAG, "peakUsageLong:" + peakUsageLong);
-				Log.d(DEBUG_TAG, "offpeakUsageLong:" + offpeakUsageLong);
-				Log.d(DEBUG_TAG, "uploadUsageLong:" + uploadUsageLong);
-				Log.d(DEBUG_TAG, "freezoneUsageLong:" + freezoneUsageLong);
-				Log.d(DEBUG_TAG, "totalUsageLong:" + totalUsageLong);
+				Log.d(DEBUG_TAG, "dateLong:" + day);
+				Log.d(DEBUG_TAG, "peakUsageLong:" + peak);
+				Log.d(DEBUG_TAG, "offpeakUsageLong:" + offpeak);
+				Log.d(DEBUG_TAG, "uploadUsageLong:" + uploads);
+				Log.d(DEBUG_TAG, "freezoneUsageLong:" + freezone);
+				Log.d(DEBUG_TAG, "totalUsageLong:" + total);
 				
 			}
 			cursor.close();
@@ -222,10 +219,9 @@ public class DailyDataTableCursorAdapter extends CursorAdapter {
 	}
 	
 	// Return formated string value for int stored in db
-	private String IntUsageToString (long usageLong){
+	private String IntUsageToString (long usage){
 		NumberFormat numberFormat = new DecimalFormat("#,###");
-		long usage = usageLong/1000000;
-		return numberFormat.format(usage);
+		return numberFormat.format(usage/GB);
 		
 	}
 

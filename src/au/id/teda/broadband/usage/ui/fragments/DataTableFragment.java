@@ -1,5 +1,7 @@
 package au.id.teda.broadband.usage.ui.fragments;
 
+import com.actionbarsherlock.app.SherlockListFragment;
+
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -11,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.authenticator.AccountAuthenticator;
@@ -20,7 +21,6 @@ import au.id.teda.broadband.usage.database.DailyDataDatabaseAdapter;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
 import au.id.teda.broadband.usage.ui.MainActivity;
-import com.actionbarsherlock.app.SherlockListFragment;
 
 public class DataTableFragment extends SherlockListFragment {
 
@@ -35,7 +35,7 @@ public class DataTableFragment extends SherlockListFragment {
 	private AccountStatusHelper mAccountStatus;
 	private AccountAuthenticator mAccountAuthenticator;
 	
-	// Recieve sync broadcasts
+	// Receive sync broadcasts
 	private SyncReceiver mSyncReceiver;
     private IntentFilter filter;
 	
@@ -71,7 +71,7 @@ public class DataTableFragment extends SherlockListFragment {
         filter = new IntentFilter(BROADCAST);
         mSyncReceiver = new SyncReceiver();
 	}
-	
+
 	/**
 	 * Called 3rd in the fragment life cycle
 	 */
@@ -95,13 +95,14 @@ public class DataTableFragment extends SherlockListFragment {
 		mDatabase.open();
 		
 		String period = mAccountStatus.getDataBaseMonthString();
-		Log.d(DEBUG_TAG, "Period to query database:" + period);
+		//Log.d(DEBUG_TAG, "Period to query database:" + period);
 		
 		Cursor cursor = mDatabase.getPriodUsageCursor(period);
 		Log.d(DEBUG_TAG, "Cursor Length:" + cursor.getCount());
 		
-		DailyDataTableCursorAdapter adapter = new DailyDataTableCursorAdapter(mContext, R.layout.fragment_data_table_row, cursor, false);
+		DailyDataTableCursorAdapter adapter = new DailyDataTableCursorAdapter(mContext, cursor, true);
 		//adapter.testCursor(cursor);
+		
 		setListAdapter(adapter);
 		//cursor.close();
 		mDatabase.close();
@@ -118,6 +119,11 @@ public class DataTableFragment extends SherlockListFragment {
 		getActivity().registerReceiver(mSyncReceiver, filter);
 	}
 	
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id) {
+	    Log.d(DEBUG_TAG, "Item clicked: " + id);
+	}
+
 	/**
 	 * First call in the death of fragment
 	 */
@@ -128,12 +134,7 @@ public class DataTableFragment extends SherlockListFragment {
 		// Unregister broadcast receiver for background sync
 		getActivity().unregisterReceiver(mSyncReceiver);
 	}
-	
-	@Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        Log.d(DEBUG_TAG, "Item clicked: " + id);
-    }
-	
+
 	public class SyncReceiver extends BroadcastReceiver {
 
         @Override
@@ -145,7 +146,7 @@ public class DataTableFragment extends SherlockListFragment {
             
             String msg = i.getStringExtra(MESSAGE);
             if (msg.equals(SYNC_START)){
-            	// Nothing to do see here move along
+            	// Nothing to see here move along
             } else if (msg.equals(SYNC_COMPLETE)){
             }
         }
