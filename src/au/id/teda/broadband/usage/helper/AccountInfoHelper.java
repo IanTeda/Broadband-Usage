@@ -23,6 +23,7 @@ public class AccountInfoHelper {
 	private final static String PREF_OFFPEAK_QUOTA_KEY = "pref_offpeak_quota";
 	
 	private final static long GB = 1000000000;
+	private final static long MB = 1000000;
 
 	// Activity context
     private static Context mContext;
@@ -194,6 +195,22 @@ public class AccountInfoHelper {
 		return (int) (getPeakQuota() / GB);
 	}
 	
+	public long getPeakQuotaMb(){
+		return (getPeakQuota() / MB);
+	}
+	
+	public long getPeakQuotaDailyMb(){
+		long quota = getPeakQuotaMb() * 12;
+		long days = 360;
+		return ( quota / days);
+	}
+	
+	public long getPeakQuotaDailyGb(){
+		long quota = getPeakQuotaGb() * 12;
+		long days = 360;
+		return ( quota / days);
+	}
+	
 	public String getPeakQuotaString(){
 		return "/ " + Long.toString(getPeakQuotaGb()) + " (Gb) Peak";
 	}
@@ -224,6 +241,22 @@ public class AccountInfoHelper {
 	
 	public int getOffpeakQuotaGb(){
 		return (int) (getOffpeakQuota() / GB);
+	}
+	
+	public long getOffpeakQuotaMb(){
+		return (getOffpeakQuota() / MB);
+	}
+	
+	public long getOffpeakQuotaDailyMb(){
+		long quota = getOffpeakQuotaMb() * 12;
+		long days = 360;
+		return ( quota / days);
+	}
+	
+	public long getOffpeakQuotaDailyGb(){
+		long quota = getOffpeakQuotaGb() * 12;
+		long days = 360;
+		return ( quota / days);
 	}
 	
 	public String getOffpeakQuotaString(){

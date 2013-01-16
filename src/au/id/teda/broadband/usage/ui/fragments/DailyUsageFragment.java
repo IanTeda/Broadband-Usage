@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.Display;
@@ -17,8 +18,10 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import au.id.teda.broadband.usage.R;
-import au.id.teda.broadband.usage.chart.DailyStackedBarChart;
+import au.id.teda.broadband.usage.chart.StackedBarChart;
 import au.id.teda.broadband.usage.chart.DoughnutChart;
+import au.id.teda.broadband.usage.chart.StackedLineChart;
+import au.id.teda.broadband.usage.database.DailyDataDatabaseAdapter;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
 import au.id.teda.broadband.usage.ui.MainActivity;
@@ -125,7 +128,7 @@ public class DailyUsageFragment extends SherlockFragment {
 			TextView mCurrentMonthTV = (TextView) mFragmentView.findViewById(R.id.fragment_daily_usage_month_tv); 	
 			mCurrentMonthTV.setText(mAccountStatus.getCurrentMonthString());
 			
-			loadStackedBarChart();
+			loadStackedLineChart();
 		}
 	}
 
@@ -137,10 +140,20 @@ public class DailyUsageFragment extends SherlockFragment {
 		LinearLayout mChartContainer = (LinearLayout) mFragmentView.findViewById(R.id.fragment_daily_usage_chart_container);
 
 		// Initialise chart class
-		DailyStackedBarChart mBarChart = new DailyStackedBarChart(mContext);
+		StackedBarChart mBarChart = new StackedBarChart(mContext);
+		
+		// Open Database
+		DailyDataDatabaseAdapter mDatabase = new DailyDataDatabaseAdapter(mContext);
+		mDatabase.open();
+
+		// Get current data period
+		String period = mAccountStatus.getDataBaseMonthString();
+
+		// Retrieve cursor for given data period
+		Cursor mCursor = mDatabase.getPriodUsageCursor(period);
 		
 		// Get chart view from library
-		GraphicalView mBarChartView = (GraphicalView) mBarChart.getBarChartView();
+		GraphicalView mBarChartView = (GraphicalView) mBarChart.getBarChartView(mCursor);
 
 		// Add chart view to layout view
 		mChartContainer.removeAllViews();
@@ -154,6 +167,46 @@ public class DailyUsageFragment extends SherlockFragment {
 		LayoutParams params = mChartContainer.getLayoutParams();
 		// Set height equal to screen width
 		params.height = width;
+		
+		mCursor.close();
+		mDatabase.close();
+	}
+	
+	private void loadStackedLineChart() {
+		// Set layout container for chart
+		LinearLayout mChartContainer = (LinearLayout) mFragmentView.findViewById(R.id.fragment_daily_usage_chart_container);
+
+		// Initialise chart class
+		StackedLineChart mLineChart = new StackedLineChart(mContext);
+		
+		// Open Database
+		DailyDataDatabaseAdapter mDatabase = new DailyDataDatabaseAdapter(mContext);
+		mDatabase.open();
+
+		// Get current data period
+		String period = mAccountStatus.getDataBaseMonthString();
+
+		// Retrieve cursor for given data period
+		Cursor mCursor = mDatabase.getPriodUsageCursor(period);
+		
+		// Get chart view from library
+		GraphicalView mLineChartView = (GraphicalView) mLineChart.getChartView(mCursor);
+
+		// Add chart view to layout view
+		mChartContainer.removeAllViews();
+		mChartContainer.addView(mLineChartView, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+		
+		// Get screen specs
+		Display display = getActivity().getWindowManager().getDefaultDisplay();
+		int width = display.getWidth();
+			
+		// Get layout parameters
+		LayoutParams params = mChartContainer.getLayoutParams();
+		// Set height equal to screen width
+		params.height = width;
+		
+		mCursor.close();
+		mDatabase.close();
 	}
 	
 	public class SyncReceiver extends BroadcastReceiver {

@@ -16,7 +16,7 @@ import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
 import au.id.teda.broadband.usage.ui.MainActivity;
 
-public class DailyStackedBarChart extends ChartBuilder {
+public class StackedBarChart extends ChartBuilder {
 	
 	// Debug tag pulled from main activity
 	private final static String DEBUG_TAG = MainActivity.DEBUG_TAG;
@@ -31,11 +31,11 @@ public class DailyStackedBarChart extends ChartBuilder {
     // Activity context to be used
 	private Context mContext;
 	
-	private int GB = 1000000;
+	private int MB = 1000000;
 	
 	private double max = 0;
 
-	public DailyStackedBarChart(Context context) {
+	public StackedBarChart(Context context) {
 		super(context);
 		this.mContext = context;
 		
@@ -43,9 +43,9 @@ public class DailyStackedBarChart extends ChartBuilder {
 		mAccountStatus = new AccountStatusHelper(mContext);
 	}
 	
-	public View getBarChartView (){
+	public View getBarChartView (Cursor cursor){
 		return ChartFactory.getBarChartView(mContext, 
-				getStackedBarChartDataSet(), 
+				getStackedBarChartDataSet(cursor), 
 				getStackedBarChartRenderer(), 
 				Type.STACKED);
 	}
@@ -54,65 +54,52 @@ public class DailyStackedBarChart extends ChartBuilder {
 		return max;
 	}
 	
-	protected XYMultipleSeriesDataset getStackedBarChartDataSet() {
+	protected XYMultipleSeriesDataset getStackedBarChartDataSet(Cursor cursor) {
 		
-		// Open Database
-		DailyDataDatabaseAdapter mDatabase = new DailyDataDatabaseAdapter(mContext);
-		mDatabase.open();
-
-		// Get current data period
-		String period = mAccountStatus.getDataBaseMonthString();
-
-		// Retrieve cursor for given data period
-		Cursor mCursor = mDatabase.getPriodUsageCursor(period);
-		
-		int COLUMN_INDEX_DAY = mCursor.getColumnIndex(DailyDataDatabaseAdapter.DAY);
-		int COLUMN_INDEX_PEAK = mCursor.getColumnIndex(DailyDataDatabaseAdapter.PEAK);
-		int COLUMN_INDEX_OFFPEAK = mCursor.getColumnIndex(DailyDataDatabaseAdapter.OFFPEAK);
-		int COLUMN_INDEX_UPLOADS = mCursor.getColumnIndex(DailyDataDatabaseAdapter.UPLOADS);
-		int COLUMN_INDEX_FREEZONE = mCursor.getColumnIndex(DailyDataDatabaseAdapter.FREEZONE);
+		int COLUMN_INDEX_DAY = cursor.getColumnIndex(DailyDataDatabaseAdapter.DAY);
+		int COLUMN_INDEX_PEAK = cursor.getColumnIndex(DailyDataDatabaseAdapter.PEAK);
+		int COLUMN_INDEX_OFFPEAK = cursor.getColumnIndex(DailyDataDatabaseAdapter.OFFPEAK);
+		int COLUMN_INDEX_UPLOADS = cursor.getColumnIndex(DailyDataDatabaseAdapter.UPLOADS);
+		int COLUMN_INDEX_FREEZONE = cursor.getColumnIndex(DailyDataDatabaseAdapter.FREEZONE);
 
 		// Set String value categories for graph
-		CategorySeries peakSeries = new CategorySeries(mContext.getString(R.string.chart_data_series_peak));
-		CategorySeries offpeakSeries = new CategorySeries(mContext.getString(R.string.chart_data_series_offpeak));
+		CategorySeries peak = new CategorySeries(mContext.getString(R.string.chart_data_series_peak));
+		CategorySeries offpeak = new CategorySeries(mContext.getString(R.string.chart_data_series_offpeak));
 
 		// Move to first cursor entry
-		mCursor.moveToFirst();
+		cursor.moveToFirst();
 
 		// And start adding to array
-		while (mCursor.isAfterLast() == false) {
+		while (cursor.isAfterLast() == false) {
 
 			// Get peak data usage from current cursor position
-			long peakUsageLong = ( mCursor.getLong(COLUMN_INDEX_PEAK) / GB );
+			long peakUsage = ( cursor.getLong(COLUMN_INDEX_PEAK) / MB );
 
 			// Get offpeak data usage from current cursor position
-			long offpeakUsageLong = ( mCursor.getLong(COLUMN_INDEX_OFFPEAK) / GB );
+			long offpeakUsage = ( cursor.getLong(COLUMN_INDEX_OFFPEAK) / MB );
 
 			// Make data stacked (achartengine does not do it by default).
-			if (peakUsageLong > offpeakUsageLong) {
-				peakUsageLong = peakUsageLong + offpeakUsageLong;
+			if (peakUsage > offpeakUsage) {
+				peakUsage = peakUsage + offpeakUsage;
 			} else {
-				offpeakUsageLong = offpeakUsageLong + peakUsageLong;
+				offpeakUsage = offpeakUsage + peakUsage;
 			}
 
 			// Add current cursor values to data series
-			peakSeries.add(peakUsageLong);
-			offpeakSeries.add(offpeakUsageLong);
+			peak.add(peakUsage);
+			offpeak.add(offpeakUsage);
 
 			// Set max data usage for rendering graph
-			if (max < peakUsageLong + offpeakUsageLong) {
-				max = peakUsageLong + offpeakUsageLong;
+			if (max < peakUsage + offpeakUsage) {
+				max = peakUsage + offpeakUsage;
 			}
 
-			mCursor.moveToNext();
+			cursor.moveToNext();
 		}
 
-		mCursor.close();
-		mDatabase.close();
-
 		XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
-		dataset.addSeries(peakSeries.toXYSeries());
-		dataset.addSeries(offpeakSeries.toXYSeries());
+		dataset.addSeries(peak.toXYSeries());
+		dataset.addSeries(offpeak.toXYSeries());
 		return dataset;
 	}
 	

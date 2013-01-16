@@ -63,8 +63,24 @@ public class ChartBuilder {
 		return colorBaseDarker;
 	}
 	
+	public int getPeakFillColor(){
+		return colorBaseLight;
+	}
+	
+	public int getPeakTrendColor(){
+		return colorBase;
+	}
+	
 	public int getOffpeakColor() {
 		return colorBaseDark;
+	}
+	
+	public int getOffpeakFillColor(){
+		return colorBaseLighter;
+	}
+	
+	public int getOffpeakTrendColor(){
+		return colorBase;
 	}
 	
 	public int getLabelColor() {

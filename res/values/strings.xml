@@ -18,5 +18,7 @@
     <string name="chart_data_series_offpeak">Offpeak</string>
     <string name="chart_data_series_uploads">Uploads</string>
     <string name="chart_data_series_freezone">Freezone</string>
+    <string name="chart_data_series_peak_quota">Peak Quota</string>
+    <string name="chart_data_series_offpeak_quota">Offpeak Quota</string>
 
 </resources>
