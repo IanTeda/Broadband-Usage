@@ -19,6 +19,14 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             tools:layout="@layout/fragment_product_plan" />
+        
+		<fragment
+            android:id="@+id/fragment_rollover_uptime"
+            android:name="au.id.teda.broadband.usage.ui.fragments.RolloverUptimeFragment"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fragment_product_plan"
+            tools:layout="@layout/fragment_rollover_uptime" />
 
         <fragment
             android:id="@+id/fragment_footer"
