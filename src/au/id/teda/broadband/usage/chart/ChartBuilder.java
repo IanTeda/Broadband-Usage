@@ -31,6 +31,7 @@ public class ChartBuilder {
 	long accumOffpeak = 0;
 
 	// Color values for focus and alternate
+	public final int colorBackgroundLight;
 	public final int colorBase;
 	public final int colorBaseLight;
 	public final int colorBaseLighter;
@@ -51,10 +52,27 @@ public class ChartBuilder {
 		colorBaseLighter = mContext.getResources().getColor(R.color.chart_base_lighter);
 		colorBaseDark = mContext.getResources().getColor(R.color.chart_base_dark);
 		colorBaseDarker = mContext.getResources().getColor(R.color.chart_base_darker);
+		colorBackgroundLight = mContext.getResources().getColor(R.color.background_alt_light);
 		
 		// Chart strings
 		xAxes = mContext.getResources().getString(R.string.chart_x_title);
 
+	}
+	
+	public int getPeakColor() {
+		return colorBaseDarker;
+	}
+	
+	public int getOffpeakColor() {
+		return colorBaseDark;
+	}
+	
+	public int getLabelColor() {
+		return colorBaseDarker;
+	}
+	
+	public int getBackgroundColor() {
+		return colorBackgroundLight;
 	}
 	
 	/**
@@ -68,6 +86,13 @@ public class ChartBuilder {
 		return pixels;
 	}
 
+	public int getLegendTextSize(int dip){
+		return getPixelDip(dip);
+	}
+	
+	public int getLabelsTextSize(int dip){
+		return getPixelDip(dip);
+	}
 
 	/**
 	 * Get string X-Axis from XML

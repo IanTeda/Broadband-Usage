@@ -2,16 +2,21 @@
 
     <string name="app_name">Broadband Usage</string>
     <string name="account_manager_name">iiNet</string>
-    
     <string name="sync_broadcast_action">au.id.teda.broadband.usage.BROADCAST</string>
     <string name="sync_broadcast_message">sync_message</string>
     <string name="sync_broadcast_start">sync_started</string>
     <string name="sync_broadcast_complete">sync_completed</string>
-    
+
     <!-- Size Qualifiers -->
     <string name="size_phone_port">size_phone_port</string>
     <string name="size_phone_land">size_phone_land</string>
     <string name="size_w1024dp">size_w1024dp</string>
     <string name="size_w600dp">size_w600dp</string>
-    
+
+    <!-- Chart Data Series Labels -->
+    <string name="chart_data_series_peak">Peak</string>
+    <string name="chart_data_series_offpeak">Offpeak</string>
+    <string name="chart_data_series_uploads">Uploads</string>
+    <string name="chart_data_series_freezone">Freezone</string>
+
 </resources>

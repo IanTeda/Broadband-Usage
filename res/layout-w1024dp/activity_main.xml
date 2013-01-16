@@ -38,11 +38,25 @@
     </RelativeLayout>
 
     <fragment
+        android:id="@+id/fragment_daily_usage"
+        android:name="au.id.teda.broadband.usage.ui.fragments.DailyUsageFragment"
+        android:layout_width="fill_parent"
+        android:layout_height="288dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="@dimen/vert_margin"
+        android:layout_marginRight="@dimen/vert_margin"
+        android:layout_marginTop="@dimen/vert_margin"
+        android:layout_toRightOf="@+id/activity_main_left_column_container"
+        tools:layout="@layout/fragment_daily_usage" />
+
+    <fragment
         android:id="@+id/fragment_usage_summary"
         android:name="au.id.teda.broadband.usage.ui.fragments.UsageSummaryFragment"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/vert_margin"
         android:layout_toRightOf="@+id/activity_main_left_column_container"
+        android:layout_below="@+id/fragment_daily_usage"
         tools:layout="@layout/fragment_usage_summary" />
 
 </RelativeLayout>

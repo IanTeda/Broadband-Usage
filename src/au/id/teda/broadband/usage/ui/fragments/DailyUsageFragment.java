@@ -1,5 +1,7 @@
 package au.id.teda.broadband.usage.ui.fragments;
 
+import org.achartengine.GraphicalView;
+
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -7,19 +9,24 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.text.Html;
-import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import au.id.teda.broadband.usage.R;
+import au.id.teda.broadband.usage.chart.DailyStackedBarChart;
+import au.id.teda.broadband.usage.chart.DoughnutChart;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
 import au.id.teda.broadband.usage.ui.MainActivity;
+import au.id.teda.broadband.usage.ui.fragments.FragmentFooter.SyncReceiver;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
-public class UsageSummaryFragment extends SherlockFragment {
+public class DailyUsageFragment extends SherlockFragment {
 	
 	// Debug tag pulled from main activity
 	private final static String DEBUG_TAG = MainActivity.DEBUG_TAG;
@@ -74,7 +81,7 @@ public class UsageSummaryFragment extends SherlockFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// Set fragment layout to be inflated
-		mFragmentView = inflater.inflate(R.layout.fragment_usage_summary, container, false);
+		mFragmentView = inflater.inflate(R.layout.fragment_daily_usage, container, false);
 		
 		return mFragmentView;
 	}
@@ -115,33 +122,38 @@ public class UsageSummaryFragment extends SherlockFragment {
 		if (mAccountInfo.isInfoSet() 
     			&& mAccountStatus.isStatusSet()){
 			
-			// TODO: Is view reloaded post sync?
+			TextView mCurrentMonthTV = (TextView) mFragmentView.findViewById(R.id.fragment_daily_usage_month_tv); 	
+			mCurrentMonthTV.setText(mAccountStatus.getCurrentMonthString());
 			
-			TextView mLayoutUsed = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_size);
-	    	TextView mCurrentMonthTV = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_current_month_tv);
-	    	TextView mPeakDataNumberTV = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_peak_number_tv);
-	    	TextView mPeakQuotaTV = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_peak_quota_tv);
-	    	TextView mPeakDataTV = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_peak_used_tv);
-	    	TextView mOffpeakDataNumberTV = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_offpeak_number_tv);
-	    	TextView mOffpeakQuotaTV = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_offpeak_quota_tv);
-	    	TextView mOffpeakDataTV = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_offpeak_used_tv);
-	    	TextView mUploadsDataNumberTV = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_offpeak_number_tv);
-	    	TextView mFreezoneDataNumberTV = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_offpeak_number_tv);
-	    	
-	    	mCurrentMonthTV.setText(mAccountStatus.getCurrentMonthString());
-	    	mPeakDataNumberTV.setText(mAccountStatus.getPeakDataUsedGbString());
-	    	mOffpeakDataNumberTV.setText(mAccountStatus.getOffpeakDataUsedGbString());
-	    	mUploadsDataNumberTV.setText(mAccountStatus.getUploadsDataUsedGbString());
-	    	mFreezoneDataNumberTV.setText(mAccountStatus.getFreezoneDataUsedGbString());
-	    	
-	    	// Only set text if loading phone layout
-	    	if (isLayoutPhone(mLayoutUsed)){
-		    	mPeakQuotaTV.setText(mAccountInfo.getPeakQuotaString());
-	    		mPeakDataTV.setText(mAccountStatus.getPeakShapedString());
-		    	mOffpeakQuotaTV.setText(mAccountInfo.getOffpeakQuotaString());
-		    	mOffpeakDataTV.setText(mAccountStatus.getOffpeakShapedString());
-	    	}
+			loadStackedBarChart();
 		}
+	}
+
+	/**
+	 * 
+	 */
+	private void loadStackedBarChart() {
+		// Set layout container for chart
+		LinearLayout mChartContainer = (LinearLayout) mFragmentView.findViewById(R.id.fragment_daily_usage_chart_container);
+
+		// Initialise chart class
+		DailyStackedBarChart mBarChart = new DailyStackedBarChart(mContext);
+		
+		// Get chart view from library
+		GraphicalView mBarChartView = (GraphicalView) mBarChart.getBarChartView();
+
+		// Add chart view to layout view
+		mChartContainer.removeAllViews();
+		mChartContainer.addView(mBarChartView, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+		
+		// Get screen specs
+		Display display = getActivity().getWindowManager().getDefaultDisplay();
+		int width = display.getWidth();
+			
+		// Get layout parameters
+		LayoutParams params = mChartContainer.getLayoutParams();
+		// Set height equal to screen width
+		params.height = width;
 	}
 	
 	public class SyncReceiver extends BroadcastReceiver {
@@ -162,15 +174,5 @@ public class UsageSummaryFragment extends SherlockFragment {
         }
          
     }
-	
-	private boolean isLayoutPhone(TextView mLayoutUsed){
-		CharSequence size = mLayoutUsed.getText();
-		if ( size != null 
-				&& size.equals(getActivity().getString(R.string.size_phone_port))){
-			return true;
-		} else {
-			return false;
-		}
-	}
 
 }
