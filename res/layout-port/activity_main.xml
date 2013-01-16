@@ -27,21 +27,21 @@
             tools:layout="@layout/fragment_summary_charts" />
 
         <fragment
-            android:id="@+id/fragment_usage_summary"
-            android:name="au.id.teda.broadband.usage.ui.fragments.DataUsageFragment"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/fragment_summary_charts"
-            tools:layout="@layout/fragment_usage_summary" />
-        
-        <fragment
             android:id="@+id/fragment_rollover_uptime"
             android:name="au.id.teda.broadband.usage.ui.fragments.RolloverUptimeFragment"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/fragment_summary_charts"
             android:layout_marginTop="-10dp"
-            android:layout_below="@+id/fragment_usage_summary"
             tools:layout="@layout/fragment_rollover_uptime" />
+
+        <fragment
+            android:id="@+id/fragment_rollover_uptime"
+            android:name="au.id.teda.broadband.usage.ui.fragments.UsageSummaryFragment"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fragment_summary_charts"
+            tools:layout="@layout/fragment_usage_summary" />
 
         <fragment
             android:id="@+id/fragment_footer"

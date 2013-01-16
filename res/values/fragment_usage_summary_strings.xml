@@ -6,6 +6,6 @@
     <string name="fragment_usage_summary_used_no_status">USED DATA</string>
     <string name="fragment_usage_summary_peak_quota">/ 00 (Gb) Peak</string>
     <string name="fragment_usage_summary_offpeak_quota">/ 00 (Gb) Offpeak</string>
-    <string name="fragment_usage_summary_uploads_quota">Uploads</string>
-    <string name="fragment_usage_summary_freezone_quota">Freezone</string>
+    <string name="fragment_usage_summary_uploads_quota">(Gb) Uploads</string>
+    <string name="fragment_usage_summary_freezone_quota">(Gb) Freezone</string>
 </resources>
