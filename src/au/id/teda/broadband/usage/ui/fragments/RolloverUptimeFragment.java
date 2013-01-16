@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,7 @@ import au.id.teda.broadband.usage.ui.fragments.UsageSummaryFragment.SyncReceiver
 
 import com.actionbarsherlock.app.SherlockFragment;
 
-public class FragmentFooter extends SherlockFragment  {
+public class RolloverUptimeFragment extends SherlockFragment {
 	
 	// Debug tag pulled from main activity
 		private final static String DEBUG_TAG = MainActivity.DEBUG_TAG;
@@ -74,7 +73,7 @@ public class FragmentFooter extends SherlockFragment  {
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
 			// Set fragment layout to be inflated
-			mFragmentView = inflater.inflate(R.layout.fragment_footer, container, false);
+			mFragmentView = inflater.inflate(R.layout.fragment_rollover_uptime, container, false);
 			
 			return mFragmentView;
 		}
@@ -115,11 +114,19 @@ public class FragmentFooter extends SherlockFragment  {
 			if (mAccountInfo.isInfoSet() 
 	    			&& mAccountStatus.isStatusSet()){
 				
-				TextView mLastSyncTV = (TextView) mFragmentView.findViewById(R.id.fragment_footer_last_sync_tv);
-		    	TextView mDataPeriodTV = (TextView) mFragmentView.findViewById(R.id.fragment_footer_data_period_tv);
-		    	
-		    	mLastSyncTV.setText(mAccountStatus.getLastSyncTimeString());
-		    	mDataPeriodTV.setText(Html.fromHtml(mAccountInfo.getDataPeriodString()));
+				// TODO: Is view reloaded post sync?
+				
+		    	TextView mRolloverNumberDaysTV = (TextView) mFragmentView.findViewById(R.id.fragment_rollover_uptime_days_number_tv);
+		    	TextView mRolloverQuotaDaysTV = (TextView) mFragmentView.findViewById(R.id.fragment_rollover_uptime_days_until_tv);
+		    	TextView mRolloverDateTV = (TextView) mFragmentView.findViewById(R.id.fragment_rollover_uptime_days_date_tv);
+		    	TextView mUpTimeNumberTV = (TextView) mFragmentView.findViewById(R.id.fragment_rollover_uptime_uptime_number_tv);
+		    	TextView mIpAddresTV = (TextView) mFragmentView.findViewById(R.id.fragment_rollover_uptime_ip_tv);
+		    		    	
+		    	mRolloverNumberDaysTV.setText(mAccountStatus.getDaysSoFarString());
+		    	mRolloverQuotaDaysTV.setText(mAccountStatus.getDaysThisPeriodString());
+		    	mRolloverDateTV.setText(mAccountStatus.getRolloverDateString());
+		    	mUpTimeNumberTV.setText(mAccountStatus.getUpTimeDaysString());
+		    	mIpAddresTV.setText(mAccountStatus.getIpAddressStrng());
 			}
 		}
 		

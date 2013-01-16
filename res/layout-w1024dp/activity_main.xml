@@ -1,43 +1,32 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main_left_column_container"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <fragment
-        android:id="@+id/fragment_product_plan"
-        android:name="au.id.teda.broadband.usage.ui.fragments.ProductPlanFragment"
-        android:layout_width="@dimen/left_column_width"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        tools:layout="@layout/fragment_product_plan" />
-
-    <fragment
-        android:id="@+id/fragment_summary_charts"
-        android:name="au.id.teda.broadband.usage.ui.fragments.SummaryChartsFragment"
-        android:layout_width="@dimen/left_column_width"
-        android:layout_height="@dimen/left_column_width"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/fragment_product_plan"
-        tools:layout="@layout/fragment_summary_charts" />
-
-    <fragment
-        android:id="@+id/fragment_data_summary"
-        android:name="au.id.teda.broadband.usage.ui.fragments.DataSummaryFragment"
+    <RelativeLayout
+        android:id="@+id/activity_main_left_column_container"
         android:layout_width="@dimen/left_column_width"
         android:layout_height="fill_parent"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/fragment_summary_charts"
-        tools:layout="@layout/fragment_data_summary" />
+        android:layout_alignParentTop="true"
+        android:background="@color/background_alt" >
 
-    <fragment
-        android:id="@+id/fragment_footer"
-        android:name="au.id.teda.broadband.usage.ui.fragments.FragmentFooter"
-        android:layout_width="@dimen/left_column_width"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        tools:layout="@layout/fragment_footer" />
+        <fragment
+            android:id="@+id/fragment_product_plan"
+            android:name="au.id.teda.broadband.usage.ui.fragments.ProductPlanFragment"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            tools:layout="@layout/fragment_product_plan" />
+
+        <fragment
+            android:id="@+id/fragment_footer"
+            android:name="au.id.teda.broadband.usage.ui.fragments.FragmentFooter"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/touch"
+            android:layout_alignParentBottom="true"
+            tools:layout="@layout/fragment_footer" />
+    </RelativeLayout>
 
 </RelativeLayout>

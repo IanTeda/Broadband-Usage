@@ -17,7 +17,7 @@ import au.id.teda.broadband.usage.authenticator.AccountAuthenticator;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
 import au.id.teda.broadband.usage.ui.MainActivity;
-import au.id.teda.broadband.usage.ui.fragments.DataSummaryFragment.SyncReceiver;
+import au.id.teda.broadband.usage.ui.fragments.UsageSummaryFragment.SyncReceiver;
 
 import com.actionbarsherlock.app.SherlockFragment;
 

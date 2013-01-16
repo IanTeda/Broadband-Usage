@@ -72,10 +72,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-		<activity
-            android:name=".ui.InitialiseActivity"
-            android:label="Initialising" >
-        </activity>
+
         <activity
             android:name=".ui.SettingsActivity"
             android:label="Broadband Usage Setting" >
@@ -85,10 +82,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".authenticator.AccountPreferences"
-            android:excludeFromRecents="true"
-            android:label="Account Preferences" />
+
     </application>
 
 </manifest>

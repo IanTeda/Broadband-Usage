@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_rollover_uptime_container"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/margin"
+    android:background="@color/background_alt"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/vert_margin"
+    android:paddingRight="@dimen/vert_margin" >
+
+    <RelativeLayout
+        android:id="@+id/fragment_rollover_uptime_days_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-6dp" >
+
+        <TextView
+            android:id="@+id/fragment_rollover_uptime_days_number_tv"
+            style="@style/MyTheme.MainActivity.Number"
+            android:text="@string/fragment_rollover_uptime_number" />
+
+        <TextView
+            android:id="@+id/fragment_rollover_uptime_days_date_tv"
+            style="@style/MyTheme.MainActivity.LowerDescription"
+            android:layout_alignBaseline="@+id/fragment_rollover_uptime_days_number_tv"
+            android:layout_toRightOf="@+id/fragment_rollover_uptime_days_number_tv"
+            android:text="@string/fragment_rollover_uptime_date" />
+
+        <TextView
+            android:id="@+id/fragment_rollover_uptime_days_until_tv"
+            style="@style/MyTheme.MainActivity.UpperTitle"
+            android:layout_toRightOf="@+id/fragment_rollover_uptime_days_number_tv"
+            android:text="@string/fragment_rollover_uptime_days_so_far" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/fragment_rollover_uptime_uptime_container_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-14dp" >
+
+        <TextView
+            android:id="@+id/fragment_rollover_uptime_uptime_number_tv"
+            style="@style/MyTheme.MainActivity.Number"
+            android:text="@string/fragment_rollover_uptime_number" />
+
+        <TextView
+            android:id="@+id/fragment_rollover_uptime_ip_tv"
+            style="@style/MyTheme.MainActivity.LowerDescription"
+            android:layout_alignBaseline="@+id/fragment_rollover_uptime_uptime_number_tv"
+            android:layout_toRightOf="@+id/fragment_rollover_uptime_uptime_number_tv"
+            android:text="@string/fragment_rollover_uptime_ip" />
+
+        <TextView
+            android:id="@+id/fragment_drollover_uptime_uptime_days_tv"
+            style="@style/MyTheme.MainActivity.UpperTitle"
+            android:layout_toRightOf="@+id/fragment_rollover_uptime_uptime_number_tv"
+            android:text="@string/fragment_rollover_uptime_days" />
+    </RelativeLayout>
+
+</LinearLayout>

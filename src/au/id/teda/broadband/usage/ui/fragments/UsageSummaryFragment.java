@@ -19,7 +19,7 @@ import au.id.teda.broadband.usage.ui.MainActivity;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
-public class DataSummaryFragment extends SherlockFragment {
+public class UsageSummaryFragment extends SherlockFragment {
 	
 	// Debug tag pulled from main activity
 	private final static String DEBUG_TAG = MainActivity.DEBUG_TAG;
@@ -74,7 +74,7 @@ public class DataSummaryFragment extends SherlockFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// Set fragment layout to be inflated
-		mFragmentView = inflater.inflate(R.layout.fragment_data_summary, container, false);
+		mFragmentView = inflater.inflate(R.layout.fragment_usage_summary, container, false);
 		
 		return mFragmentView;
 	}
@@ -117,31 +117,26 @@ public class DataSummaryFragment extends SherlockFragment {
 			
 			// TODO: Is view reloaded post sync?
 			
-	    	TextView mCurrentMonthTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_current_month_tv);
-	    	TextView mRolloverNumberDaysTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_days_number_tv);
-	    	TextView mRolloverQuotaDaysTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_days_until_tv);
-	    	TextView mRolloverDateTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_days_date_tv);
-	    	TextView mPeakDataNumberTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_peak_number_tv);
-	    	TextView mPeakQuotaTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_peak_quota_tv);
-	    	TextView mPeakDataTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_peak_used_tv);
-	    	TextView mOffpeakDataNumberTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_offpeak_number_tv);
-	    	TextView mOffpeakQuotaTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_offpeak_quota_tv);
-	    	TextView mOffpeakDataTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_offpeak_used_tv);
-	    	TextView mUpTimeNumberTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_uptime_number_tv);
-	    	TextView mIpAddresTV = (TextView) mFragmentView.findViewById(R.id.fragment_data_summary_uptime_ip_tv);
-	    		    	
+	    	TextView mCurrentMonthTV = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_current_month_tv);
+	    	TextView mPeakDataNumberTV = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_peak_number_tv);
+	    	TextView mPeakQuotaTV = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_peak_quota_tv);
+	    	TextView mPeakDataTV = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_peak_used_tv);
+	    	TextView mOffpeakDataNumberTV = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_offpeak_number_tv);
+	    	TextView mOffpeakQuotaTV = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_offpeak_quota_tv);
+	    	TextView mOffpeakDataTV = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_offpeak_used_tv);
+	    	TextView mUploadsDataNumberTV = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_offpeak_number_tv);
+	    	TextView mFreezoneDataNumberTV = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_offpeak_number_tv);
+	    	
 	    	mCurrentMonthTV.setText(mAccountStatus.getCurrentMonthString());
-	    	mRolloverNumberDaysTV.setText(mAccountStatus.getDaysSoFarString());
-	    	mRolloverQuotaDaysTV.setText(mAccountStatus.getDaysThisPeriodString());
-	    	mRolloverDateTV.setText(mAccountStatus.getRolloverDateString());
 	    	mPeakDataNumberTV.setText(mAccountStatus.getPeakDataUsedGbString());
 	    	mPeakQuotaTV.setText(mAccountInfo.getPeakQuotaString());
 	    	mPeakDataTV.setText(mAccountStatus.getPeakShapedString());
 	    	mOffpeakDataNumberTV.setText(mAccountStatus.getOffpeakDataUsedGbString());
 	    	mOffpeakQuotaTV.setText(mAccountInfo.getOffpeakQuotaString());
 	    	mOffpeakDataTV.setText(mAccountStatus.getOffpeakShapedString());
-	    	mUpTimeNumberTV.setText(mAccountStatus.getUpTimeDaysString());
-	    	mIpAddresTV.setText(mAccountStatus.getIpAddressStrng());
+	    	mUploadsDataNumberTV.setText(mAccountStatus.getUploadsDataUsedGbString());
+	    	mFreezoneDataNumberTV.setText(mAccountStatus.getFreezoneDataUsedGbString());
+
 		}
 	}
 	

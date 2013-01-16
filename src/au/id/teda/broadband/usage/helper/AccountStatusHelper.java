@@ -339,8 +339,36 @@ public class AccountStatusHelper {
 		return mSettings.getLong(UPLOADS_DATA_USED, 0);
 	}
 	
+	public int getUploadsDataUsedGb(){
+		return (int) (getUploadsDataUsed() / GB);
+	}
+	
+	public String getUploadsDataUsedGbString(){
+		long offpeak = getUploadsDataUsedGb();
+		
+		String used = Long.toString(offpeak);
+		if (offpeak < 10 ){
+			used = "0" + used;
+		}
+		return used;
+	}
+	
 	public long getFreezoneDataUsed(){
 		return mSettings.getLong(FREEZONE_DATA_USED, 0);
+	}
+	
+	public int getFreezoneDataUsedGb(){
+		return (int) (getFreezoneDataUsed() / GB);
+	}
+	
+	public String getFreezoneDataUsedGbString(){
+		long offpeak = getFreezoneDataUsedGb();
+		
+		String used = Long.toString(offpeak);
+		if (offpeak < 10 ){
+			used = "0" + used;
+		}
+		return used;
 	}
 	
 	public String getIpAddress(){
