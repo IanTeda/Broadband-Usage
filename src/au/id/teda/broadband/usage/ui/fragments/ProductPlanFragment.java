@@ -123,7 +123,7 @@ public class ProductPlanFragment extends SherlockFragment {
 	    	TextView mProductPlanTV = (TextView) mFragmentView.findViewById(R.id.fragment_product_plan_product_plan_tv);
 	    	
 	    	mUsernameTV.setText(mAccountAuthenticator.getUsername());
-	    	mProductPlanTV.setText(mAccountInfo.getProductPlan());
+	    	mProductPlanTV.setText(mAccountInfo.getProductPlanString());
 		}
 	}
 	

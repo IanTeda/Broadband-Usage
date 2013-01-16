@@ -38,7 +38,7 @@
             android:id="@+id/fragment_footer"
             android:name="au.id.teda.broadband.usage.ui.fragments.FragmentFooter"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/touch"
             android:layout_below="@+id/fragment_data_summary"
             tools:layout="@layout/fragment_footer" />
     </RelativeLayout>

@@ -129,8 +129,8 @@ public class AccountInfoHelper {
 			
 	}
 	
-	public String getProductPlan(){
-		return getPlan() + " (" + getProduct() + ")";
+	public String getProductPlanString(){
+		return getPlan().toUpperCase() + " (" + getProduct().toUpperCase() + ")";
 	}
 	
 	/**
