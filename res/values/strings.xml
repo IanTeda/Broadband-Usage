@@ -8,4 +8,10 @@
     <string name="sync_broadcast_start">sync_started</string>
     <string name="sync_broadcast_complete">sync_completed</string>
     
+    <!-- Size Qualifiers -->
+    <string name="size_phone_port">size_phone_port</string>
+    <string name="size_phone_land">size_phone_land</string>
+    <string name="size_w1024dp">size_w1024dp</string>
+    <string name="size_w600dp">size_w600dp</string>
+    
 </resources>

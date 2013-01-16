@@ -117,6 +117,7 @@ public class UsageSummaryFragment extends SherlockFragment {
 			
 			// TODO: Is view reloaded post sync?
 			
+			TextView mLayoutUsed = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_size);
 	    	TextView mCurrentMonthTV = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_current_month_tv);
 	    	TextView mPeakDataNumberTV = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_peak_number_tv);
 	    	TextView mPeakQuotaTV = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_peak_quota_tv);
@@ -129,14 +130,17 @@ public class UsageSummaryFragment extends SherlockFragment {
 	    	
 	    	mCurrentMonthTV.setText(mAccountStatus.getCurrentMonthString());
 	    	mPeakDataNumberTV.setText(mAccountStatus.getPeakDataUsedGbString());
-	    	mPeakQuotaTV.setText(mAccountInfo.getPeakQuotaString());
-	    	mPeakDataTV.setText(mAccountStatus.getPeakShapedString());
 	    	mOffpeakDataNumberTV.setText(mAccountStatus.getOffpeakDataUsedGbString());
-	    	mOffpeakQuotaTV.setText(mAccountInfo.getOffpeakQuotaString());
-	    	mOffpeakDataTV.setText(mAccountStatus.getOffpeakShapedString());
 	    	mUploadsDataNumberTV.setText(mAccountStatus.getUploadsDataUsedGbString());
 	    	mFreezoneDataNumberTV.setText(mAccountStatus.getFreezoneDataUsedGbString());
-
+	    	
+	    	// Only set text if loading phone layout
+	    	if (mLayoutUsed.getText().equals(getActivity().getString(R.string.size_phone_port))){
+		    	mPeakQuotaTV.setText(mAccountInfo.getPeakQuotaString());
+	    		mPeakDataTV.setText(mAccountStatus.getPeakShapedString());
+		    	mOffpeakQuotaTV.setText(mAccountInfo.getOffpeakQuotaString());
+		    	mOffpeakDataTV.setText(mAccountStatus.getOffpeakShapedString());
+	    	}
 		}
 	}
 	

@@ -2,12 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/fragment_usage_summary_container"
     android:layout_width="fill_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/margin"
-    android:background="@color/background_alt"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:paddingLeft="@dimen/vert_margin"
-    android:paddingRight="@dimen/vert_margin" >
+    android:paddingRight="0dp" >
+    
+    <TextView 
+        android:id="@+id/fragment_usage_summary_size"
+        android:text="@string/size_w1024dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/fragment_usage_summary_current_month_tv"
@@ -16,17 +22,18 @@
         android:text="@string/fragment_usage_summary_current_month"
         android:textColor="@color/accent"
         android:textSize="@dimen/text_xlarge"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:visibility="gone" />
 
     <View
         android:layout_width="fill_parent"
         android:layout_height="2dp"
-        android:background="@color/base" />
+        android:background="@color/base"
+        android:visibility="gone" />
 
     <RelativeLayout
-        android:id="@+id/fragment_usage_summary_peak_container_rl"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:id="@+id/fragment_usage_summary_peak_container"
+        style="@style/MyTheme.MainActivity.UsageContainer1024" >
 
         <TextView
             android:id="@+id/fragment_usage_summary_peak_number_tv"
@@ -38,20 +45,18 @@
             style="@style/MyTheme.MainActivity.LowerDescription"
             android:layout_alignBaseline="@+id/fragment_usage_summary_peak_number_tv"
             android:layout_toRightOf="@+id/fragment_usage_summary_peak_number_tv"
-            android:text="@string/fragment_usage_summary_used_status" />
+            android:text="@string/fragment_usage_summary_used_no_status" />
 
         <TextView
             android:id="@+id/fragment_usage_summary_peak_quota_tv"
             style="@style/MyTheme.MainActivity.UpperTitle"
             android:layout_toRightOf="@+id/fragment_usage_summary_peak_number_tv"
-            android:text="@string/fragment_usage_summary_peak_quota" />
+            android:text="@string/fragment_usage_summary_peak_quota_alt" />
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/fragment_usage_summary_offpeak_container_rl"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="-14dp" >
+        android:id="@+id/fragment_usage_summary_offpeak_container"
+        style="@style/MyTheme.MainActivity.UsageContainer1024" >
 
         <TextView
             android:id="@+id/fragment_usage_summary_offpeak_number_tv"
@@ -63,20 +68,18 @@
             style="@style/MyTheme.MainActivity.LowerDescription"
             android:layout_alignBaseline="@+id/fragment_usage_summary_offpeak_number_tv"
             android:layout_toRightOf="@+id/fragment_usage_summary_offpeak_number_tv"
-            android:text="@string/fragment_usage_summary_used_status" />
+            android:text="@string/fragment_usage_summary_used_no_status" />
 
         <TextView
             android:id="@+id/fragment_usage_summary_offpeak_quota_tv"
             style="@style/MyTheme.MainActivity.UpperTitle"
             android:layout_toRightOf="@+id/fragment_usage_summary_offpeak_number_tv"
-            android:text="@string/fragment_usage_summary_offpeak_quota" />
+            android:text="@string/fragment_usage_summary_offpeak_quota_alt" />
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/fragment_usage_summary_uploads_container_rl"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="-14dp" >
+        android:id="@+id/fragment_usage_summary_uploads_container"
+        style="@style/MyTheme.MainActivity.UsageContainer1024" >
 
         <TextView
             android:id="@+id/fragment_usage_summary_uploads_number_tv"
@@ -98,10 +101,8 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/fragment_usage_summary_freezone_container_rl"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="-14dp" >
+        android:id="@+id/fragment_usage_summary_freezone_container"
+		style="@style/MyTheme.MainActivity.UsageContainer1024" >
 
         <TextView
             android:id="@+id/fragment_usage_summary_freezone_number_tv"

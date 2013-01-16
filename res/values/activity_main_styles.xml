@@ -60,4 +60,15 @@
         <item name="android:src">@drawable/actionbar_separator</item>
     </style>
     
+    <style name="MyTheme.MainActivity.UsageContainer1024">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">0dp</item>
+        <item name="android:layout_marginRight">@dimen/vert_margin</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@color/background_alt_light</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:visibility">visible</item>
+	</style>
+    
 </resources>
