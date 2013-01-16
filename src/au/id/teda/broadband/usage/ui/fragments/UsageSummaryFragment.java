@@ -11,10 +11,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
+import au.id.teda.broadband.usage.helper.NotificationHelper;
 import au.id.teda.broadband.usage.ui.MainActivity;
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -128,7 +130,6 @@ public class UsageSummaryFragment extends SherlockFragment {
 	    	TextView mUploadsDataNumberTV = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_offpeak_number_tv);
 	    	TextView mFreezoneDataNumberTV = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_offpeak_number_tv);
 	    	
-	    	mCurrentMonthTV.setText(mAccountStatus.getCurrentMonthString());
 	    	mPeakDataNumberTV.setText(mAccountStatus.getPeakDataUsedGbString());
 	    	mOffpeakDataNumberTV.setText(mAccountStatus.getOffpeakDataUsedGbString());
 	    	mUploadsDataNumberTV.setText(mAccountStatus.getUploadsDataUsedGbString());
@@ -136,12 +137,61 @@ public class UsageSummaryFragment extends SherlockFragment {
 	    	
 	    	// Only set text if loading phone layout
 	    	if (isLayoutPhone(mLayoutUsed)){
+		    	mCurrentMonthTV.setText(mAccountStatus.getCurrentMonthString());
 		    	mPeakQuotaTV.setText(mAccountInfo.getPeakQuotaString());
 	    		mPeakDataTV.setText(mAccountStatus.getPeakShapedString());
 		    	mOffpeakQuotaTV.setText(mAccountInfo.getOffpeakQuotaString());
 		    	mOffpeakDataTV.setText(mAccountStatus.getOffpeakShapedString());
 	    	}
+	    	
+	    	checkUsageStatus();
+	    	
 		}
+	}
+
+	/**
+	 * 
+	 */
+	private void checkUsageStatus() {
+		NotificationHelper mNotification = new NotificationHelper(mContext);
+		
+		//TODO: Test layout logic better
+		
+		if(mNotification.isPeakQuotaNear()){
+			setPeakWarning();
+		}
+		
+		if(mNotification.isPeakQuotaOver()){
+			setPeakError();
+		}
+		
+		if(mNotification.isOffpeakQuotaNear()){
+			setOffpeakWarning();
+		}
+		
+		if(mNotification.isOffpeakQuotaOver()){
+			setOffpeakError();
+		}
+	}
+	
+	private void setPeakWarning(){
+    	RelativeLayout mLayoutContaner = (RelativeLayout) mFragmentView.findViewById(R.id.fragment_usage_summary_peak_container);
+    	mLayoutContaner.setBackgroundDrawable((getResources().getDrawable(R.drawable.shape_flash_warning)));
+	}
+	
+	private void setPeakError(){
+		RelativeLayout mLayoutContaner = (RelativeLayout) mFragmentView.findViewById(R.id.fragment_usage_summary_peak_container);
+		mLayoutContaner.setBackgroundDrawable((getResources().getDrawable(R.drawable.shape_flash_error)));
+	}
+	
+	private void setOffpeakWarning(){
+    	RelativeLayout mLayoutContaner = (RelativeLayout) mFragmentView.findViewById(R.id.fragment_usage_summary_offpeak_container);
+    	mLayoutContaner.setBackgroundDrawable((getResources().getDrawable(R.drawable.shape_flash_warning)));
+	}
+	
+	private void setOffpeakError(){
+		RelativeLayout mLayoutContaner = (RelativeLayout) mFragmentView.findViewById(R.id.fragment_usage_summary_offpeak_container);
+		mLayoutContaner.setBackgroundDrawable((getResources().getDrawable(R.drawable.shape_flash_error)));
 	}
 	
 	public class SyncReceiver extends BroadcastReceiver {

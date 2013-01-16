@@ -31,7 +31,7 @@
         android:background="@color/base" />
 
     <RelativeLayout
-        android:id="@+id/fragment_usage_summary_peak_container_rl"
+        android:id="@+id/fragment_usage_summary_peak_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
@@ -55,7 +55,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/fragment_usage_summary_offpeak_container_rl"
+        android:id="@+id/fragment_usage_summary_offpeak_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="-14dp" >
@@ -80,7 +80,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/fragment_usage_summary_uploads_container_rl"
+        android:id="@+id/fragment_usage_summary_uploads_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="-14dp"
@@ -106,7 +106,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/fragment_usage_summary_freezone_container_rl"
+        android:id="@+id/fragment_usage_summary_freezone_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="-14dp"

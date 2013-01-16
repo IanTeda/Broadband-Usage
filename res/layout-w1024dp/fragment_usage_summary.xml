@@ -17,18 +17,13 @@
 
     <TextView
         android:id="@+id/fragment_usage_summary_current_month_tv"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/fragment_usage_summary_current_month"
-        android:textColor="@color/accent"
-        android:textSize="@dimen/text_xlarge"
-        android:textStyle="bold"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:visibility="gone" />
 
     <View
-        android:layout_width="fill_parent"
-        android:layout_height="2dp"
-        android:background="@color/base"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:visibility="gone" />
 
     <RelativeLayout

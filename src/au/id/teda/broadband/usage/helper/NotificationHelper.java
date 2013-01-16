@@ -217,7 +217,7 @@ public class NotificationHelper {
 		return mSettings.getString(mContext.getString(R.string.pref_notify_peak_near_array_key), "five_gb");
 	}
 	
-	private boolean isPeakQuotaNear(){
+	public boolean isPeakQuotaNear(){
 		String value = getPeakQuotaNearWarning();
 		long warning = gbStringToLong(value);
 		long remaining = mStatus.getPeakDataRemaining();
@@ -258,7 +258,7 @@ public class NotificationHelper {
 		return mSettings.getBoolean(KEY_NOTIFY_PEAK_QUOTA_NEAR, false);
 	}
 	
-	private boolean isPeakQuotaOver(){
+	public boolean isPeakQuotaOver(){
 		long quota = mInfo.getPeakQuota();
 		long used = mStatus.getPeakDataUsed();
 		
@@ -293,7 +293,7 @@ public class NotificationHelper {
 		return mSettings.getString(mContext.getString(R.string.pref_notify_offpeak_near_array_key), "five_gb"); 
 	}
 	
-	private boolean isOffpeakQuotaNear(){
+	public boolean isOffpeakQuotaNear(){
 		String value = getOffpeakQuotaWarning();
 		long warning = gbStringToLong(value);
 		long remaining = mStatus.getOffpeakDataRemaining();
@@ -334,7 +334,7 @@ public class NotificationHelper {
 		return mSettings.getBoolean(KEY_NOTIFY_OFFPEAK_QUOTA_NEAR, false);
 	}
 	
-	private boolean isOffpeakQuotaOver(){
+	public boolean isOffpeakQuotaOver(){
 		long quota = mInfo.getOffpeakQuota();
 		long used = mStatus.getOffpeakDataUsed();
 		
