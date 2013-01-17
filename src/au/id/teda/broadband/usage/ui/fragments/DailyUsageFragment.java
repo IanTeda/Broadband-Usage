@@ -1,5 +1,7 @@
 package au.id.teda.broadband.usage.ui.fragments;
 
+import java.text.ParseException;
+
 import org.achartengine.GraphicalView;
 
 import android.app.Activity;
@@ -159,6 +161,7 @@ public class DailyUsageFragment extends SherlockFragment {
 			
 			loadStackedBarChart();
 			loadStackedLineChart();
+			setChartTitle();
 		}
 	}
 	
@@ -175,15 +178,6 @@ public class DailyUsageFragment extends SherlockFragment {
 		slideRightIn = AnimationUtils.loadAnimation(mContext, R.anim.slide_right_in);
 		slideRightOut = AnimationUtils.loadAnimation(mContext, R.anim.slide_right_out);
 
-		// Set the touch listener for the main view to be our custom gesture
-		// listener
-		myViewFlipper.setOnTouchListener(new OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				myGestureDetector.onTouchEvent(event);
-				return false;
-			}
-		});
 	}
 
 	private void loadStackedBarChart() {
@@ -278,6 +272,29 @@ public class DailyUsageFragment extends SherlockFragment {
 		});
 	}
 	
+	public void setChartTitle() {
+		
+		// Set title TextView object and initialise
+		TextView chartTitle = (TextView) mFragmentView.findViewById(R.id.fragment_daily_usage_title_tv);
+		
+
+		// Check if ViewFlipper tab is at 1 (Bar Chart)
+		if (myViewFlipper.getDisplayedChild() == 0){
+			String title = getResources().getString(R.string.fragment_daily_usage_bar_chart);
+			chartTitle.setText(title);
+		}
+		// Else check if ViewFilipper is at 2 (Pie Chart)
+		else if (myViewFlipper.getDisplayedChild() == 1){
+			String title = getResources().getString(R.string.fragment_daily_usage_line_chart);
+			chartTitle.setText(title);
+		}
+		else {
+			String title = getResources().getString(R.string.fragment_daily_usage_chart);
+			chartTitle.setText(title);
+		}
+		
+	}
+	
 	public class SyncReceiver extends BroadcastReceiver {
 
         @Override
@@ -318,8 +335,7 @@ public class DailyUsageFragment extends SherlockFragment {
 					myViewFlipper.setInAnimation(slideLeftIn);
 					myViewFlipper.setOutAnimation(slideLeftOut);
 					myViewFlipper.showNext();
-					//setPageNation();
-					//setChartTitle();
+					setChartTitle();
 					return true;
 				}
 				// Else check if it is a left to right swipe
@@ -328,8 +344,7 @@ public class DailyUsageFragment extends SherlockFragment {
 					myViewFlipper.setInAnimation(slideRightIn);
 					myViewFlipper.setOutAnimation(slideRightOut);
 					myViewFlipper.showPrevious();
-					//setPageNation();
-					//setChartTitle();
+					setChartTitle();
 					return true;
 				}
 			} catch (Exception e) {
