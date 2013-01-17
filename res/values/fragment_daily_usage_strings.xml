@@ -4,6 +4,8 @@
     <string name="fragment_daily_usage_bar_chart">Daily Usage Bar Chart</string>
     <string name="fragment_daily_usage_line_chart">Daily Usage Line Chart</string>
     <string name="fragment_daily_usage_chart">Daily Usage Chart</string>
+    
+    <string name="fragment_daily_usage_chart_x_title">Data Used (Gb)</string>
 
     
 </resources>

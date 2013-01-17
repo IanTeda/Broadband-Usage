@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Doughnut chart labels -->
+    <string name="fragment_summary_chart_doughnut_days">Days</string>
+    <string name="fragment_summary_chart_doughnut_days_soFar">Days So Far</string>
+    <string name="fragment_summary_chart_doughnut_days_toGo">Days To Go</string>
+    <string name="fragment_summary_chart_doughnut_peak">Peak</string>
+    <string name="fragment_summary_chart_doughnut_peak_soFar">Peak So Far</string>
+    <string name="fragment_summary_chart_doughnut_peak_toGo">Peak To Go</string>
+    <string name="fragment_summary_chart_doughnut_offpeak">Offpeak</string>
+    <string name="fragment_summary_chart_doughnut_offpeak_soFar">Offpeak So Far</string>
+    <string name="fragment_summary_chart_doughnut_offpeak_toGo">Offpeak To Go</string>
+
+</resources>

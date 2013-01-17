@@ -55,7 +55,7 @@ public class ChartBuilder {
 		colorBackgroundLight = mContext.getResources().getColor(R.color.background_alt_light);
 		
 		// Chart strings
-		xAxes = mContext.getResources().getString(R.string.chart_x_title);
+		xAxes = mContext.getResources().getString(R.string.fragment_daily_usage_chart_x_title);
 
 	}
 	

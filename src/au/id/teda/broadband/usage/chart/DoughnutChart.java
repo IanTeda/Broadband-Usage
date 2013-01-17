@@ -54,17 +54,17 @@ public class DoughnutChart extends ChartBuilder {
 	private MultipleCategorySeries getDoughnutChartDataSeries() {
 		
 		// Static string values and initialise from XML values
-		final String DAYS = mContext.getResources().getString(R.string.chart_doughnut_days);
-		final String DAYS_SO_FAR = mContext.getResources().getString(R.string.chart_doughnut_days_soFar);
-		final String DAYS_TO_GO = mContext.getResources().getString(R.string.chart_doughnut_days_toGo);
+		final String DAYS = mContext.getResources().getString(R.string.fragment_summary_chart_doughnut_days);
+		final String DAYS_SO_FAR = mContext.getResources().getString(R.string.fragment_summary_chart_doughnut_days_soFar);
+		final String DAYS_TO_GO = mContext.getResources().getString(R.string.fragment_summary_chart_doughnut_days_toGo);
 		
-		final String PEAK = mContext.getResources().getString(R.string.chart_doughnut_peak);
-		final String PEAK_SO_FAR = mContext.getResources().getString(R.string.chart_doughnut_peak_soFar);
-		final String PEAK_TO_GO = mContext.getResources().getString(R.string.chart_doughnut_peak_toGo);
+		final String PEAK = mContext.getResources().getString(R.string.fragment_summary_chart_doughnut_peak);
+		final String PEAK_SO_FAR = mContext.getResources().getString(R.string.fragment_summary_chart_doughnut_peak_soFar);
+		final String PEAK_TO_GO = mContext.getResources().getString(R.string.fragment_summary_chart_doughnut_peak_toGo);
 		
-		final String OFFPEAK = mContext.getResources().getString(R.string.chart_doughnut_offpeak);
-		final String OFFPEAK_SO_FAR = mContext.getResources().getString(R.string.chart_doughnut_offpeak_soFar);
-		final String OFFPEAK_TO_GO = mContext.getResources().getString(R.string.chart_doughnut_offpeak_toGo);
+		final String OFFPEAK = mContext.getResources().getString(R.string.fragment_summary_chart_doughnut_offpeak);
+		final String OFFPEAK_SO_FAR = mContext.getResources().getString(R.string.fragment_summary_chart_doughnut_offpeak_soFar);
+		final String OFFPEAK_TO_GO = mContext.getResources().getString(R.string.fragment_summary_chart_doughnut_offpeak_toGo);
 		
 		// Account object and initialise
 		AccountStatusHelper status = new AccountStatusHelper(mContext);
