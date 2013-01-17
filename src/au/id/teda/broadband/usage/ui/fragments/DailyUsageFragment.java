@@ -1,7 +1,5 @@
 package au.id.teda.broadband.usage.ui.fragments;
 
-import java.text.ParseException;
-
 import org.achartengine.GraphicalView;
 
 import android.app.Activity;
@@ -11,7 +9,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.text.Html;
 import android.util.Log;
 import android.view.Display;
 import android.view.GestureDetector;
@@ -34,8 +31,6 @@ import au.id.teda.broadband.usage.database.DailyDataDatabaseAdapter;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
 import au.id.teda.broadband.usage.ui.MainActivity;
-import au.id.teda.broadband.usage.ui.fragments.FragmentFooter.SyncReceiver;
-
 import com.actionbarsherlock.app.SherlockFragment;
 
 public class DailyUsageFragment extends SherlockFragment {
@@ -47,12 +42,15 @@ public class DailyUsageFragment extends SherlockFragment {
 	private View mFragmentView;
 	
 	// Gesture objects
-	private GestureDetector myGestureDetector;
-	private Animation slideLeftIn;
-	private Animation slideLeftOut;
-	private Animation slideRightIn;
-	private Animation slideRightOut;
-	private ViewFlipper myViewFlipper;
+	private GestureDetector mGestureDetector;
+	private Animation mAnimSlideLeftIn;
+	private Animation mAnimSlideLeftOut;
+	private Animation mAnimSlideRightIn;
+	private Animation mAnimSlideRightOut;
+	private ViewFlipper mViewFlipper;
+	
+	// Key for view state saving
+	private static final String VIEW_FLIPPER_NUMBER = "flipper_number";
 	
 	// Helper classes
 	private AccountInfoHelper mAccountInfo;
@@ -92,6 +90,13 @@ public class DailyUsageFragment extends SherlockFragment {
         String BROADCAST = getString(R.string.sync_broadcast_action);
         filter = new IntentFilter(BROADCAST);
         mSyncReceiver = new SyncReceiver();
+        
+		// If orientation has changed
+		if (savedInstanceState != null) {		
+			// Restore ViewFlipper position
+			int flipperPosition = savedInstanceState.getInt(VIEW_FLIPPER_NUMBER);
+	        mViewFlipper.setDisplayedChild(flipperPosition);
+	    }
 	}
 	
 	/**
@@ -102,19 +107,6 @@ public class DailyUsageFragment extends SherlockFragment {
 			Bundle savedInstanceState) {
 		// Set fragment layout to be inflated
 		mFragmentView = inflater.inflate(R.layout.fragment_daily_usage, container, false);
-		
-		mFragmentView.setOnTouchListener(new OnTouchListener() {
-		    public boolean onTouch(View v, MotionEvent event) {
-		    	
-		    	Log.d(DEBUG_TAG, "onTouch");
-		    	
-				if (myGestureDetector.onTouchEvent(event)){
-					return true;
-				} else {
-					return false;
-				}
-		    }
-		});
 		
 		return mFragmentView;
 	}
@@ -141,6 +133,16 @@ public class DailyUsageFragment extends SherlockFragment {
 		getActivity().registerReceiver(mSyncReceiver, filter);
 	}
 	
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+		
+		// Remember ViewFliper tab position during orientation change
+	    int position = mViewFlipper.getDisplayedChild();
+	    savedInstanceState.putInt(VIEW_FLIPPER_NUMBER, position);
+	    
+	    //TODO: Save flipper number for reload of app (remember what one they like)
+	}
+	
 	/**
 	 * First call in the death of fragment
 	 */
@@ -161,22 +163,21 @@ public class DailyUsageFragment extends SherlockFragment {
 			
 			loadStackedBarChart();
 			loadStackedLineChart();
-			setChartTitle();
 		}
 	}
 	
 	private void loadGestures() {
 		// Set reference for ViewFlipper layout
-		myViewFlipper = (ViewFlipper) mFragmentView.findViewById(R.id.fragment_daily_usage_view_flipper);
+		mViewFlipper = (ViewFlipper) mFragmentView.findViewById(R.id.fragment_daily_usage_view_flipper);
 
 		// Set reference to gesture detector
-		myGestureDetector = new GestureDetector(new MyGestureDetector());
+		mGestureDetector = new GestureDetector(new MyGestureDetector());
 
 		// Set animation references
-		slideLeftIn = AnimationUtils.loadAnimation(mContext, R.anim.slide_left_in);
-		slideLeftOut = AnimationUtils.loadAnimation(mContext, R.anim.slide_left_out);
-		slideRightIn = AnimationUtils.loadAnimation(mContext, R.anim.slide_right_in);
-		slideRightOut = AnimationUtils.loadAnimation(mContext, R.anim.slide_right_out);
+		mAnimSlideLeftIn = AnimationUtils.loadAnimation(mContext, R.anim.slide_left_in);
+		mAnimSlideLeftOut = AnimationUtils.loadAnimation(mContext, R.anim.slide_left_out);
+		mAnimSlideRightIn = AnimationUtils.loadAnimation(mContext, R.anim.slide_right_in);
+		mAnimSlideRightOut = AnimationUtils.loadAnimation(mContext, R.anim.slide_right_out);
 
 	}
 
@@ -220,7 +221,7 @@ public class DailyUsageFragment extends SherlockFragment {
 		mBarChartView.setOnTouchListener(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				myGestureDetector.onTouchEvent(event);
+				mGestureDetector.onTouchEvent(event);
 				return false;
 			}
 		});
@@ -266,7 +267,7 @@ public class DailyUsageFragment extends SherlockFragment {
 		mLineChartView.setOnTouchListener(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				myGestureDetector.onTouchEvent(event);
+				mGestureDetector.onTouchEvent(event);
 				return false;
 			}
 		});
@@ -277,14 +278,13 @@ public class DailyUsageFragment extends SherlockFragment {
 		// Set title TextView object and initialise
 		TextView chartTitle = (TextView) mFragmentView.findViewById(R.id.fragment_daily_usage_title_tv);
 		
-
 		// Check if ViewFlipper tab is at 1 (Bar Chart)
-		if (myViewFlipper.getDisplayedChild() == 0){
+		if (mViewFlipper.getDisplayedChild() == 0){
 			String title = getResources().getString(R.string.fragment_daily_usage_bar_chart);
 			chartTitle.setText(title);
 		}
 		// Else check if ViewFilipper is at 2 (Pie Chart)
-		else if (myViewFlipper.getDisplayedChild() == 1){
+		else if (mViewFlipper.getDisplayedChild() == 1){
 			String title = getResources().getString(R.string.fragment_daily_usage_line_chart);
 			chartTitle.setText(title);
 		}
@@ -332,18 +332,18 @@ public class DailyUsageFragment extends SherlockFragment {
 				// Check if it is a right to left swipe
 				if (motionEvent1.getX() - motionEvent2.getX() > SWIPE_MIN_DISTANCE
 						&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-					myViewFlipper.setInAnimation(slideLeftIn);
-					myViewFlipper.setOutAnimation(slideLeftOut);
-					myViewFlipper.showNext();
+					mViewFlipper.setInAnimation(mAnimSlideLeftIn);
+					mViewFlipper.setOutAnimation(mAnimSlideLeftOut);
+					mViewFlipper.showNext();
 					setChartTitle();
 					return true;
 				}
 				// Else check if it is a left to right swipe
 				else if (motionEvent2.getX() - motionEvent1.getX() > SWIPE_MIN_DISTANCE
 						&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-					myViewFlipper.setInAnimation(slideRightIn);
-					myViewFlipper.setOutAnimation(slideRightOut);
-					myViewFlipper.showPrevious();
+					mViewFlipper.setInAnimation(mAnimSlideRightIn);
+					mViewFlipper.setOutAnimation(mAnimSlideRightOut);
+					mViewFlipper.showPrevious();
 					setChartTitle();
 					return true;
 				}
