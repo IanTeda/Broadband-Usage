@@ -21,10 +21,10 @@
         android:layout_alignParentLeft="true"
         android:gravity="bottom"
         android:text="@string/fragment_daily_usage_bar_chart"
-        android:textStyle="bold"
         android:textAllCaps="true"
         android:textColor="@color/accent"
-        android:textSize="@dimen/text_large" />
+        android:textSize="@dimen/text_large"
+        android:textStyle="bold" />
 
     <View
         android:id="@+id/fragment_daily_usage_line"
@@ -33,14 +33,31 @@
         android:layout_below="@+id/fragment_daily_usage_month_tv"
         android:background="@color/base_light" />
 
-    <LinearLayout
-        android:id="@+id/fragment_daily_usage_chart_container"
+    <au.id.teda.broadband.usage.ui.SafeViewFlipper
+        android:id="@+id/fragment_daily_usage_view_flipper"
         android:layout_below="@+id/fragment_daily_usage_line"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_marginTop="@dimen/margin"
-        android:background="@color/background_alt_light"
-        android:orientation="vertical" >
-    </LinearLayout>
+        android:layout_height="fill_parent" >
+
+        <LinearLayout
+            android:id="@+id/fragment_daily_usage_bar_chart_container"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@+id/fragment_daily_usage_line"
+            android:layout_marginTop="@dimen/margin"
+            android:background="@color/background_alt_light"
+            android:orientation="vertical" >
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fragment_daily_usage_line_chart_container"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@+id/fragment_daily_usage_line"
+            android:layout_marginTop="@dimen/margin"
+            android:background="@color/background_alt_light"
+            android:orientation="vertical" >
+        </LinearLayout>
+    </au.id.teda.broadband.usage.ui.SafeViewFlipper>
 
 </RelativeLayout>
