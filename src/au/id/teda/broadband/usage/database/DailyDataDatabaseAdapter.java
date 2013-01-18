@@ -112,7 +112,7 @@ public class DailyDataDatabaseAdapter {
 		open();
 		
 		Cursor cursor = getPriodUsageCursor(period);
-		List<DailyVolumeUsage> usage = new ArrayList<DailyVolumeUsage>();
+		//List<DailyVolumeUsage> usage = new ArrayList<DailyVolumeUsage>();
 		
 		int COLUMN_INDEX_DAY = cursor.getColumnIndex(DAY);
 		int COLUMN_INDEX_MONTH = cursor.getColumnIndex(MONTH);
@@ -120,6 +120,9 @@ public class DailyDataDatabaseAdapter {
 		int COLUMN_INDEX_OFFPEAK = cursor.getColumnIndex(OFFPEAK);
 		int COLUMN_INDEX_UPLOADS = cursor.getColumnIndex(UPLOADS);
 		int COLUMN_INDEX_FREEZONE = cursor.getColumnIndex(FREEZONE);
+		
+		
+		DailyVolumeUsage weather_data[] = new DailyVolumeUsage[cursor.getCount()];
 		
 		cursor.moveToFirst();
 		if (cursor != null){
@@ -132,7 +135,7 @@ public class DailyDataDatabaseAdapter {
 				Long uploads = cursor.getLong(COLUMN_INDEX_UPLOADS);
 				Long freezone = cursor.getLong(COLUMN_INDEX_FREEZONE);
 								
-				usage.add(new DailyVolumeUsage(day, month, peak, offpeak, uploads, freezone));
+				new DailyVolumeUsage(day, month, peak, offpeak, uploads, freezone);
 				
 			}
 			cursor.close();
@@ -140,7 +143,6 @@ public class DailyDataDatabaseAdapter {
 		
 		close();
 		
-		DailyVolumeUsage[] daily = (DailyVolumeUsage[]) usage.toArray();
-		return daily;
+		return weather_data;
 	}
 }

@@ -101,12 +101,21 @@ public class DataTableFragment extends SherlockFragment {
 		DailyDataDatabaseAdapter mDatabase = new DailyDataDatabaseAdapter(mContext);
 		String period = mAccountStatus.getDataBaseMonthString();
 		
-		DailyVolumeUsage usage_array[] = mDatabase.getDailyVolumeUsage(period);
+		/**
+		DailyVolumeUsage weather_data[] = new DailyVolumeUsage[]
+		        {
+		            new DailyVolumeUsage(1,"Month",245648454,3,5,6),
+		            new DailyVolumeUsage(1,"Month",2,3,5,6),
+		            new DailyVolumeUsage(1,"Month",2,3,5,6),
+		            new DailyVolumeUsage(1,"Month",2,3,5,6),
+		            new DailyVolumeUsage(1,"Month",2,3,5,6),
+		        };
+		**/
 		
-		//usage = mDatabase.getDailyVolumeUsage(period);
+		DailyVolumeUsage weather_data[] = mDatabase.getDailyVolumeUsage(period);
 		
 		DailyVolumeUsageAdapter adapter = new DailyVolumeUsageAdapter(mContext, 
-                R.layout.fragment_data_table_row, usage_array);
+                R.layout.fragment_data_table_row, weather_data);
 		
 		ListView mListView = (ListView) mFragmentView.findViewById(R.id.fragment_data_table_listview);
 		mListView.setAdapter(adapter);

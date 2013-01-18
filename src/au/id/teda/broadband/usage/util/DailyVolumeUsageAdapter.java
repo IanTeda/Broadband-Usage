@@ -48,6 +48,8 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
 	public View getView(int position, View row, ViewGroup parent) {
 		//return super.getView(position, row, parent);
 		
+		
+		
         ViewHolder holder = null;
         
         if(row == null){
@@ -72,6 +74,8 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
         }
         
         DailyVolumeUsage usage = data[position];
+        
+        Log.d(DEBUG_TAG, Long.toString(usage.day));
         
 		holder.day.setText(LongDateToString(usage.day, "dateOfMouth"));
 		holder.peak.setText(IntUsageToString(usage.peak));
