@@ -4,6 +4,7 @@
     <string name="fragment_usage_summary_number">00</string>
     <string name="fragment_usage_summary_used_status">USED DATA (UNSHAPED)</string>
     <string name="fragment_usage_summary_used_no_status">USED DATA</string>
+    <string name="fragment_usage_summary_remaining_no_status">REMAINGING DATA</string>
     <string name="fragment_usage_summary_peak_quota">/ 00 (Gb) Peak</string>
     <string name="fragment_usage_summary_peak_quota_alt">(Gb) Peak</string>
     <string name="fragment_usage_summary_offpeak_quota">/ 00 (Gb) Offpeak</string>

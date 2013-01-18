@@ -8,16 +8,25 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.GestureDetector.SimpleOnGestureListener;
+import android.view.View.OnTouchListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
 import au.id.teda.broadband.usage.helper.NotificationHelper;
 import au.id.teda.broadband.usage.ui.MainActivity;
+import au.id.teda.broadband.usage.ui.fragments.DailyUsageFragment.MyGestureDetector;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
@@ -28,6 +37,17 @@ public class UsageSummaryFragment extends SherlockFragment {
 	
 	// View inflated by fragment
 	private View mFragmentView;
+	
+	// Gesture objects
+	private GestureDetector mGestureDetector;
+	private Animation mAnimSlideLeftIn;
+	private Animation mAnimSlideLeftOut;
+	private Animation mAnimSlideRightIn;
+	private Animation mAnimSlideRightOut;
+	private ViewFlipper mViewFlipper;
+	
+	private TextView mLayoutUsed;
+	private TextView mCurrentMonthTV;
 	
 	// Helper classes
 	private AccountInfoHelper mAccountInfo;
@@ -78,6 +98,9 @@ public class UsageSummaryFragment extends SherlockFragment {
 		// Set fragment layout to be inflated
 		mFragmentView = inflater.inflate(R.layout.fragment_usage_summary, container, false);
 		
+		mLayoutUsed = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_size);
+    	mCurrentMonthTV = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_current_month_tv);
+    	
 		return mFragmentView;
 	}
 	
@@ -89,6 +112,7 @@ public class UsageSummaryFragment extends SherlockFragment {
 		super.onActivityCreated(savedInstanceState);
 
 		loadFragmentView();
+		loadGestures();
 	}
 	
 	/**
@@ -113,39 +137,108 @@ public class UsageSummaryFragment extends SherlockFragment {
 		getActivity().unregisterReceiver(mSyncReceiver);
 	}
 	
+	private void loadGestures() {
+		// Set reference for ViewFlipper layout
+		mViewFlipper = (ViewFlipper) mFragmentView.findViewById(R.id.fragment_usage_summary_view_flipper);
+
+		// Set reference to gesture detector
+		mGestureDetector = new GestureDetector(new MyGestureDetector());
+
+		// Set animation references
+		mAnimSlideLeftIn = AnimationUtils.loadAnimation(mContext, R.anim.slide_left_in);
+		mAnimSlideLeftOut = AnimationUtils.loadAnimation(mContext, R.anim.slide_left_out);
+		mAnimSlideRightIn = AnimationUtils.loadAnimation(mContext, R.anim.slide_right_in);
+		mAnimSlideRightOut = AnimationUtils.loadAnimation(mContext, R.anim.slide_right_out);
+
+	}
+	
 	private void loadFragmentView(){
 		if (mAccountInfo.isInfoSet() 
     			&& mAccountStatus.isStatusSet()){
 			
 			// TODO: Is view reloaded post sync?
 			
-			TextView mLayoutUsed = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_size);
-	    	TextView mCurrentMonthTV = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_current_month_tv);
-	    	TextView mPeakDataNumberTV = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_peak_number_tv);
-	    	TextView mPeakQuotaTV = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_peak_quota_tv);
-	    	TextView mPeakDataTV = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_peak_used_tv);
-	    	TextView mOffpeakDataNumberTV = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_offpeak_number_tv);
-	    	TextView mOffpeakQuotaTV = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_offpeak_quota_tv);
-	    	TextView mOffpeakDataTV = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_offpeak_used_tv);
-	    	TextView mUploadsDataNumberTV = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_offpeak_number_tv);
-	    	TextView mFreezoneDataNumberTV = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_offpeak_number_tv);
-	    	
-	    	mPeakDataNumberTV.setText(mAccountStatus.getPeakDataUsedGbString());
-	    	mOffpeakDataNumberTV.setText(mAccountStatus.getOffpeakDataUsedGbString());
-	    	mUploadsDataNumberTV.setText(mAccountStatus.getUploadsDataUsedGbString());
-	    	mFreezoneDataNumberTV.setText(mAccountStatus.getFreezoneDataUsedGbString());
-	    	
-	    	// Only set text if loading phone layout
-	    	if (isLayoutPhone(mLayoutUsed)){
-		    	mCurrentMonthTV.setText(mAccountStatus.getCurrentMonthString());
-		    	mPeakQuotaTV.setText(mAccountInfo.getPeakQuotaString());
-	    		mPeakDataTV.setText(mAccountStatus.getPeakShapedString());
-		    	mOffpeakQuotaTV.setText(mAccountInfo.getOffpeakQuotaString());
-		    	mOffpeakDataTV.setText(mAccountStatus.getOffpeakShapedString());
-	    	}
+			//setViewRemaining();
+
+	    	setViewSoFar();
 	    	
 	    	checkUsageStatus();
 	    	
+			// Setup the touch listener for layout
+	    	LinearLayout mLayout = (LinearLayout) mFragmentView.findViewById(R.id.fragment_usage_summary_container);
+	    	mLayout.setOnTouchListener(new OnTouchListener() {
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					
+					Log.d(DEBUG_TAG, "onTouch");
+					
+					mGestureDetector.onTouchEvent(event);
+					return false;
+				}
+			});
+	    	
+		}
+	}
+
+	/**
+	 * 
+	 */
+	private void setViewRemaining() {
+		
+		TextView peak = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_peak_remaining_number_tv);
+		TextView peakDescription = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_peak_remaining_description_tv);
+		TextView peakSummary = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_peak_remaining_summary_tv);
+		TextView offpeak = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_offpeak_remaining_number_tv);
+		TextView offpeakDescription = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_offpeak_remaining_description_tv);
+		TextView offpeakSummary = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_offpeak_remaining_summary_tv);
+		TextView uploads = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_uploads_remaining_number_tv);
+		TextView freezone = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_freezone_remaining_number_tv);
+		
+		
+		peak.setText(mAccountStatus.getPeakDataRemaingGbString());
+		offpeak.setText(mAccountStatus.getOffpeakDataRemaingGbString());
+		uploads.setText(mAccountStatus.getUploadsDataUsedGbString());
+		freezone.setText(mAccountStatus.getFreezoneDataUsedGbString());
+		
+		// Only set text if loading phone layout
+		if (isLayoutPhone(mLayoutUsed)){
+			mCurrentMonthTV.setText(mAccountStatus.getCurrentMonthString());
+			peakDescription.setText(mAccountInfo.getPeakQuotaString());
+			peakSummary.setText(mAccountStatus.getPeakShapedRemainingString());
+			offpeakDescription.setText(mAccountInfo.getOffpeakQuotaString());
+			offpeakSummary.setText(mAccountStatus.getOffpeakShapedRemainingString());
+		} else {
+			peakSummary.setText(mContext.getString(R.string.fragment_usage_summary_remaining_no_status));
+			offpeakSummary.setText(mContext.getString(R.string.fragment_usage_summary_remaining_no_status));
+		}
+	}
+
+	/**
+	 * 
+	 */
+	private void setViewSoFar() {
+		
+		TextView peak = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_peak_used_number_tv);
+		TextView peakDescription = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_peak_used_description_tv);
+		TextView peakSummary = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_peak_used_summary_tv);
+		TextView offpeak = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_offpeak_used_number_tv);
+		TextView offpeakDescription = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_offpeak_used_description_tv);
+		TextView offpeakSummary = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_offpeak_used_summary_tv);
+		TextView uploads = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_uploads_used_number_tv);
+		TextView freezone = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_freezone_used_number_tv);
+		
+		peak.setText(mAccountStatus.getPeakDataUsedGbString());
+		offpeak.setText(mAccountStatus.getOffpeakDataUsedGbString());
+		uploads.setText(mAccountStatus.getUploadsDataUsedGbString());
+		freezone.setText(mAccountStatus.getFreezoneDataUsedGbString());
+		
+		// Only set text if loading phone layout
+		if (isLayoutPhone(mLayoutUsed)){
+			mCurrentMonthTV.setText(mAccountStatus.getCurrentMonthString());
+			peakDescription.setText(mAccountInfo.getPeakQuotaString());
+			peakSummary.setText(mAccountStatus.getPeakShapedUsedString());
+			offpeakDescription.setText(mAccountInfo.getOffpeakQuotaString());
+			offpeakSummary.setText(mAccountStatus.getOffpeakShapedUsedString());
 		}
 	}
 
@@ -222,5 +315,54 @@ public class UsageSummaryFragment extends SherlockFragment {
 			return false;
 		}
 	}
+	
+class MyGestureDetector extends SimpleOnGestureListener {
+		
+		// Gesture static int values to detect fling
+		private static final int SWIPE_MIN_DISTANCE = 120;
+		private static final int SWIPE_MAX_OFF_PATH = 250;
+		private static final int SWIPE_THRESHOLD_VELOCITY = 200;
+		
+		@Override
+		public boolean onFling(MotionEvent motionEvent1,
+				MotionEvent motionEvent2, float velocityX, float velocityY) {
+			try {
+				// Check to see if swipe is to short
+				if (Math.abs(motionEvent1.getY() - motionEvent2.getY()) > SWIPE_MAX_OFF_PATH) {
+					return false;
+				}
+				// Check if it is a right to left swipe
+				if (motionEvent1.getX() - motionEvent2.getX() > SWIPE_MIN_DISTANCE
+						&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+						Log.d(DEBUG_TAG, "Swipe left");
+						mViewFlipper.setInAnimation(mAnimSlideLeftIn);
+						mViewFlipper.setOutAnimation(mAnimSlideLeftOut);
+						mViewFlipper.showNext();
+					return true;
+				}
+				// Else check if it is a left to right swipe
+				else if (motionEvent2.getX() - motionEvent1.getX() > SWIPE_MIN_DISTANCE
+						&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+						Log.d(DEBUG_TAG, "Swipe right");
+						mViewFlipper.setInAnimation(mAnimSlideRightIn);
+						mViewFlipper.setOutAnimation(mAnimSlideRightOut);
+						mViewFlipper.showPrevious();
+					return true;
+				}
+			} catch (Exception e) {
+				// nothing
+			}
+			return false;
+		}
+
+		// It is necessary to return true from onDown for the onFling event to
+		// register
+		@Override
+		public boolean onDown(MotionEvent e) {
+			return true;
+		}
+
+	}
+
 
 }

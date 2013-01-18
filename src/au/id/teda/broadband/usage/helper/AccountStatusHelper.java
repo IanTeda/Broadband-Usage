@@ -266,22 +266,40 @@ public class AccountStatusHelper {
 		return (quota - used);
 	}
 	
+	public int getPeakDataRemaingGb(){
+		return (int) ( getPeakDataRemaining() / GB );
+	}
+	
 	public String getPeakDataRemaingGbString(){
-		long remaining = getPeakDataRemaining() / GB;
+		int data = getPeakDataRemaingGb();
+		String remaining = String.valueOf(data);
 		
-		return String.valueOf(remaining);
+		if (data < 10 ){
+			remaining = "0" + remaining;
+		}
+		
+		return remaining;
 	}
 	
 	public boolean isPeakShaped(){
 		return mSettings.getBoolean(PEAK_IS_SHAPED, false);
 	}
 	
-	public String getPeakShapedString(){
+	public String getPeakShapedUsedString(){
 		boolean isShaped = isPeakShaped();
 		if (isShaped){
 			return "USED DATA (SHAPED)";
 		} else {
 			return "USED DATA (UNSHAPED)";
+		}
+	}
+	
+	public String getPeakShapedRemainingString(){
+		boolean isShaped = isPeakShaped();
+		if (isShaped){
+			return "REMAINING DATA (SHAPED)";
+		} else {
+			return "REMAINING DATA (UNSHAPED)";
 		}
 	}
 	
@@ -314,22 +332,43 @@ public class AccountStatusHelper {
 		return (quota - used);
 	}
 	
+	public int getOffpeakDataRemaingGb(){
+		int remaining = (int) ( getOffpeakDataRemaining() / GB );
+		return remaining ;
+	}
+	
 	public String getOffpeakDataRemaingGbString(){
-		long remaing = getOffpeakDataRemaining() / GB;
+		int data = getOffpeakDataRemaingGb();
+		String remaining = String.valueOf(data);
+
+		if (data < 10 ){
+			remaining = "0" + remaining;
+		}
 		
-		return String.valueOf(remaing);
+		Log.d(DEBUG_TAG, "remaining:" + remaining);
+		
+		return remaining;
 	}
 	
 	public boolean isOffpeakShaped(){
 		return mSettings.getBoolean(OFFPEAK_IS_SHAPED, false);
 	}
 	
-	public String getOffpeakShapedString(){
+	public String getOffpeakShapedUsedString(){
 		boolean isShaped = isOffpeakShaped();
 		if (isShaped){
 			return "USED DATA (SHAPED)";
 		} else {
 			return "USED DATA (UNSHAPED)";
+		}
+	}
+	
+	public String getOffpeakShapedRemainingString(){
+		boolean isShaped = isOffpeakShaped();
+		if (isShaped){
+			return "REMAINING DATA (SHAPED)";
+		} else {
+			return "REMAINING DATA (UNSHAPED)";
 		}
 	}
 	
