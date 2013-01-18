@@ -1,5 +1,6 @@
 package au.id.teda.broadband.usage.database;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,7 +107,7 @@ public class DailyDataDatabaseAdapter {
 		return cursor;
 	}
 	
-	public List<DailyVolumeUsage> getDailyVolumeUsage(String period){
+	public DailyVolumeUsage[] getDailyVolumeUsage(String period){
 		
 		open();
 		
@@ -139,6 +140,7 @@ public class DailyDataDatabaseAdapter {
 		
 		close();
 		
-		return usage;
+		DailyVolumeUsage[] daily = (DailyVolumeUsage[]) usage.toArray();
+		return daily;
 	}
 }

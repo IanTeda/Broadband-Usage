@@ -7,20 +7,8 @@
     <!-- <include layout="@layout/fragment_data_table_header" />  -->
 
     <ListView
-        android:id="@android:id/list"
+        android:id="@+id/fragment_data_table_listview"
         android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1.0"
-        android:orientation="vertical">
-    </ListView>
-
-    <TextView
-        android:id="@android:id/empty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="No Data"
-        android:textColor="@color/accent"
-        android:textSize="@dimen/text_xlarge" />
+        android:layout_height="fill_parent" />
 
 </LinearLayout>

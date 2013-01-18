@@ -3,6 +3,7 @@ package au.id.teda.broadband.usage.ui.fragments;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockListFragment;
 
 import android.app.Activity;
@@ -28,7 +29,7 @@ import au.id.teda.broadband.usage.ui.MainActivity;
 import au.id.teda.broadband.usage.util.DailyVolumeUsage;
 import au.id.teda.broadband.usage.util.DailyVolumeUsageAdapter;
 
-public class DataTableFragment extends SherlockListFragment {
+public class DataTableFragment extends SherlockFragment {
 
 	// Debug tag pulled from main activity
 	private final static String DEBUG_TAG = MainActivity.DEBUG_TAG;
@@ -100,16 +101,15 @@ public class DataTableFragment extends SherlockListFragment {
 		DailyDataDatabaseAdapter mDatabase = new DailyDataDatabaseAdapter(mContext);
 		String period = mAccountStatus.getDataBaseMonthString();
 		
-		List<DailyVolumeUsage> usage = new ArrayList<DailyVolumeUsage>();
+		DailyVolumeUsage usage_array[] = mDatabase.getDailyVolumeUsage(period);
 		
-		usage = mDatabase.getDailyVolumeUsage(period);
+		//usage = mDatabase.getDailyVolumeUsage(period);
 		
 		DailyVolumeUsageAdapter adapter = new DailyVolumeUsageAdapter(mContext, 
-                R.layout.fragment_data_table_row, usage);
+                R.layout.fragment_data_table_row, usage_array);
 		
-		setListAdapter(adapter);
-		//cursor.close();
-		mDatabase.close();
+		ListView mListView = (ListView) mFragmentView.findViewById(R.id.fragment_data_table_listview);
+		mListView.setAdapter(adapter);
 	}
 	
 	/**
@@ -121,11 +121,6 @@ public class DataTableFragment extends SherlockListFragment {
 		
 		// Register broadcast receiver for background sync
 		getActivity().registerReceiver(mSyncReceiver, filter);
-	}
-	
-	@Override
-	public void onListItemClick(ListView l, View v, int position, long id) {
-	    Log.d(DEBUG_TAG, "Item clicked: " + id);
 	}
 
 	/**

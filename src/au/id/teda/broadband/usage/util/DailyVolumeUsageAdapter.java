@@ -7,14 +7,19 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import au.id.teda.broadband.usage.R;
+import au.id.teda.broadband.usage.ui.MainActivity;
 
 public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
+	
+	// Debug tag pulled from main activity
+	private final static String DEBUG_TAG = MainActivity.DEBUG_TAG;
 	
 	Context mContext; 
     int layoutResourceId;    
@@ -73,6 +78,8 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
 		holder.offpeak.setText(IntUsageToString(usage.offpeak));
 		holder.uploads.setText(IntUsageToString(usage.uploads));
 		holder.freezone.setText(IntUsageToString(usage.freezone));
+		
+		Log.d(DEBUG_TAG, LongDateToString(usage.day, "dateOfMouth"));
        
         return row;
     }
