@@ -205,6 +205,7 @@ public class DailyUsageFragment extends SherlockFragment {
 		mChartContainer.removeAllViews();
 		mChartContainer.addView(mBarChartView, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 		
+		/**
 		// Get screen specs
 		Display display = getActivity().getWindowManager().getDefaultDisplay();
 		int width = display.getWidth();
@@ -213,9 +214,11 @@ public class DailyUsageFragment extends SherlockFragment {
 		LayoutParams params = mChartContainer.getLayoutParams();
 		// Set height equal to screen width
 		params.height = width;
+		 **/
 		
 		mCursor.close();
 		mDatabase.close();
+
 		
 		// Setup the touch listener for chart
 		mBarChartView.setOnTouchListener(new OnTouchListener() {
@@ -251,6 +254,7 @@ public class DailyUsageFragment extends SherlockFragment {
 		mChartContainer.removeAllViews();
 		mChartContainer.addView(mLineChartView, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 		
+		/**
 		// Get screen specs
 		Display display = getActivity().getWindowManager().getDefaultDisplay();
 		int width = display.getWidth();
@@ -259,6 +263,7 @@ public class DailyUsageFragment extends SherlockFragment {
 		LayoutParams params = mChartContainer.getLayoutParams();
 		// Set height equal to screen width
 		params.height = width;
+		**/
 		
 		mCursor.close();
 		mDatabase.close();
