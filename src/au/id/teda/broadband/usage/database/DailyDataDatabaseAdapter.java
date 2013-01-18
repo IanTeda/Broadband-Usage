@@ -9,8 +9,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
-import au.id.teda.broadband.usage.parser.VolumeUsageParser.VolumeUsage;
 import au.id.teda.broadband.usage.ui.MainActivity;
+import au.id.teda.broadband.usage.util.DailyVolumeUsage;
 
 public class DailyDataDatabaseAdapter {
 	
@@ -106,20 +106,39 @@ public class DailyDataDatabaseAdapter {
 		return cursor;
 	}
 	
-	public void getPeriodUsageArray(String period){
+	public List<DailyVolumeUsage> getDailyVolumeUsage(String period){
+		
+		open();
+		
 		Cursor cursor = getPriodUsageCursor(period);
+		List<DailyVolumeUsage> usage = new ArrayList<DailyVolumeUsage>();
+		
+		int COLUMN_INDEX_DAY = cursor.getColumnIndex(DAY);
+		int COLUMN_INDEX_MONTH = cursor.getColumnIndex(MONTH);
+		int COLUMN_INDEX_PEAK = cursor.getColumnIndex(PEAK);
+		int COLUMN_INDEX_OFFPEAK = cursor.getColumnIndex(OFFPEAK);
+		int COLUMN_INDEX_UPLOADS = cursor.getColumnIndex(UPLOADS);
+		int COLUMN_INDEX_FREEZONE = cursor.getColumnIndex(FREEZONE);
+		
 		cursor.moveToFirst();
-		
-		//List<VolumeUsage> usage = new ArrayList<VolumeUsage>;
-		
 		if (cursor != null){
 			while (cursor.moveToNext()){
 				
+				Long day = cursor.getLong(COLUMN_INDEX_DAY);
+				String month = cursor.getString(COLUMN_INDEX_MONTH);
+				Long peak = cursor.getLong(COLUMN_INDEX_PEAK);
+				Long offpeak = cursor.getLong(COLUMN_INDEX_OFFPEAK);
+				Long uploads = cursor.getLong(COLUMN_INDEX_UPLOADS);
+				Long freezone = cursor.getLong(COLUMN_INDEX_FREEZONE);
+								
+				usage.add(new DailyVolumeUsage(day, month, peak, offpeak, uploads, freezone));
 				
 			}
 			cursor.close();
 		}
 		
+		close();
 		
+		return usage;
 	}
 }

@@ -1,5 +1,8 @@
 package au.id.teda.broadband.usage.ui.fragments;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.actionbarsherlock.app.SherlockListFragment;
 
 import android.app.Activity;
@@ -20,7 +23,10 @@ import au.id.teda.broadband.usage.cursoradapter.DailyDataTableCursorAdapter;
 import au.id.teda.broadband.usage.database.DailyDataDatabaseAdapter;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
+import au.id.teda.broadband.usage.parser.VolumeUsageParser;
 import au.id.teda.broadband.usage.ui.MainActivity;
+import au.id.teda.broadband.usage.util.DailyVolumeUsage;
+import au.id.teda.broadband.usage.util.DailyVolumeUsageAdapter;
 
 public class DataTableFragment extends SherlockListFragment {
 
@@ -92,16 +98,14 @@ public class DataTableFragment extends SherlockListFragment {
 		super.onActivityCreated(savedInstanceState);
 		
 		DailyDataDatabaseAdapter mDatabase = new DailyDataDatabaseAdapter(mContext);
-		mDatabase.open();
-		
 		String period = mAccountStatus.getDataBaseMonthString();
-		//Log.d(DEBUG_TAG, "Period to query database:" + period);
 		
-		Cursor cursor = mDatabase.getPriodUsageCursor(period);
-		Log.d(DEBUG_TAG, "Cursor Length:" + cursor.getCount());
+		List<DailyVolumeUsage> usage = new ArrayList<DailyVolumeUsage>();
 		
-		DailyDataTableCursorAdapter adapter = new DailyDataTableCursorAdapter(mContext, cursor, true);
-		//adapter.testCursor(cursor);
+		usage = mDatabase.getDailyVolumeUsage(period);
+		
+		DailyVolumeUsageAdapter adapter = new DailyVolumeUsageAdapter(mContext, 
+                R.layout.fragment_data_table_row, usage);
 		
 		setListAdapter(adapter);
 		//cursor.close();

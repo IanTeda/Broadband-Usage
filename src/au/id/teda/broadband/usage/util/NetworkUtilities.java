@@ -30,7 +30,6 @@ import au.id.teda.broadband.usage.parser.AccountStatusParser;
 import au.id.teda.broadband.usage.parser.AccountStatusParser.AccountStatus;
 import au.id.teda.broadband.usage.parser.ErrorParser;
 import au.id.teda.broadband.usage.parser.VolumeUsageParser;
-import au.id.teda.broadband.usage.parser.VolumeUsageParser.VolumeUsage;
 
 
 /**
@@ -269,7 +268,7 @@ public class NetworkUtilities {
     private void setVolumeUsage(UnclosableBufferedInputStream stream) {
     	
     	VolumeUsageParser mVolumeUsageParser = new VolumeUsageParser();
-    	List<VolumeUsage> usage = null;
+    	List<DailyVolumeUsage> usage = null;
       
         try {
         	usage = mVolumeUsageParser.parse(stream);
@@ -280,21 +279,21 @@ public class NetworkUtilities {
         }
         
         // Initiate database
-        DailyDataDatabaseAdapter mVolumeUsageDb = new DailyDataDatabaseAdapter(mContext);
-        mVolumeUsageDb.open();
+        DailyDataDatabaseAdapter mDatabase = new DailyDataDatabaseAdapter(mContext);
+        mDatabase.open();
         
-        for (VolumeUsage volumeUsage : usage) {
+        for (DailyVolumeUsage volumeUsage : usage) {
         	Long day = volumeUsage.day;
-        	String month = volumeUsage.period;
+        	String month = volumeUsage.month;
         	Long peak = volumeUsage.peak;
         	Long offpeak = volumeUsage.offpeak;
         	Long uploads = volumeUsage.uploads;
         	Long freezone = volumeUsage.freezone;
         	
-        	mVolumeUsageDb.addReplaceEntry(mUsername, day, month, peak, offpeak, uploads, freezone);
+        	mDatabase.addReplaceEntry(mUsername, day, month, peak, offpeak, uploads, freezone);
         }
         
-        mVolumeUsageDb.close();
+        mDatabase.close();
                  
     }
     

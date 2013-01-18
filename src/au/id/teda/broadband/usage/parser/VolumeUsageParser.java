@@ -14,6 +14,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import android.util.Log;
 import android.util.Xml;
 import au.id.teda.broadband.usage.ui.MainActivity;
+import au.id.teda.broadband.usage.util.DailyVolumeUsage;
 
 public class VolumeUsageParser {
 	
@@ -35,29 +36,7 @@ public class VolumeUsageParser {
 	private boolean monthSetFlag = false;
 	private String mDataMonth = null;
 	
-	// This class represents the account info in the XML feed.
-	public static class VolumeUsage {
-		public final Long day;
-		public final String period;
-	    public final Long peak;
-	    public final Long offpeak;
-	    public final Long uploads;
-	    public final Long freezone;
-
-	    private VolumeUsage(Long day, String month
-	    		, Long peak, Long offpeak
-	    		, Long uploads, Long freezone) {
-	    	
-	    	this.day = day;
-	    	this.period = month;
-	        this.peak = peak;
-	        this.offpeak = offpeak;
-	        this.uploads = uploads;
-	        this.freezone = freezone;
-	    }
-	}
-	
-	public List<VolumeUsage> parse (InputStream inputStream) throws XmlPullParserException, IOException {
+	public List<DailyVolumeUsage> parse (InputStream inputStream) throws XmlPullParserException, IOException {
 		try {
 			XmlPullParser parser = Xml.newPullParser();
 	        parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
@@ -69,9 +48,9 @@ public class VolumeUsageParser {
 	    }
 	}
 	
-	private List<VolumeUsage> readFeed(XmlPullParser parser) throws XmlPullParserException, IOException {
+	private List<DailyVolumeUsage> readFeed(XmlPullParser parser) throws XmlPullParserException, IOException {
 		
-		List<VolumeUsage> usage = new ArrayList<VolumeUsage>();
+		List<DailyVolumeUsage> usage = new ArrayList<DailyVolumeUsage>();
 		
 	    parser.require(XmlPullParser.START_TAG, ns, FEED_TAG);
 	    while (parser.next() != XmlPullParser.END_TAG) {
@@ -89,9 +68,9 @@ public class VolumeUsageParser {
 	    return usage;
 	}
 	
-    public List<VolumeUsage> readVolumeUsage(XmlPullParser parser) throws XmlPullParserException, IOException {
+    public List<DailyVolumeUsage> readVolumeUsage(XmlPullParser parser) throws XmlPullParserException, IOException {
     	
-    	List<VolumeUsage> usage = new ArrayList<VolumeUsage>();
+    	List<DailyVolumeUsage> usage = new ArrayList<DailyVolumeUsage>();
     	
 	    parser.require(XmlPullParser.START_TAG, ns, VOLUME_USAGE_TAG);
 	    while (parser.next() != XmlPullParser.END_TAG) {
@@ -109,9 +88,9 @@ public class VolumeUsageParser {
 	    return usage;   
     }
     
-    public List<VolumeUsage> readVolumeUsage2(XmlPullParser parser) throws XmlPullParserException, IOException {
+    public List<DailyVolumeUsage> readVolumeUsage2(XmlPullParser parser) throws XmlPullParserException, IOException {
     	
-    	List<VolumeUsage> usage = new ArrayList<VolumeUsage>();
+    	List<DailyVolumeUsage> usage = new ArrayList<DailyVolumeUsage>();
     	
 	    parser.require(XmlPullParser.START_TAG, ns, VOLUME_USAGE_TAG);
         
@@ -130,7 +109,7 @@ public class VolumeUsageParser {
 	    return usage;
     }
     
-    public VolumeUsage readDayHour(XmlPullParser parser) throws XmlPullParserException, IOException {
+    public DailyVolumeUsage readDayHour(XmlPullParser parser) throws XmlPullParserException, IOException {
     	Calendar day = getDay(parser.getAttributeValue(null, PERIOD_ATT));
     	
     	parser.require(XmlPullParser.START_TAG, ns, DAY_HOUR_TAG);
@@ -168,7 +147,7 @@ public class VolumeUsageParser {
             }
     	}
     	
-    	return new VolumeUsage(mDay, mDataMonth, mPeak, mOffPeak, mUploads, mFreezone );
+    	return new DailyVolumeUsage(mDay, mDataMonth, mPeak, mOffPeak, mUploads, mFreezone );
     }
 	
     private Long readUsage(XmlPullParser parser) throws IOException, XmlPullParserException {
