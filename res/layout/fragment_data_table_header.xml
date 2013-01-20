@@ -7,57 +7,37 @@
 
     <TextView
         style="@style/MyTheme.MainActivity.Listview.Header"
-        android:text="Table Header" />
-    
-    <!-- 
-    <TextView
-        style="@style/MyTheme.MainActivity.Listview.Header"
         android:layout_width="@dimen/daily_data_date_width"
         android:layout_weight="0"
         android:text="Day" />
 
-    
+    <!-- 
     <ImageView
         style="@style/MyTheme.MainActivity.Listview.Separator"/>
+         -->
 
     <TextView
         style="@style/MyTheme.MainActivity.Listview.Header"
         android:text="Peak" />
 
-    <ImageView
-        style="@style/MyTheme.MainActivity.Listview.Separator" />
-
     <TextView
         style="@style/MyTheme.MainActivity.Listview.Header"
         android:text="Offpeak" />
-
-    <ImageView
-        style="@style/MyTheme.MainActivity.Listview.Separator" />
 
     <TextView
         style="@style/MyTheme.MainActivity.Listview.Header"
         android:text="Uploads" />
 
-    <ImageView
-        style="@style/MyTheme.MainActivity.Listview.Separator" />
-
     <TextView
-        style="@style/MyTheme.MainActivity.Listview.Separator"
+        style="@style/MyTheme.MainActivity.Listview.Header"
         android:text="Freezone" />
-
-    <ImageView
-        style="@style/MyTheme.MainActivity.Listview.Separator" />
 
     <TextView
         style="@style/MyTheme.MainActivity.Listview.Header"
         android:text="Total" />
 
-    <ImageView
-        style="@style/MyTheme.MainActivity.Listview.Separator" />
-
     <TextView
         style="@style/MyTheme.MainActivity.Listview.Header"
         android:text="Accum Total" />
-         -->
 
 </LinearLayout>

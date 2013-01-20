@@ -1,6 +1,5 @@
 package au.id.teda.broadband.usage.database;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,13 +8,11 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
-import android.util.Log;
-import au.id.teda.broadband.usage.ui.MainActivity;
 import au.id.teda.broadband.usage.util.DailyVolumeUsage;
 
 public class DailyDataDatabaseAdapter {
 	
-	private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
+	//private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
 	
 	// Set variables for adapter
 	public static final String KEY_ROWID = "_id";
@@ -46,7 +43,6 @@ public class DailyDataDatabaseAdapter {
      */
     public void open() throws SQLException {
     	mDatabase = mDatabbaseHelper.getWritableDatabase();
-    	//Log.d(DEBUG_TAG, "DailyDataDatabaseAdapter.open()");
 	}
     
     /**
@@ -54,7 +50,6 @@ public class DailyDataDatabaseAdapter {
      */
     public void close() {
     	mDatabbaseHelper.close();
-    	//Log.d(DEBUG_TAG, "DailyDataDatabaseAdapter.close()");
 	}
  	
     /**
@@ -93,8 +88,13 @@ public class DailyDataDatabaseAdapter {
  		
  		return newRowId;
  	}
- 	
-	// Return a cursor for a given period
+
+ 	/**
+ 	 * Return a cursor for a given period
+ 	 * @param period : yyyyMM string to query database
+ 	 * @return cursor with period values
+ 	 * @throws SQLException
+ 	 */
 	public Cursor getPriodUsageCursor (String period) throws SQLException {
 		
 		SQLiteDatabase database = mDatabbaseHelper.getWritableDatabase();
@@ -107,13 +107,23 @@ public class DailyDataDatabaseAdapter {
 		return cursor;
 	}
 	
+	/**
+	 * Get DailyVolumeUsage[] array for a given period(month)
+	 * @param period
+	 * @return DailyVolumeUsage[]
+	 */
 	public DailyVolumeUsage[] getDailyVolumeUsage(String period){
 		
+		// Open database connection
 		open();
 		
+		// Get cursor of values from database
 		Cursor cursor = getPriodUsageCursor(period);
+		
+		// Intiate lista array to store cursor
 		List<DailyVolumeUsage> usage = new ArrayList<DailyVolumeUsage>();
 		
+		// Get column numbers for use with cursor
 		int COLUMN_INDEX_DAY = cursor.getColumnIndex(DAY);
 		int COLUMN_INDEX_MONTH = cursor.getColumnIndex(MONTH);
 		int COLUMN_INDEX_PEAK = cursor.getColumnIndex(PEAK);
@@ -122,8 +132,7 @@ public class DailyDataDatabaseAdapter {
 		int COLUMN_INDEX_FREEZONE = cursor.getColumnIndex(FREEZONE);
 		
 		
-		//DailyVolumeUsage weather_data[] = new DailyVolumeUsage[cursor.getCount()];
-		
+		// Iterate cursor and store values in array list
 		cursor.moveToFirst();
 		if (cursor != null){
 			while (cursor.moveToNext()){
@@ -141,8 +150,13 @@ public class DailyDataDatabaseAdapter {
 			cursor.close();
 		}
 		
+		// Close database connection
 		close();
 		
-		return usage;
+		// Convert list array to an array of DailyVolumeUsage
+		DailyVolumeUsage volumeUsage[] = usage.toArray(new DailyVolumeUsage[usage.size()]);
+		
+		// Return volume usage array
+		return volumeUsage;
 	}
 }

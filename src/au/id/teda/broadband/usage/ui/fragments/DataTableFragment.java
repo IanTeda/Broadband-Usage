@@ -1,30 +1,21 @@
 package au.id.teda.broadband.usage.ui.fragments;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.app.SherlockListFragment;
-
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.authenticator.AccountAuthenticator;
-import au.id.teda.broadband.usage.cursoradapter.DailyDataTableCursorAdapter;
 import au.id.teda.broadband.usage.database.DailyDataDatabaseAdapter;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
-import au.id.teda.broadband.usage.parser.VolumeUsageParser;
 import au.id.teda.broadband.usage.ui.MainActivity;
 import au.id.teda.broadband.usage.util.DailyVolumeUsage;
 import au.id.teda.broadband.usage.util.DailyVolumeUsageAdapter;
@@ -88,7 +79,19 @@ public class DataTableFragment extends SherlockFragment {
 		// Set fragment layout to be inflated
 		mFragmentView = inflater.inflate(R.layout.fragment_data_table, container, false);
 		
+		setActionbarTitle();
+		
 		return mFragmentView;
+	}
+
+	/**
+	 * 
+	 */
+	private void setActionbarTitle() {
+		String month = mAccountStatus.getCurrentMonthString();
+		String appName = getActivity().getString(R.string.app_name);
+		String actionBarTitle = appName + " (" + month + ")";
+		getSherlockActivity().getSupportActionBar().setTitle(actionBarTitle);
 	}
 	
 	/**
@@ -98,28 +101,26 @@ public class DataTableFragment extends SherlockFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
+		// Initiate database object
 		DailyDataDatabaseAdapter mDatabase = new DailyDataDatabaseAdapter(mContext);
+
+		// Get period (month) to query database on
 		String period = mAccountStatus.getDataBaseMonthString();
+
+		// Query database and return array of data usage for the period
+		DailyVolumeUsage usage[] = mDatabase.getDailyVolumeUsage(period);
 		
-		/**
-		DailyVolumeUsage weather_data[] = new DailyVolumeUsage[]
-		        {
-		            new DailyVolumeUsage(1,"Month",245648454,3,5,6),
-		            new DailyVolumeUsage(1,"Month",2,3,5,6),
-		            new DailyVolumeUsage(1,"Month",2,3,5,6),
-		            new DailyVolumeUsage(1,"Month",2,3,5,6),
-		            new DailyVolumeUsage(1,"Month",2,3,5,6),
-		        };
-		**/
+		// Initiate adapter to be used with list view
+		DailyVolumeUsageAdapter adapter = new DailyVolumeUsageAdapter(mContext, R.layout.fragment_data_table_row, usage);
 		
-		DailyVolumeUsage weather_data[] = mDatabase.getDailyVolumeUsage(period);
-		
-		Log.d(DEBUG_TAG, String.valueOf(weather_data.length));
-		
-		DailyVolumeUsageAdapter adapter = new DailyVolumeUsageAdapter(mContext, 
-                R.layout.fragment_data_table_row, weather_data);
-		
+		// Reference list view to be used
 		ListView mListView = (ListView) mFragmentView.findViewById(R.id.fragment_data_table_listview);
+		
+		// Floating header
+		View headerView = ((LayoutInflater) getActivity().getSystemService(getActivity().LAYOUT_INFLATER_SERVICE)).inflate(R.layout.fragment_data_table_header, null, false);
+		mListView.addHeaderView(headerView);
+		
+		// Set adapter to be used with the list view
 		mListView.setAdapter(adapter);
 	}
 	

@@ -21,9 +21,10 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
 	// Debug tag pulled from main activity
 	private final static String DEBUG_TAG = MainActivity.DEBUG_TAG;
 	
-	Context mContext; 
-    int layoutResourceId;    
-    DailyVolumeUsage data[] = null;
+	private Context mContext; 
+    private int layoutResourceId;    
+    private DailyVolumeUsage data[] = null;
+    private long runningTotal = 0;
     
     private int GB = 1000000;
     
@@ -46,11 +47,8 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
 
 	@Override
 	public View getView(int position, View row, ViewGroup parent) {
-		//return super.getView(position, row, parent);
-		
-		
-		
-        ViewHolder holder = null;
+
+		ViewHolder holder = null;
         
         if(row == null){
         	
@@ -75,15 +73,16 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
         
         DailyVolumeUsage usage = data[position];
         
-        Log.d(DEBUG_TAG, Long.toString(usage.day));
+        long daylyTotal = usage.peak + usage.offpeak;
+        runningTotal = runningTotal + daylyTotal;
         
 		holder.day.setText(LongDateToString(usage.day, "dateOfMouth"));
 		holder.peak.setText(IntUsageToString(usage.peak));
 		holder.offpeak.setText(IntUsageToString(usage.offpeak));
 		holder.uploads.setText(IntUsageToString(usage.uploads));
 		holder.freezone.setText(IntUsageToString(usage.freezone));
-		
-		Log.d(DEBUG_TAG, LongDateToString(usage.day, "dateOfMouth"));
+		holder.total.setText(IntUsageToString(daylyTotal));
+		holder.accum.setText(IntUsageToString(runningTotal));
        
         return row;
     }
