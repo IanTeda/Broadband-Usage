@@ -114,6 +114,8 @@ public class DataTableFragment extends SherlockFragment {
 		
 		DailyVolumeUsage weather_data[] = mDatabase.getDailyVolumeUsage(period);
 		
+		Log.d(DEBUG_TAG, String.valueOf(weather_data.length));
+		
 		DailyVolumeUsageAdapter adapter = new DailyVolumeUsageAdapter(mContext, 
                 R.layout.fragment_data_table_row, weather_data);
 		
