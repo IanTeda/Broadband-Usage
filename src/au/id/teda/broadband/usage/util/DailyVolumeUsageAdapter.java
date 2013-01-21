@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,12 +58,11 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
             
             holder = new ViewHolder();
             holder.day = (TextView) row.findViewById(R.id.fragment_data_table_row_date);
-            holder.peak = (TextView) row.findViewById(R.id.fragment_data_table_row_peak);
-            holder.offpeak = (TextView) row.findViewById(R.id.fragment_data_table_row_offpeak);
-            holder.uploads = (TextView) row.findViewById(R.id.fragment_data_table_row_uploads);
-            holder.freezone = (TextView) row.findViewById(R.id.fragment_data_table_row_freezone);
-            holder.total = (TextView) row.findViewById(R.id.fragment_data_table_row_total);
-            holder.accum  = (TextView) row.findViewById(R.id.fragment_data_table_row_accum);
+            holder.peak = (TextView) row.findViewById(R.id.fragment_data_table_row_peak_number);
+            holder.offpeak = (TextView) row.findViewById(R.id.fragment_data_table_row_offpeak_number);
+            holder.uploads = (TextView) row.findViewById(R.id.fragment_data_table_row_uploads_number);
+            holder.freezone = (TextView) row.findViewById(R.id.fragment_data_table_row_freezone_number);
+            holder.total = (TextView) row.findViewById(R.id.fragment_data_table_row_total_number);
             
             row.setTag(holder);
         }
@@ -84,6 +84,11 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
 		holder.total.setText(IntUsageToString(daylyTotal));
 		holder.accum.setText(IntUsageToString(runningTotal));
        
+		// Set font to roboto
+		if (Build.VERSION.SDK_INT < 11) {
+	        FontUtils.setRobotoFont(mContext, row);
+	    }
+		
         return row;
     }
 
