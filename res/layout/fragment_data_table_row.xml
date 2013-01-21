@@ -15,10 +15,10 @@
 
     <TextView
         android:id="@+id/fragment_data_table_row_number"
-        android:layout_width="36dp"
+        android:layout_width="34dp"
         android:layout_height="fill_parent"
-        android:gravity="center"
-        android:padding="@dimen/padding"
+        android:paddingRight="@dimen/padding"
+        android:gravity="right|center_vertical"
         android:text="01"
         android:textSize="@dimen/text_large"
         android:textStyle="italic" />
@@ -27,40 +27,38 @@
 
     <RelativeLayout
         android:id="@+id/fragment_data_table_row_date_container"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:padding="@dimen/padding" >
+        android:gravity="center" >
 
         <TextView
             android:id="@+id/fragment_data_table_row_date"
-            android:layout_width="50dp"
+            android:layout_width="30dp"
             android:layout_height="fill_parent"
             android:layout_alignParentLeft="true"
-            android:gravity="center"
+            android:gravity="right|center_vertical"
             android:text="29"
             android:textColor="@color/accent"
-            android:textSize="@dimen/text_xlarge" />
+            android:textSize="@dimen/text_large" />
 
         <TextView
             android:id="@+id/fragment_data_table_row_date_day"
-            android:layout_width="60dp"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
             android:layout_toRightOf="@+id/fragment_data_table_row_date"
-            android:paddingLeft="@dimen/padding"
+            android:gravity="center"
             android:text="MON"
-            android:textSize="@dimen/text_small"
+            android:textSize="@dimen/text_micro"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/fragment_data_table_row_date_month"
-            android:layout_width="60dp"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/fragment_data_table_row_date_day"
             android:layout_toRightOf="@+id/fragment_data_table_row_date"
-            android:paddingLeft="@dimen/padding"
+            android:gravity="center"
             android:text="JAN"
             android:textScaleX="1.6"
             android:textSize="@dimen/text_tiny" />
@@ -83,7 +81,7 @@
             android:layout_alignParentLeft="true"
             android:gravity="center"
             android:text="21,987"
-            android:textSize="@dimen/text_xlarge" />
+            android:textSize="@dimen/text_large" />
 
         <TextView
             android:id="@+id/fragment_data_table_row_peak_description"
@@ -127,7 +125,7 @@
             android:layout_alignParentLeft="true"
             android:gravity="center"
             android:text="21,987"
-            android:textSize="@dimen/text_xlarge" />
+            android:textSize="@dimen/text_large" />
 
         <TextView
             android:id="@+id/fragment_data_table_row_offpeak_description"
@@ -171,7 +169,7 @@
             android:layout_alignParentLeft="true"
             android:gravity="center"
             android:text="21,987"
-            android:textSize="@dimen/text_xlarge" />
+            android:textSize="@dimen/text_large" />
 
         <TextView
             android:id="@+id/fragment_data_table_row_uploads_description"
@@ -213,7 +211,7 @@
             android:layout_alignParentLeft="true"
             android:gravity="center"
             android:text="21,987"
-            android:textSize="@dimen/text_xlarge" />
+            android:textSize="@dimen/text_large" />
 
         <TextView
             android:id="@+id/fragment_data_table_row_freezone_description"
@@ -257,7 +255,7 @@
             android:layout_alignParentLeft="true"
             android:gravity="center"
             android:text="21,987"
-            android:textSize="@dimen/text_xlarge" />
+            android:textSize="@dimen/text_large" />
 
         <TextView
             android:id="@+id/fragment_data_table_row_total_description"
