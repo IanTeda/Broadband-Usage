@@ -1,5 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/daily_data_row"
+    android:id="@+id/fragment_data_table_row_container"
     android:layout_width="fill_parent"
     android:layout_height="@dimen/touch"
     android:layout_weight="1"
@@ -9,7 +9,7 @@
     <View
         android:layout_width="@dimen/padding"
         android:layout_height="fill_parent"
-        android:background="@color/flash_message_error_background" />
+        android:background="@color/flash_message_error_border" />
 
     <!-- Show the day number in period -->
 

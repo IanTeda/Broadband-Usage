@@ -15,10 +15,10 @@ public class FontUtils {
 	}
 
 	private enum FontType {
-		BOLD("fonts/Roboto/Roboto-BoldCondensed.ttf"), BOLD_ITALIC(
-				"fonts/Roboto/Roboto-BoldCondensedItalic.ttf"), NORMAL(
-				"fonts/Roboto/Roboto-Condensed.ttf"), ITALIC(
-				"fonts/Roboto/Roboto-CondensedItalic.ttf");
+		BOLD("fonts/Roboto-BoldCondensed.ttf"), 
+		BOLD_ITALIC("fonts/Roboto-BoldCondensedItalic.ttf"), 
+		NORMAL("fonts/Roboto-Condensed.ttf"), 
+		ITALIC("fonts/Roboto-CondensedItalic.ttf");
 
 		private final String path;
 
