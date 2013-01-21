@@ -33,7 +33,9 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
     private final class ViewHolder {
     	public LinearLayout mRow;
     	public TextView mNumber;
+	    public TextView mDate;
 	    public TextView mDay;
+	    public TextView mMonth;
 	    public TextView mPeak;
 	    public TextView mOffpeak;
 	    public TextView mUploads;
@@ -62,7 +64,9 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
             holder = new ViewHolder();
             holder.mRow=  (LinearLayout) view.findViewById(R.id.fragment_data_table_row_container);
             holder.mNumber = (TextView) view.findViewById(R.id.fragment_data_table_row_number);
-            holder.mDay = (TextView) view.findViewById(R.id.fragment_data_table_row_date);
+            holder.mDate = (TextView) view.findViewById(R.id.fragment_data_table_row_date);
+            holder.mDay = (TextView) view.findViewById(R.id.fragment_data_table_row_date_day);
+            holder.mMonth = (TextView) view.findViewById(R.id.fragment_data_table_row_date_month); 
             holder.mPeak = (TextView) view.findViewById(R.id.fragment_data_table_row_peak_number);
             holder.mOffpeak = (TextView) view.findViewById(R.id.fragment_data_table_row_offpeak_number);
             holder.mUploads = (TextView) view.findViewById(R.id.fragment_data_table_row_uploads_number);
@@ -92,7 +96,9 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
         
         // Set text
         holder.mNumber.setText(String.valueOf(rowNumber));
-		holder.mDay.setText(LongDateToString(usage.day, "dateOfMouth"));
+		holder.mDate.setText(LongDateToString(usage.day, "dateOfMouth"));
+		holder.mDay.setText(LongDateToString(usage.day, "dayOfWeek"));
+		holder.mMonth.setText(LongDateToString(usage.day, "mouthOfYear"));
 		holder.mPeak.setText(IntUsageToString(usage.peak));
 		holder.mOffpeak.setText(IntUsageToString(usage.offpeak));
 		holder.mUploads.setText(IntUsageToString(usage.uploads));
@@ -119,7 +125,8 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
 			date_format = new SimpleDateFormat("MMM");
 		}
 		Date resultdate = new Date(millisecs);
-		return date_format.format(resultdate);
+		String date = date_format.format(resultdate);
+		return date.toUpperCase();
 	}
 
 	// Return formated string value for int stored in db

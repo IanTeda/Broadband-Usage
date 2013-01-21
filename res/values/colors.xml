@@ -10,6 +10,9 @@
     <color name="accent">#f2483a</color>
     <color name="accent_pressed">#f4665a</color>
     <color name="text">#6e746e</color>
+    <color name="text_light">#a2a6a2</color>
+    <color name="text_lighter">#dfe0df</color>
+    <color name="text_dark">#242624</color>
     
 	<!-- Chart Colors -->
     <color name="chart_base">#564e47</color>

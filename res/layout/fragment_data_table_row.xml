@@ -17,8 +17,7 @@
         android:id="@+id/fragment_data_table_row_number"
         android:layout_width="34dp"
         android:layout_height="fill_parent"
-        android:paddingRight="@dimen/padding"
-        android:gravity="right|center_vertical"
+        android:gravity="center"
         android:text="01"
         android:textSize="@dimen/text_large"
         android:textStyle="italic" />
@@ -45,7 +44,7 @@
             android:id="@+id/fragment_data_table_row_date_day"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="12dp"
             android:layout_toRightOf="@+id/fragment_data_table_row_date"
             android:gravity="center"
             android:text="MON"
@@ -57,10 +56,12 @@
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/fragment_data_table_row_date_day"
+            android:layout_marginTop="-6dp"
             android:layout_toRightOf="@+id/fragment_data_table_row_date"
             android:gravity="center"
             android:text="JAN"
-            android:textScaleX="1.6"
+            android:textColor="@color/text_light"
+            android:textScaleX="1.3"
             android:textSize="@dimen/text_tiny" />
     </RelativeLayout>
 
@@ -68,218 +69,113 @@
 
     <RelativeLayout
         android:id="@+id/fragment_data_table_row_peak_container"
-        android:layout_width="0dp"
-        android:layout_height="fill_parent"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:padding="@dimen/padding" >
-
-        <TextView
-            android:id="@+id/fragment_data_table_row_peak_number"
-            android:layout_width="110dp"
-            android:layout_height="fill_parent"
-            android:layout_alignParentLeft="true"
-            android:gravity="center"
-            android:text="21,987"
-            android:textSize="@dimen/text_large" />
+        style="@style/listview_data_table_column" >
 
         <TextView
             android:id="@+id/fragment_data_table_row_peak_description"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:layout_toRightOf="@+id/fragment_data_table_row_peak_number"
-            android:gravity="center"
-            android:paddingLeft="@dimen/padding"
-            android:text="(Mb)"
-            android:textSize="@dimen/text_normal"
-            android:textStyle="bold" />
+            style="@style/listview_data_table_row_description" />
 
         <TextView
             android:id="@+id/fragment_data_table_row_peak_summary"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
+            style="@style/listview_data_table_row_summary"
             android:layout_below="@+id/fragment_data_table_row_peak_description"
-            android:layout_toRightOf="@+id/fragment_data_table_row_peak_number"
-            android:gravity="center"
-            android:paddingLeft="@dimen/padding"
             android:text="PEAK"
-            android:textScaleX="1.1"
-            android:textSize="@dimen/text_tiny" />
+            android:textScaleX="1.1" />
+
+        <TextView
+            android:id="@+id/fragment_data_table_row_peak_number"
+            style="@style/listview_data_table_row_number"
+            android:layout_toLeftOf="@+id/fragment_data_table_row_peak_description" />
     </RelativeLayout>
 
     <!-- Offpeak data usage -->
 
     <RelativeLayout
         android:id="@+id/fragment_data_table_row_offpeak_container"
-        android:layout_width="0dp"
-        android:layout_height="fill_parent"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:padding="@dimen/padding" >
-
-        <TextView
-            android:id="@+id/fragment_data_table_row_offpeak_number"
-            android:layout_width="110dp"
-            android:layout_height="fill_parent"
-            android:layout_alignParentLeft="true"
-            android:gravity="center"
-            android:text="21,987"
-            android:textSize="@dimen/text_large" />
+        style="@style/listview_data_table_column" >
 
         <TextView
             android:id="@+id/fragment_data_table_row_offpeak_description"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:layout_toRightOf="@+id/fragment_data_table_row_offpeak_number"
-            android:gravity="center"
-            android:paddingLeft="@dimen/padding"
-            android:text="(Mb)"
-            android:textSize="@dimen/text_normal"
-            android:textStyle="bold" />
+            style="@style/listview_data_table_row_description" />
 
         <TextView
             android:id="@+id/fragment_data_table_row_offpeak_summary"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
+            style="@style/listview_data_table_row_summary"
             android:layout_below="@+id/fragment_data_table_row_offpeak_description"
-            android:layout_toRightOf="@+id/fragment_data_table_row_offpeak_number"
-            android:gravity="center"
-            android:paddingLeft="@dimen/padding"
             android:text="OFFPEAK"
-            android:textScaleX="0.9"
-            android:textSize="@dimen/text_tiny" />
+            android:textScaleX="0.9" />
+
+        <TextView
+            android:id="@+id/fragment_data_table_row_offpeak_number"
+            style="@style/listview_data_table_row_number"
+            android:layout_toLeftOf="@+id/fragment_data_table_row_offpeak_description" />
     </RelativeLayout>
 
     <!-- Uploads -->
 
     <RelativeLayout
         android:id="@+id/fragment_data_table_row_uploads_container"
-        android:layout_width="0dp"
-        android:layout_height="fill_parent"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:padding="@dimen/padding" >
-
-        <TextView
-            android:id="@+id/fragment_data_table_row_uploads_number"
-            android:layout_width="110dp"
-            android:layout_height="fill_parent"
-            android:layout_alignParentLeft="true"
-            android:gravity="center"
-            android:text="21,987"
-            android:textSize="@dimen/text_large" />
+        style="@style/listview_data_table_column" >
 
         <TextView
             android:id="@+id/fragment_data_table_row_uploads_description"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:layout_toRightOf="@+id/fragment_data_table_row_uploads_number"
-            android:gravity="center"
-            android:paddingLeft="@dimen/padding"
-            android:text="(Mb)"
-            android:textSize="@dimen/text_normal"
-            android:textStyle="bold" />
+            style="@style/listview_data_table_row_description" />
 
         <TextView
             android:id="@+id/fragment_data_table_row_uploads_summary"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
+            style="@style/listview_data_table_row_summary"
             android:layout_below="@+id/fragment_data_table_row_uploads_description"
-            android:layout_toRightOf="@+id/fragment_data_table_row_uploads_number"
-            android:gravity="center"
-            android:paddingLeft="@dimen/padding"
             android:text="UPLOADS"
-            android:textScaleX="0.9"
-            android:textSize="@dimen/text_tiny" />
+            android:textScaleX="0.9" />
+
+        <TextView
+            android:id="@+id/fragment_data_table_row_uploads_number"
+            style="@style/listview_data_table_row_number"
+            android:layout_toLeftOf="@+id/fragment_data_table_row_uploads_description" />
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/fragment_data_table_row_freezone_container"
-        android:layout_width="0dp"
-        android:layout_height="fill_parent"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:padding="@dimen/padding" >
-
-        <TextView
-            android:id="@+id/fragment_data_table_row_freezone_number"
-            android:layout_width="110dp"
-            android:layout_height="fill_parent"
-            android:layout_alignParentLeft="true"
-            android:gravity="center"
-            android:text="21,987"
-            android:textSize="@dimen/text_large" />
+        style="@style/listview_data_table_column" >
 
         <TextView
             android:id="@+id/fragment_data_table_row_freezone_description"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:layout_toRightOf="@+id/fragment_data_table_row_freezone_number"
-            android:gravity="center"
-            android:paddingLeft="@dimen/padding"
-            android:text="(Mb)"
-            android:textSize="@dimen/text_normal"
-            android:textStyle="bold" />
+            style="@style/listview_data_table_row_description" />
 
         <TextView
             android:id="@+id/fragment_data_table_row_freezone_summary"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
+            style="@style/listview_data_table_row_summary"
             android:layout_below="@+id/fragment_data_table_row_freezone_description"
-            android:layout_toRightOf="@+id/fragment_data_table_row_freezone_number"
-            android:gravity="center"
-            android:paddingLeft="@dimen/padding"
-            android:text="FREEZONE"
-            android:textScaleX="0.9"
-            android:textSize="@dimen/text_tiny" />
+            android:text="FREE"
+            android:textScaleX="0.9" />
+
+        <TextView
+            android:id="@+id/fragment_data_table_row_freezone_number"
+            style="@style/listview_data_table_row_number"
+            android:layout_toLeftOf="@+id/fragment_data_table_row_freezone_description" />
     </RelativeLayout>
 
     <!-- Total daily usage -->
 
     <RelativeLayout
         android:id="@+id/fragment_data_table_row_total_container"
-        android:layout_width="0dp"
-        android:layout_height="fill_parent"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:padding="@dimen/padding" >
-
-        <TextView
-            android:id="@+id/fragment_data_table_row_total_number"
-            android:layout_width="110dp"
-            android:layout_height="fill_parent"
-            android:layout_alignParentLeft="true"
-            android:gravity="center"
-            android:text="21,987"
-            android:textSize="@dimen/text_large" />
+        style="@style/listview_data_table_column" >
 
         <TextView
             android:id="@+id/fragment_data_table_row_total_description"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:layout_toRightOf="@+id/fragment_data_table_row_total_number"
-            android:gravity="center"
-            android:paddingLeft="@dimen/padding"
-            android:text="(Gb)"
-            android:textSize="@dimen/text_normal"
-            android:textStyle="bold" />
+            style="@style/listview_data_table_row_description" />
 
         <TextView
             android:id="@+id/fragment_data_table_row_total_summary"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
+            style="@style/listview_data_table_row_summary"
             android:layout_below="@+id/fragment_data_table_row_total_description"
-            android:layout_toRightOf="@+id/fragment_data_table_row_total_number"
-            android:gravity="center"
-            android:paddingLeft="@dimen/padding"
             android:text="DAILY"
-            android:textScaleX="0.9"
-            android:textSize="@dimen/text_tiny" />
+            android:textScaleX="0.9" />
+
+        <TextView
+            android:id="@+id/fragment_data_table_row_total_number"
+            style="@style/listview_data_table_row_number"
+            android:layout_toLeftOf="@+id/fragment_data_table_row_total_description" />
     </RelativeLayout>
 
 </LinearLayout>
