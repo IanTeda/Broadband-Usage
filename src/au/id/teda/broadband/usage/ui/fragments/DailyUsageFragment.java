@@ -31,6 +31,8 @@ import au.id.teda.broadband.usage.database.DailyDataDatabaseAdapter;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
 import au.id.teda.broadband.usage.ui.MainActivity;
+import au.id.teda.broadband.usage.util.DailyVolumeUsage;
+
 import com.actionbarsherlock.app.SherlockFragment;
 
 public class DailyUsageFragment extends SherlockFragment {
@@ -40,6 +42,9 @@ public class DailyUsageFragment extends SherlockFragment {
 	
 	// View inflated by fragment
 	private View mFragmentView;
+	
+	// Daily usage array
+	private DailyVolumeUsage mDailyUsageArray[];
 	
 	// Gesture objects
 	private GestureDetector mGestureDetector;
@@ -107,6 +112,11 @@ public class DailyUsageFragment extends SherlockFragment {
 			Bundle savedInstanceState) {
 		// Set fragment layout to be inflated
 		mFragmentView = inflater.inflate(R.layout.fragment_daily_usage, container, false);
+		
+        // Get Volume Usage array
+		DailyDataDatabaseAdapter mDatabase = new DailyDataDatabaseAdapter(mContext);
+		String period = mAccountStatus.getDataBaseMonthString();
+		mDailyUsageArray = mDatabase.getDailyVolumeUsage(period);
 		
 		return mFragmentView;
 	}
@@ -188,26 +198,12 @@ public class DailyUsageFragment extends SherlockFragment {
 		// Initialise chart class
 		StackedBarChart mBarChart = new StackedBarChart(mContext);
 		
-		// Open Database
-		DailyDataDatabaseAdapter mDatabase = new DailyDataDatabaseAdapter(mContext);
-		mDatabase.open();
-
-		// Get current data period
-		String period = mAccountStatus.getDataBaseMonthString();
-
-		// Retrieve cursor for given data period
-		Cursor mCursor = mDatabase.getPriodUsageCursor(period);
-		
 		// Get chart view from library
-		GraphicalView mBarChartView = (GraphicalView) mBarChart.getBarChartView(mCursor);
+		GraphicalView mBarChartView = (GraphicalView) mBarChart.getBarChartView(mDailyUsageArray);
 
 		// Add chart view to layout view
 		mChartContainer.removeAllViews();
 		mChartContainer.addView(mBarChartView, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-		
-		mCursor.close();
-		mDatabase.close();
-
 		
 		// Setup the touch listener for chart
 		mBarChartView.setOnTouchListener(new OnTouchListener() {
@@ -226,25 +222,12 @@ public class DailyUsageFragment extends SherlockFragment {
 		// Initialise chart class
 		StackedLineChart mLineChart = new StackedLineChart(mContext);
 		
-		// Open Database
-		DailyDataDatabaseAdapter mDatabase = new DailyDataDatabaseAdapter(mContext);
-		mDatabase.open();
-
-		// Get current data period
-		String period = mAccountStatus.getDataBaseMonthString();
-
-		// Retrieve cursor for given data period
-		Cursor mCursor = mDatabase.getPriodUsageCursor(period);
-		
 		// Get chart view from library
-		GraphicalView mLineChartView = (GraphicalView) mLineChart.getChartView(mCursor);
+		GraphicalView mLineChartView = (GraphicalView) mLineChart.getChartView(mDailyUsageArray);
 
 		// Add chart view to layout view
 		mChartContainer.removeAllViews();
 		mChartContainer.addView(mLineChartView, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-		
-		mCursor.close();
-		mDatabase.close();
 		
 		// Setup the touch listener for chart
 		mLineChartView.setOnTouchListener(new OnTouchListener() {

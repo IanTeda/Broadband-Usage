@@ -9,12 +9,14 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.database.DailyDataDatabaseAdapter;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
 import au.id.teda.broadband.usage.ui.MainActivity;
+import au.id.teda.broadband.usage.util.DailyVolumeUsage;
 
 public class StackedBarChart extends ChartBuilder {
 	
@@ -43,9 +45,9 @@ public class StackedBarChart extends ChartBuilder {
 		mAccountStatus = new AccountStatusHelper(mContext);
 	}
 	
-	public View getBarChartView (Cursor cursor){
+	public View getBarChartView (DailyVolumeUsage[] usage){
 		return ChartFactory.getBarChartView(mContext, 
-				getStackedBarChartDataSet(cursor), 
+				getStackedBarChartDataSet(usage), 
 				getStackedBarChartRenderer(), 
 				Type.STACKED);
 	}
@@ -54,31 +56,16 @@ public class StackedBarChart extends ChartBuilder {
 		return max;
 	}
 	
-	protected XYMultipleSeriesDataset getStackedBarChartDataSet(Cursor cursor) {
+	protected XYMultipleSeriesDataset getStackedBarChartDataSet(DailyVolumeUsage[] usage) {
 		
-		int COLUMN_INDEX_DAY = cursor.getColumnIndex(DailyDataDatabaseAdapter.DAY);
-		int COLUMN_INDEX_PEAK = cursor.getColumnIndex(DailyDataDatabaseAdapter.PEAK);
-		int COLUMN_INDEX_OFFPEAK = cursor.getColumnIndex(DailyDataDatabaseAdapter.OFFPEAK);
-		int COLUMN_INDEX_UPLOADS = cursor.getColumnIndex(DailyDataDatabaseAdapter.UPLOADS);
-		int COLUMN_INDEX_FREEZONE = cursor.getColumnIndex(DailyDataDatabaseAdapter.FREEZONE);
-
 		// Set String value categories for graph
-		CategorySeries peak = new CategorySeries(mContext.getString(R.string.chart_data_series_peak));
-		CategorySeries offpeak = new CategorySeries(mContext.getString(R.string.chart_data_series_offpeak));
+		CategorySeries peakSeries = new CategorySeries(mContext.getString(R.string.chart_data_series_peak));
+		CategorySeries offpeakSeries = new CategorySeries(mContext.getString(R.string.chart_data_series_offpeak));
 
-		// Move to first cursor entry
-		cursor.moveToFirst();
-
-		// And start adding to array
-		while (cursor.isAfterLast() == false) {
-
-			// Get peak data usage from current cursor position
-			long peakUsage = ( cursor.getLong(COLUMN_INDEX_PEAK) / MB );
-
-			// Get offpeak data usage from current cursor position
-			long offpeakUsage = ( cursor.getLong(COLUMN_INDEX_OFFPEAK) / MB );
-
-			// Make data stacked (achartengine does not do it by default).
+        for (DailyVolumeUsage volumeUsage : usage) {
+        	Long peakUsage = (volumeUsage.peak / MB);
+        	Long offpeakUsage = (volumeUsage.offpeak / MB);
+        	
 			if (peakUsage > offpeakUsage) {
 				peakUsage = peakUsage + offpeakUsage;
 			} else {
@@ -86,20 +73,20 @@ public class StackedBarChart extends ChartBuilder {
 			}
 
 			// Add current cursor values to data series
-			peak.add(peakUsage);
-			offpeak.add(offpeakUsage);
+			peakSeries.add(peakUsage);
+			offpeakSeries.add(offpeakUsage);
 
 			// Set max data usage for rendering graph
 			if (max < peakUsage + offpeakUsage) {
 				max = peakUsage + offpeakUsage;
 			}
-
-			cursor.moveToNext();
-		}
+      	
+        	Log.d(DEBUG_TAG, "Peak:" + peakUsage + " Offpeak:" + offpeakUsage );
+        }
 
 		XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
-		dataset.addSeries(peak.toXYSeries());
-		dataset.addSeries(offpeak.toXYSeries());
+		dataset.addSeries(peakSeries.toXYSeries());
+		dataset.addSeries(offpeakSeries.toXYSeries());
 		return dataset;
 	}
 	

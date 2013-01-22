@@ -16,6 +16,7 @@ import au.id.teda.broadband.usage.database.DailyDataDatabaseAdapter;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
 import au.id.teda.broadband.usage.ui.MainActivity;
+import au.id.teda.broadband.usage.util.DailyVolumeUsage;
 
 public class StackedLineChart extends ChartBuilder {
 
@@ -45,19 +46,13 @@ public class StackedLineChart extends ChartBuilder {
 		mAccountStatus = new AccountStatusHelper(mContext);
 	}
 	
-	public View getChartView(Cursor cursor) {
+	public View getChartView(DailyVolumeUsage[] usage) {
 		return ChartFactory.getLineChartView(mContext, 
-				getStackedLineChartDataSet(cursor),
+				getStackedLineChartDataSet(usage),
 				getStackedLineChartRenderer());
 	}
 	
-	protected XYMultipleSeriesDataset getStackedLineChartDataSet(Cursor cursor) {
-		
-		int COLUMN_INDEX_DAY = cursor.getColumnIndex(DailyDataDatabaseAdapter.DAY);
-		int COLUMN_INDEX_PEAK = cursor.getColumnIndex(DailyDataDatabaseAdapter.PEAK);
-		int COLUMN_INDEX_OFFPEAK = cursor.getColumnIndex(DailyDataDatabaseAdapter.OFFPEAK);
-		int COLUMN_INDEX_UPLOADS = cursor.getColumnIndex(DailyDataDatabaseAdapter.UPLOADS);
-		int COLUMN_INDEX_FREEZONE = cursor.getColumnIndex(DailyDataDatabaseAdapter.FREEZONE);
+	protected XYMultipleSeriesDataset getStackedLineChartDataSet(DailyVolumeUsage[] usage) {
 		
 		// Set daily average objects and initialise
 		double peakAv = 0;
@@ -74,20 +69,14 @@ public class StackedLineChart extends ChartBuilder {
 		long peakDailyAv = mAccountInfo.getPeakQuotaDailyMb();
 		long offpeakDailyAv = mAccountInfo.getOffpeakQuotaDailyMb();
 		
-		// Move to first cursor entry
-		cursor.moveToFirst();
-
-		// And start adding to array
-		while (cursor.isAfterLast() == false) {
-
-			// Get peak data usage from current cursor position
-			long peakUsage = cursor.getLong(COLUMN_INDEX_PEAK) / MB;
-			accumPeak = accumPeak + peakUsage;
-
-			// Get offpeak data usage from current cursor position
-			long offpeakUsage = cursor.getLong(COLUMN_INDEX_OFFPEAK) / MB;
-			accumOffpeak = accumOffpeak + offpeakUsage;
-			
+		
+        for (DailyVolumeUsage volumeUsage : usage) {
+        	Long peakUsage = (volumeUsage.peak / MB);
+        	Long offpeakUsage = (volumeUsage.offpeak / MB);
+        	
+        	accumPeak = accumPeak + peakUsage;
+        	accumOffpeak = accumOffpeak + offpeakUsage;
+        	
 			// Set average daily line
 			peakAv = peakAv + peakDailyAv;
 			offpeakAv = offpeakAv + offpeakDailyAv;
@@ -106,9 +95,9 @@ public class StackedLineChart extends ChartBuilder {
 			if (max < (accumPeak + accumOffpeak)) {
 				max = accumPeak + accumOffpeak;
 			}
-			
-			cursor.moveToNext();
-		}
+      	
+        	Log.d(DEBUG_TAG, "Peak:" + peakUsage + " Offpeak:" + offpeakUsage );
+        }
 
 		XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
 		dataset.addSeries(peakSeries.toXYSeries());
