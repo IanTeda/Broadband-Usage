@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -40,7 +41,7 @@ import com.actionbarsherlock.app.SherlockFragment;
 public class DailyUsageFragment extends SherlockFragment {
 	
 	// Debug tag pulled from main activity
-	private final static String DEBUG_TAG = MainActivity.DEBUG_TAG;
+	//private final static String DEBUG_TAG = MainActivity.DEBUG_TAG;
 	
 	// View inflated by fragment
 	private View mFragmentView;
@@ -116,6 +117,8 @@ public class DailyUsageFragment extends SherlockFragment {
 		// Set fragment layout to be inflated
 		mFragmentView = inflater.inflate(R.layout.fragment_daily_usage, container, false);
 		
+		mViewFlipper = (ViewFlipper) mFragmentView.findViewById(R.id.fragment_daily_usage_view_flipper);
+		
         // Get Volume Usage array
 		DailyDataDatabaseAdapter mDatabase = new DailyDataDatabaseAdapter(mContext);
 		String period = mAccountStatus.getDataBaseMonthString();
@@ -156,9 +159,9 @@ public class DailyUsageFragment extends SherlockFragment {
 		// Unregister broadcast receiver for background sync
 		getActivity().unregisterReceiver(mSyncReceiver);
 		
-		// Remember ViewFliper tab position during orientation change
-	    int position = mViewFlipper.getDisplayedChild();
-	    mEditor.putInt(PREF_VIEWFLIPPER_KEY, position);
+		// Remember ViewFliper tab position on fragment pause
+	    int flipperPosition = mViewFlipper.getDisplayedChild();
+	    mEditor.putInt(PREF_VIEWFLIPPER_KEY, flipperPosition);
 	    mEditor.commit();
 	}
 	
@@ -169,17 +172,15 @@ public class DailyUsageFragment extends SherlockFragment {
 			TextView mCurrentMonthTV = (TextView) mFragmentView.findViewById(R.id.fragment_daily_usage_month_tv); 	
 			mCurrentMonthTV.setText(mAccountStatus.getCurrentMonthString());
 			
+			loadViewFlipper();
 			loadDataTable();
 			loadStackedBarChart();
 			loadStackedLineChart();
-			loadViewFlipper();
-
 		}
 	}
 
 	private void loadViewFlipper() {
-		// Set reference for ViewFlipper layout
-		mViewFlipper = (ViewFlipper) mFragmentView.findViewById(R.id.fragment_daily_usage_view_flipper);
+		// Set view flipper to last view
 		int flipperPosition = mSettings.getInt(PREF_VIEWFLIPPER_KEY, 0);
 		mViewFlipper.setDisplayedChild(flipperPosition);
 	}

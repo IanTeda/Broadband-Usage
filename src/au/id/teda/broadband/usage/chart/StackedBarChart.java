@@ -80,8 +80,6 @@ public class StackedBarChart extends ChartBuilder {
 			if (max < peakUsage + offpeakUsage) {
 				max = peakUsage + offpeakUsage;
 			}
-      	
-        	Log.d(DEBUG_TAG, "Peak:" + peakUsage + " Offpeak:" + offpeakUsage );
         }
 
 		XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();

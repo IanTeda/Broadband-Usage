@@ -47,7 +47,7 @@ public class NotificationHelper {
     private final AccountStatusHelper mStatus;
 	
 	public NotificationHelper(Context context) {
-		mContext = context;
+		this.mContext = context;
 		
 		mSettings = PreferenceManager.getDefaultSharedPreferences(mContext);
     	mEditor = mSettings.edit();
@@ -411,7 +411,7 @@ public class NotificationHelper {
 		// started Activity.
 		// This ensures that navigating backward from the Activity leads out of
 		// your application to the Home screen.
-		TaskStackBuilder stackBuilder = TaskStackBuilder.create(mContext);
+		TaskStackBuilder stackBuilder = TaskStackBuilder.create();
 		// Adds the back stack for the Intent (but not the Intent itself)
 		stackBuilder.addParentStack(MainActivity.class);
 		// Adds the Intent that starts the Activity to the top of the stack

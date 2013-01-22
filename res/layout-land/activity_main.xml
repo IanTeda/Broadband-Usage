@@ -5,7 +5,7 @@
     android:orientation="vertical" >
 
     <fragment
-        android:id="@+id/fragment_usage_summary"
+        android:id="@+id/fragment_daily_usage"
         android:name="au.id.teda.broadband.usage.ui.fragments.DailyUsageFragment"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />

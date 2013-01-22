@@ -95,8 +95,6 @@ public class StackedLineChart extends ChartBuilder {
 			if (max < (accumPeak + accumOffpeak)) {
 				max = accumPeak + accumOffpeak;
 			}
-      	
-        	Log.d(DEBUG_TAG, "Peak:" + peakUsage + " Offpeak:" + offpeakUsage );
         }
 
 		XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();

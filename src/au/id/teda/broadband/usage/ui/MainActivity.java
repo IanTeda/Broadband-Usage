@@ -43,6 +43,14 @@ public class MainActivity extends SherlockFragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        // Check to see if account has been authenticated
+        mAccountAuthenticator = new AccountAuthenticator(this);
+        if(!mAccountAuthenticator.isAccountAuthenticated()){
+        	Intent authenticator = new Intent(this, AuthenticatorActivity.class);
+    		startActivity(authenticator);
+        }
+        
        	setContentView(R.layout.activity_main);
         
         // Set up the action bar.
@@ -78,13 +86,6 @@ public class MainActivity extends SherlockFragmentActivity {
     	super.onResume();
     	
     	registerReceiver(mSyncReceiver, filter);
-        
-        // Check to see if account has been authenticated
-        mAccountAuthenticator = new AccountAuthenticator(this);
-        if(!mAccountAuthenticator.isAccountAuthenticated()){
-        	Intent authenticator = new Intent(this, AuthenticatorActivity.class);
-    		startActivity(authenticator);
-        }
 
     }
     
