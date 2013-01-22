@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="fragment_usage_summary_layout_container">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/line_height</item>
+        <item name="android:layout_marginTop">@dimen/padding</item>
+        <item name="android:layout_marginBottom">@dimen/padding</item>
+    </style>
+
+    <style name="fragment_usage_summary_number">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">-14dp</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:textColor">@color/accent</item>
+        <item name="android:textSize">@dimen/text_xxlarge</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="fragment_usage_summary_number_summary">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_marginTop">-2dp</item>
+        <item name="android:paddingLeft">@dimen/icon_margin</item>
+        <item name="android:textColor">@color/base</item>
+        <item name="android:textSize">@dimen/text_large</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="fragment_usage_summary_number_description">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">-10dp</item>
+        <item name="android:paddingLeft">@dimen/icon_margin</item>
+        <item name="android:textColor">@color/base_light</item>
+        <item name="android:textSize">@dimen/text_small</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    
+    <style name="fragment_usage_summary_layout_container1024">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">0dp</item>
+        <item name="android:layout_marginRight">@dimen/vert_margin</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@color/background_alt_light</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:visibility">visible</item>
+	</style>
+
+</resources>

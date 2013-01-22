@@ -10,11 +10,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -23,6 +25,7 @@ import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.authenticator.AccountAuthenticator;
 import au.id.teda.broadband.usage.authenticator.AuthenticatorActivity;
 import au.id.teda.broadband.usage.helper.ConnectivityHelper;
+import au.id.teda.broadband.usage.util.FontUtils;
 
 public class MainActivity extends SherlockFragmentActivity {
 	
@@ -64,6 +67,12 @@ public class MainActivity extends SherlockFragmentActivity {
         	refreshing = savedInstanceState.getBoolean(STATE_REFRESHING);
         	savedInstanceState.clear();
         }
+        
+        // Set font to Roboto on SDK < 11
+    	if (Build.VERSION.SDK_INT < 11) {
+    	    ViewGroup godfatherView = (ViewGroup) this.getWindow().getDecorView();
+    	    FontUtils.setRobotoFont(this, godfatherView);
+    	}
         
         //logScreenSpecs();
         

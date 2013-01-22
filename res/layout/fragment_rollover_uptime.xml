@@ -17,21 +17,21 @@
 
         <TextView
             android:id="@+id/fragment_rollover_uptime_days_number_tv"
-            style="@style/MyTheme.MainActivity.Number"
-            android:text="@string/fragment_rollover_uptime_number" />
+            style="@style/fragment_usage_summary_number"
+            android:text="@string/fragment_usage_summary_number" />
 
         <TextView
             android:id="@+id/fragment_rollover_uptime_days_date_tv"
-            style="@style/MyTheme.MainActivity.LowerDescription"
+            style="@style/fragment_usage_summary_number_summary"
             android:layout_alignBaseline="@+id/fragment_rollover_uptime_days_number_tv"
             android:layout_toRightOf="@+id/fragment_rollover_uptime_days_number_tv"
-            android:text="@string/fragment_rollover_uptime_date" />
+            android:text="@string/fragment_usage_summary_date" />
 
         <TextView
             android:id="@+id/fragment_rollover_uptime_days_until_tv"
-            style="@style/MyTheme.MainActivity.UpperTitle"
+            style="@style/fragment_usage_summary_number_description"
             android:layout_toRightOf="@+id/fragment_rollover_uptime_days_number_tv"
-            android:text="@string/fragment_rollover_uptime_days_so_far" />
+            android:text="@string/fragment_usage_summary_date" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -42,21 +42,21 @@
 
         <TextView
             android:id="@+id/fragment_rollover_uptime_uptime_number_tv"
-            style="@style/MyTheme.MainActivity.Number"
-            android:text="@string/fragment_rollover_uptime_number" />
+            style="@style/fragment_usage_summary_number"
+            android:text="@string/fragment_usage_summary_number" />
 
         <TextView
             android:id="@+id/fragment_rollover_uptime_ip_tv"
-            style="@style/MyTheme.MainActivity.LowerDescription"
+            style="@style/fragment_usage_summary_number_description"
             android:layout_alignBaseline="@+id/fragment_rollover_uptime_uptime_number_tv"
             android:layout_toRightOf="@+id/fragment_rollover_uptime_uptime_number_tv"
-            android:text="@string/fragment_rollover_uptime_ip" />
+            android:text="@string/fragment_usage_summary_ip" />
 
         <TextView
             android:id="@+id/fragment_drollover_uptime_uptime_days_tv"
-            style="@style/MyTheme.MainActivity.UpperTitle"
+            style="@style/fragment_usage_summary_number_summary"
             android:layout_toRightOf="@+id/fragment_rollover_uptime_uptime_number_tv"
-            android:text="@string/fragment_rollover_uptime_days" />
+            android:text="@string/fragment_usage_summary_ip_days" />
     </RelativeLayout>
 
 </LinearLayout>

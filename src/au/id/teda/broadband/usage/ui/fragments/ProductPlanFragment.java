@@ -6,8 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +15,6 @@ import au.id.teda.broadband.usage.authenticator.AccountAuthenticator;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
 import au.id.teda.broadband.usage.ui.MainActivity;
-import au.id.teda.broadband.usage.ui.fragments.UsageSummaryFragment.SyncReceiver;
-
 import com.actionbarsherlock.app.SherlockFragment;
 
 public class ProductPlanFragment extends SherlockFragment {
@@ -105,7 +101,7 @@ public class ProductPlanFragment extends SherlockFragment {
 	}
 	
 	/**
-	 * First call in the death of fragment
+	 * First call in the destruction of fragment
 	 */
 	@Override
 	public void onPause() {

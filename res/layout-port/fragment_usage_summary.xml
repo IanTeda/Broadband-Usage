@@ -2,8 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/fragment_usage_summary_container"
     android:layout_width="fill_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/margin"
+    android:paddingBottom="@dimen/margin"
     android:background="@color/background_alt"
     android:orientation="vertical"
     android:paddingLeft="@dimen/vert_margin"
@@ -28,231 +29,153 @@
     <View
         android:layout_width="fill_parent"
         android:layout_height="2dp"
+        android:layout_marginBottom="@dimen/padding"
         android:background="@color/base" />
 
-    <au.id.teda.broadband.usage.ui.SafeViewFlipper
-        android:id="@+id/fragment_usage_summary_view_flipper"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+    <!-- Days -->
+    <RelativeLayout
+        android:id="@+id/fragment_usage_summary_days_container"
+        style="@style/fragment_usage_summary_layout_container" >
 
-        <!-- Used Data -->
-        <LinearLayout
-            android:id="@+id/fragment_usage_summary_view_flipper_used"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical" >
+        <TextView
+            android:id="@+id/fragment_usage_summary_days_number"
+            style="@style/fragment_usage_summary_number"
+            android:text="@string/fragment_usage_summary_number" />
 
-            <RelativeLayout
-                android:id="@+id/fragment_usage_summary_peak_used_container_rl"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+        <TextView
+            android:id="@+id/fragment_usage_summary_days_summary"
+            style="@style/fragment_usage_summary_number_summary"
+            android:layout_toRightOf="@+id/fragment_usage_summary_days_number"
+            android:text="@string/fragment_usage_summary_days_so_far" />
 
-                <TextView
-                    android:id="@+id/fragment_usage_summary_peak_used_number_tv"
-                    style="@style/MyTheme.MainActivity.Number"
-                    android:text="@string/fragment_usage_summary_number" />
+        <TextView
+            android:id="@+id/fragment_usage_summary_days_description"
+            style="@style/fragment_usage_summary_number_description"
+            android:layout_alignBaseline="@+id/fragment_usage_summary_days_number"
+            android:layout_toRightOf="@+id/fragment_usage_summary_days_number"
+            android:text="@string/fragment_usage_summary_date" />
+    </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/fragment_usage_summary_peak_used_summary_tv"
-                    style="@style/MyTheme.MainActivity.LowerDescription"
-                    android:layout_alignBaseline="@+id/fragment_usage_summary_peak_used_number_tv"
-                    android:layout_toRightOf="@+id/fragment_usage_summary_peak_used_number_tv"
-                    android:text="@string/fragment_usage_summary_used_status" />
+    <!-- Peak -->
+    <RelativeLayout
+        android:id="@+id/fragment_usage_summary_peak_container"
+        style="@style/fragment_usage_summary_layout_container" >
 
-                <TextView
-                    android:id="@+id/fragment_usage_summary_peak_used_description_tv"
-                    style="@style/MyTheme.MainActivity.UpperTitle"
-                    android:layout_toRightOf="@+id/fragment_usage_summary_peak_used_number_tv"
-                    android:text="@string/fragment_usage_summary_peak_quota" />
-            </RelativeLayout>
+        <TextView
+            android:id="@+id/fragment_usage_summary_peak_number"
+            style="@style/fragment_usage_summary_number"
+            android:text="@string/fragment_usage_summary_number" />
 
-            <RelativeLayout
-                android:id="@+id/fragment_usage_summary_offpeak_used_container_rl"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-14dp" >
+        <TextView
+            android:id="@+id/fragment_usage_summary_peak_description"
+            style="@style/fragment_usage_summary_number_description"
+            android:layout_alignBaseline="@+id/fragment_usage_summary_peak_number"
+            android:layout_toRightOf="@+id/fragment_usage_summary_peak_number"
+            android:text="@string/fragment_usage_summary_used_status" />
 
-                <TextView
-                    android:id="@+id/fragment_usage_summary_offpeak_used_number_tv"
-                    style="@style/MyTheme.MainActivity.Number"
-                    android:text="@string/fragment_usage_summary_number" />
+        <TextView
+            android:id="@+id/fragment_usage_summary_peak_summary"
+            style="@style/fragment_usage_summary_number_summary"
+            android:layout_toRightOf="@+id/fragment_usage_summary_peak_number"
+            android:text="@string/fragment_usage_summary_peak_quota" />
+    </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/fragment_usage_summary_offpeak_used_summary_tv"
-                    style="@style/MyTheme.MainActivity.LowerDescription"
-                    android:layout_alignBaseline="@+id/fragment_usage_summary_offpeak_used_number_tv"
-                    android:layout_toRightOf="@+id/fragment_usage_summary_offpeak_used_number_tv"
-                    android:text="@string/fragment_usage_summary_used_status" />
+    <!-- Offpeak -->
+    <RelativeLayout
+        android:id="@+id/fragment_usage_summary_offpeak_container"
+        style="@style/fragment_usage_summary_layout_container" >
 
-                <TextView
-                    android:id="@+id/fragment_usage_summary_offpeak_used_description_tv"
-                    style="@style/MyTheme.MainActivity.UpperTitle"
-                    android:layout_toRightOf="@+id/fragment_usage_summary_offpeak_used_number_tv"
-                    android:text="@string/fragment_usage_summary_offpeak_quota" />
-            </RelativeLayout>
+        <TextView
+            android:id="@+id/fragment_usage_summary_offpeak_number"
+            style="@style/fragment_usage_summary_number"
+            android:text="@string/fragment_usage_summary_number" />
 
-            <RelativeLayout
-                android:id="@+id/fragment_usage_summary_uploads_used_container_rl"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-14dp"
-                android:visibility="gone" >
+        <TextView
+            android:id="@+id/fragment_usage_summary_offpeak_description"
+            style="@style/fragment_usage_summary_number_description"
+            android:layout_alignBaseline="@+id/fragment_usage_summary_offpeak_number"
+            android:layout_toRightOf="@+id/fragment_usage_summary_offpeak_number"
+            android:text="@string/fragment_usage_summary_used_status" />
 
-                <TextView
-                    android:id="@+id/fragment_usage_summary_uploads_used_number_tv"
-                    style="@style/MyTheme.MainActivity.Number"
-                    android:text="@string/fragment_usage_summary_number" />
+        <TextView
+            android:id="@+id/fragment_usage_summary_offpeak_summary"
+            style="@style/fragment_usage_summary_number_summary"
+            android:layout_toRightOf="@+id/fragment_usage_summary_offpeak_number"
+            android:text="@string/fragment_usage_summary_offpeak_quota" />
+    </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/fragment_usage_summary_uploads_used_summary_tv"
-                    style="@style/MyTheme.MainActivity.LowerDescription"
-                    android:layout_alignBaseline="@+id/fragment_usage_summary_uploads_used_number_tv"
-                    android:layout_toRightOf="@+id/fragment_usage_summary_uploads_used_number_tv"
-                    android:text="@string/fragment_usage_summary_used_no_status" />
+    <!-- Uploads -->
+    <RelativeLayout
+        android:id="@+id/fragment_usage_summary_uploads_container"
+        style="@style/fragment_usage_summary_layout_container"
+        android:visibility="gone" >
 
-                <TextView
-                    android:id="@+id/fragment_usage_summary_uploads_description_tv"
-                    style="@style/MyTheme.MainActivity.UpperTitle"
-                    android:layout_toRightOf="@+id/fragment_usage_summary_uploads_used_number_tv"
-                    android:text="@string/fragment_usage_summary_uploads_quota" />
-            </RelativeLayout>
+        <TextView
+            android:id="@+id/fragment_usage_summary_uploads_number"
+            style="@style/fragment_usage_summary_number"
+            android:text="@string/fragment_usage_summary_number" />
 
-            <RelativeLayout
-                android:id="@+id/fragment_usage_summary_freezone_used_container_rl"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-14dp"
-                android:visibility="gone" >
+        <TextView
+            android:id="@+id/fragment_usage_summary_uploads_description"
+            style="@style/fragment_usage_summary_number_description"
+            android:layout_alignBaseline="@+id/fragment_usage_summary_uploads_number"
+            android:layout_toRightOf="@+id/fragment_usage_summary_uploads_number"
+            android:text="@string/fragment_usage_summary_used_no_status" />
 
-                <TextView
-                    android:id="@+id/fragment_usage_summary_freezone_used_number_tv"
-                    style="@style/MyTheme.MainActivity.Number"
-                    android:text="@string/fragment_usage_summary_number" />
+        <TextView
+            android:id="@+id/fragment_usage_summary_uploads_summary"
+            style="@style/fragment_usage_summary_number_summary"
+            android:layout_toRightOf="@+id/fragment_usage_summary_uploads_number"
+            android:text="@string/fragment_usage_summary_uploads_quota" />
+    </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/fragment_usage_summary_freezone_used_summary_tv"
-                    style="@style/MyTheme.MainActivity.LowerDescription"
-                    android:layout_alignBaseline="@+id/fragment_usage_summary_freezone_used_number_tv"
-                    android:layout_toRightOf="@+id/fragment_usage_summary_freezone_used_number_tv"
-                    android:text="@string/fragment_usage_summary_used_no_status" />
+    <!-- Freezone -->
+    <RelativeLayout
+        android:id="@+id/fragment_usage_summary_freezone_container"
+        style="@style/fragment_usage_summary_layout_container"
+        android:visibility="gone" >
 
-                <TextView
-                    android:id="@+id/fragment_usage_summary_freezone_used_desciption_tv"
-                    style="@style/MyTheme.MainActivity.UpperTitle"
-                    android:layout_toRightOf="@+id/fragment_usage_summary_freezone_used_number_tv"
-                    android:text="@string/fragment_usage_summary_freezone_quota" />
-            </RelativeLayout>
-        </LinearLayout>
-        
-        <!-- Remaining Data -->
-        <LinearLayout
-            android:id="@+id/fragment_usage_summary_view_flipper_remaining"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical" >
+        <TextView
+            android:id="@+id/fragment_usage_summary_freezone_number"
+            style="@style/fragment_usage_summary_number"
+            android:text="@string/fragment_usage_summary_number" />
 
-            <RelativeLayout
-                android:id="@+id/fragment_usage_summary_peak_remaining_container_rl"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+        <TextView
+            android:id="@+id/fragment_usage_summary_freezone_description"
+            style="@style/fragment_usage_summary_number_description"
+            android:layout_alignBaseline="@+id/fragment_usage_summary_freezone_number"
+            android:layout_toRightOf="@+id/fragment_usage_summary_freezone_number"
+            android:text="@string/fragment_usage_summary_used_no_status" />
 
-                <TextView
-                    android:id="@+id/fragment_usage_summary_peak_remaining_number_tv"
-                    style="@style/MyTheme.MainActivity.Number"
-                    android:text="@string/fragment_usage_summary_number" />
+        <TextView
+            android:id="@+id/fragment_usage_summary_freezone_summary"
+            style="@style/fragment_usage_summary_number_summary"
+            android:layout_toRightOf="@+id/fragment_usage_summary_freezone_number"
+            android:text="@string/fragment_usage_summary_freezone_quota" />
+    </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/fragment_usage_summary_peak_remaining_summary_tv"
-                    style="@style/MyTheme.MainActivity.LowerDescription"
-                    android:layout_alignBaseline="@+id/fragment_usage_summary_peak_remaining_number_tv"
-                    android:layout_toRightOf="@+id/fragment_usage_summary_peak_remaining_number_tv"
-                    android:text="@string/fragment_usage_summary_used_status" />
+    <!-- Uptime -->
+    <RelativeLayout
+        android:id="@+id/fragment_rollover_uptime_uptime_container"
+        style="@style/fragment_usage_summary_layout_container" >
 
-                <TextView
-                    android:id="@+id/fragment_usage_summary_peak_remaining_description_tv"
-                    style="@style/MyTheme.MainActivity.UpperTitle"
-                    android:layout_toRightOf="@+id/fragment_usage_summary_peak_used_number_tv"
-                    android:text="@string/fragment_usage_summary_peak_quota" />
-            </RelativeLayout>
+        <TextView
+            android:id="@+id/fragment_rollover_uptime_uptime_number"
+            style="@style/fragment_usage_summary_number"
+            android:text="@string/fragment_usage_summary_number" />
 
-            <RelativeLayout
-                android:id="@+id/fragment_usage_summary_offpeak_remaining_container_rl"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-14dp" >
+        <TextView
+            android:id="@+id/fragment_rollover_uptime_description"
+            style="@style/fragment_usage_summary_number_description"
+            android:layout_alignBaseline="@+id/fragment_rollover_uptime_uptime_number"
+            android:layout_toRightOf="@+id/fragment_rollover_uptime_uptime_number"
+            android:text="@string/fragment_usage_summary_ip" />
 
-                <TextView
-                    android:id="@+id/fragment_usage_summary_offpeak_remaining_number_tv"
-                    style="@style/MyTheme.MainActivity.Number"
-                    android:text="@string/fragment_usage_summary_number" />
-
-                <TextView
-                    android:id="@+id/fragment_usage_summary_offpeak_remaining_summary_tv"
-                    style="@style/MyTheme.MainActivity.LowerDescription"
-                    android:layout_alignBaseline="@+id/fragment_usage_summary_offpeak_used_number_tv"
-                    android:layout_toRightOf="@+id/fragment_usage_summary_offpeak_used_number_tv"
-                    android:text="@string/fragment_usage_summary_used_status" />
-
-                <TextView
-                    android:id="@+id/fragment_usage_summary_offpeak_remaining_description_tv"
-                    style="@style/MyTheme.MainActivity.UpperTitle"
-                    android:layout_toRightOf="@+id/fragment_usage_summary_offpeak_used_number_tv"
-                    android:text="@string/fragment_usage_summary_offpeak_quota" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/fragment_usage_summary_uploads_remaining_container_rl"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-14dp"
-                android:visibility="gone" >
-
-                <TextView
-                    android:id="@+id/fragment_usage_summary_uploads_remaining_number_tv"
-                    style="@style/MyTheme.MainActivity.Number"
-                    android:text="@string/fragment_usage_summary_number" />
-
-                <TextView
-                    android:id="@+id/fragment_usage_summary_uploads_remaining_summary_tv"
-                    style="@style/MyTheme.MainActivity.LowerDescription"
-                    android:layout_alignBaseline="@+id/fragment_usage_summary_uploads_used_number_tv"
-                    android:layout_toRightOf="@+id/fragment_usage_summary_uploads_used_number_tv"
-                    android:text="@string/fragment_usage_summary_used_no_status" />
-
-                <TextView
-                    android:id="@+id/fragment_usage_summary_uploads_description_tv"
-                    style="@style/MyTheme.MainActivity.UpperTitle"
-                    android:layout_toRightOf="@+id/fragment_usage_summary_uploads_used_number_tv"
-                    android:text="@string/fragment_usage_summary_uploads_quota" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/fragment_usage_summary_freezone_remaining_container_rl"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-14dp"
-                android:visibility="gone" >
-
-                <TextView
-                    android:id="@+id/fragment_usage_summary_freezone_remaining_number_tv"
-                    style="@style/MyTheme.MainActivity.Number"
-                    android:text="@string/fragment_usage_summary_number" />
-
-                <TextView
-                    android:id="@+id/fragment_usage_summary_freezone_remaining_summary_tv"
-                    style="@style/MyTheme.MainActivity.LowerDescription"
-                    android:layout_alignBaseline="@+id/fragment_usage_summary_freezone_remaining_number_tv"
-                    android:layout_toRightOf="@+id/fragment_usage_summary_freezone_remaining_number_tv"
-                    android:text="@string/fragment_usage_summary_used_no_status" />
-
-                <TextView
-                    android:id="@+id/fragment_usage_summary_freezone_remaining_desciption_tv"
-                    style="@style/MyTheme.MainActivity.UpperTitle"
-                    android:layout_toRightOf="@+id/fragment_usage_summary_freezone_remaining_number_tv"
-                    android:text="@string/fragment_usage_summary_freezone_quota" />
-            </RelativeLayout>
-        </LinearLayout>
-        
-    </au.id.teda.broadband.usage.ui.SafeViewFlipper>
+        <TextView
+            android:id="@+id/fragment_drollover_uptime_uptime_summary"
+            style="@style/fragment_usage_summary_number_summary"
+            android:layout_toRightOf="@+id/fragment_rollover_uptime_uptime_number"
+            android:text="@string/fragment_usage_summary_ip_days" />
+    </RelativeLayout>
 
 </LinearLayout>
