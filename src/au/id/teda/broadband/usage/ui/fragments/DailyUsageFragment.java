@@ -7,7 +7,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -53,12 +55,16 @@ public class DailyUsageFragment extends SherlockFragment {
 	private Animation mAnimSlideRightOut;
 	private ViewFlipper mViewFlipper;
 	
-	// Key for view state saving
-	private static final String VIEW_FLIPPER_NUMBER = "flipper_number";
-	
 	// Helper classes
 	private AccountInfoHelper mAccountInfo;
 	private AccountStatusHelper mAccountStatus;
+	
+	// Activity shared preferences
+    SharedPreferences mSettings;
+    SharedPreferences.Editor mEditor;
+    
+    // Preference key for viewfliper tab location
+    private final static String PREF_VIEWFLIPPER_KEY = "pref_viewflipper_key";
 	
 	// Recieve sync broadcasts
 	private SyncReceiver mSyncReceiver;
@@ -77,6 +83,10 @@ public class DailyUsageFragment extends SherlockFragment {
 		// Load helper classes
 		mAccountInfo = new AccountInfoHelper(activity);
 		mAccountStatus = new AccountStatusHelper(activity);
+		
+		// Set up shared preferences
+		mSettings = PreferenceManager.getDefaultSharedPreferences(activity);
+    	mEditor = mSettings.edit();
 	}
 	
 	/**
@@ -94,13 +104,6 @@ public class DailyUsageFragment extends SherlockFragment {
         String BROADCAST = getString(R.string.sync_broadcast_action);
         filter = new IntentFilter(BROADCAST);
         mSyncReceiver = new SyncReceiver();
-        
-		// If orientation has changed
-		if (savedInstanceState != null) {		
-			// Restore ViewFlipper position
-			int flipperPosition = savedInstanceState.getInt(VIEW_FLIPPER_NUMBER);
-	        mViewFlipper.setDisplayedChild(flipperPosition);
-	    }
 	}
 	
 	/**
@@ -142,16 +145,6 @@ public class DailyUsageFragment extends SherlockFragment {
 		getActivity().registerReceiver(mSyncReceiver, filter);
 	}
 	
-	@Override
-	public void onSaveInstanceState(Bundle savedInstanceState) {
-		
-		// Remember ViewFliper tab position during orientation change
-	    int position = mViewFlipper.getDisplayedChild();
-	    savedInstanceState.putInt(VIEW_FLIPPER_NUMBER, position);
-	    
-	    //TODO: Save flipper number for reload of app (remember what one they like)
-	}
-	
 	/**
 	 * First call in the death of fragment
 	 */
@@ -161,6 +154,11 @@ public class DailyUsageFragment extends SherlockFragment {
 		
 		// Unregister broadcast receiver for background sync
 		getActivity().unregisterReceiver(mSyncReceiver);
+		
+		// Remember ViewFliper tab position during orientation change
+	    int position = mViewFlipper.getDisplayedChild();
+	    mEditor.putInt(PREF_VIEWFLIPPER_KEY, position);
+	    mEditor.commit();
 	}
 	
 	private void loadFragmentView(){
@@ -173,13 +171,19 @@ public class DailyUsageFragment extends SherlockFragment {
 			loadDataTable();
 			loadStackedBarChart();
 			loadStackedLineChart();
+			loadViewFlipper();
+
 		}
+	}
+
+	private void loadViewFlipper() {
+		// Set reference for ViewFlipper layout
+		mViewFlipper = (ViewFlipper) mFragmentView.findViewById(R.id.fragment_daily_usage_view_flipper);
+		int flipperPosition = mSettings.getInt(PREF_VIEWFLIPPER_KEY, 0);
+		mViewFlipper.setDisplayedChild(flipperPosition);
 	}
 	
 	private void loadGestures() {
-		// Set reference for ViewFlipper layout
-		mViewFlipper = (ViewFlipper) mFragmentView.findViewById(R.id.fragment_daily_usage_view_flipper);
-
 		// Set reference to gesture detector
 		mGestureDetector = new GestureDetector(new MyGestureDetector());
 
