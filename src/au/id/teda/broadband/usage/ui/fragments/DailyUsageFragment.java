@@ -66,7 +66,7 @@ public class DailyUsageFragment extends SherlockFragment {
     SharedPreferences.Editor mEditor;
     
     // Preference key for viewfliper tab location
-    private final static String PREF_VIEWFLIPPER_KEY = "pref_viewflipper_key";
+    private final static String PREF_FLIPPER_KEY = "pref_flipper_tab_key";
 	
 	// Recieve sync broadcasts
 	private SyncReceiver mSyncReceiver;
@@ -114,12 +114,13 @@ public class DailyUsageFragment extends SherlockFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// Set fragment layout to be inflated
+		// Set reference to fragment layout to be inflated
 		mFragmentView = inflater.inflate(R.layout.fragment_daily_usage, container, false);
 		
+		// Set reference to view flipper
 		mViewFlipper = (ViewFlipper) mFragmentView.findViewById(R.id.fragment_daily_usage_view_flipper);
 		
-        // Get Volume Usage array
+        // Get volume usage array
 		DailyDataDatabaseAdapter mDatabase = new DailyDataDatabaseAdapter(mContext);
 		String period = mAccountStatus.getDataBaseMonthString();
 		mDailyUsageArray = mDatabase.getDailyVolumeUsage(period);
@@ -161,10 +162,13 @@ public class DailyUsageFragment extends SherlockFragment {
 		
 		// Remember ViewFliper tab position on fragment pause
 	    int flipperPosition = mViewFlipper.getDisplayedChild();
-	    mEditor.putInt(PREF_VIEWFLIPPER_KEY, flipperPosition);
+	    mEditor.putInt(PREF_FLIPPER_KEY, flipperPosition);
 	    mEditor.commit();
 	}
 	
+	/**
+	 * Load fragment view if account status and info is set
+	 */
 	private void loadFragmentView(){
 		if (mAccountInfo.isInfoSet() 
     			&& mAccountStatus.isStatusSet()){
@@ -172,19 +176,25 @@ public class DailyUsageFragment extends SherlockFragment {
 			TextView mCurrentMonthTV = (TextView) mFragmentView.findViewById(R.id.fragment_daily_usage_month_tv); 	
 			mCurrentMonthTV.setText(mAccountStatus.getCurrentMonthString());
 			
-			loadViewFlipper();
+			setFlipperView();
 			loadDataTable();
 			loadStackedBarChart();
 			loadStackedLineChart();
 		}
 	}
 
-	private void loadViewFlipper() {
+	/**
+	 * Set flipper view based on last stored value
+	 */
+	private void setFlipperView() {
 		// Set view flipper to last view
-		int flipperPosition = mSettings.getInt(PREF_VIEWFLIPPER_KEY, 0);
+		int flipperPosition = mSettings.getInt(PREF_FLIPPER_KEY, 0);
 		mViewFlipper.setDisplayedChild(flipperPosition);
 	}
 	
+	/**
+	 * Load gestures and flipper animation
+	 */
 	private void loadGestures() {
 		// Set reference to gesture detector
 		mGestureDetector = new GestureDetector(new MyGestureDetector());
@@ -197,6 +207,9 @@ public class DailyUsageFragment extends SherlockFragment {
 
 	}
 
+	/**
+	 * Load stacked bar chart into view
+	 */
 	private void loadStackedBarChart() {
 		// Set layout container for chart
 		LinearLayout mChartContainer = (LinearLayout) mFragmentView.findViewById(R.id.fragment_daily_usage_bar_chart_container);
@@ -221,6 +234,9 @@ public class DailyUsageFragment extends SherlockFragment {
 		});
 	}
 	
+	/**
+	 * Load data table into fragment view
+	 */
 	private void loadDataTable(){
 
 		// Initiate adapter to be used with list view
@@ -246,6 +262,9 @@ public class DailyUsageFragment extends SherlockFragment {
 		});
 	}
 	
+	/**
+	 * Load stacked line chart into fragment view
+	 */
 	private void loadStackedLineChart() {
 		// Set layout container for chart
 		LinearLayout mChartContainer = (LinearLayout) mFragmentView.findViewById(R.id.fragment_daily_usage_line_chart_container);
@@ -270,25 +289,25 @@ public class DailyUsageFragment extends SherlockFragment {
 		});
 	}
 	
-	public void setChartTitle() {
+	/**
+	 * Set view title based on flipper tab showing
+	 */
+	public void setFlipperTitle() {
 		
 		// Set title TextView object and initialise
 		TextView chartTitle = (TextView) mFragmentView.findViewById(R.id.fragment_daily_usage_title_tv);
 		
-		// Check if ViewFlipper tab is at 1 (Bar Chart)
+		// Set title based on view flipper tab showing
+		String title = getResources().getString(R.string.fragment_daily_usage_default_title);
 		if (mViewFlipper.getDisplayedChild() == 0){
-			String title = getResources().getString(R.string.fragment_daily_usage_bar_chart);
-			chartTitle.setText(title);
+			title = getResources().getString(R.string.fragment_daily_usage_usage_table);
+		} else if (mViewFlipper.getDisplayedChild() == 1){
+			title = getResources().getString(R.string.fragment_daily_usage_bar_chart);
+		} else if (mViewFlipper.getDisplayedChild() == 2){
+			title = getResources().getString(R.string.fragment_daily_usage_line_chart);
+			
 		}
-		// Else check if ViewFilipper is at 2 (Pie Chart)
-		else if (mViewFlipper.getDisplayedChild() == 1){
-			String title = getResources().getString(R.string.fragment_daily_usage_line_chart);
-			chartTitle.setText(title);
-		}
-		else {
-			String title = getResources().getString(R.string.fragment_daily_usage_chart);
-			chartTitle.setText(title);
-		}
+		chartTitle.setText(title);
 		
 	}
 	
@@ -332,7 +351,7 @@ public class DailyUsageFragment extends SherlockFragment {
 					mViewFlipper.setInAnimation(mAnimSlideLeftIn);
 					mViewFlipper.setOutAnimation(mAnimSlideLeftOut);
 					mViewFlipper.showNext();
-					setChartTitle();
+					setFlipperTitle();
 					return true;
 				}
 				// Else check if it is a left to right swipe
@@ -341,7 +360,7 @@ public class DailyUsageFragment extends SherlockFragment {
 					mViewFlipper.setInAnimation(mAnimSlideRightIn);
 					mViewFlipper.setOutAnimation(mAnimSlideRightOut);
 					mViewFlipper.showPrevious();
-					setChartTitle();
+					setFlipperTitle();
 					return true;
 				}
 			} catch (Exception e) {
