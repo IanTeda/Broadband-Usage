@@ -23,9 +23,14 @@
 
     <au.id.teda.broadband.usage.ui.SafeViewFlipper
         android:id="@+id/fragment_daily_usage_view_flipper"
-        android:layout_below="@+id/fragment_daily_usage_line"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/fragment_daily_usage_line" >
+
+        <ListView
+            android:id="@+id/fragment_daily_usage_listview"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
 
         <LinearLayout
             android:id="@+id/fragment_daily_usage_bar_chart_container"

@@ -7,10 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Display;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -22,6 +19,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 import au.id.teda.broadband.usage.R;
@@ -32,6 +30,7 @@ import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
 import au.id.teda.broadband.usage.ui.MainActivity;
 import au.id.teda.broadband.usage.util.DailyVolumeUsage;
+import au.id.teda.broadband.usage.util.DailyVolumeUsageAdapter;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
@@ -171,6 +170,7 @@ public class DailyUsageFragment extends SherlockFragment {
 			TextView mCurrentMonthTV = (TextView) mFragmentView.findViewById(R.id.fragment_daily_usage_month_tv); 	
 			mCurrentMonthTV.setText(mAccountStatus.getCurrentMonthString());
 			
+			loadDataTable();
 			loadStackedBarChart();
 			loadStackedLineChart();
 		}
@@ -207,6 +207,31 @@ public class DailyUsageFragment extends SherlockFragment {
 		
 		// Setup the touch listener for chart
 		mBarChartView.setOnTouchListener(new OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				mGestureDetector.onTouchEvent(event);
+				return false;
+			}
+		});
+	}
+	
+	private void loadDataTable(){
+
+		// Initiate adapter to be used with list view
+		DailyVolumeUsageAdapter adapter = new DailyVolumeUsageAdapter(mContext, R.layout.listview_data_table_row, mDailyUsageArray);
+		
+		// Reference list view to be used
+		ListView mListView = (ListView) mFragmentView.findViewById(R.id.fragment_daily_usage_listview);
+		
+		// Floating header
+		View headerView = ((LayoutInflater) getActivity().getSystemService(getActivity().LAYOUT_INFLATER_SERVICE)).inflate(R.layout.listview_data_table_header, null, false);
+		mListView.addHeaderView(headerView);
+		
+		// Set adapter to be used with the list view
+		mListView.setAdapter(adapter);
+		
+		// Setup the touch listener for chart
+		mListView.setOnTouchListener(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				mGestureDetector.onTouchEvent(event);
