@@ -6,9 +6,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.GestureDetector.SimpleOnGestureListener;
+import android.view.View.OnTouchListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import au.id.teda.broadband.usage.R;
@@ -54,6 +59,9 @@ public class UsageSummaryFragment extends SherlockFragment {
 	
     // Activity context to be used
 	private Context mContext;
+	
+	// Gesture detector class
+	private GestureDetector mGestureDetector;
 	
 	/**
 	 * Called 1st in the fragment life cycle
@@ -110,6 +118,16 @@ public class UsageSummaryFragment extends SherlockFragment {
     	mUpTimeNumber = (TextView) mFragmentView.findViewById(R.id.fragment_rollover_uptime_uptime_number);
     	mIpAddress = (TextView) mFragmentView.findViewById(R.id.fragment_rollover_uptime_description);
 
+		// Setup the touch listener for chart
+    	mFragmentView.setOnTouchListener(new OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				Log.d(DEBUG_TAG, "onTouch");
+				mGestureDetector.onTouchEvent(event);
+				return false;
+			}
+		});
+    	
 		return mFragmentView;
 	}
 	
@@ -269,6 +287,22 @@ public class UsageSummaryFragment extends SherlockFragment {
 			return true;
 		} else {
 			return false;
+		}
+	}
+	
+	class MyGestureDetector extends SimpleOnGestureListener {
+		
+		@Override
+	    public boolean onDoubleTap(MotionEvent event) {
+	        Log.d(DEBUG_TAG, "onDoubleTap: " + event.toString());
+	        return true;
+	    }
+		
+		// It is necessary to return true from onDown for the onFling event to
+		// register
+		@Override
+		public boolean onDown(MotionEvent e) {
+			return true;
 		}
 	}
 
