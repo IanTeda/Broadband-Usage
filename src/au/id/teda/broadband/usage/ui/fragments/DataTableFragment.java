@@ -111,13 +111,13 @@ public class DataTableFragment extends SherlockFragment {
 		DailyVolumeUsage usage[] = mDatabase.getDailyVolumeUsage(period);
 		
 		// Initiate adapter to be used with list view
-		DailyVolumeUsageAdapter adapter = new DailyVolumeUsageAdapter(mContext, R.layout.fragment_data_table_row, usage);
+		DailyVolumeUsageAdapter adapter = new DailyVolumeUsageAdapter(mContext, R.layout.listview_data_table_row, usage);
 		
 		// Reference list view to be used
 		ListView mListView = (ListView) mFragmentView.findViewById(R.id.fragment_data_table_listview);
 		
 		// Floating header
-		View headerView = ((LayoutInflater) getActivity().getSystemService(getActivity().LAYOUT_INFLATER_SERVICE)).inflate(R.layout.fragment_data_table_header, null, false);
+		View headerView = ((LayoutInflater) getActivity().getSystemService(getActivity().LAYOUT_INFLATER_SERVICE)).inflate(R.layout.listview_data_table_header, null, false);
 		mListView.addHeaderView(headerView);
 		
 		// Set adapter to be used with the list view

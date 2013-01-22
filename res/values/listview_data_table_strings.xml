@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="listview_data_table_row_heading">No.</string>
+    <string name="listview_data_table_date_heading">Date</string>
+    <string name="listview_data_table_peak_heading">Peak</string>
+    <string name="listview_data_table_offpeak_heading">Offpeak</string>
+    <string name="listview_data_table_uploads_heading">Uploads</string>
+    <string name="listview_data_table_freezone_heading">Freezone</string>
+    <string name="listview_data_table_daily_heading">Daily</string>
+    <string name="listview_data_table_accum_heading">Accum</string>
+    
+</resources>

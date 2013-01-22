@@ -62,16 +62,17 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
             view = inflater.inflate(layoutResourceId, parent, false);
             
             holder = new ViewHolder();
-            holder.mRow=  (LinearLayout) view.findViewById(R.id.fragment_data_table_row_container);
-            holder.mNumber = (TextView) view.findViewById(R.id.fragment_data_table_row_number);
-            holder.mDate = (TextView) view.findViewById(R.id.fragment_data_table_row_date);
-            holder.mDay = (TextView) view.findViewById(R.id.fragment_data_table_row_date_day);
-            holder.mMonth = (TextView) view.findViewById(R.id.fragment_data_table_row_date_month); 
-            holder.mPeak = (TextView) view.findViewById(R.id.fragment_data_table_row_peak_number);
-            holder.mOffpeak = (TextView) view.findViewById(R.id.fragment_data_table_row_offpeak_number);
-            holder.mUploads = (TextView) view.findViewById(R.id.fragment_data_table_row_uploads_number);
-            holder.mFreezone = (TextView) view.findViewById(R.id.fragment_data_table_row_freezone_number);
-            holder.mTotal = (TextView) view.findViewById(R.id.fragment_data_table_row_total_number);
+            holder.mRow=  (LinearLayout) view.findViewById(R.id.listview_data_table_row_container);
+            holder.mNumber = (TextView) view.findViewById(R.id.listview_data_table_row_number);
+            holder.mDate = (TextView) view.findViewById(R.id.listview_data_table_row_date);
+            holder.mDay = (TextView) view.findViewById(R.id.listview_data_table_row_date_day);
+            holder.mMonth = (TextView) view.findViewById(R.id.listview_data_table_row_date_month); 
+            holder.mPeak = (TextView) view.findViewById(R.id.listview_data_table_row_peak_number);
+            holder.mOffpeak = (TextView) view.findViewById(R.id.listview_data_table_row_offpeak_number);
+            holder.mUploads = (TextView) view.findViewById(R.id.listview_data_table_row_uploads_number);
+            holder.mFreezone = (TextView) view.findViewById(R.id.listview_data_table_row_freezone_number);
+            holder.mTotal = (TextView) view.findViewById(R.id.listview_data_table_row_total_number);
+            holder.mAccum = (TextView) view.findViewById(R.id.listview_data_table_row_accum_number);
             
             view.setTag(holder);
         }
@@ -104,12 +105,14 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
 		holder.mUploads.setText(IntUsageToString(usage.uploads));
 		holder.mFreezone.setText(IntUsageToString(usage.freezone));
 		holder.mTotal.setText(IntUsageToString(daylyTotal));
-		//holder.accum.setText(IntUsageToString(runningTotal));
+		holder.mAccum.setText(IntUsageToString(runningTotal/1000));
        
 		// Set font to roboto
 		if (Build.VERSION.SDK_INT < 11) {
 	        FontUtils.setRobotoFont(mContext, view);
 	    }
+		
+		//TODO: Highlight if over daily average
 		
         return view;
     }

@@ -6,36 +6,33 @@
         <item name="android:layout_weight">1</item>
         <item name="android:padding">@dimen/padding</item>
         <item name="android:layout_height">fill_parent</item>
-        <item name="android:layout_gravity">center</item>
     </style>
 
     <style name="listview_data_table_row_description">
-        <item name="android:layout_width">40dp</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">7dp</item>
-        <item name="android:layout_alignParentRight">true</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textSize">@dimen/text_micro</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:text">(Mb)</item>
-    </style>
-    
-    <style name="listview_data_table_row_summary">
-        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_width">20dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_alignParentRight">true</item>
-        <item name="android:layout_marginTop">-3dp</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">@dimen/text_tiny</item>
+        <item name="android:text">(Mb)</item>
         <item name="android:textColor">@color/text_light</item>
     </style>
     
     <style name="listview_data_table_row_number">
-        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">fill_parent</item>
         <item name="android:gravity">center_vertical|right</item>
         <item name="android:text">00,000</item>
         <item name="android:textSize">@dimen/text_large</item>
+    </style>
+    
+    <style name="listview_data_table_row">
+        <item name="android:layout_width">34dp</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:text">00</item>
+        <item name="android:textSize">@dimen/text_large</item>
+        <item name="android:textStyle">italic</item>
     </style>
 
 </resources>
