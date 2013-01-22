@@ -36,6 +36,7 @@ import au.id.teda.broadband.usage.util.DailyVolumeUsageAdapter;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
+// TODO: Handle empty usage array
 public class DailyUsageFragment extends SherlockFragment {
 	
 	// Debug tag pulled from main activity
