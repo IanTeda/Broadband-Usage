@@ -16,6 +16,8 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import au.id.teda.broadband.usage.R;
+import au.id.teda.broadband.usage.helper.AccountInfoHelper;
+import au.id.teda.broadband.usage.helper.AccountStatusHelper;
 import au.id.teda.broadband.usage.ui.MainActivity;
 
 public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
@@ -23,10 +25,20 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
 	// Debug tag pulled from main activity
 	private final static String DEBUG_TAG = MainActivity.DEBUG_TAG;
 	
+	// Helper classes
+	private AccountInfoHelper mAccountInfo;
+	private AccountStatusHelper mAccountStatus;
+	
 	private Context mContext; 
     private int layoutResourceId;    
     private DailyVolumeUsage data[] = null;
     private long runningTotal = 0;
+    private int mAccumPosition = 0;
+    private long[] accumArray;
+    
+ // Integer used to determine row number and background color
+    private int rowNum;
+    private int oldRowNum;
     
     private int GB = 1000000;
     
@@ -49,6 +61,14 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
         this.layoutResourceId = layoutResourceId;
         this.mContext = context;
         this.data = data;
+        
+        // Load helper classes
+     	mAccountInfo = new AccountInfoHelper(mContext);
+     	mAccountStatus = new AccountStatusHelper(mContext);
+        
+        // Intialise array
+        int days = ( mAccountStatus.getDaysToGo() + mAccountStatus.getDaysSoFar() );
+        accumArray = new long[days];
     }
 
 	@Override
@@ -84,7 +104,18 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
         DailyVolumeUsage usage = data[position];
         
         long daylyTotal = usage.peak + usage.offpeak;
-        runningTotal = runningTotal + daylyTotal;
+        
+		// Need to use an array to store accumulative values because views are destroyed
+		// Check to see if rows are increasing
+		if (mAccumPosition < position || position == 0){
+			// Check to see if row number in array does not have a value
+			if (accumArray[position] == 0){
+				// Add new total to accumulative total
+				runningTotal = runningTotal + daylyTotal;
+				// Add accumulative total to array based on position
+				accumArray[position] = runningTotal;
+			}
+		}
         
         int rowNumber = position + 1;
         
@@ -105,7 +136,7 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
 		holder.mUploads.setText(IntUsageToString(usage.uploads));
 		holder.mFreezone.setText(IntUsageToString(usage.freezone));
 		holder.mTotal.setText(IntUsageToString(daylyTotal));
-		holder.mAccum.setText(IntUsageToString(runningTotal/1000));
+		holder.mAccum.setText(IntUsageToString(accumArray[position] / 1000));
        
 		// Set font to roboto
 		if (Build.VERSION.SDK_INT < 11) {
