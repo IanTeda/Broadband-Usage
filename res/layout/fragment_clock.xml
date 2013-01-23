@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background_alt"
+    android:paddingTop="@dimen/vert_margin"
+    android:paddingBottom="@dimen/margin"
+    android:gravity="center" >
+
+    <au.id.teda.broadband.usage.util.CustomDigitalClock
+        android:id="@+id/fragment_clock_digital"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/touch"
+        android:textSize="@dimen/text_xlarge"
+        android:textColor="@color/accent"
+        android:text="@string/fragment_clock_digital_display" />
+    
+    <TextView
+        android:id="@+id/fragment_clock_currently_using"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-10dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/fragment_clock_currently_using_default"
+        android:textColor="@color/base"
+        android:textSize="@dimen/text_small"
+        android:textStyle="bold"/>
+    
+</LinearLayout>

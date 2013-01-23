@@ -4,8 +4,8 @@
         android:icon="@drawable/ic_action_refresh"
         android:orderInCategory="100"
         android:showAsAction="always" />
-    <item android:id="@+id/menu_analysis"
-        android:title="@string/menu_analyse"
+    <item android:id="@+id/menu_account_info"
+        android:title="@string/menu_account_info"
         android:icon="@drawable/ic_action_refresh"
         android:orderInCategory="110"
         android:showAsAction="collapseActionView|withText" />

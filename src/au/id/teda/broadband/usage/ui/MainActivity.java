@@ -119,6 +119,10 @@ public class MainActivity extends SherlockFragmentActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+        case R.id.menu_account_info:
+	        	Intent accountInfoIntent = new Intent(getBaseContext(), AccountInfoActivity.class);
+	            startActivity(accountInfoIntent);
+	            return true;
         case R.id.menu_settings:
                 Intent settingsActivityIntent = new Intent(getBaseContext(), SettingsActivity.class);
                 startActivity(settingsActivityIntent);

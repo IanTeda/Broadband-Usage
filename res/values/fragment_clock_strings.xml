@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="fragment_clock_digital_display">Digital Clock</string>
+    <string name="fragment_clock_currently_using_default">USING</string>
+    <string name="fragment_clock_currently_using_peak">PEAK</string>
+    <string name="fragment_clock_currently_using_offpeak">OFFPEAK</string>
+    
+</resources>

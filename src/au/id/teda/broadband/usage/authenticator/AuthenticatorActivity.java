@@ -8,11 +8,13 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -22,6 +24,7 @@ import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.helper.ConnectivityHelper;
 import au.id.teda.broadband.usage.syncadapter.DummyContentProvider;
 import au.id.teda.broadband.usage.ui.SettingsActivity;
+import au.id.teda.broadband.usage.util.FontUtils;
 import au.id.teda.broadband.usage.util.NetworkUtilities;
 
 public class AuthenticatorActivity extends AccountAuthenticatorActivity {
@@ -88,6 +91,12 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
                 // Show dialog again
                 showMyDialog();
         }
+        
+        // Set font to Roboto on SDK < 11
+    	if (Build.VERSION.SDK_INT < 11) {
+    	    ViewGroup godfatherView = (ViewGroup) this.getWindow().getDecorView();
+    	    FontUtils.setRobotoFont(this, godfatherView);
+    	}
        
 	}
 	

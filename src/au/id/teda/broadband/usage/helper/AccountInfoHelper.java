@@ -306,5 +306,13 @@ public class AccountInfoHelper {
 			return "Currently: <b>Peak</b>";
 		}
 	}
+	
+	public String getPeriodString(){
+		if (isNowOffpeakTime()){
+			return "Offpeak";
+		} else {
+			return "Peak";
+		}
+	}
 
 }
