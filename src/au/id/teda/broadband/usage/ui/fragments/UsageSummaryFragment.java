@@ -5,8 +5,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
+import android.preference.PreferenceManager;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -20,13 +21,12 @@ import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
 import au.id.teda.broadband.usage.helper.NotificationHelper;
-import au.id.teda.broadband.usage.ui.MainActivity;
 import com.actionbarsherlock.app.SherlockFragment;
 
 public class UsageSummaryFragment extends SherlockFragment {
 	
 	// Debug tag pulled from main activity
-	private final static String DEBUG_TAG = MainActivity.DEBUG_TAG;
+	//private final static String DEBUG_TAG = MainActivity.DEBUG_TAG;
 	
 	// View inflated by fragment
 	private View mFragmentView;
@@ -63,6 +63,13 @@ public class UsageSummaryFragment extends SherlockFragment {
 	// Gesture detector class
 	private GestureDetector mGestureDetector;
 	
+	// Activity shared preferences
+    SharedPreferences mSettings;
+    SharedPreferences.Editor mEditor;
+	
+	// Prefrence key to store summary state
+	private final static String PREF_SUMMARY_STATE_KEY = "pref_summary_state_key";
+	
 	/**
 	 * Called 1st in the fragment life cycle
 	 */
@@ -73,6 +80,10 @@ public class UsageSummaryFragment extends SherlockFragment {
 		// Load helper classes
 		mAccountInfo = new AccountInfoHelper(activity);
 		mAccountStatus = new AccountStatusHelper(activity);
+		
+		// Set up shared preferences
+		mSettings = PreferenceManager.getDefaultSharedPreferences(activity);
+		mEditor = mSettings.edit();
 	}
 	
 	/**
@@ -122,9 +133,9 @@ public class UsageSummaryFragment extends SherlockFragment {
     	mFragmentView.setOnTouchListener(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				Log.d(DEBUG_TAG, "onTouch");
-				mGestureDetector.onTouchEvent(event);
-				return false;
+				return mGestureDetector.onTouchEvent(event);
+				//mGestureDetector.onTouchEvent(event);
+				//return false;
 			}
 		});
     	
@@ -139,6 +150,9 @@ public class UsageSummaryFragment extends SherlockFragment {
 		super.onActivityCreated(savedInstanceState);
 
 		loadFragmentView();
+		
+		// Set gesture reference
+		mGestureDetector = new GestureDetector(new MyGestureDetector());
 	}
 	
 	/**
@@ -161,14 +175,16 @@ public class UsageSummaryFragment extends SherlockFragment {
 		
 		// Unregister broadcast receiver for background sync
 		getActivity().unregisterReceiver(mSyncReceiver);
+		
+		// Remember summary state
+	    mEditor.putBoolean(PREF_SUMMARY_STATE_KEY, isVeiwSoFar());
+	    mEditor.commit();
 	}
 	
 	private void loadFragmentView(){
 		if (mAccountInfo.isInfoSet() 
     			&& mAccountStatus.isStatusSet()){
 			
-			setUsageSoFar();
-			//setUsageToGo();
 			
 			// Used in both sofar and remaining views for phone
 			if (isLayoutPhone(mLayoutUsed)){
@@ -180,7 +196,20 @@ public class UsageSummaryFragment extends SherlockFragment {
 				mIpAddress.setText(mAccountStatus.getIpAddressStrng());
 			}
 			
+			setSummaryView();
+			
+			
 	    	//checkUsageStatus();
+		}
+	}
+	
+	private void setSummaryView() {
+		// Set view flipper to last view
+		boolean soFar = mSettings.getBoolean(PREF_SUMMARY_STATE_KEY, true);
+		if (soFar){
+			setUsageSoFar();
+		} else {
+			setUsageToGo();
 		}
 	}
 
@@ -216,6 +245,17 @@ public class UsageSummaryFragment extends SherlockFragment {
 			mDaysSummary.setText(mContext.getString(R.string.fragment_usage_summary_days_so_far));
 			mPeakDescription.setText(mAccountStatus.getPeakShapedUsedString());
 			mOffpeakDescription.setText(mAccountStatus.getOffpeakShapedUsedString());
+		}
+	}
+	
+	private boolean isVeiwSoFar(){
+		CharSequence days = mDaysSummary.getText();
+		CharSequence soFar = mContext.getString(R.string.fragment_usage_summary_days_so_far);
+		
+		if (days.equals(soFar)){
+			return true;
+		} else {
+			return false;
 		}
 	}
 
@@ -294,8 +334,13 @@ public class UsageSummaryFragment extends SherlockFragment {
 		
 		@Override
 	    public boolean onDoubleTap(MotionEvent event) {
-	        Log.d(DEBUG_TAG, "onDoubleTap: " + event.toString());
-	        return true;
+	        if (isVeiwSoFar()){
+	        	setUsageToGo();
+	        } else {
+	        	setUsageSoFar();
+	        }
+	        
+	        return false;
 	    }
 		
 		// It is necessary to return true from onDown for the onFling event to

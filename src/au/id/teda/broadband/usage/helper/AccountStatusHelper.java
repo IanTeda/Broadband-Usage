@@ -13,7 +13,7 @@ import au.id.teda.broadband.usage.util.NetworkUtilities;
 
 public class AccountStatusHelper {
 	
-	private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
+	//private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
 	
 	// Set static string values for preference keys
 	private final static String ACCOUNT = "account";
@@ -344,8 +344,6 @@ public class AccountStatusHelper {
 		if (data < 10 ){
 			remaining = "0" + remaining;
 		}
-		
-		Log.d(DEBUG_TAG, "remaining:" + remaining);
 		
 		return remaining;
 	}
