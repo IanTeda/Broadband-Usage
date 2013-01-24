@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" >
+    
+    <TextView 
+        android:id="@+id/fragment_product_plan_detail_product"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:text="Product"
+        android:textSize="@dimen/text_large"
+        android:textColor="@color/text_dark"/>
+    
+    <TextView 
+        android:id="@+id/fragment_product_plan_detail_plan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignBaseline="@+id/fragment_product_plan_detail_product"
+        android:text="Plan"
+        android:textSize="@dimen/text_normal"
+        android:textColor="@color/text"/>
+    
+    <View
+        android:id="@+id/fragment_product_plan_detail_line"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:layout_marginBottom="@dimen/padding"
+        android:background="@color/accent"
+        android:layout_below="@+id/fragment_product_plan_detail_product" />
+    
+    <!-- Peak Details -->
+    
+    <TextView 
+        android:id="@+id/fragment_product_plan_detail_peak"
+        style="@style/fragment_product_plan_detail_heading"
+        android:layout_below="@+id/fragment_product_plan_detail_line"
+        android:text="Peak"/>
+    
+    <TextView 
+        android:id="@+id/fragment_product_plan_detail_peak_start"
+        style="@style/fragment_product_plan_detail_left"
+        android:layout_below="@+id/fragment_product_plan_detail_peak"
+        android:text="Start:"/>
+    
+    <TextView 
+        android:id="@+id/fragment_product_plan_detail_peak_finish"
+        style="@style/fragment_product_plan_detail_left"
+        android:layout_below="@+id/fragment_product_plan_detail_peak_start"
+        android:text="Finish:"/>
+    
+    <TextView 
+        android:id="@+id/fragment_product_plan_detail_peak_hours"
+        style="@style/fragment_product_plan_detail_left"
+        android:layout_below="@+id/fragment_product_plan_detail_peak_finish"
+        android:text="Hours:"/>
+    
+    <TextView 
+        android:id="@+id/fragment_product_plan_detail_peak_quota"
+        style="@style/fragment_product_plan_detail_left"
+        android:layout_below="@+id/fragment_product_plan_detail_peak_hours"
+        android:text="Quota:"/>
+    
+    <TextView 
+        android:id="@+id/fragment_product_plan_detail_peak_start_time_unit"
+        style="@style/fragment_product_plan_detail_right_unit"
+        android:layout_alignBaseline="@+id/fragment_product_plan_detail_peak_start"
+        android:text="(am)"/>
+    
+    <TextView 
+        android:id="@+id/fragment_product_plan_detail_peak_start_time"
+        style="@style/fragment_product_plan_detail_right"
+        android:layout_alignBaseline="@+id/fragment_product_plan_detail_peak_start"
+        android:text="00:00"/>
+    
+    <TextView 
+        android:id="@+id/fragment_product_plan_detail_peak_finish_time_unit"
+        style="@style/fragment_product_plan_detail_right_unit"
+        android:layout_alignBaseline="@+id/fragment_product_plan_detail_peak_finish"
+        android:text="(am)"/>
+    
+    <TextView 
+        android:id="@+id/fragment_product_plan_detail_peak_start_time"
+        style="@style/fragment_product_plan_detail_right"
+        android:layout_alignBaseline="@+id/fragment_product_plan_detail_peak_finish"
+        android:text="00:00"/>
+    
+    <TextView 
+        android:id="@+id/fragment_product_plan_detail_peak_hours_time_unit"
+        style="@style/fragment_product_plan_detail_right_unit"
+        android:layout_alignBaseline="@+id/fragment_product_plan_detail_peak_hours"
+        android:text="(hrs)"/>
+    
+    <TextView 
+        android:id="@+id/fragment_product_plan_detail_peak_hours_time"
+        style="@style/fragment_product_plan_detail_right"
+        android:layout_alignBaseline="@+id/fragment_product_plan_detail_peak_hours"
+        android:text="00"/>
+    
+    <TextView 
+        android:id="@+id/fragment_product_plan_detail_peak_quota_data_unit"
+        style="@style/fragment_product_plan_detail_right_unit"
+        android:layout_alignBaseline="@+id/fragment_product_plan_detail_peak_quota"
+        android:text="(Mb)"/>
+    
+    <TextView 
+        android:id="@+id/fragment_product_plan_detail_peak_quota_data"
+        style="@style/fragment_product_plan_detail_right"
+        android:layout_alignBaseline="@+id/fragment_product_plan_detail_peak_quota"
+        android:text="0,000"/>
+
+        <!-- Offpeak Details -->
+    
+    <TextView 
+        android:id="@+id/fragment_product_plan_detail_offpeak"
+        style="@style/fragment_product_plan_detail_heading"
+        android:layout_below="@+id/fragment_product_plan_detail_peak_quota"
+        android:text="Offpeak"/>
+    
+    <TextView 
+        android:id="@+id/fragment_product_plan_detail_offpeak_start"
+        style="@style/fragment_product_plan_detail_left"
+        android:layout_below="@+id/fragment_product_plan_detail_offpeak"
+        android:text="Start:"/>
+    
+    <TextView 
+        android:id="@+id/fragment_product_plan_detail_offpeak_finish"
+        style="@style/fragment_product_plan_detail_left"
+        android:layout_below="@+id/fragment_product_plan_detail_offpeak_start"
+        android:text="Finish:"/>
+    
+    <TextView 
+        android:id="@+id/fragment_product_plan_detail_offpeak_hours"
+        style="@style/fragment_product_plan_detail_left"
+        android:layout_below="@+id/fragment_product_plan_detail_offpeak_finish"
+        android:text="Hours:"/>
+    
+    <TextView 
+        android:id="@+id/fragment_product_plan_detail_offpeak_quota"
+        style="@style/fragment_product_plan_detail_left"
+        android:layout_below="@+id/fragment_product_plan_detail_offpeak_hours"
+        android:layout_marginBottom="@dimen/padding"
+        android:text="Quota:"/>
+    
+    <TextView 
+        android:id="@+id/fragment_product_plan_detail_offpeak_start_time_unit"
+        style="@style/fragment_product_plan_detail_right_unit"
+        android:layout_alignBaseline="@+id/fragment_product_plan_detail_offpeak_start"
+        android:text="(am)"/>
+    
+    <TextView 
+        android:id="@+id/fragment_product_plan_detail_offpeak_start_time"
+        style="@style/fragment_product_plan_detail_right"
+        android:layout_alignBaseline="@+id/fragment_product_plan_detail_offpeak_start"
+        android:text="00:00"/>
+    
+    <TextView 
+        android:id="@+id/fragment_product_plan_detail_offpeak_finish_time_unit"
+        style="@style/fragment_product_plan_detail_right_unit"
+        android:layout_alignBaseline="@+id/fragment_product_plan_detail_offpeak_finish"
+        android:text="(am)"/>
+    
+    <TextView 
+        android:id="@+id/fragment_product_plan_detail_offpeak_start_time"
+        style="@style/fragment_product_plan_detail_right"
+        android:layout_alignBaseline="@+id/fragment_product_plan_detail_offpeak_finish"
+        android:text="00:00"/>
+    
+    <TextView 
+        android:id="@+id/fragment_product_plan_detail_offpeak_hours_time_unit"
+        style="@style/fragment_product_plan_detail_right_unit"
+        android:layout_alignBaseline="@+id/fragment_product_plan_detail_offpeak_hours"
+        android:text="(hrs)"/>
+    
+    <TextView 
+        android:id="@+id/fragment_product_plan_detail_peak_hours_time"
+        style="@style/fragment_product_plan_detail_right"
+        android:layout_alignBaseline="@+id/fragment_product_plan_detail_offpeak_hours"
+        android:text="00"/>
+    
+    <TextView 
+        android:id="@+id/fragment_product_plan_detail_offpeak_quota_data_unit"
+        style="@style/fragment_product_plan_detail_right_unit"
+        android:layout_alignBaseline="@+id/fragment_product_plan_detail_offpeak_quota"
+        android:text="(Mb)"/>
+    
+    <TextView 
+        android:id="@+id/fragment_product_plan_detail_offpeak_quota_data"
+        style="@style/fragment_product_plan_detail_right"
+        android:layout_alignBaseline="@+id/fragment_product_plan_detail_offpeak_quota"
+        android:text="0,000"/>
+    
+
+</RelativeLayout>

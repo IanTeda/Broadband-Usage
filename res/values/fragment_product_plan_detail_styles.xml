@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="fragment_product_plan_detail_base">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="fragment_product_plan_detail_heading" parent="fragment_product_plan_detail_base">
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:textColor">@color/text</item>
+        <item name="android:textSize">@dimen/text_large</item>
+        <item name="android:layout_marginTop">@dimen/margin</item>
+    </style>
+
+    <style name="fragment_product_plan_detail_left" parent="fragment_product_plan_detail_base">
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:textColor">@color/text</item>
+        <item name="android:textSize">@dimen/text_normal</item>
+        <item name="android:layout_marginTop">@dimen/padding</item>
+        <item name="android:layout_marginLeft">@dimen/touch_half</item>
+    </style>
+    
+    <style name="fragment_product_plan_detail_right" parent="fragment_product_plan_detail_base">
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:textColor">@color/text_dark</item>
+        <item name="android:textSize">@dimen/text_normal</item>
+        <item name="android:layout_marginTop">@dimen/padding</item>
+        <item name="android:paddingRight">35dp</item>
+    </style>
+    
+    <style name="fragment_product_plan_detail_right_unit" parent="fragment_product_plan_detail_base">
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:textColor">@color/text_light</item>
+        <item name="android:textSize">@dimen/text_small</item>
+    </style>
+
+</resources>
