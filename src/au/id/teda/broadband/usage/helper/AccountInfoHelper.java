@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.ui.MainActivity;
 
 public class AccountInfoHelper {
@@ -84,7 +85,7 @@ public class AccountInfoHelper {
 	 * @return shared preference string
 	 */
 	public String getPlan(){
-		return mSettings.getString(PREF_PLAN_KEY, "");
+		return mSettings.getString(PREF_PLAN_KEY, "").toUpperCase();
 	}
 	
 	/**
@@ -109,7 +110,7 @@ public class AccountInfoHelper {
 	 * @return shared preference string
 	 */
 	public String getProduct(){
-		return mSettings.getString(PREF_PRODUCT_KEY, "");
+		return mSettings.getString(PREF_PRODUCT_KEY, "").toUpperCase();
 	}
 	
 	
@@ -167,6 +168,117 @@ public class AccountInfoHelper {
 		return mSettings.getLong(PREF_OFFPEAK_END_KEY, 0);
 	}
 	
+	public String getOffpeakEndTimeString(){
+		long millis = getOffpeakEndTime();
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(millis);
+
+		int hours = cal.get(Calendar.HOUR_OF_DAY);
+		int mins = cal.get(Calendar.MINUTE);
+		
+		String hoursString = "";
+		if (hours < 10){
+			hoursString = "0" + String.valueOf(hours);
+		}
+		
+		String minsString = "";
+		if (mins < 10){
+			minsString = "0" + String.valueOf(mins);
+		}
+		
+		String time = hoursString + ":" + minsString; 
+		
+		return time;
+	}
+	
+	public String getOffpeakEndTimeAmPmString(){
+		long millis = getOffpeakEndTime();
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(millis);
+
+		int am_pm = cal.get(Calendar.AM_PM);
+		
+		if (am_pm == 0){
+			return "(am)";
+		} else {
+			return "(pm)";
+		}
+	}
+	
+	public String getOffpeakStartTimeAmPmString(){
+		long millis = getOffpeakStartTime();
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(millis);
+
+		int am_pm = cal.get(Calendar.AM_PM);
+		
+		if (am_pm == 0){
+			return "(am)";
+		} else {
+			return "(pm)";
+		}
+	}
+	
+	public String getOffpeakStartTimeString(){
+		long millis = getOffpeakStartTime();
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(millis);
+
+		int hours = cal.get(Calendar.HOUR_OF_DAY);
+		int mins = cal.get(Calendar.MINUTE);
+		
+		String hoursString = "";
+		if (hours < 10){
+			hoursString = "0" + String.valueOf(hours);
+		}
+		
+		String minsString = "";
+		if (mins < 10){
+			minsString = "0" + String.valueOf(mins);
+		}
+		
+		String time = hoursString + ":" + minsString; 
+		
+		return time;
+	}
+	
+	public int getPeakHours(){
+		long offpeakEnd = getOffpeakEndTime();
+		long offpeakStart = getOffpeakStartTime();
+		
+		Calendar cal1 = Calendar.getInstance();
+		cal1.setTimeInMillis(offpeakEnd);
+		int start = cal1.get(Calendar.HOUR_OF_DAY);
+		
+		Calendar cal2 = Calendar.getInstance();
+		cal2.setTimeInMillis(offpeakStart);
+		int end = cal2.get(Calendar.HOUR_OF_DAY);
+
+		if (end > start){
+			return (24 - ( end - start));
+		} else {
+			return (24 - ( start - end));
+		}
+	}
+	
+	public String getPeakHourString(){
+		int hours = getPeakHours();
+		return String.valueOf(hours);
+	}
+	
+	public int getOffpeakHours(){
+		return (24 - getPeakHours());
+	}
+	
+	public String getOffpeakHourString(){
+		int hours = getOffpeakHours();
+		return String.valueOf(hours);
+	}
+	
 	/**
 	 * Check if off peak start time is set
 	 * @return true of string length is greater then 0
@@ -203,6 +315,13 @@ public class AccountInfoHelper {
 		long quota = getPeakQuotaMb() * 12;
 		long days = 360;
 		return ( quota / days);
+	}
+	
+	public long getPeakQuotaHourlyMb(){
+		long quota = getPeakQuotaDailyMb();
+		long hours = getPeakHours();
+		
+		return ( quota / hours);
 	}
 	
 	public long getPeakQuotaDailyGb(){
@@ -251,6 +370,13 @@ public class AccountInfoHelper {
 		long quota = getOffpeakQuotaMb() * 12;
 		long days = 360;
 		return ( quota / days);
+	}
+	
+	public long getOffpeakQuotaHourlyMb(){
+		long quota = getOffpeakQuotaDailyMb();
+		long hours = getOffpeakHours();
+		
+		return ( quota / hours);
 	}
 	
 	public long getOffpeakQuotaDailyGb(){

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="fragment_product_plan_detail_product">BROADBAND PRODUCT</string>
+    <string name="fragment_product_plan_detail_plan">PLAN</string>
+    <string name="fragment_product_plan_detail_peak">PEAK</string>
+    <string name="fragment_product_plan_detail_offpeak">OFFPEAK</string>
+    <string name="fragment_product_plan_detail_start">Start:</string>
+    <string name="fragment_product_plan_detail_finish">Finish:</string>
+    <string name="fragment_product_plan_detail_hours">Hours:</string>
+    <string name="fragment_product_plan_detail_quota">Quota:</string>
+    <string name="fragment_product_plan_detail_time">00:00</string>
+    <string name="fragment_product_plan_detail_time_unit">(am)</string>
+    <string name="fragment_product_plan_detail_period_hours">00</string>
+    <string name="fragment_product_plan_detail_period_hours_unit">(hrs)</string>
+    <string name="fragment_product_plan_detail_data">0,000</string>
+    <string name="fragment_product_plan_detail_data_unit">(Mb)</string>
+    
+</resources>
