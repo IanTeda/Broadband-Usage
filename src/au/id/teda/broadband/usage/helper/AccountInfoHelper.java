@@ -309,9 +309,9 @@ public class AccountInfoHelper {
 	
 	public String getPeriodString(){
 		if (isNowOffpeakTime()){
-			return "Offpeak";
+			return "OFFPEAK";
 		} else {
-			return "Peak";
+			return "PEAK";
 		}
 	}
 

@@ -1,30 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@color/background_alt"
-    android:paddingTop="@dimen/vert_margin"
     android:paddingBottom="@dimen/margin"
-    android:gravity="center" >
+    android:paddingTop="@dimen/vert_margin" >
 
-    <au.id.teda.broadband.usage.util.CustomDigitalClock
-        android:id="@+id/fragment_clock_digital"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/touch"
-        android:textSize="@dimen/text_xlarge"
-        android:textColor="@color/accent"
-        android:text="@string/fragment_clock_digital_display" />
-    
     <TextView
-        android:id="@+id/fragment_clock_currently_using"
-        android:layout_width="wrap_content"
+        android:id="@+id/fragment_clock_username"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-10dp"
-        android:layout_marginBottom="10dp"
-        android:text="@string/fragment_clock_currently_using_default"
-        android:textColor="@color/base"
-        android:textSize="@dimen/text_small"
-        android:textStyle="bold"/>
-    
+        android:layout_marginBottom="@dimen/padding"
+        android:text="@string/fragment_clock_username"
+        android:textColor="@color/accent"
+        android:textSize="@dimen/text_large"
+        android:textStyle="normal" />
+
+    <LinearLayout
+        android:id="@+id/fragment_clock_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background_alt"
+        android:orientation="vertical"
+        android:gravity="center" >
+
+        <au.id.teda.broadband.usage.util.CustomDigitalClock
+            android:id="@+id/fragment_clock_digital"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/fragment_clock_digital_display"
+            android:textColor="@color/accent"
+            android:textSize="@dimen/text_large"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/fragment_clock_currently_using"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="-10dp"
+            android:text="@string/fragment_clock_currently_using_default"
+            android:textColor="@color/base"
+            android:textSize="@dimen/text_small"
+            android:textStyle="bold"
+            android:gravity="center" />
+    </LinearLayout>
+
 </LinearLayout>

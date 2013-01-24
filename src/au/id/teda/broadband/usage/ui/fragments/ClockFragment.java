@@ -6,12 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import au.id.teda.broadband.usage.R;
+import au.id.teda.broadband.usage.authenticator.AccountAuthenticator;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
 import au.id.teda.broadband.usage.util.CustomDigitalClock;
@@ -28,8 +28,9 @@ public class ClockFragment extends SherlockFragment {
 	// Helper classes
 	private AccountInfoHelper mAccountInfo;
 	private AccountStatusHelper mAccountStatus;
+	private AccountAuthenticator mAccountAuthenticator;
 			
-	// Recieve sync broadcasts
+	// Receive sync broadcasts
 	private SyncReceiver mSyncReceiver;
 	private IntentFilter filter;
 			
@@ -46,6 +47,7 @@ public class ClockFragment extends SherlockFragment {
 		// Load helper classes
 		mAccountInfo = new AccountInfoHelper(activity);
 		mAccountStatus = new AccountStatusHelper(activity);
+		mAccountAuthenticator = new AccountAuthenticator(activity);
 	}
 			
 	/**
@@ -72,7 +74,7 @@ public class ClockFragment extends SherlockFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// Set fragment layout to be inflated
 		mFragmentView = inflater.inflate(R.layout.fragment_clock, container, false);
-				
+		
 		return mFragmentView;
 	}
 			
@@ -115,7 +117,11 @@ public class ClockFragment extends SherlockFragment {
 			
 		// Set current data period
 		TextView mCurrentlyUsing = (TextView) mFragmentView.findViewById(R.id.fragment_clock_currently_using);
-		mCurrentlyUsing.setText(Html.fromHtml(mAccountInfo.getPeriodString()));
+		mCurrentlyUsing.setText(mAccountInfo.getPeriodString());
+		
+		// Set Username
+		TextView mUsername = (TextView) mFragmentView.findViewById(R.id.fragment_clock_username);
+		mUsername.setText(mAccountAuthenticator.getUsername());
 	}
 			
 	public class SyncReceiver extends BroadcastReceiver {
