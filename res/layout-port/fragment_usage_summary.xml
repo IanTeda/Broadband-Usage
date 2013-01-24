@@ -18,7 +18,7 @@
         android:visibility="gone" />
 
     <TextView
-        android:id="@+id/fragment_usage_summary_current_month_tv"
+        android:id="@+id/fragment_usage_summary_current_month"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/fragment_usage_summary_current_month"

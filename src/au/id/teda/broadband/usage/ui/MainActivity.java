@@ -9,12 +9,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -196,43 +192,6 @@ public class MainActivity extends SherlockFragmentActivity {
         }
          
     }
-	
-	public int getScreenOrientation() {
-	    Display getOrient = getWindowManager().getDefaultDisplay();
-	    int orientation = Configuration.ORIENTATION_UNDEFINED;
-	    if(getOrient.getWidth()==getOrient.getHeight()){
-	        orientation = Configuration.ORIENTATION_SQUARE;
-	    } else{ 
-	        if(getOrient.getWidth() < getOrient.getHeight()){
-	            orientation = Configuration.ORIENTATION_PORTRAIT;
-	        }else { 
-	             orientation = Configuration.ORIENTATION_LANDSCAPE;
-	        }
-	    }
-	    return orientation;
-	}
-	
-	public boolean isScreenPortrait(){
-		int screen = getScreenOrientation();
-		
-		if (screen == Configuration.ORIENTATION_PORTRAIT){
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	private void logScreenSpecs(){
-		Display display = getWindowManager().getDefaultDisplay();
-	    DisplayMetrics outMetrics = new DisplayMetrics ();
-	    display.getMetrics(outMetrics);
-
-	    float density  = getResources().getDisplayMetrics().density;
-	    float dpHeight = outMetrics.heightPixels / density;
-	    float dpWidth  = outMetrics.widthPixels / density;
-	    
-	    Log.d(DEBUG_TAG, "Density:" + density + " | dpHeight:" + dpHeight + " | dpWidth:" + dpWidth);
-	}
 
 
 }

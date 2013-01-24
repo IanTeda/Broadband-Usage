@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -20,13 +21,16 @@ import android.widget.TextView;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
+import au.id.teda.broadband.usage.helper.LayoutHelper;
 import au.id.teda.broadband.usage.helper.NotificationHelper;
+import au.id.teda.broadband.usage.ui.MainActivity;
+
 import com.actionbarsherlock.app.SherlockFragment;
 
 public class UsageSummaryFragment extends SherlockFragment {
 	
 	// Debug tag pulled from main activity
-	//private final static String DEBUG_TAG = MainActivity.DEBUG_TAG;
+	private final static String DEBUG_TAG = MainActivity.DEBUG_TAG;
 	
 	// View inflated by fragment
 	private View mFragmentView;
@@ -52,6 +56,7 @@ public class UsageSummaryFragment extends SherlockFragment {
 	// Helper classes
 	private AccountInfoHelper mAccountInfo;
 	private AccountStatusHelper mAccountStatus;
+	private LayoutHelper mLayout;
 	
 	// Recieve sync broadcasts
 	private SyncReceiver mSyncReceiver;
@@ -80,6 +85,7 @@ public class UsageSummaryFragment extends SherlockFragment {
 		// Load helper classes
 		mAccountInfo = new AccountInfoHelper(activity);
 		mAccountStatus = new AccountStatusHelper(activity);
+		mLayout = new LayoutHelper(activity);
 		
 		// Set up shared preferences
 		mSettings = PreferenceManager.getDefaultSharedPreferences(activity);
@@ -114,7 +120,7 @@ public class UsageSummaryFragment extends SherlockFragment {
 		
 		// Set reference for textviews
 		mLayoutUsed = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_size);
-    	mCurrentMonth = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_current_month_tv);
+    	mCurrentMonth = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_current_month);
     	mDaysNumber = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_days_number);
     	mDaysDescription = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_days_description);
     	mDaysSummary = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_days_summary);
@@ -187,13 +193,14 @@ public class UsageSummaryFragment extends SherlockFragment {
 			
 			
 			// Used in both sofar and remaining views for phone
-			if (isLayoutPhone(mLayoutUsed)){
+			if (mLayout.isLayoutPhone(mLayoutUsed)){
 				mCurrentMonth.setText(mAccountStatus.getCurrentMonthString());
 				mDaysDescription.setText(mAccountStatus.getRolloverDateString());
 				mPeakSummary.setText(mAccountInfo.getPeakQuotaString());
 				mOffpeakSummary.setText(mAccountInfo.getOffpeakQuotaString());
 				mUpTimeNumber.setText(mAccountStatus.getUpTimeDaysString());
 				mIpAddress.setText(mAccountStatus.getIpAddressStrng());
+			} else if (mLayout.isLayout_w1024dp(mLayoutUsed)){
 			}
 			
 			setSummaryView();
@@ -221,14 +228,11 @@ public class UsageSummaryFragment extends SherlockFragment {
 		mFreezoneNumber.setText(mAccountStatus.getFreezoneDataUsedGbString());
 		
 		// Only set text if loading phone layout
-		if (isLayoutPhone(mLayoutUsed)){
+		if (mLayout.isLayoutPhone(mLayoutUsed)){
 			mDaysNumber.setText(mAccountStatus.getDaysToGoString());
 			mDaysSummary.setText(mContext.getString(R.string.fragment_usage_summary_days_to_go));
 			mPeakDescription.setText(mAccountStatus.getPeakShapedRemainingString());
 			mOffpeakDescription.setText(mAccountStatus.getOffpeakShapedRemainingString());
-		} else {
-			mPeakSummary.setText(mContext.getString(R.string.fragment_usage_summary_remaining_no_status));
-			mOffpeakSummary.setText(mContext.getString(R.string.fragment_usage_summary_remaining_no_status));
 		}
 	}
 
@@ -240,7 +244,7 @@ public class UsageSummaryFragment extends SherlockFragment {
 		mFreezoneNumber.setText(mAccountStatus.getFreezoneDataUsedGbString());
 		
 		// Only set text if loading phone layout
-		if (isLayoutPhone(mLayoutUsed)){
+		if (mLayout.isLayoutPhone(mLayoutUsed)){
 			mDaysNumber.setText(mAccountStatus.getDaysSoFarString());
 			mDaysSummary.setText(mContext.getString(R.string.fragment_usage_summary_days_so_far));
 			mPeakDescription.setText(mAccountStatus.getPeakShapedUsedString());
@@ -319,16 +323,6 @@ public class UsageSummaryFragment extends SherlockFragment {
         }
          
     }
-	
-	private boolean isLayoutPhone(TextView mLayoutUsed){
-		CharSequence size = mLayoutUsed.getText();
-		if ( size != null 
-				&& size.equals(getActivity().getString(R.string.size_phone_port))){
-			return true;
-		} else {
-			return false;
-		}
-	}
 	
 	class MyGestureDetector extends SimpleOnGestureListener {
 		

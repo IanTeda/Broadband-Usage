@@ -41,7 +41,7 @@
     </style>
     
     <style name="fragment_usage_summary_layout_container1024">
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">@dimen/touch</item>
         <item name="android:layout_marginLeft">0dp</item>
         <item name="android:layout_marginRight">@dimen/vert_margin</item>
         <item name="android:gravity">center</item>
@@ -50,5 +50,14 @@
         <item name="android:layout_weight">1</item>
         <item name="android:visibility">visible</item>
 	</style>
+	
+    <style name="fragment_usage_summary_number_1024" parent="fragment_usage_summary_number">
+        <item name="android:layout_marginTop">-10dp</item>
+    </style>
+    
+    <style name="fragment_usage_summary_number_summary_1024" parent="fragment_usage_summary_number_summary">
+        <item name="android:layout_marginTop">2dp</item>
+        </style>
+        
 
 </resources>

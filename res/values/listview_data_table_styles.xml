@@ -9,7 +9,7 @@
     </style>
 
     <style name="listview_data_table_row_description">
-        <item name="android:layout_width">20dp</item>
+        <item name="android:layout_width">22dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:gravity">center</item>
