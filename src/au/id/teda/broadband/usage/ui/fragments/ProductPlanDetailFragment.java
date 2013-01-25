@@ -128,7 +128,9 @@ public class ProductPlanDetailFragment extends SherlockFragment {
 		TextView mPeakFinish = (TextView) mFragmentView.findViewById(R.id.fragment_product_plan_detail_peak_finish_time);
 		TextView mPeakFinishUnit = (TextView) mFragmentView.findViewById(R.id.fragment_product_plan_detail_peak_finish_time_unit);
 		TextView mPeakHours = (TextView) mFragmentView.findViewById(R.id.fragment_product_plan_detail_peak_hours_time);
-		TextView mPeakQuota = (TextView) mFragmentView.findViewById(R.id.fragment_product_plan_detail_peak_quota_data);
+		TextView mPeakQuotaPeriod = (TextView) mFragmentView.findViewById(R.id.fragment_product_plan_detail_peak_quota_data_period);
+		TextView mPeakQuotaDay = (TextView) mFragmentView.findViewById(R.id.fragment_product_plan_detail_peak_quota_data_day);
+		TextView mPeakQuotaHour = (TextView) mFragmentView.findViewById(R.id.fragment_product_plan_detail_peak_quota_data_hour);
 
 		// Set peak text views
 		mPeakStart.setText(mAccountInfo.getOffpeakEndTimeString());
@@ -136,7 +138,9 @@ public class ProductPlanDetailFragment extends SherlockFragment {
 		mPeakFinish.setText(mAccountInfo.getOffpeakStartTimeString());
 		mPeakFinishUnit.setText(mAccountInfo.getOffpeakStartTimeAmPmString());
 		mPeakHours.setText( mAccountInfo.getPeakHourString());
-		mPeakQuota.setText(IntUsageToString(mAccountInfo.getPeakQuotaHourlyMb()));
+		mPeakQuotaPeriod.setText(IntUsageToString(mAccountInfo.getPeakQuotaGb()));
+		mPeakQuotaDay.setText(IntUsageToString(mAccountInfo.getPeakQuotaDailyMb()));
+		mPeakQuotaHour.setText(IntUsageToString(mAccountInfo.getPeakQuotaHourlyMb()));
 		
 
 		// Set reference to peak detail 		
@@ -145,7 +149,9 @@ public class ProductPlanDetailFragment extends SherlockFragment {
 		TextView mOffpeakFinish = (TextView) mFragmentView.findViewById(R.id.fragment_product_plan_detail_offpeak_finish_time);
 		TextView mOffpeakFinishUnit = (TextView) mFragmentView.findViewById(R.id.fragment_product_plan_detail_offpeak_finish_time_unit);
 		TextView mOffpeakHours = (TextView) mFragmentView.findViewById(R.id.fragment_product_plan_detail_offpeak_hours_time);
-		TextView mOffpeakQuota = (TextView) mFragmentView.findViewById(R.id.fragment_product_plan_detail_offpeak_quota_data);
+		TextView mOffpeakQuotaPeriod = (TextView) mFragmentView.findViewById(R.id.fragment_product_plan_detail_offpeak_quota_data_period);
+		TextView mOffpeakQuotaDay = (TextView) mFragmentView.findViewById(R.id.fragment_product_plan_detail_offpeak_quota_data_day);
+		TextView mOffpeakQuotaHour = (TextView) mFragmentView.findViewById(R.id.fragment_product_plan_detail_offpeak_quota_data_hour);
 
 		// Set peak text views
 		mOffpeakStart.setText(mAccountInfo.getOffpeakStartTimeString());
@@ -153,7 +159,9 @@ public class ProductPlanDetailFragment extends SherlockFragment {
 		mOffpeakFinish.setText(mAccountInfo.getOffpeakEndTimeString());
 		mOffpeakFinishUnit.setText(mAccountInfo.getOffpeakEndTimeAmPmString());
 		mOffpeakHours.setText( mAccountInfo.getOffpeakHourString());
-		mOffpeakQuota.setText(IntUsageToString(mAccountInfo.getOffpeakQuotaHourlyMb()));
+		mOffpeakQuotaPeriod.setText(IntUsageToString(mAccountInfo.getOffpeakQuotaGb()));
+		mOffpeakQuotaDay.setText(IntUsageToString(mAccountInfo.getOffpeakQuotaDailyMb()));
+		mOffpeakQuotaHour.setText(IntUsageToString(mAccountInfo.getOffpeakQuotaHourlyMb()));
 			
 	}
 	

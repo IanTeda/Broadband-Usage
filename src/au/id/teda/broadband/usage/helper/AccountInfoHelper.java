@@ -314,14 +314,23 @@ public class AccountInfoHelper {
 	public long getPeakQuotaDailyMb(){
 		long quota = getPeakQuotaMb() * 12;
 		long days = 360;
-		return ( quota / days);
+		
+		if (days > 0 && quota > 0){
+			return ( quota / days);
+		} else {
+			return 0;
+		}
 	}
 	
 	public long getPeakQuotaHourlyMb(){
 		long quota = getPeakQuotaDailyMb();
 		long hours = getPeakHours();
 		
-		return ( quota / hours);
+		if (hours > 0 && quota > 0){
+			return ( quota / hours);
+		} else {
+			return 0;
+		}
 	}
 	
 	public long getPeakQuotaDailyGb(){
@@ -369,14 +378,23 @@ public class AccountInfoHelper {
 	public long getOffpeakQuotaDailyMb(){
 		long quota = getOffpeakQuotaMb() * 12;
 		long days = 360;
-		return ( quota / days);
+		
+		if (days > 0 && quota > 0){
+			return ( quota / days);
+		} else {
+			return 0;
+		}
 	}
 	
 	public long getOffpeakQuotaHourlyMb(){
 		long quota = getOffpeakQuotaDailyMb();
 		long hours = getOffpeakHours();
 		
-		return ( quota / hours);
+		if (hours > 0 && quota > 0){
+			return ( quota / hours);
+		} else {
+			return 0;
+		}
 	}
 	
 	public long getOffpeakQuotaDailyGb(){

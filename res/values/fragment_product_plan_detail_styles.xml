@@ -20,7 +20,11 @@
         <item name="android:layout_marginTop">@dimen/padding</item>
         <item name="android:layout_marginLeft">@dimen/touch_half</item>
     </style>
-    
+
+    <style name="fragment_product_plan_detail_left_sub" parent="fragment_product_plan_detail_left">
+        <item name="android:layout_marginLeft">@dimen/touch_three_quarta</item>
+    </style>
+
     <style name="fragment_product_plan_detail_right" parent="fragment_product_plan_detail_base">
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:textColor">@color/text_dark</item>
@@ -28,7 +32,7 @@
         <item name="android:layout_marginTop">@dimen/padding</item>
         <item name="android:paddingRight">35dp</item>
     </style>
-    
+
     <style name="fragment_product_plan_detail_right_unit" parent="fragment_product_plan_detail_base">
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:textColor">@color/text_light</item>

@@ -227,10 +227,13 @@ public class UsageSummaryFragment extends SherlockFragment {
 		mUploadsNumber.setText(mAccountStatus.getUploadsDataUsedGbString());
 		mFreezoneNumber.setText(mAccountStatus.getFreezoneDataUsedGbString());
 		
+		// Set this even though it is hidden. Used for switching
+		mDaysSummary.setText(mContext.getString(R.string.fragment_usage_summary_days_to_go));
+		
 		// Only set text if loading phone layout
 		if (mLayout.isLayoutPhone(mLayoutUsed)){
 			mDaysNumber.setText(mAccountStatus.getDaysToGoString());
-			mDaysSummary.setText(mContext.getString(R.string.fragment_usage_summary_days_to_go));
+			
 			mPeakDescription.setText(mAccountStatus.getPeakShapedRemainingString());
 			mOffpeakDescription.setText(mAccountStatus.getOffpeakShapedRemainingString());
 		}
@@ -243,10 +246,12 @@ public class UsageSummaryFragment extends SherlockFragment {
 		mUploadsNumber.setText(mAccountStatus.getUploadsDataUsedGbString());
 		mFreezoneNumber.setText(mAccountStatus.getFreezoneDataUsedGbString());
 		
+		// Set this even though it is hidden. Used for switching
+		mDaysSummary.setText(mContext.getString(R.string.fragment_usage_summary_days_so_far));
+		
 		// Only set text if loading phone layout
 		if (mLayout.isLayoutPhone(mLayoutUsed)){
 			mDaysNumber.setText(mAccountStatus.getDaysSoFarString());
-			mDaysSummary.setText(mContext.getString(R.string.fragment_usage_summary_days_so_far));
 			mPeakDescription.setText(mAccountStatus.getPeakShapedUsedString());
 			mOffpeakDescription.setText(mAccountStatus.getOffpeakShapedUsedString());
 		}
