@@ -14,7 +14,7 @@ import au.id.teda.broadband.usage.ui.MainActivity;
 // TODO: Improve multiply notification (i.e. show as one)
 public class NotificationHelper {
 
-	public static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
+	//public static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
 	
 	private static final String KEY_NOTIFICATION_PERIOD = "notification_period";
 	private static final String KEY_NOTIFY_END_OF_PERIOD_NEAR = "notify_end_of_period_near";
@@ -58,7 +58,7 @@ public class NotificationHelper {
 	
 	public void checkStatus(){
 		
-		resetNotificationStatus();
+		//resetNotificationStatus();
 		
 		if (isEndOfPeriodNear() 
 				&& !isEndOfPeriodNearNotified()
@@ -141,7 +141,7 @@ public class NotificationHelper {
 		if (daysToGo > warning){
 			return false;
 		} else {
-			return false;
+			return true;
 		}
 	}
 	
@@ -398,7 +398,6 @@ public class NotificationHelper {
 	}
 	
 	private void showNotificaiton(String title, String message, int id){
-		/**
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext);
 		mBuilder.setSmallIcon(R.drawable.ic_launcher);
 		mBuilder.setContentTitle(title);
@@ -411,7 +410,7 @@ public class NotificationHelper {
 		// started Activity.
 		// This ensures that navigating backward from the Activity leads out of
 		// your application to the Home screen.
-		TaskStackBuilder stackBuilder = TaskStackBuilder.create();
+		TaskStackBuilder stackBuilder = TaskStackBuilder.create(mContext);
 		// Adds the back stack for the Intent (but not the Intent itself)
 		stackBuilder.addParentStack(MainActivity.class);
 		// Adds the Intent that starts the Activity to the top of the stack
@@ -428,7 +427,6 @@ public class NotificationHelper {
 		NotificationManager mNotifyMgr = (NotificationManager) mContext.getSystemService(mContext.NOTIFICATION_SERVICE);
 		// Builds the notification and issues it.
 		mNotifyMgr.notify(mNotificationId, mBuilder.build());
-		**/
 	}
 
 }
