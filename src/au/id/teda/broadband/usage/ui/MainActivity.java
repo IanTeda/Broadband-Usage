@@ -6,7 +6,7 @@ import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.authenticator.AccountAuthenticator;
 import au.id.teda.broadband.usage.authenticator.AuthenticatorActivity;
 
-public class MainActivity extends BaseFragmentActivity {
+public class MainActivity extends BaseActivity {
 	
 	private AccountAuthenticator mAccountAuthenticator;
 	

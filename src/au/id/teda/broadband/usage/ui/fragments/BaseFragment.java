@@ -13,12 +13,12 @@ import au.id.teda.broadband.usage.authenticator.AccountAuthenticator;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
 import au.id.teda.broadband.usage.helper.LayoutHelper;
-import au.id.teda.broadband.usage.ui.BaseFragmentActivity;
+import au.id.teda.broadband.usage.ui.BaseActivity;
 import com.actionbarsherlock.app.SherlockFragment;
 
 public abstract class BaseFragment extends SherlockFragment {
 
-	protected final static String DEBUG_TAG = BaseFragmentActivity.DEBUG_TAG;
+	protected final static String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 			
 	// Helper classes
 	protected AccountInfoHelper mAccountInfo;

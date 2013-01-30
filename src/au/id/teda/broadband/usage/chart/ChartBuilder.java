@@ -32,6 +32,7 @@ public class ChartBuilder {
 
 	// Color values for focus and alternate
 	public final int colorBackgroundLight;
+	public final int colorBackground;
 	public final int colorBase;
 	public final int colorBaseLight;
 	public final int colorBaseLighter;
@@ -53,6 +54,7 @@ public class ChartBuilder {
 		colorBaseDark = mContext.getResources().getColor(R.color.chart_base_dark);
 		colorBaseDarker = mContext.getResources().getColor(R.color.chart_base_darker);
 		colorBackgroundLight = mContext.getResources().getColor(R.color.background_alt_light);
+		colorBackground = mContext.getResources().getColor(R.color.background_alt);
 		
 		// Chart strings
 		xAxes = mContext.getResources().getString(R.string.fragment_daily_usage_chart_x_title);
@@ -88,6 +90,10 @@ public class ChartBuilder {
 	}
 	
 	public int getBackgroundColor() {
+		return colorBackground;
+	}
+	
+	public int getBackgroundAltColor() {
 		return colorBackgroundLight;
 	}
 	

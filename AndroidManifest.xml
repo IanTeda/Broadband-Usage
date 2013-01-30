@@ -83,6 +83,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.AccountInfoActivity"></activity>
+        <activity android:name=".ui.PeakUsageActivity"></activity>
 
     </application>
 

@@ -89,6 +89,20 @@ public class LayoutHelper {
 		}
 	}
 	
+	public float getScreenDensity(){
+		return mContext.getResources().getDisplayMetrics().density;
+	}
+	
+	public float getDpFromPx(float px){
+		float density = getScreenDensity();
+		return px / density;
+	}
+	
+	public float getPxFromDp(float dp){
+		float density = getScreenDensity();
+		return dp * density;
+	}
+	
 	public float getScreenWidth(){
 		Display display = ((Activity) mContext).getWindowManager().getDefaultDisplay();
 	    DisplayMetrics outMetrics = new DisplayMetrics ();
