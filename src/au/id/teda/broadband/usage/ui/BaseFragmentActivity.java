@@ -21,7 +21,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-public class BaseActivity extends SherlockFragmentActivity {
+public class BaseFragmentActivity extends SherlockFragmentActivity {
 	
 	// Debug tag to be used for application
 	public static final String DEBUG_TAG = "bbusage";

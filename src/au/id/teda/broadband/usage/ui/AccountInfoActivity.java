@@ -8,7 +8,7 @@ import au.id.teda.broadband.usage.R;
  * @author Ian Teda
  *
  */
-public class AccountInfoActivity extends BaseActivity {
+public class AccountInfoActivity extends BaseFragmentActivity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
