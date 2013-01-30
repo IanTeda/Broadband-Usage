@@ -14,5 +14,6 @@
     <string name="menu_refresh">Refresh</string>
     <string name="menu_analyse">Analyse Usage</string>
     <string name="menu_account_info">Account Info</string>
+    <string name="menu_peak_usage">Peak Usage</string>
     
 </resources>
