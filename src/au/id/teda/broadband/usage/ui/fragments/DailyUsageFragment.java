@@ -2,15 +2,7 @@ package au.id.teda.broadband.usage.ui.fragments;
 
 import org.achartengine.GraphicalView;
 
-import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -29,19 +21,11 @@ import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.chart.StackedBarChart;
 import au.id.teda.broadband.usage.chart.StackedLineChart;
 import au.id.teda.broadband.usage.database.DailyDataDatabaseAdapter;
-import au.id.teda.broadband.usage.helper.AccountInfoHelper;
-import au.id.teda.broadband.usage.helper.AccountStatusHelper;
-import au.id.teda.broadband.usage.ui.MainActivity;
 import au.id.teda.broadband.usage.util.DailyVolumeUsage;
 import au.id.teda.broadband.usage.util.DailyVolumeUsageAdapter;
 
-import com.actionbarsherlock.app.SherlockFragment;
-
 // TODO: Handle empty usage array
-public class DailyUsageFragment extends SherlockFragment {
-	
-	// Debug tag pulled from main activity
-	//private final static String DEBUG_TAG = MainActivity.DEBUG_TAG;
+public class DailyUsageFragment extends BaseFragment {
 	
 	// View inflated by fragment
 	private View mFragmentView;
@@ -56,57 +40,9 @@ public class DailyUsageFragment extends SherlockFragment {
 	private Animation mAnimSlideRightIn;
 	private Animation mAnimSlideRightOut;
 	private ViewFlipper mViewFlipper;
-	
-	// Helper classes
-	private AccountInfoHelper mAccountInfo;
-	private AccountStatusHelper mAccountStatus;
-	
-	// Activity shared preferences
-    SharedPreferences mSettings;
-    SharedPreferences.Editor mEditor;
     
     // Preference key for viewfliper tab location
     private final static String PREF_FLIPPER_KEY = "pref_flipper_tab_key";
-	
-	// Recieve sync broadcasts
-	private SyncReceiver mSyncReceiver;
-    private IntentFilter filter;
-	
-    // Activity context to be used
-	private Context mContext;
-	
-	/**
-	 * Called 1st in the fragment life cycle
-	 */
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		
-		// Load helper classes
-		mAccountInfo = new AccountInfoHelper(activity);
-		mAccountStatus = new AccountStatusHelper(activity);
-		
-		// Set up shared preferences
-		mSettings = PreferenceManager.getDefaultSharedPreferences(activity);
-    	mEditor = mSettings.edit();
-	}
-	
-	/**
-	 * Called 2nd in the fragment life cycle
-	 */
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		
-		// Set context for fragment. 
-		// Activity extends context so we get it from there
-		mContext = getActivity();
-		
-		// Setup broadcast receiver for background sync
-        String BROADCAST = getString(R.string.sync_broadcast_action);
-        filter = new IntentFilter(BROADCAST);
-        mSyncReceiver = new SyncReceiver();
-	}
 	
 	/**
 	 * Called 3rd in the fragment life cycle
@@ -135,30 +71,15 @@ public class DailyUsageFragment extends SherlockFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		loadFragmentView();
 		loadGestures();
 	}
 	
 	/**
-	 * Called 5th in the fragment life cycle
-	 */
-	@Override
-	public void onResume() {
-		super.onResume();
-		
-		// Register broadcast receiver for background sync
-		getActivity().registerReceiver(mSyncReceiver, filter);
-	}
-	
-	/**
-	 * First call in the death of fragment
+	 * Called 1st in the death of fragment
 	 */
 	@Override
 	public void onPause() {
 		super.onPause();
-		
-		// Unregister broadcast receiver for background sync
-		getActivity().unregisterReceiver(mSyncReceiver);
 		
 		// Remember ViewFliper tab position on fragment pause
 	    int flipperPosition = mViewFlipper.getDisplayedChild();
@@ -169,7 +90,8 @@ public class DailyUsageFragment extends SherlockFragment {
 	/**
 	 * Load fragment view if account status and info is set
 	 */
-	private void loadFragmentView(){
+	@Override
+	protected void loadFragmentView(){
 		if (mAccountInfo.isInfoSet() 
     			&& mAccountStatus.isStatusSet()){
 			
@@ -245,9 +167,11 @@ public class DailyUsageFragment extends SherlockFragment {
 		// Reference list view to be used
 		ListView mListView = (ListView) mFragmentView.findViewById(R.id.fragment_daily_usage_listview);
 		
-		// Floating header
+		// Add list view header
 		View headerView = ((LayoutInflater) getActivity().getSystemService(getActivity().LAYOUT_INFLATER_SERVICE)).inflate(R.layout.listview_data_table_header, null, false);
-		mListView.addHeaderView(headerView);
+		if (mListView.getHeaderViewsCount() == 0){
+			mListView.addHeaderView(headerView);
+		}
 		
 		// Set adapter to be used with the list view
 		mListView.setAdapter(adapter);
@@ -310,25 +234,6 @@ public class DailyUsageFragment extends SherlockFragment {
 		chartTitle.setText(title);
 		
 	}
-	
-	public class SyncReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent i) {
-            
-            String MESSAGE = getString(R.string.sync_broadcast_message);
-            String SYNC_START = getString(R.string.sync_broadcast_start);
-            String SYNC_COMPLETE = getString(R.string.sync_broadcast_complete);
-            
-            String msg = i.getStringExtra(MESSAGE);
-            if (msg.equals(SYNC_START)){
-            	// Nothing to do see here move along
-            } else if (msg.equals(SYNC_COMPLETE)){
-            	loadFragmentView();
-            }
-        }
-         
-    }
 	
 	class MyGestureDetector extends SimpleOnGestureListener {
 		

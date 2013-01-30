@@ -1,14 +1,6 @@
 package au.id.teda.broadband.usage.ui.fragments;
 
-import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -19,18 +11,9 @@ import android.view.View.OnTouchListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import au.id.teda.broadband.usage.R;
-import au.id.teda.broadband.usage.helper.AccountInfoHelper;
-import au.id.teda.broadband.usage.helper.AccountStatusHelper;
-import au.id.teda.broadband.usage.helper.LayoutHelper;
 import au.id.teda.broadband.usage.helper.NotificationHelper;
-import au.id.teda.broadband.usage.ui.MainActivity;
 
-import com.actionbarsherlock.app.SherlockFragment;
-
-public class UsageSummaryFragment extends SherlockFragment {
-	
-	// Debug tag pulled from main activity
-	private final static String DEBUG_TAG = MainActivity.DEBUG_TAG;
+public class UsageSummaryFragment extends BaseFragment {
 	
 	// View inflated by fragment
 	private View mFragmentView;
@@ -51,63 +34,12 @@ public class UsageSummaryFragment extends SherlockFragment {
 	private TextView mFreezoneNumber;
 	private TextView mUpTimeNumber;
 	private TextView mIpAddress;
-
-	
-	// Helper classes
-	private AccountInfoHelper mAccountInfo;
-	private AccountStatusHelper mAccountStatus;
-	private LayoutHelper mLayout;
-	
-	// Recieve sync broadcasts
-	private SyncReceiver mSyncReceiver;
-    private IntentFilter filter;
-	
-    // Activity context to be used
-	private Context mContext;
 	
 	// Gesture detector class
 	private GestureDetector mGestureDetector;
 	
-	// Activity shared preferences
-    SharedPreferences mSettings;
-    SharedPreferences.Editor mEditor;
-	
 	// Prefrence key to store summary state
 	private final static String PREF_SUMMARY_STATE_KEY = "pref_summary_state_key";
-	
-	/**
-	 * Called 1st in the fragment life cycle
-	 */
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		
-		// Load helper classes
-		mAccountInfo = new AccountInfoHelper(activity);
-		mAccountStatus = new AccountStatusHelper(activity);
-		mLayout = new LayoutHelper(activity);
-		
-		// Set up shared preferences
-		mSettings = PreferenceManager.getDefaultSharedPreferences(activity);
-		mEditor = mSettings.edit();
-	}
-	
-	/**
-	 * Called 2nd in the fragment life cycle
-	 */
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		
-		// Set context for fragment. 
-		// Activity extends context so we get it from there
-		mContext = getActivity();
-		
-		// Setup broadcast receiver for background sync
-        String BROADCAST = getString(R.string.sync_broadcast_action);
-        filter = new IntentFilter(BROADCAST);
-        mSyncReceiver = new SyncReceiver();
-	}
 	
 	/**
 	 * Called 3rd in the fragment life cycle
@@ -154,22 +86,9 @@ public class UsageSummaryFragment extends SherlockFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
-		loadFragmentView();
 		
 		// Set gesture reference
 		mGestureDetector = new GestureDetector(new MyGestureDetector());
-	}
-	
-	/**
-	 * Called 5th in the fragment life cycle
-	 */
-	@Override
-	public void onResume() {
-		super.onResume();
-		
-		// Register broadcast receiver for background sync
-		getActivity().registerReceiver(mSyncReceiver, filter);
 	}
 	
 	/**
@@ -179,34 +98,30 @@ public class UsageSummaryFragment extends SherlockFragment {
 	public void onPause() {
 		super.onPause();
 		
-		// Unregister broadcast receiver for background sync
-		getActivity().unregisterReceiver(mSyncReceiver);
-		
 		// Remember summary state
 	    mEditor.putBoolean(PREF_SUMMARY_STATE_KEY, isVeiwSoFar());
 	    mEditor.commit();
 	}
 	
-	private void loadFragmentView(){
+	@Override
+	protected void loadFragmentView(){
 		if (mAccountInfo.isInfoSet() 
     			&& mAccountStatus.isStatusSet()){
 			
 			
 			// Used in both sofar and remaining views for phone
-			if (mLayout.isLayoutPhone(mLayoutUsed)){
+			if (mLayoutHelper.isLayoutPhone(mLayoutUsed)){
 				mCurrentMonth.setText(mAccountStatus.getCurrentMonthString());
 				mDaysDescription.setText(mAccountStatus.getRolloverDateString());
 				mPeakSummary.setText(mAccountInfo.getPeakQuotaString());
 				mOffpeakSummary.setText(mAccountInfo.getOffpeakQuotaString());
 				mUpTimeNumber.setText(mAccountStatus.getUpTimeDaysString());
 				mIpAddress.setText(mAccountStatus.getIpAddressStrng());
-			} else if (mLayout.isLayout_w1024dp(mLayoutUsed)){
+			} else if (mLayoutHelper.isLayout_w1024dp(mLayoutUsed)){
 			}
 			
 			setSummaryView();
-			
-			
-	    	//checkUsageStatus();
+			checkUsageStatus();
 		}
 	}
 	
@@ -231,7 +146,7 @@ public class UsageSummaryFragment extends SherlockFragment {
 		mDaysSummary.setText(mContext.getString(R.string.fragment_usage_summary_days_to_go));
 		
 		// Only set text if loading phone layout
-		if (mLayout.isLayoutPhone(mLayoutUsed)){
+		if (mLayoutHelper.isLayoutPhone(mLayoutUsed)){
 			mDaysNumber.setText(mAccountStatus.getDaysToGoString());
 			
 			mPeakDescription.setText(mAccountStatus.getPeakShapedRemainingString());
@@ -250,7 +165,7 @@ public class UsageSummaryFragment extends SherlockFragment {
 		mDaysSummary.setText(mContext.getString(R.string.fragment_usage_summary_days_so_far));
 		
 		// Only set text if loading phone layout
-		if (mLayout.isLayoutPhone(mLayoutUsed)){
+		if (mLayoutHelper.isLayoutPhone(mLayoutUsed)){
 			mDaysNumber.setText(mAccountStatus.getDaysSoFarString());
 			mPeakDescription.setText(mAccountStatus.getPeakShapedUsedString());
 			mOffpeakDescription.setText(mAccountStatus.getOffpeakShapedUsedString());
@@ -309,25 +224,6 @@ public class UsageSummaryFragment extends SherlockFragment {
 		RelativeLayout mLayoutContaner = (RelativeLayout) mFragmentView.findViewById(R.id.fragment_usage_summary_offpeak_container);
 		mLayoutContaner.setBackgroundDrawable((getResources().getDrawable(R.drawable.shape_flash_error)));
 	}
-	
-	public class SyncReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent i) {
-            
-            String MESSAGE = getString(R.string.sync_broadcast_message);
-            String SYNC_START = getString(R.string.sync_broadcast_start);
-            String SYNC_COMPLETE = getString(R.string.sync_broadcast_complete);
-            
-            String msg = i.getStringExtra(MESSAGE);
-            if (msg.equals(SYNC_START)){
-            	// Nothing to do see here move along
-            } else if (msg.equals(SYNC_COMPLETE)){
-            	loadFragmentView();
-            }
-        }
-         
-    }
 	
 	class MyGestureDetector extends SimpleOnGestureListener {
 		
