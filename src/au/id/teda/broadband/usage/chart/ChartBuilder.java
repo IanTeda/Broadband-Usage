@@ -38,6 +38,7 @@ public class ChartBuilder {
 	public final int colorBaseLighter;
 	public final int colorBaseDark;
 	public final int colorBaseDarker;
+	public final int colorAccent;
 	
 	private final String xAxes;
 	
@@ -55,10 +56,15 @@ public class ChartBuilder {
 		colorBaseDarker = mContext.getResources().getColor(R.color.chart_base_darker);
 		colorBackgroundLight = mContext.getResources().getColor(R.color.background_alt_light);
 		colorBackground = mContext.getResources().getColor(R.color.background_alt);
+		colorAccent = mContext.getResources().getColor(R.color.accent);
 		
 		// Chart strings
 		xAxes = mContext.getResources().getString(R.string.fragment_daily_usage_chart_x_title);
 
+	}
+	
+	public int getAccentColor() {
+		return colorAccent;
 	}
 	
 	public int getPeakColor() {

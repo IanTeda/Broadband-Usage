@@ -22,6 +22,7 @@
     <dimen name="text_large">22sp</dimen>
     <dimen name="text_xlarge">36sp</dimen>
     <dimen name="text_xxlarge">48sp</dimen>
+    <dimen name="text_xxxlarge">60sp</dimen>
     
     <!-- Multi Pan Layout Dimens -->
     <dimen name="left_column_width">320dp</dimen>

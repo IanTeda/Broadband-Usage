@@ -6,12 +6,13 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.view.View;
 import au.id.teda.broadband.usage.helper.LayoutHelper;
+import au.id.teda.broadband.usage.ui.BaseActivity;
 import au.id.teda.broadband.usage.ui.MainActivity;
 
 public class CustomDonughtChart extends View {
 	
 	// Debug tag pulled from main activity
-	private final static String DEBUG_TAG = MainActivity.DEBUG_TAG;
+	private final static String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 	
 	private int mDaysSoFar;
 	private int mDaysToGo;
@@ -35,7 +36,7 @@ public class CustomDonughtChart extends View {
 	
 	private LayoutHelper mLayoutHelper;
 	
-	final RectF mRectF;
+	private final RectF mRectF;
 
 	public CustomDonughtChart(Context context) {
 		super(context);

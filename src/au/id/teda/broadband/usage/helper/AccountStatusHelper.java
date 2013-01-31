@@ -32,6 +32,7 @@ public class AccountStatusHelper {
 	private final static String UP_TIME_DATE = "upTimeDate";
 	
 	private final static long GB = 1000000000;
+	private final static long MB = 1000000;
 	private final static long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
 	
 	private final static String FORMAT_dd_MMM_YYYY = "dd-MMM-yyyy HH:mm";
@@ -243,6 +244,13 @@ public class AccountStatusHelper {
 	
 	public long getPeakDataUsed(){
 		return mSettings.getLong(PEAK_DATA_USED, 0);
+	}
+	
+	public int getPeakDailyAverageUsedMb(){
+		long used = getPeakDataUsed();
+		long days = getDaysSoFar();
+		int average = (int) (used / days / MB);
+		return average;
 	}
 	
 	public int getPeakDataUsedGb(){

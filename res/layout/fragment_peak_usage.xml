@@ -6,39 +6,115 @@
 
     <LinearLayout
         android:id="@+id/fragment_peak_usage_donught"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
         android:orientation="vertical" />
-    
+
     <LinearLayout
         android:id="@+id/fragment_peak_usage_donught_text_container"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:orientation="vertical"
-        android:gravity="center" >
-    
-        <TextView 
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <TextView
             android:id="@+id/fragment_peak_usage_donught_text_percent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/fragment_peak_usage_percent"
             android:textColor="@color/accent"
-            android:textSize="@dimen/text_xxlarge"/>
-        
-        <TextView 
+            android:textSize="@dimen/text_xxxlarge" />
+
+        <TextView
             android:id="@+id/fragment_peak_usage_donught_text_period"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/fragment_peak_usage_data"
             android:layout_marginTop="-12dp"
+            android:text="@string/fragment_peak_usage_data"
             android:textColor="@color/text"
             android:textSize="@dimen/text_normal"
-            android:textStyle="bold"/>
-        
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/fragment_peak_usage_daily_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_peak_usage_donught"
+        android:layout_marginTop="@dimen/margin"
+        android:background="@color/background_alt"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/vert_margin"
+        android:paddingRight="@dimen/vert_margin" >
+
+        <TextView
+            android:id="@+id/fragment_peak_usage_daily_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="PEAK DATA USAGE"
+            android:textColor="@color/accent"
+            android:textSize="@dimen/text_large"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:layout_marginBottom="@dimen/padding"
+            android:background="@color/base" />
+
+        <TextView
+            android:id="@+id/fragment_peak_usage_daily_shaped"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="UNSHAPED"
+            android:textColor="@color/text_dark"
+            android:textSize="@dimen/text_small"
+            android:textStyle="bold" />
+
+        <!-- Peak -->
+
+        <RelativeLayout
+            android:id="@+id/fragment_peak_usage_daily_container"
+            style="@style/fragment_peak_usage_number_container" >
+
+            <TextView
+                android:id="@+id/fragment_peak_usage_daily_number"
+                style="@style/fragment_peak_usage_number"
+                android:text="2,361" />
+
+            <TextView
+                android:id="@+id/fragment_peak_usage_daily_description"
+                style="@style/fragment_peak_usage_number_description"
+                android:layout_alignBaseline="@+id/fragment_peak_usage_daily_number"
+                android:layout_toRightOf="@+id/fragment_peak_usage_daily_number"
+                android:text="Daily Av." />
+
+            <TextView
+                android:id="@+id/fragment_peak_usage_daily_description_right"
+                style="@style/fragment_peak_usage_number_description"
+                android:layout_alignBaseline="@+id/fragment_peak_usage_daily_number"
+                android:layout_alignParentRight="true"
+                android:text="-239 (Mb)" />
+
+            <TextView
+                android:id="@+id/fragment_peak_usage_daily_summary"
+                style="@style/fragment_peak_usage_number_summary"
+                android:layout_toRightOf="@+id/fragment_peak_usage_daily_number"
+                android:text="(Mb)" />
+
+            <LinearLayout
+                android:id="@+id/fragment_peak_usage_daily_chart"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/touch_half"
+                android:layout_below="@+id/fragment_peak_usage_daily_number"
+                android:background="@color/background_alt_light"
+                android:orientation="vertical" />
+        </RelativeLayout>
     </LinearLayout>
 
 </RelativeLayout>
