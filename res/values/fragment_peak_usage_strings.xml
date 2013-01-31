@@ -5,5 +5,9 @@
     <string name="fragment_peak_usage_data">PEAK DATA</string>
     <string name="fragment_peak_usage_used">PEAK USED</string>
     <string name="fragment_peak_usage_remaining">PEAK REMAINING</string>
+    <string name="fragment_peak_usage_daily_av">DAILY AV.</string>
+    <string name="fragment_peak_usage_daily_number">0,000</string>
+    <string name="fragment_peak_usage_daily_number_unit">(Mb)</string>
+    <string name="fragment_peak_usage_daily_variation">000</string>
     
 </resources>

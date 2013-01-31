@@ -35,34 +35,8 @@ public class PeakUsageFragment extends BaseFragment {
 		
 		loadDonughtChart();
 		loadDonughtChartText();
+		loadDailyAverageChart();
 		
-		// Set layout container for chart
-		final LinearLayout mContainerLayout = (LinearLayout) mFragmentView.findViewById(R.id.fragment_peak_usage_daily_chart);
-		
-		// Set layout height based on width
-		ViewTreeObserver mViewTreeObserver = mContainerLayout.getViewTreeObserver();
-		// Listen for view being inflated
-		mViewTreeObserver.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-	        @Override
-	        public void onGlobalLayout() {
-	        	// Get layout parameters
-	    		LayoutParams parms = mContainerLayout.getLayoutParams();
-	    		// Set height equal to screen width
-	    		parms.height = getView().getWidth();
-	        }
-	    });
-	
-		// Initialize chart class
-		DailyAverageChart mChart = new DailyAverageChart(mContext);
-		int average = mAccountStatus.getPeakDailyAverageUsedMb();
-		int quota = (int) mAccountInfo.getPeakQuotaDailyMb();
-		mChart.setData(average, quota);
-	
-		// Set layout parameters for chart view
-		LayoutParams mChartViewParams = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
-		
-		// Add chart view to layout view
-		mContainerLayout.addView(mChart, mChartViewParams);
 		
 		
 	}
@@ -122,4 +96,27 @@ public class PeakUsageFragment extends BaseFragment {
 		mPeakUsed.setText(mContext.getString(R.string.fragment_peak_usage_used));
 	}
 
+	private void loadDailyAverageChart() {
+		// Set layout container for chart
+		final LinearLayout mContainerLayout = (LinearLayout) mFragmentView.findViewById(R.id.fragment_peak_usage_daily_chart);
+		
+		// Initialize chart class
+		DailyAverageChart mChart = new DailyAverageChart(mContext);
+		int average = mAccountStatus.getPeakDailyAverageUsedMb();
+		int quota = (int) mAccountInfo.getPeakQuotaDailyMb();
+		mChart.setData(average, quota);
+	
+		// Set layout parameters for chart view
+		LayoutParams mChartViewParams = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
+		
+		// Add chart view to layout view
+		mContainerLayout.addView(mChart, mChartViewParams);
+		
+		// Set text view references
+		TextView mDailyPeak = (TextView) mFragmentView.findViewById(R.id.fragment_peak_usage_daily_number);
+		TextView mDailyPeakVariation = (TextView) mFragmentView.findViewById(R.id.fragment_peak_usage_daily_description_right);
+		
+		mDailyPeak.setText(IntUsageToString(mAccountStatus.getPeakDailyAverageUsedMb()));
+		mDailyPeakVariation.setText(IntUsageToString(mAccountStatus.getPeakAverageVariationMb()));
+	}
 }

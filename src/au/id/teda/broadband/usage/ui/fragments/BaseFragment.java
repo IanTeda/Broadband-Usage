@@ -1,5 +1,8 @@
 package au.id.teda.broadband.usage.ui.fragments;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -102,6 +105,13 @@ public abstract class BaseFragment extends SherlockFragment {
 				
 		// Unregister broadcast receiver for background sync
 		getActivity().unregisterReceiver(mSyncReceiver);
+	}
+	
+	// Return formated string value for int stored in db
+	protected String IntUsageToString (long usage){
+		NumberFormat numberFormat = new DecimalFormat("#,###");
+		return numberFormat.format(usage);
+		
 	}
 			
 	protected abstract void loadFragmentView();

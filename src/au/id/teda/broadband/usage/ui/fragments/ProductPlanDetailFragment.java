@@ -79,12 +79,5 @@ public class ProductPlanDetailFragment extends BaseFragment {
 		mOffpeakQuotaHour.setText(IntUsageToString(mAccountInfo.getOffpeakQuotaHourlyMb()));
 			
 	}
-	
-	// Return formated string value for int stored in db
-	private String IntUsageToString (long usage){
-		NumberFormat numberFormat = new DecimalFormat("#,###");
-		return numberFormat.format(usage);
-		
-	}
 
 }

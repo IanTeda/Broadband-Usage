@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/fragment_peak_usage_container"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
 
     <LinearLayout
         android:id="@+id/fragment_peak_usage_donught"
@@ -85,35 +85,46 @@
             <TextView
                 android:id="@+id/fragment_peak_usage_daily_number"
                 style="@style/fragment_peak_usage_number"
-                android:text="2,361" />
+                android:text="@string/fragment_peak_usage_daily_number" />
 
             <TextView
                 android:id="@+id/fragment_peak_usage_daily_description"
                 style="@style/fragment_peak_usage_number_description"
                 android:layout_alignBaseline="@+id/fragment_peak_usage_daily_number"
                 android:layout_toRightOf="@+id/fragment_peak_usage_daily_number"
-                android:text="Daily Av." />
+                android:text="@string/fragment_peak_usage_daily_av" />
 
+            <TextView
+                android:id="@+id/fragment_peak_usage_daily_description_right_unit"
+                style="@style/fragment_peak_usage_number_description"
+                android:layout_alignBaseline="@+id/fragment_peak_usage_daily_number"
+                android:layout_alignParentRight="true"
+                android:text="@string/fragment_peak_usage_daily_number_unit"
+                android:textSize="@dimen/text_tiny"
+                android:textColor="@color/base_light" />
+            
             <TextView
                 android:id="@+id/fragment_peak_usage_daily_description_right"
                 style="@style/fragment_peak_usage_number_description"
                 android:layout_alignBaseline="@+id/fragment_peak_usage_daily_number"
-                android:layout_alignParentRight="true"
-                android:text="-239 (Mb)" />
+                android:layout_toLeftOf="@+id/fragment_peak_usage_daily_description_right_unit"
+                android:text="@string/fragment_peak_usage_daily_variation" />
 
             <TextView
                 android:id="@+id/fragment_peak_usage_daily_summary"
                 style="@style/fragment_peak_usage_number_summary"
                 android:layout_toRightOf="@+id/fragment_peak_usage_daily_number"
-                android:text="(Mb)" />
+                android:text="@string/fragment_peak_usage_daily_number_unit" />
 
             <LinearLayout
                 android:id="@+id/fragment_peak_usage_daily_chart"
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/touch_half"
                 android:layout_below="@+id/fragment_peak_usage_daily_number"
+                android:layout_marginTop="-6dp"
                 android:background="@color/background_alt_light"
                 android:orientation="vertical" />
+
         </RelativeLayout>
     </LinearLayout>
 

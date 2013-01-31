@@ -253,6 +253,13 @@ public class AccountStatusHelper {
 		return average;
 	}
 	
+	public int getPeakAverageVariationMb(){
+		long quota = mInfo.getPeakQuotaDailyMb();
+		long daily = getPeakDailyAverageUsedMb();
+		int variation = (int) (daily - quota);
+		return variation;
+	}
+	
 	public int getPeakDataUsedGb(){
 		return (int) (mSettings.getLong(PEAK_DATA_USED, 0) / GB);
 	}

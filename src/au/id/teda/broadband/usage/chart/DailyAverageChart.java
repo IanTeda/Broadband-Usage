@@ -13,13 +13,11 @@ import au.id.teda.broadband.usage.ui.BaseActivity;
 public class DailyAverageChart extends View {
 	
 	// Debug tag pulled from main activity
-	private final static String DEBUG_TAG = BaseActivity.DEBUG_TAG;
+	//private final static String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 	
 	private int mAverageUsage;
 	private int mAverageQuota;
 	
-	private int backgroundColor;
-	private int backgroundColorAlt;
 	private int usageColor;
 	private int usageColorAlt;
 	private int accentColor;
