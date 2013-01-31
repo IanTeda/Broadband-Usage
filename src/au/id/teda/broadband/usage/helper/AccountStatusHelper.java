@@ -8,12 +8,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import au.id.teda.broadband.usage.ui.BaseActivity;
 import au.id.teda.broadband.usage.ui.MainActivity;
 import au.id.teda.broadband.usage.util.NetworkUtilities;
 
 public class AccountStatusHelper {
 	
-	//private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
+	private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 	
 	// Set static string values for preference keys
 	private final static String ACCOUNT = "account";
@@ -259,6 +260,18 @@ public class AccountStatusHelper {
 		return used;
 	}
 	
+	public int getPeakDataUsedPercent(){
+		long used = getPeakDataUsed();
+		long quota = mInfo.getPeakQuota();
+		int percent = (int) ((used * 100.0f) / quota);
+		return percent;
+	}
+	
+	public String getPeakDataUsedPercentString(){
+		int percent = getPeakDataUsedPercent();
+		return String.valueOf(percent) + "%";
+	}
+	
 	public long getPeakDataRemaining(){
 		long quota = mInfo.getPeakQuota();
 		long used = getPeakDataUsed();
@@ -313,6 +326,18 @@ public class AccountStatusHelper {
 	
 	public int getOffpeakDataUsedGb(){
 		return (int) (mSettings.getLong(OFFPEAK_DATA_USED, 0) / GB);
+	}
+	
+	public int getOffpeakDataUsedPercent(){
+		long used = getOffpeakDataUsed();
+		long quota = mInfo.getOffpeakQuota();
+		int percent = (int) ((used * 100.0f) / quota);
+		return percent;
+	}
+	
+	public String getOffpeakDataUsedPercentString(){
+		int percent = getOffpeakDataUsedPercent();
+		return String.valueOf(percent) + "%";
 	}
 	
 	public String getOffpeakDataUsedGbString(){

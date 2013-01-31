@@ -6,9 +6,39 @@
 
     <LinearLayout
         android:id="@+id/fragment_peak_usage_donught"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:orientation="vertical" >
+        android:orientation="vertical" />
+    
+    <LinearLayout
+        android:id="@+id/fragment_peak_usage_donught_text_container"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:gravity="center" >
+    
+        <TextView 
+            android:id="@+id/fragment_peak_usage_donught_text_percent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fragment_peak_usage_percent"
+            android:textColor="@color/accent"
+            android:textSize="@dimen/text_xxlarge"/>
+        
+        <TextView 
+            android:id="@+id/fragment_peak_usage_donught_text_period"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fragment_peak_usage_data"
+            android:layout_marginTop="-12dp"
+            android:textColor="@color/text"
+            android:textSize="@dimen/text_large"/>
+        
+        
     </LinearLayout>
 
 </RelativeLayout>

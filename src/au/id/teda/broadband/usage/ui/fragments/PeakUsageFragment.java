@@ -8,6 +8,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.chart.CustomDonughtChart;
 
@@ -31,6 +32,36 @@ public class PeakUsageFragment extends BaseFragment {
 	@Override
 	protected void loadFragmentView(){
 		
+		loadChart();
+		
+		// Set layout container for chart text
+		final LinearLayout mTextContainer = (LinearLayout) mFragmentView.findViewById(R.id.fragment_peak_usage_donught_text_container);
+		
+		// Set layout height based on width
+		ViewTreeObserver mViewTreeObserver = mTextContainer.getViewTreeObserver();
+		// View isn't inflated yet so you can not get the width, this a bit of work around
+		mViewTreeObserver.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+            	// Get layout parameters
+        		LayoutParams parms = mTextContainer.getLayoutParams();
+        		// Set height equal to screen width
+        		parms.height = getView().getWidth();
+            }
+        });
+		
+		TextView mPeakPercent = (TextView) mFragmentView.findViewById(R.id.fragment_peak_usage_donught_text_percent);
+		TextView mPeakUsed = (TextView) mFragmentView.findViewById(R.id.fragment_peak_usage_donught_text_period);
+		
+		mPeakPercent.setText(mAccountStatus.getPeakDataUsedPercentString());
+		mPeakUsed.setText(mContext.getString(R.string.fragment_peak_usage_used));
+		
+	}
+
+	/**
+	 * 
+	 */
+	private void loadChart() {
 		// Set layout container for chart
 		final LinearLayout mContainerLayout = (LinearLayout) mFragmentView.findViewById(R.id.fragment_peak_usage_donught);
 		
@@ -57,7 +88,6 @@ public class PeakUsageFragment extends BaseFragment {
 		
 		// Add chart view to layout view
 		mContainerLayout.addView(mChart, mChartViewParams);
-			
 	}
 
 }
