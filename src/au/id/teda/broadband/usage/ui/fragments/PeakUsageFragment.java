@@ -33,7 +33,40 @@ public class PeakUsageFragment extends BaseFragment {
 	protected void loadFragmentView(){
 		
 		loadChart();
+		loadChartText();
 		
+	}
+
+	private void loadChart() {
+		// Set layout container for chart
+		final LinearLayout mContainerLayout = (LinearLayout) mFragmentView.findViewById(R.id.fragment_peak_usage_donught);
+		
+		// Set layout height based on width
+		ViewTreeObserver mViewTreeObserver = mContainerLayout.getViewTreeObserver();
+		// View isn't inflated yet so you can not get the width, this a bit of work around
+		mViewTreeObserver.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+	        @Override
+	        public void onGlobalLayout() {
+	        	// Get layout parameters
+	    		LayoutParams parms = mContainerLayout.getLayoutParams();
+	    		// Set height equal to screen width
+	    		parms.height = getView().getWidth();
+	        }
+	    });
+	
+		// Initialize chart class
+		CustomDonughtChart mChart = new CustomDonughtChart(mContext);
+		mChart.setDays(mAccountStatus.getDaysSoFar(), mAccountStatus.getDaysToGo());
+		mChart.setUsage(mAccountStatus.getPeakDataUsed(), mAccountInfo.getPeakQuota());
+	
+		// Set layout parameters for chart view
+		LayoutParams mChartViewParams = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
+		
+		// Add chart view to layout view
+		mContainerLayout.addView(mChart, mChartViewParams);
+	}
+
+	private void loadChartText() {
 		// Set layout container for chart text
 		final LinearLayout mTextContainer = (LinearLayout) mFragmentView.findViewById(R.id.fragment_peak_usage_donught_text_container);
 		
@@ -50,44 +83,13 @@ public class PeakUsageFragment extends BaseFragment {
             }
         });
 		
+		// Set text view references
 		TextView mPeakPercent = (TextView) mFragmentView.findViewById(R.id.fragment_peak_usage_donught_text_percent);
 		TextView mPeakUsed = (TextView) mFragmentView.findViewById(R.id.fragment_peak_usage_donught_text_period);
 		
+		// Set text in text views
 		mPeakPercent.setText(mAccountStatus.getPeakDataUsedPercentString());
 		mPeakUsed.setText(mContext.getString(R.string.fragment_peak_usage_used));
-		
-	}
-
-	/**
-	 * 
-	 */
-	private void loadChart() {
-		// Set layout container for chart
-		final LinearLayout mContainerLayout = (LinearLayout) mFragmentView.findViewById(R.id.fragment_peak_usage_donught);
-		
-		// Set layout height based on width
-		ViewTreeObserver mViewTreeObserver = mContainerLayout.getViewTreeObserver();
-		// View isn't inflated yet so you can not get the width, this a bit of work around
-		mViewTreeObserver.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-            	// Get layout parameters
-        		LayoutParams parms = mContainerLayout.getLayoutParams();
-        		// Set height equal to screen width
-        		parms.height = getView().getWidth();
-            }
-        });
-
-		// Initialize chart class
-		CustomDonughtChart mChart = new CustomDonughtChart(mContext);
-		mChart.setDays(mAccountStatus.getDaysSoFar(), mAccountStatus.getDaysToGo());
-		mChart.setUsage(mAccountStatus.getPeakDataUsed(), mAccountInfo.getPeakQuota());
-
-		// Set layout parameters for chart view
-		LayoutParams mChartViewParams = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
-		
-		// Add chart view to layout view
-		mContainerLayout.addView(mChart, mChartViewParams);
 	}
 
 }
