@@ -17,6 +17,6 @@ public class PeakUsageActivity extends BaseActivity {
 			
 		setContentView(R.layout.activity_peak_usage);
 			
-		Log.d(DEBUG_TAG, "PeakUsageActivity");
+		//Log.d(DEBUG_TAG, "PeakUsageActivity");
 	}
 }

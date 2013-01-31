@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.util.Log;
 import android.view.View;
 import au.id.teda.broadband.usage.helper.LayoutHelper;
 import au.id.teda.broadband.usage.ui.MainActivity;
@@ -29,10 +28,20 @@ public class CustomDonughtChart extends View {
 	private int backgroundColorAlt;
 	private int usageColor;
 	private int usageColorAlt;
+	
+	private int BACKGROUND_PX = 45;
+	private int USAGE_PX = 35;
+	private int PADDING = 4;
+	
+	private LayoutHelper mLayoutHelper;
+	
+	final RectF mRectF;
 
 	public CustomDonughtChart(Context context) {
 		super(context);
-		Log.d(DEBUG_TAG, "CustomDonughtChart");
+		//Log.d(DEBUG_TAG, "CustomDonughtChart");
+		
+		mRectF = new RectF();
 		
 		// Get chart colors
 		ChartBuilder mChartBuilder = new ChartBuilder(context);
@@ -42,9 +51,9 @@ public class CustomDonughtChart extends View {
 		usageColorAlt = mChartBuilder.getBackgroundAltColor();
 		
 		// get chart widths
-		LayoutHelper mLayoutHelper = new LayoutHelper(context);
-		backgroundWidth = (int) mLayoutHelper.getPxFromDp(45);
-		usageWidth = (int) mLayoutHelper.getPxFromDp(35);
+		mLayoutHelper = new LayoutHelper(context);
+		backgroundWidth = (int) mLayoutHelper.getPxFromDp(BACKGROUND_PX);
+		usageWidth = (int) mLayoutHelper.getPxFromDp(USAGE_PX);
 	}
 	
 	public void setDays(int daysSoFar, int daysToGo){
@@ -63,24 +72,25 @@ public class CustomDonughtChart extends View {
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 		
-		float mWidth = (float)getWidth();
-		float mHeight = (float)getHeight();
-		float mRadius;
-
-		if (mWidth > mHeight){
-			mRadius = mHeight/3;
-		}else{
-			mRadius = mWidth/3;
-		}
+		// Get view width and height
+		float width = (float)getWidth();
+		float height = (float)getHeight();
+		
+		// Calculate line width based on stroke width
+		int lineWidth = (backgroundWidth/2);
+		
+		float left = 0 + lineWidth + mLayoutHelper.getPxFromDp(PADDING);
+		float top = 0 + lineWidth + mLayoutHelper.getPxFromDp(PADDING);
+		float right = width - lineWidth - mLayoutHelper.getPxFromDp(PADDING);
+		float bottom = height - lineWidth - mLayoutHelper.getPxFromDp(PADDING);
 	    
 	    // Used to restrain canvas
-		final RectF rect = new RectF();
-	    rect.set(mWidth/2- mRadius, mHeight/2 - mRadius, mWidth/2 + mRadius, mHeight/2 + mRadius); 
+	    mRectF.set(left, top, right, bottom); 
 	    
 	    // Draw days
-	    drawDays(canvas, rect);
+	    drawDays(canvas, mRectF);
 	    // Draw usage
-	    drawUsage(canvas, rect);
+	    drawUsage(canvas, mRectF);
 
 	}
 	
