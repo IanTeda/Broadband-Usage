@@ -48,6 +48,7 @@
         android:layout_marginTop="@dimen/margin"
         android:background="@color/background_alt"
         android:orientation="vertical"
+        android:paddingBottom="@dimen/margin"
         android:paddingLeft="@dimen/vert_margin"
         android:paddingRight="@dimen/vert_margin" >
 
@@ -56,9 +57,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:text="PEAK DATA USAGE"
+            android:text="PEAK DATA"
             android:textColor="@color/accent"
-            android:textSize="@dimen/text_large"
+            android:textSize="@dimen/text_xlarge"
             android:textStyle="bold" />
 
         <View
@@ -100,9 +101,9 @@
                 android:layout_alignBaseline="@+id/fragment_peak_usage_daily_number"
                 android:layout_alignParentRight="true"
                 android:text="@string/fragment_peak_usage_daily_number_unit"
-                android:textSize="@dimen/text_tiny"
-                android:textColor="@color/base_light" />
-            
+                android:textColor="@color/base_light"
+                android:textSize="@dimen/text_tiny" />
+
             <TextView
                 android:id="@+id/fragment_peak_usage_daily_description_right"
                 style="@style/fragment_peak_usage_number_description"
@@ -124,7 +125,33 @@
                 android:layout_marginTop="-6dp"
                 android:background="@color/background_alt_light"
                 android:orientation="vertical" />
-
+            
+            <TextView
+                android:id="@+id/fragment_peak_usage_average_daily_title"
+                style="@style/fragment_peak_usage_number_description"
+                android:layout_below="@+id/fragment_peak_usage_daily_chart"
+                android:text="@string/fragment_peak_usage_daily_title" />
+        </RelativeLayout>
+        
+        <!-- Upload / Download -->
+        <RelativeLayout
+            android:id="@+id/fragment_peak_upload_download_container"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical" >
+        
+        	<LinearLayout 
+        	    android:id="@+id/fragment_peak_upload_download_chart"
+        	    android:layout_width="@dimen/touch"
+        	    android:layout_height="@dimen/touch"
+        	    android:layout_alignParentLeft="true" />
+        	
+        	<TextView
+                android:id="@+id/fragment_peak_upload_download_title"
+                style="@style/fragment_peak_usage_number_description"
+                android:layout_below="@+id/fragment_peak_upload_download_chart"
+                android:text="@string/fragment_peak_upload_download_title" />
+        
         </RelativeLayout>
     </LinearLayout>
 

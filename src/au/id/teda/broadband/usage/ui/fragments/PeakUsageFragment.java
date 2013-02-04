@@ -1,5 +1,7 @@
 package au.id.teda.broadband.usage.ui.fragments;
 
+import org.achartengine.GraphicalView;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.chart.CustomDonughtChart;
 import au.id.teda.broadband.usage.chart.DailyAverageChart;
+import au.id.teda.broadband.usage.chart.PieChart;
 
 
 public class PeakUsageFragment extends BaseFragment {
@@ -36,9 +39,28 @@ public class PeakUsageFragment extends BaseFragment {
 		loadDonughtChart();
 		loadDonughtChartText();
 		loadDailyAverageChart();
+		loadPieChart();
+	}
+
+	private void loadPieChart() {
+		// Set layout container for chart
+		final LinearLayout mContainerLayout = (LinearLayout) mFragmentView.findViewById(R.id.fragment_peak_upload_download_chart);
+
+		// Initialize chart class
+		PieChart mPieChart = new PieChart(mContext);
 		
+		// Set chart values
+		int uploads =  (mAccountStatus.getUploadsDataUsedGb() / 2);
+		int downloads = mAccountStatus.getPeakDataUsedGb();
+		int quota = mAccountInfo.getPeakQuotaGb();
+		mPieChart.setData(uploads, downloads, quota);
+	
+		// Set layout parameters for chart view
+		LayoutParams mChartViewParams = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
 		
-		
+		// Add chart view to layout view
+		GraphicalView mGraphicalView = (GraphicalView) mPieChart.getPieChartView();
+		mContainerLayout.addView(mGraphicalView, mChartViewParams);
 	}
 
 	private void loadDonughtChart() {

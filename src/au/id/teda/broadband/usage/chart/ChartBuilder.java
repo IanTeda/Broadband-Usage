@@ -108,17 +108,17 @@ public class ChartBuilder {
 	 * @param dip value to be converted
 	 * @return pixel value of dip for current screen density
 	 */
-	protected int getPixelDip(int dip){
+	protected float getPixelDip(int dip){
 		final float scale = mContext.getResources().getDisplayMetrics().density;
-		int pixels = (int) (dip * scale + 0.5f);
+		float pixels = (dip * scale + 0.5f);
 		return pixels;
 	}
 
-	public int getLegendTextSize(int dip){
+	public float getLegendTextSize(int dip){
 		return getPixelDip(dip);
 	}
 	
-	public int getLabelsTextSize(int dip){
+	public float getLabelsTextSize(int dip){
 		return getPixelDip(dip);
 	}
 

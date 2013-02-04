@@ -9,5 +9,7 @@
     <string name="fragment_peak_usage_daily_number">0,000</string>
     <string name="fragment_peak_usage_daily_number_unit">(Mb)</string>
     <string name="fragment_peak_usage_daily_variation">000</string>
+    <string name="fragment_peak_usage_daily_title">AVERAGE DAILY USAGE CHART</string>
+    <string name="fragment_peak_upload_download_title">UPLOAD DOWNLOAD BREAKDOWN</string>
     
 </resources>
