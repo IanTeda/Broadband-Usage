@@ -19,6 +19,8 @@ import au.id.teda.broadband.usage.chart.PieChart;
 
 public class PeakUsageFragment extends BaseFragment {
 
+	// BaseFragment used to load the standard methods
+	
 	// View inflated by fragment
 	private View mFragmentView;
 			

@@ -138,19 +138,23 @@
             android:id="@+id/fragment_peak_upload_download_container"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical" >
+            android:gravity="center_vertical"
+            android:background="@color/abs__holo_blue_light" >
         
         	<LinearLayout 
         	    android:id="@+id/fragment_peak_upload_download_chart"
         	    android:layout_width="@dimen/touch"
         	    android:layout_height="@dimen/touch"
-        	    android:layout_alignParentLeft="true" />
+        	    android:layout_alignParentLeft="true"
+        	    android:background="@color/abs__bright_foreground_disabled_holo_dark"
+        	    android:gravity="center" />
         	
         	<TextView
                 android:id="@+id/fragment_peak_upload_download_title"
                 style="@style/fragment_peak_usage_number_description"
                 android:layout_below="@+id/fragment_peak_upload_download_chart"
-                android:text="@string/fragment_peak_upload_download_title" />
+                android:text="@string/fragment_peak_upload_download_title"
+                android:background="@color/abs__bright_foreground_inverse_holo_dark" />
         
         </RelativeLayout>
     </LinearLayout>
