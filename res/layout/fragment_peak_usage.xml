@@ -125,38 +125,85 @@
                 android:layout_marginTop="-6dp"
                 android:background="@color/background_alt_light"
                 android:orientation="vertical" />
-            
+
             <TextView
                 android:id="@+id/fragment_peak_usage_average_daily_title"
                 style="@style/fragment_peak_usage_number_description"
                 android:layout_below="@+id/fragment_peak_usage_daily_chart"
                 android:text="@string/fragment_peak_usage_daily_title" />
         </RelativeLayout>
-        
+
         <!-- Upload / Download -->
+
         <RelativeLayout
             android:id="@+id/fragment_peak_upload_download_container"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:background="@color/abs__holo_blue_light" >
-        
-        	<LinearLayout 
-        	    android:id="@+id/fragment_peak_upload_download_chart"
-        	    android:layout_width="@dimen/touch"
-        	    android:layout_height="@dimen/touch"
-        	    android:layout_alignParentLeft="true"
-        	    android:background="@color/abs__bright_foreground_disabled_holo_dark"
-        	    android:gravity="center" />
-        	
-        	<TextView
-                android:id="@+id/fragment_peak_upload_download_title"
+            android:layout_height="@dimen/touch"
+            android:background="@color/background_alt_light"
+            android:gravity="center" >
+
+            <LinearLayout
+                android:id="@+id/fragment_peak_upload_download_chart"
+                android:layout_width="@dimen/touch"
+                android:layout_height="@dimen/touch"
+                android:layout_alignParentLeft="true"
+                android:gravity="left|center_horizontal" />
+
+            <TextView
+                android:id="@+id/fragment_peak_upload_download_download_title"
                 style="@style/fragment_peak_usage_number_description"
-                android:layout_below="@+id/fragment_peak_upload_download_chart"
-                android:text="@string/fragment_peak_upload_download_title"
-                android:background="@color/abs__bright_foreground_inverse_holo_dark" />
-        
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="6dp"
+                android:text="DOWNLOADS" />
+
+            <TextView
+                android:id="@+id/fragment_peak_upload_download_download_unit"
+                style="@style/fragment_peak_usage_number_summary"
+                android:layout_alignBaseline="@+id/fragment_peak_upload_download_download_title"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="100dp"
+                android:text="(Gb)"
+                android:textSize="@dimen/text_tiny" />
+
+            <TextView
+                android:id="@+id/fragment_peak_upload_download_download_number"
+                style="@style/fragment_peak_usage_number_description"
+                android:layout_alignBaseline="@+id/fragment_peak_upload_download_download_title"
+                android:layout_toLeftOf="@+id/fragment_peak_upload_download_download_unit"
+                android:text="0,000"
+                android:textSize="@dimen/text_large" />
+
+            <TextView
+                android:id="@+id/fragment_peak_upload_download_upload_title"
+                style="@style/fragment_peak_usage_number_description"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:text="UPLOADS" />
+
+            <TextView
+                android:id="@+id/fragment_peak_upload_download_upload_unit"
+                style="@style/fragment_peak_usage_number_summary"
+                android:layout_alignBaseline="@+id/fragment_peak_upload_download_upload_title"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="100dp"
+                android:text="(Gb)"
+                android:textSize="@dimen/text_tiny" />
+
+            <TextView
+                android:id="@+id/fragment_peak_upload_download_upload_number"
+                style="@style/fragment_peak_usage_number_description"
+                android:layout_alignBaseline="@+id/fragment_peak_upload_download_upload_title"
+                android:layout_toLeftOf="@+id/fragment_peak_upload_download_upload_unit"
+                android:text="0,000"
+                android:textSize="@dimen/text_large" />
         </RelativeLayout>
+
+        <TextView
+            android:id="@+id/fragment_peak_upload_download_title"
+            style="@style/fragment_peak_usage_number_description"
+            android:layout_width="fill_parent"
+            android:text="@string/fragment_peak_upload_download_title" />
     </LinearLayout>
 
 </RelativeLayout>

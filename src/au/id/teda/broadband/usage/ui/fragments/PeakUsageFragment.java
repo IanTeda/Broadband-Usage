@@ -42,6 +42,7 @@ public class PeakUsageFragment extends BaseFragment {
 		loadDonughtChartText();
 		loadDailyAverageChart();
 		loadPieChart();
+		
 	}
 
 	private void loadPieChart() {
@@ -63,21 +64,28 @@ public class PeakUsageFragment extends BaseFragment {
 		// Add chart view to layout view
 		GraphicalView mGraphicalView = (GraphicalView) mPieChart.getPieChartView();
 		mContainerLayout.addView(mGraphicalView, mChartViewParams);
+		
+		// Set text view references
+		TextView mUploadData = (TextView) mFragmentView.findViewById(R.id.fragment_peak_upload_download_upload_number);
+		TextView mDownloadData = (TextView) mFragmentView.findViewById(R.id.fragment_peak_upload_download_download_number);
+		
+		mUploadData.setText(mAccountStatus.getUploadsDataUsedGbString());
+		mDownloadData.setText(mAccountStatus.getPeakDataUsedLessUploadsGbString());
 	}
 
 	private void loadDonughtChart() {
 		// Set layout container for chart
 		final LinearLayout mContainerLayout = (LinearLayout) mFragmentView.findViewById(R.id.fragment_peak_usage_donught);
 		
-		// Set layout height based on width
-		ViewTreeObserver mViewTreeObserver = mContainerLayout.getViewTreeObserver();
+		
 		// Listen for view being inflated
+		ViewTreeObserver mViewTreeObserver = mContainerLayout.getViewTreeObserver();
 		mViewTreeObserver.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 	        @Override
 	        public void onGlobalLayout() {
 	        	// Get layout parameters
 	    		LayoutParams parms = mContainerLayout.getLayoutParams();
-	    		// Set height equal to screen width
+	    		// Set height equal to parent layout width
 	    		parms.height = getView().getWidth();
 	        }
 	    });
@@ -97,16 +105,15 @@ public class PeakUsageFragment extends BaseFragment {
 	private void loadDonughtChartText() {
 		// Set layout container for chart text
 		final LinearLayout mTextContainer = (LinearLayout) mFragmentView.findViewById(R.id.fragment_peak_usage_donught_text_container);
-		
-		// Set layout height based on width
-		ViewTreeObserver mViewTreeObserver = mTextContainer.getViewTreeObserver();
+
 		// Listen for view being inflated
+		ViewTreeObserver mViewTreeObserver = mTextContainer.getViewTreeObserver();
 		mViewTreeObserver.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
             	// Get layout parameters
         		LayoutParams parms = mTextContainer.getLayoutParams();
-        		// Set height equal to screen width
+        		// Set height equal to layout width
         		parms.height = getView().getWidth();
             }
         });

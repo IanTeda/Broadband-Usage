@@ -264,8 +264,25 @@ public class AccountStatusHelper {
 		return (int) (mSettings.getLong(PEAK_DATA_USED, 0) / GB);
 	}
 	
+	public int getPeakDataUsedLessUploadsGb(){
+		int download = getPeakDataUsedGb();
+		int upload = getUploadsDataUsedGb();
+		return (download - upload);
+	}
+	
 	public String getPeakDataUsedGbString(){
 		long peak = getPeakDataUsedGb();
+		
+		String used = Long.toString(peak);
+		if (peak < 10 ){
+			used = "0" + used;
+		}
+		
+		return used;
+	}
+	
+	public String getPeakDataUsedLessUploadsGbString(){
+		long peak = getPeakDataUsedLessUploadsGb();
 		
 		String used = Long.toString(peak);
 		if (peak < 10 ){
