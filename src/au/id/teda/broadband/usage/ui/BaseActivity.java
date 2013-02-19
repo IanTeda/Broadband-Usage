@@ -124,16 +124,16 @@ public class BaseActivity extends SherlockFragmentActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
         case R.id.menu_account_info:
-        		Intent accountInfoIntent = new Intent(getBaseContext(), AccountInfoActivity.class);
-        		startActivity(accountInfoIntent);
+        		Intent mAccountInfoIntent = new Intent(getBaseContext(), AccountInfoActivity.class);
+        		startActivity(mAccountInfoIntent);
         		return true;
-        case R.id.menu_peak_usage:
-        		Intent peakActivityIntent = new Intent(getBaseContext(), PeakUsageActivity.class);
-        		startActivity(peakActivityIntent);
+        case R.id.menu_data_usage:
+        		Intent mUsageActivityIntent = new Intent(getBaseContext(), UsageActivity.class);
+        		startActivity(mUsageActivityIntent);
         		return true;
         case R.id.menu_settings:
-                Intent settingsActivityIntent = new Intent(getBaseContext(), SettingsActivity.class);
-                startActivity(settingsActivityIntent);
+                Intent mSettingsActivityIntent = new Intent(getBaseContext(), SettingsActivity.class);
+                startActivity(mSettingsActivityIntent);
                 return true;
         case R.id.menu_refresh:
         		// Check for connectivity before requesting sync

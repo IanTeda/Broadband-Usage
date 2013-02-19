@@ -9,8 +9,8 @@
         android:icon="@drawable/ic_action_refresh"
         android:orderInCategory="110"
         android:showAsAction="collapseActionView|withText" />
-    <item android:id="@+id/menu_peak_usage"
-        android:title="@string/menu_peak_usage"
+    <item android:id="@+id/menu_data_usage"
+        android:title="@string/menu_data_usage"
         android:icon="@drawable/ic_action_refresh"
         android:orderInCategory="120"
         android:showAsAction="collapseActionView|withText" />

@@ -3,6 +3,7 @@ package au.id.teda.broadband.usage.ui.fragments;
 import org.achartengine.GraphicalView;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -149,5 +150,10 @@ public class PeakUsageFragment extends BaseFragment {
 		
 		mDailyPeak.setText(IntUsageToString(mAccountStatus.getPeakDailyAverageUsedMb()));
 		mDailyPeakVariation.setText(IntUsageToString(mAccountStatus.getPeakAverageVariationMb()));
+	}
+
+	public static Fragment newInstance(int position) {
+		PeakUsageFragment f = new PeakUsageFragment();
+		return f;
 	}
 }

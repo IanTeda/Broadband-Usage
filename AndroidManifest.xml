@@ -83,7 +83,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.AccountInfoActivity"></activity>
-        <activity android:name=".ui.PeakUsageActivity"></activity>
+        <activity android:name="au.id.teda.broadband.usage.ui.UsageActivity"></activity>
 
     </application>
 
