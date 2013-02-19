@@ -356,8 +356,21 @@ public class AccountStatusHelper {
 		return mSettings.getLong(OFFPEAK_DATA_USED, 0);
 	}
 	
+	public int getOffpeakDailyAverageUsedMb(){
+		long used = getOffpeakDataUsed();
+		long days = getDaysSoFar();
+		int average = (int) (used / days / MB);
+		return average;
+	}
+	
 	public int getOffpeakDataUsedGb(){
 		return (int) (mSettings.getLong(OFFPEAK_DATA_USED, 0) / GB);
+	}
+	
+	public int getOffpeakDataUsedLessUploadsGb(){
+		int download = getOffpeakDataUsedGb();
+		int upload = getUploadsDataUsedGb();
+		return (download - upload);
 	}
 	
 	public int getOffpeakDataUsedPercent(){
@@ -403,6 +416,17 @@ public class AccountStatusHelper {
 		}
 		
 		return remaining;
+	}
+	
+	public String getOffpeakDataUsedLessUploadsGbString(){
+		long peak = getOffpeakDataUsedLessUploadsGb();
+		
+		String used = Long.toString(peak);
+		if (peak < 10 ){
+			used = "0" + used;
+		}
+		
+		return used;
 	}
 	
 	public boolean isOffpeakShaped(){

@@ -6,8 +6,8 @@
     android:fillViewport="true" >
 
     <fragment
-        android:id="@+id/fragment_peak_usage"
-        android:name="au.id.teda.broadband.usage.ui.fragments.PeakUsageFragment"
+        android:id="@+id/fragment_offpeak_usage"
+        android:name="au.id.teda.broadband.usage.ui.fragments.OffpeakUsageFragment"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         tools:layout="@layout/fragment_peak_usage" />
