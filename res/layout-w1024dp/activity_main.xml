@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/fragment_clock"
             tools:layout="@layout/fragment_product_plan_detail" />
-        
+
         <fragment
             android:id="@+id/fragment_footer"
             android:name="au.id.teda.broadband.usage.ui.fragments.FragmentFooter"
@@ -58,5 +58,30 @@
         android:layout_marginTop="@dimen/vert_margin"
         android:layout_toRightOf="@+id/activity_main_left_column_container"
         tools:layout="@layout/fragment_usage_summary" />
+
+    <LinearLayout
+        android:id="@+id/activity_main_usage_container"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/fragment_usage_summary"
+        android:layout_toRightOf="@+id/activity_main_left_column_container"
+        android:orientation="horizontal" >
+
+        <fragment
+            android:id="@+id/fragment_peak_usage"
+            android:name="au.id.teda.broadband.usage.ui.fragments.PeakUsageFragment"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            tools:layout="@layout/fragment_peak_usage" />
+
+        <fragment
+            android:id="@+id/fragment_offpeak_usage"
+            android:name="au.id.teda.broadband.usage.ui.fragments.OffpeakUsageFragment"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            tools:layout="@layout/fragment_peak_usage" />
+    </LinearLayout>
 
 </RelativeLayout>
