@@ -3,7 +3,7 @@ package au.id.teda.broadband.usage.ui.fragments;
 import org.achartengine.GraphicalView;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +25,24 @@ public class PeakUsageFragment extends BaseFragment {
 	// View inflated by fragment
 	private View mFragmentView;
 			
+	private String mContent = "???";
+
+	public static PeakUsageFragment newInstance(String content) {
+		PeakUsageFragment fragment = new PeakUsageFragment();
+	
+		Log.d(DEBUG_TAG, "content:" + content);
+	    StringBuilder builder = new StringBuilder();
+	    for (int i = 0; i < 20; i++) {
+	        builder.append(content).append(" ");
+	    }
+	    builder.deleteCharAt(builder.length() - 1);
+	    fragment.mContent = builder.toString();
+	    
+	    Log.d(DEBUG_TAG, "fragment.mContent:" + fragment.mContent);
+	
+	    return fragment;
+	}
+
 	/**
 	* Called 3rd in the fragment life cycle
 	*/
@@ -77,7 +95,7 @@ public class PeakUsageFragment extends BaseFragment {
 	private void loadDonughtChart() {
 		// Set layout container for chart
 		final LinearLayout mContainerLayout = (LinearLayout) mFragmentView.findViewById(R.id.fragment_peak_usage_donught);
-		
+		final TextView mLayoutUsed = (TextView) mFragmentView.findViewById(R.id.fragment_peak_usage_layout);
 		
 		// Listen for view being inflated
 		ViewTreeObserver mViewTreeObserver = mContainerLayout.getViewTreeObserver();
@@ -86,8 +104,15 @@ public class PeakUsageFragment extends BaseFragment {
 	        public void onGlobalLayout() {
 	        	// Get layout parameters
 	    		LayoutParams parms = mContainerLayout.getLayoutParams();
-	    		// Set height equal to parent layout width
-	    		parms.height = getView().getWidth();
+	    		
+	    		if (mLayoutHelper.isLayout_w1024dp(mLayoutUsed)){
+	    			// Set width equal to parent layout height
+		    		parms.width = getView().getHeight();
+	    			
+	    		} else {
+	    			// Set height equal to parent layout width
+	    			parms.height = getView().getWidth();
+	    		}
 	        }
 	    });
 	
@@ -150,10 +175,5 @@ public class PeakUsageFragment extends BaseFragment {
 		
 		mDailyPeak.setText(IntUsageToString(mAccountStatus.getPeakDailyAverageUsedMb()));
 		mDailyPeakVariation.setText(IntUsageToString(mAccountStatus.getPeakAverageVariationMb()));
-	}
-
-	public static Fragment newInstance(int position) {
-		PeakUsageFragment f = new PeakUsageFragment();
-		return f;
 	}
 }

@@ -4,6 +4,13 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content" >
 
+    <TextView
+        android:id="@+id/fragment_usage_summary_size"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/size_phone_port"
+        android:visibility="gone" />
+
     <RelativeLayout
         android:id="@+id/fragment_peak_usage_container"
         android:layout_width="fill_parent"

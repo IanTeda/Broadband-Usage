@@ -3,7 +3,6 @@ package au.id.teda.broadband.usage.ui.fragments;
 import org.achartengine.GraphicalView;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +23,23 @@ public class OffpeakUsageFragment extends BaseFragment {
 	
 	// View inflated by fragment
 	private View mFragmentView;
+	
+	private String mContent = "???";
+
+	public static OffpeakUsageFragment newInstance(String content) {
+		OffpeakUsageFragment fragment = new OffpeakUsageFragment();
+		
+	    //TestFragment fragment = new TestFragment();
+	
+	    StringBuilder builder = new StringBuilder();
+	    for (int i = 0; i < 20; i++) {
+	        builder.append(content).append(" ");
+	    }
+	    builder.deleteCharAt(builder.length() - 1);
+	    fragment.mContent = builder.toString();
+	
+	    return fragment;
+	}
 			
 	/**
 	* Called 3rd in the fragment life cycle
@@ -152,8 +168,4 @@ public class OffpeakUsageFragment extends BaseFragment {
 		mDailyPeakVariation.setText(IntUsageToString(mAccountStatus.getPeakAverageVariationMb()));
 	}
 
-	public static Fragment newInstance(int position) {
-		OffpeakUsageFragment f = new OffpeakUsageFragment();
-		return f;
-	}
 }

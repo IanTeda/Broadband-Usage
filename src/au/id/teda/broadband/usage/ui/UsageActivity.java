@@ -28,7 +28,6 @@ public class UsageActivity extends BaseActivity {
 		Log.d(DEBUG_TAG, "UsageActivity");
         
 		FragmentPagerAdapter adapter = new UsageAdapter(getSupportFragmentManager());
-        //FragmentPagerAdapter adapter = new UsageAdapter(getSupportFragmentManager());
 
         ViewPager pager = (ViewPager)findViewById(R.id.pager);
         pager.setAdapter(adapter);
@@ -46,23 +45,24 @@ public class UsageActivity extends BaseActivity {
         @Override
         public Fragment getItem(int position) {
             //return TestFragment.newInstance(CONTENT[position % CONTENT.length]);
-        	Fragment f = new Fragment();
+        	//Log.d(DEBUG_TAG, "getItem Position:" + position);
+        	Fragment mFragment = new Fragment();
 
         	switch (position) {
         	case 0:
-        			f = PeakUsageFragment.newInstance(position);
-        			break;
+        		mFragment = PeakUsageFragment.newInstance(CONTENT[position % CONTENT.length]);
+        		break;
         	case 1:
-        			f = OffpeakUsageFragment.newInstance(position);
-        			break;
-
+        		mFragment = OffpeakUsageFragment.newInstance(CONTENT[position % CONTENT.length]);
+        		break;
            }
 
-           return f;
+           return mFragment;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
+        	Log.d(DEBUG_TAG, "getPageTitle Position:" + position);
             return CONTENT[position % CONTENT.length].toUpperCase();
         }
 
