@@ -6,20 +6,23 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.view.View;
 import au.id.teda.broadband.usage.helper.LayoutHelper;
-import au.id.teda.broadband.usage.ui.BaseActivity;
 
-public class CustomDonughtChart extends View {
+public class CustomDonughtChartStacked extends View {
 	
 	// Debug tag pulled from main activity
-	private final static String DEBUG_TAG = BaseActivity.DEBUG_TAG;
+	//private final static String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 	
 	private int mDaysSoFar;
 	private int mDaysToGo;
 	private int mDaysTotal;
 	
-	private long mUsed;
-	private long mRemaining;
-	private long mQuota;
+	private long mPeakUsed;
+	private long mPeakRemaining;
+	private long mPeakQuota;
+	
+	private long mOffpeakUsed;
+	private long mOffpeakRemaining;
+	private long mOffpeakQuota;
 	
 	private int backgroundWidth;
 	private int usageWidth;
@@ -29,15 +32,15 @@ public class CustomDonughtChart extends View {
 	private int usageColor;
 	private int usageColorAlt;
 	
-	private int BACKGROUND_PX = 45;
-	private int USAGE_PX = 35;
+	private int BACKGROUND_PX = 40;
+	private int USAGE_PX = 30;
 	private int PADDING = 4;
 	
 	private LayoutHelper mLayoutHelper;
 	
 	private final RectF mRectF;
 
-	public CustomDonughtChart(Context context) {
+	public CustomDonughtChartStacked(Context context) {
 		super(context);
 		//Log.d(DEBUG_TAG, "CustomDonughtChart");
 		
@@ -48,7 +51,7 @@ public class CustomDonughtChart extends View {
 		backgroundColor = mChartBuilder.getBackgroundColor();
 		backgroundColorAlt = mChartBuilder.getBackgroundAltColor();
 		usageColor = mChartBuilder.getPeakColor();
-		usageColorAlt = mChartBuilder.getBackgroundAltColor();
+		usageColorAlt = mChartBuilder.getOffpeakColor();
 		
 		// get chart widths
 		mLayoutHelper = new LayoutHelper(context);
@@ -62,10 +65,16 @@ public class CustomDonughtChart extends View {
 		mDaysTotal = daysSoFar + daysToGo;
 	}
 	
-	public void setUsage(long used, long quota){
-		mUsed = used;
-		mQuota = quota;
-		mRemaining = quota - used;
+	public void setPeakUsage(long peak, long quota){
+		mPeakUsed = peak;
+		mPeakQuota = quota;
+		mPeakRemaining = quota - peak;
+	}
+	
+	public void setOffpeakUsage(long offpeak, long quota){
+		mOffpeakUsed = offpeak;
+		mOffpeakQuota = quota;
+		mOffpeakRemaining = quota - offpeak;
 	}
 
 	@Override
@@ -76,6 +85,12 @@ public class CustomDonughtChart extends View {
 		float width = (float)getWidth();
 		float height = (float)getHeight();
 		
+		drawPeak(canvas, width, height);
+		drawOffpeak(canvas, width, height);
+
+	}
+
+	private void drawPeak(Canvas canvas, float width, float height) {
 		// Calculate line width based on stroke width
 		int lineWidth = (backgroundWidth/2);
 		
@@ -90,15 +105,32 @@ public class CustomDonughtChart extends View {
 	    // Draw days
 	    drawDays(canvas, mRectF);
 	    // Draw usage
-	    drawUsage(canvas, mRectF);
-
+	    drawPeakUsage(canvas, mRectF);
+	}
+	
+	private void drawOffpeak(Canvas canvas, float width, float height) {
+		// Calculate line width based on stroke width
+		int lineWidth = (backgroundWidth/2);
+		
+		float left = usageWidth + lineWidth + mLayoutHelper.getPxFromDp(PADDING);
+		float top = usageWidth + lineWidth + mLayoutHelper.getPxFromDp(PADDING);
+		float right = width - lineWidth - usageWidth - mLayoutHelper.getPxFromDp(PADDING);
+		float bottom = height - lineWidth - usageWidth - mLayoutHelper.getPxFromDp(PADDING);
+	    
+	    // Used to restrain canvas
+	    mRectF.set(left, top, right, bottom); 
+	    
+	    // Draw days
+	    drawDays(canvas, mRectF);
+	    // Draw usage
+	    drawOffpeakUsage(canvas, mRectF);
 	}
 	
 	private void drawDays(Canvas canvas, RectF rect){
 		
 		// Calculate percentage ratios
 		float soFar = ( (float) mDaysSoFar / mDaysTotal );
-		float toGo = ( (float) mDaysToGo / mDaysTotal );
+		//float toGo = ( (float) mDaysToGo / mDaysTotal );
 		
 		// Calculate angle based on percentage ratios
 		int angleSoFar = (int) (soFar * 360);
@@ -108,7 +140,7 @@ public class CustomDonughtChart extends View {
 		// Calculate arc lengths based on angles
 		int arcStart = -90;
 		int arcSoFar = arcStart + angleSoFar;
-		int arcToGo = arcStart + angleTotal;
+		//int arcToGo = arcStart + angleTotal;
 		
 	    //Set the canvas values
 		Paint paint = new Paint();
@@ -128,21 +160,21 @@ public class CustomDonughtChart extends View {
 	    canvas.drawArc(rect, arcSoFar, angleToGo, false, paint2);
 	}
 	
-	private void drawUsage(Canvas canvas, RectF rect){
+	private void drawPeakUsage(Canvas canvas, RectF rect){
 		
 		// Calculate percentage ratios
-		float used = ( (float) mUsed / mQuota );
-		float remaining = ( (float) mRemaining / mQuota );
+		float used = ( (float) mPeakUsed / mPeakQuota );
+		//float remaining = ( (float) mPeakRemaining / mPeakQuota );
 
 		// Calculate angle based on percentage ratios
 		int angleUsed = (int) (used * 360);
 		int angleTotal = 360;
-		int angleRemaining = (angleTotal - angleUsed);
+		//int angleRemaining = (angleTotal - angleUsed);
 		
 		// Calculate arc lengths based on angles
 		int arcStart = -90;
-		int arcUsed = arcStart + angleUsed;
-		int arcRemaining = arcStart + angleTotal;
+		//int arcUsed = arcStart + angleUsed;
+		//int arcRemaining = arcStart + angleTotal;
 		
 		
 	    //Set the canvas values
@@ -153,16 +185,33 @@ public class CustomDonughtChart extends View {
 	    paint.setStrokeCap(Paint.Cap.BUTT);
 	    paint.setStyle(Paint.Style.STROKE);
 	    canvas.drawArc(rect, arcStart, angleUsed, false, paint);
-	    
-	    /**
-	    Paint paint2 = new Paint();
-	    paint2.setColor(usageColorAlt);
-	    paint2.setStrokeWidth(usageWidth);
-	    paint2.setAntiAlias(true);
-	    paint2.setStrokeCap(Paint.Cap.BUTT);
-	    paint2.setStyle(Paint.Style.STROKE);
-	    canvas.drawArc(rect, arcUsed, angleRemaining, false, paint2);
-		**/
+	}
+	
+	private void drawOffpeakUsage(Canvas canvas, RectF rect){
+		
+		// Calculate percentage ratios
+		float used = ( (float) mOffpeakUsed / mOffpeakQuota );
+		//float remaining = ( (float) mOffpeakRemaining / mOffpeakQuota );
+
+		// Calculate angle based on percentage ratios
+		int angleUsed = (int) (used * 360);
+		//int angleTotal = 360;
+		//int angleRemaining = (angleTotal - angleUsed);
+		
+		// Calculate arc lengths based on angles
+		int arcStart = -90;
+		//int arcUsed = arcStart + angleUsed;
+		//int arcRemaining = arcStart + angleTotal;
+		
+		
+	    //Set the canvas values
+		Paint paint = new Paint();
+	    paint.setColor(usageColorAlt);
+	    paint.setStrokeWidth(usageWidth);
+	    paint.setAntiAlias(true);
+	    paint.setStrokeCap(Paint.Cap.BUTT);
+	    paint.setStyle(Paint.Style.STROKE);
+	    canvas.drawArc(rect, arcStart, angleUsed, false, paint);
 	}
 	
 }
