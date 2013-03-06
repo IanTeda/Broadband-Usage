@@ -26,15 +26,14 @@ public class ProductPlanFragment extends BaseFragment {
 
 	@Override
 	protected void loadFragmentView(){
-		if (mAccountInfo.isInfoSet() 
-    			&& mAccountStatus.isStatusSet()){
-			
-	    	TextView mUsernameTV = (TextView) mFragmentView.findViewById(R.id.fragment_product_plan_username_tv);
-	    	TextView mProductPlanTV = (TextView) mFragmentView.findViewById(R.id.fragment_product_plan_product_plan_tv);
-	    	
-	    	mUsernameTV.setText(mAccountAuthenticator.getUsername());
-	    	mProductPlanTV.setText(mAccountInfo.getProductPlanString());
-		}
+	
+		// Set TextView references
+    	TextView mUsernameTV = (TextView) mFragmentView.findViewById(R.id.fragment_product_plan_username_tv);
+    	TextView mProductPlanTV = (TextView) mFragmentView.findViewById(R.id.fragment_product_plan_product_plan_tv);
+    	
+    	// Set TextView text
+    	mUsernameTV.setText(mAccountAuthenticator.getUsername());
+    	mProductPlanTV.setText(mAccountInfo.getProductPlanString());
 	}
 
 }
