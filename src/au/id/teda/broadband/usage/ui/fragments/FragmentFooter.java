@@ -26,14 +26,12 @@ public class FragmentFooter extends BaseFragment  {
 		
 	@Override
 	protected void loadFragmentView(){
-		if (mAccountInfo.isInfoSet() 
-				&& mAccountStatus.isStatusSet()){
-				
-			TextView mLastSyncTV = (TextView) mFragmentView.findViewById(R.id.fragment_footer_last_sync_tv);
-			TextView mDataPeriodTV = (TextView) mFragmentView.findViewById(R.id.fragment_footer_data_period_tv);
-		    	
-			mLastSyncTV.setText(mAccountStatus.getLastSyncTimeString());
-			mDataPeriodTV.setText(Html.fromHtml(mAccountInfo.getDataPeriodString()));
-		}
+		// Set TextView reference
+		TextView mLastSyncTV = (TextView) mFragmentView.findViewById(R.id.fragment_footer_last_sync_tv);
+		TextView mDataPeriodTV = (TextView) mFragmentView.findViewById(R.id.fragment_footer_data_period_tv);
+	    
+		// Set TextView text vaules
+		mLastSyncTV.setText(mAccountStatus.getLastSyncTimeString());
+		mDataPeriodTV.setText(Html.fromHtml(mAccountInfo.getDataPeriodString()));
 	}
 }
