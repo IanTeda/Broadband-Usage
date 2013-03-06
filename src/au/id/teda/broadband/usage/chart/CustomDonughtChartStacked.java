@@ -32,8 +32,8 @@ public class CustomDonughtChartStacked extends View {
 	private int usageColor;
 	private int usageColorAlt;
 	
-	private int BACKGROUND_PX = 40;
-	private int USAGE_PX = 30;
+	private int BACKGROUND_PX = 30;
+	private int USAGE_PX = 25;
 	private int PADDING = 4;
 	
 	private LayoutHelper mLayoutHelper;
@@ -112,10 +112,10 @@ public class CustomDonughtChartStacked extends View {
 		// Calculate line width based on stroke width
 		int lineWidth = (backgroundWidth/2);
 		
-		float left = usageWidth + lineWidth + mLayoutHelper.getPxFromDp(PADDING);
-		float top = usageWidth + lineWidth + mLayoutHelper.getPxFromDp(PADDING);
-		float right = width - lineWidth - usageWidth - mLayoutHelper.getPxFromDp(PADDING);
-		float bottom = height - lineWidth - usageWidth - mLayoutHelper.getPxFromDp(PADDING);
+		float left = backgroundWidth + lineWidth + mLayoutHelper.getPxFromDp(PADDING);
+		float top = backgroundWidth + lineWidth + mLayoutHelper.getPxFromDp(PADDING);
+		float right = width - lineWidth - backgroundWidth - mLayoutHelper.getPxFromDp(PADDING);
+		float bottom = height - lineWidth - backgroundWidth - mLayoutHelper.getPxFromDp(PADDING);
 	    
 	    // Used to restrain canvas
 	    mRectF.set(left, top, right, bottom); 

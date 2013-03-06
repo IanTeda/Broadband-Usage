@@ -8,6 +8,7 @@ import android.view.ViewTreeObserver;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.chart.CustomDonughtChartStacked;
 
@@ -32,7 +33,7 @@ public class UsageDoughnutFragment extends BaseFragment {
 	protected void loadFragmentView() {
 
 		loadDonughtChart();
-
+		loadChartText();
 	}
 	
 	private void loadDonughtChart() {
@@ -63,6 +64,32 @@ public class UsageDoughnutFragment extends BaseFragment {
 		
 		// Add chart view to layout view
 		mContainerLayout.addView(mChart, mChartViewParams);
+	}
+	
+	private void loadChartText() {
+		// Set layout container for chart
+		final LinearLayout mContainerLayout = (LinearLayout) mFragmentView.findViewById(R.id.fragment_usage_donught_text_container);
+		
+		// Listen for view being inflated
+		ViewTreeObserver mViewTreeObserver = mContainerLayout.getViewTreeObserver();
+		mViewTreeObserver.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+	        @Override
+	        public void onGlobalLayout() {
+	        	// Get layout parameters
+	    		LayoutParams parms = mContainerLayout.getLayoutParams();
+	    		
+    			// Set height equal to parent layout width
+    			parms.height = getView().getWidth();
+	        }
+	    });
+		
+		// Set TextView references
+		final TextView mPeakPercent = (TextView) mFragmentView.findViewById(R.id.fragment_usage_donught_peak_percent);
+		final TextView mOffpeakPercent = (TextView) mFragmentView.findViewById(R.id.fragment_usage_donught_offpeak_percent);
+
+		// Set TextView values
+		mPeakPercent.setText(mAccountStatus.getPeakDataUsedPercentString());
+		mOffpeakPercent.setText(mAccountStatus.getOffpeakDataUsedPercentString());
 	}
 
 }

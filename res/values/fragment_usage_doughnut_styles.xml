@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="fragment_usage_doughnut_percent">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/text_xxlarge</item>
+        <item name="android:textColor">@color/base</item>
+        <item name="android:text">@string/fragment_usage_doughnut_percent</item>
+    </style>
+
+    <style name="fragment_usage_doughnut_percent_title">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_tiny</item>
+        <item name="android:textColor">@color/base_light</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+</resources>
