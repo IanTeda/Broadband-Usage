@@ -105,24 +105,20 @@ public class UsageSummaryFragment extends BaseFragment {
 	
 	@Override
 	protected void loadFragmentView(){
-		if (mAccountInfo.isInfoSet() 
-    			&& mAccountStatus.isStatusSet()){
 			
-			
-			// Used in both sofar and remaining views for phone
-			if (mLayoutHelper.isLayoutPhone(mLayoutUsed)){
-				mCurrentMonth.setText(mAccountStatus.getCurrentMonthString());
-				mDaysDescription.setText(mAccountStatus.getRolloverDateString());
-				mPeakSummary.setText(mAccountInfo.getPeakQuotaString());
-				mOffpeakSummary.setText(mAccountInfo.getOffpeakQuotaString());
-				mUpTimeNumber.setText(mAccountStatus.getUpTimeDaysString());
-				mIpAddress.setText(mAccountStatus.getIpAddressStrng());
-			} else if (mLayoutHelper.isLayout_w1024dp(mLayoutUsed)){
-			}
-			
-			setSummaryView();
-			checkUsageStatus();
+		// Used in both sofar and remaining views for phone
+		if (mLayoutHelper.isLayoutPhone(mLayoutUsed)){
+			mCurrentMonth.setText(mAccountStatus.getCurrentMonthString());
+			mDaysDescription.setText(mAccountStatus.getRolloverDateString());
+			mPeakSummary.setText(mAccountInfo.getPeakQuotaString());
+			mOffpeakSummary.setText(mAccountInfo.getOffpeakQuotaString());
+			mUpTimeNumber.setText(mAccountStatus.getUpTimeDaysString());
+			mIpAddress.setText(mAccountStatus.getIpAddressStrng());
+		} else if (mLayoutHelper.isLayout_w1024dp(mLayoutUsed)){
 		}
+		
+		setSummaryView();
+		checkUsageStatus();
 	}
 	
 	private void setSummaryView() {
