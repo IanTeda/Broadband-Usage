@@ -99,7 +99,7 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
     	if (getAccount() != null){
     		return getAccount().name;
     	} else {
-    		return mContext.getString(R.string.activity_main_username);
+    		return mContext.getString(R.string.fragment_product_plan_username);
     	}
     }
     

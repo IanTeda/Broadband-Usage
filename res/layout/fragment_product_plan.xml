@@ -13,7 +13,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin"
-        android:text="@string/activity_main_username"
+        android:text="@string/fragment_product_plan_username"
         android:textColor="@color/accent"
         android:textSize="@dimen/text_large" />
 
@@ -21,7 +21,7 @@
         android:id="@+id/fragment_product_plan_product_plan_tv"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/activity_main_product_plan"
+        android:text="@string/fragment_product_plan_product_plan"
         android:textColor="@color/base"
         android:textSize="@dimen/text_micro" />
 

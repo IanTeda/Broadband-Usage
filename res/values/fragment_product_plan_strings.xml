@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="fragment_product_plan_username">someone@iinet.net.au</string>
+    <string name="fragment_product_plan_product_plan">ACCOUNT PLAN (ACCOUNT PRODUCT)</string>
+
+</resources>
