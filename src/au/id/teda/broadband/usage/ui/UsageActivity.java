@@ -1,13 +1,13 @@
 package au.id.teda.broadband.usage.ui;
 
-import com.viewpagerindicator.TabPageIndicator;
+import com.viewpagerindicator.TitlePageIndicator;
+import com.viewpagerindicator.TitlePageIndicator.IndicatorStyle;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.ui.fragments.OffpeakUsageFragment;
 import au.id.teda.broadband.usage.ui.fragments.PeakUsageFragment;
@@ -18,57 +18,69 @@ import au.id.teda.broadband.usage.ui.fragments.PeakUsageFragment;
  *
  */
 public class UsageActivity extends BaseActivity {
-
-    private static final String[] CONTENT = new String[] { "Peak", "Offpeak" };
+    
+    private UsageActivityAdapter mAdapter;
+    private ViewPager mPager;
+    private TitlePageIndicator mIndicator;
+    
 		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);			
 		setContentView(R.layout.activity_usage);
-		Log.d(DEBUG_TAG, "UsageActivity");
         
-		FragmentPagerAdapter adapter = new UsageAdapter(getSupportFragmentManager());
+		mAdapter = new UsageActivityAdapter(getSupportFragmentManager());
+		mPager = (ViewPager)findViewById(R.id.activity_usage_pager);
+		mPager.setAdapter(mAdapter);
 
-        ViewPager pager = (ViewPager)findViewById(R.id.pager);
-        pager.setAdapter(adapter);
-
-        TabPageIndicator indicator = (TabPageIndicator)findViewById(R.id.indicator);
-        indicator.setViewPager(pager);
+		mIndicator = (TitlePageIndicator)findViewById(R.id.activity_usage_indicator);
+		mIndicator.setViewPager(mPager);
+		mIndicator.setTextColor(getResources().getColor(R.color.base_light));
+		mIndicator.setSelectedBold(true);
+		mIndicator.setSelectedColor(getResources().getColor(R.color.base));
+		mIndicator.setFooterColor(getResources().getColor(R.color.accent));
+		mIndicator.setFooterIndicatorStyle(IndicatorStyle.Underline);
 			
 	}
 
-    class UsageAdapter extends FragmentPagerAdapter {
-        public UsageAdapter(FragmentManager fm) {
+    class UsageActivityAdapter extends FragmentPagerAdapter {
+    	
+        private final String[] TAB_TITLES = new String[] { PeakUsageFragment.PAGE_TITLE, OffpeakUsageFragment.PAGE_TITLE };
+        private int mCount = TAB_TITLES.length;
+    	
+        public UsageActivityAdapter(FragmentManager fm) {
             super(fm);
         }
 
         @Override
         public Fragment getItem(int position) {
-            //return TestFragment.newInstance(CONTENT[position % CONTENT.length]);
-        	//Log.d(DEBUG_TAG, "getItem Position:" + position);
-        	Fragment mFragment = new Fragment();
 
         	switch (position) {
         	case 0:
-        		mFragment = PeakUsageFragment.newInstance(CONTENT[position % CONTENT.length]);
-        		break;
+        		return new PeakUsageFragment();
         	case 1:
-        		mFragment = OffpeakUsageFragment.newInstance(CONTENT[position % CONTENT.length]);
-        		break;
+        		return new OffpeakUsageFragment();
+        	default:
+                throw new IllegalArgumentException("not this many fragments: " + position);
            }
-
-           return mFragment;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-        	Log.d(DEBUG_TAG, "getPageTitle Position:" + position);
-            return CONTENT[position % CONTENT.length].toUpperCase();
+        	return TAB_TITLES[position % TAB_TITLES.length];
         }
 
         @Override
         public int getCount() {
-            return CONTENT.length;
+        	return mCount;
         }
+        
+        public void setCount(int count) {
+            if (count > 0 && count <= 10) {
+                mCount = count;
+                notifyDataSetChanged();
+                }
+            }
+
     }
 }

@@ -24,22 +24,8 @@ public class OffpeakUsageFragment extends BaseFragment {
 	// View inflated by fragment
 	private View mFragmentView;
 	
-	private String mContent = "???";
-
-	public static OffpeakUsageFragment newInstance(String content) {
-		OffpeakUsageFragment fragment = new OffpeakUsageFragment();
-		
-	    //TestFragment fragment = new TestFragment();
-	
-	    StringBuilder builder = new StringBuilder();
-	    for (int i = 0; i < 20; i++) {
-	        builder.append(content).append(" ");
-	    }
-	    builder.deleteCharAt(builder.length() - 1);
-	    fragment.mContent = builder.toString();
-	
-	    return fragment;
-	}
+	// Fragment page title
+	public static String PAGE_TITLE = "OFFPEAK";
 			
 	/**
 	* Called 3rd in the fragment life cycle
@@ -87,7 +73,7 @@ public class OffpeakUsageFragment extends BaseFragment {
 		TextView mDownloadData = (TextView) mFragmentView.findViewById(R.id.fragment_offpeak_upload_download_download_number);
 		
 		mUploadData.setText(mAccountStatus.getUploadsDataUsedGbString());
-		mDownloadData.setText(mAccountStatus.getPeakDataUsedLessUploadsGbString());
+		mDownloadData.setText(mAccountStatus.getOffpeakDataUsedLessUploadsGbString());
 	}
 
 	private void loadDonughtChart() {
@@ -110,7 +96,7 @@ public class OffpeakUsageFragment extends BaseFragment {
 		// Initialize chart class
 		CustomDonughtChart mChart = new CustomDonughtChart(mContext);
 		mChart.setDays(mAccountStatus.getDaysSoFar(), mAccountStatus.getDaysToGo());
-		mChart.setUsage(mAccountStatus.getPeakDataUsed(), mAccountInfo.getOffpeakQuota());
+		mChart.setUsage(mAccountStatus.getOffpeakDataUsed(), mAccountInfo.getOffpeakQuota());
 	
 		// Set layout parameters for chart view
 		LayoutParams mChartViewParams = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
@@ -140,7 +126,7 @@ public class OffpeakUsageFragment extends BaseFragment {
 		TextView mPeakUsed = (TextView) mFragmentView.findViewById(R.id.fragment_offpeak_usage_donught_text_period);
 		
 		// Set text in text views
-		mPeakPercent.setText(mAccountStatus.getPeakDataUsedPercentString());
+		mPeakPercent.setText(mAccountStatus.getOffpeakDataUsedPercentString());
 		mPeakUsed.setText(mContext.getString(R.string.fragment_offpeak_usage_used));
 	}
 
@@ -164,7 +150,7 @@ public class OffpeakUsageFragment extends BaseFragment {
 		TextView mDailyPeak = (TextView) mFragmentView.findViewById(R.id.fragment_offpeak_usage_daily_number);
 		TextView mDailyPeakVariation = (TextView) mFragmentView.findViewById(R.id.fragment_offpeak_usage_daily_description_right);
 		
-		mDailyPeak.setText(IntUsageToString(mAccountStatus.getPeakDailyAverageUsedMb()));
+		mDailyPeak.setText(IntUsageToString(mAccountStatus.getOffpeakDailyAverageUsedMb()));
 		mDailyPeakVariation.setText(IntUsageToString(mAccountStatus.getPeakAverageVariationMb()));
 	}
 

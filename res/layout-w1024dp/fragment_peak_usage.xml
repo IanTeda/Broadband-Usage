@@ -9,7 +9,7 @@
     android:layout_margin="@dimen/margin">
     
 	<TextView
-        android:id="@+id/fragment_peak_usage_layout"
+        android:id="@+id/fragment_peak_usage_summary_size"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:text="@string/size_w1024dp"

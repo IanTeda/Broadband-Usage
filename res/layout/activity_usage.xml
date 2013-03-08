@@ -5,36 +5,15 @@
     android:layout_height="fill_parent"
     android:orientation="vertical">
 
-    <!--
-    <au.id.teda.broadband.usage.ui.SafeViewFlipper
-        android:id="@+id/fragment_daily_usage_view_flipper"
+    <com.viewpagerindicator.TitlePageIndicator
+        android:id="@+id/activity_usage_indicator"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
-
-        <fragment
-            android:id="@+id/fragment_peak_usage"
-            android:name="au.id.teda.broadband.usage.ui.fragments.PeakUsageFragment"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            tools:layout="@layout/fragment_peak_usage" />
-
-        <fragment
-            android:id="@+id/fragment_offpeak_usage"
-            android:name="au.id.teda.broadband.usage.ui.fragments.OffpeakUsageFragment"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            tools:layout="@layout/fragment_peak_usage" />
-        
-    </au.id.teda.broadband.usage.ui.SafeViewFlipper>
-    -->
-
-    <com.viewpagerindicator.TabPageIndicator
-        android:id="@+id/indicator"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding"
+        android:layout_marginBottom="@dimen/margin" />
 
     <android.support.v4.view.ViewPager
-        android:id="@+id/pager"
+        android:id="@+id/activity_usage_pager"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />

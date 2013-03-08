@@ -14,7 +14,7 @@ import au.id.teda.broadband.usage.util.NetworkUtilities;
 
 public class AccountStatusHelper {
 	
-	private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
+	//private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 	
 	// Set static string values for preference keys
 	private final static String ACCOUNT = "account";
@@ -517,8 +517,6 @@ public class AccountStatusHelper {
 		
 		// Difference in milliseconds divided by day in millisecond
 		int diffInDays = (int) ((now.getTimeInMillis() - uptime.getTimeInMillis()) / DAY_IN_MILLIS );
-		
-		Log.d(DEBUG_TAG, "now:" + now.toString() + " uptime:" + uptime.toString());
 		
 		return diffInDays;
 	}

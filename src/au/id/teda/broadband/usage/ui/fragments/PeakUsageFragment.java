@@ -24,24 +24,9 @@ public class PeakUsageFragment extends BaseFragment {
 	
 	// View inflated by fragment
 	private View mFragmentView;
-			
-	private String mContent = "???";
-
-	public static PeakUsageFragment newInstance(String content) {
-		PeakUsageFragment fragment = new PeakUsageFragment();
 	
-		Log.d(DEBUG_TAG, "content:" + content);
-	    StringBuilder builder = new StringBuilder();
-	    for (int i = 0; i < 20; i++) {
-	        builder.append(content).append(" ");
-	    }
-	    builder.deleteCharAt(builder.length() - 1);
-	    fragment.mContent = builder.toString();
-	    
-	    Log.d(DEBUG_TAG, "fragment.mContent:" + fragment.mContent);
-	
-	    return fragment;
-	}
+	// Fragment page title
+	public static String PAGE_TITLE = "PEAK";
 
 	/**
 	* Called 3rd in the fragment life cycle
@@ -95,7 +80,7 @@ public class PeakUsageFragment extends BaseFragment {
 	private void loadDonughtChart() {
 		// Set layout container for chart
 		final LinearLayout mContainerLayout = (LinearLayout) mFragmentView.findViewById(R.id.fragment_peak_usage_donught);
-		final TextView mLayoutUsed = (TextView) mFragmentView.findViewById(R.id.fragment_peak_usage_layout);
+		final TextView mLayoutUsed = (TextView) mFragmentView.findViewById(R.id.fragment_peak_usage_summary_size);
 		
 		// Listen for view being inflated
 		ViewTreeObserver mViewTreeObserver = mContainerLayout.getViewTreeObserver();
