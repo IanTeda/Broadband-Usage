@@ -151,6 +151,7 @@ public class OffpeakUsageFragment extends BaseFragment {
 		TextView mDailyPeakVariation = (TextView) mFragmentView.findViewById(R.id.fragment_offpeak_usage_daily_description_right);
 		
 		mDailyPeak.setText(IntUsageToString(mAccountStatus.getOffpeakDailyAverageUsedMb()));
+		//TODO: Update method below
 		mDailyPeakVariation.setText(IntUsageToString(mAccountStatus.getPeakAverageVariationMb()));
 	}
 

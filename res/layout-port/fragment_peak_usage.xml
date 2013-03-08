@@ -151,6 +151,7 @@
                 android:id="@+id/fragment_peak_upload_download_container"
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/touch"
+                android:layout_marginTop="@dimen/margin"
                 android:background="@color/background_alt_light"
                 android:gravity="center" >
 
