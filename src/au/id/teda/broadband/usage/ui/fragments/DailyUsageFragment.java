@@ -56,11 +56,6 @@ public class DailyUsageFragment extends BaseFragment {
 		// Set reference to view flipper
 		mViewFlipper = (ViewFlipper) mFragmentView.findViewById(R.id.fragment_daily_usage_view_flipper);
 		
-        // Get volume usage array
-		DailyDataDatabaseAdapter mDatabase = new DailyDataDatabaseAdapter(mContext);
-		String period = mAccountStatus.getDataBaseMonthString();
-		mDailyUsageArray = mDatabase.getDailyVolumeUsage(period);
-		
 		return mFragmentView;
 	}
 	
@@ -94,6 +89,11 @@ public class DailyUsageFragment extends BaseFragment {
 	protected void loadFragmentView(){
 		if (mAccountInfo.isInfoSet() 
     			&& mAccountStatus.isStatusSet()){
+			
+	        // Get volume usage array
+			DailyDataDatabaseAdapter mDatabase = new DailyDataDatabaseAdapter(mContext);
+			String period = mAccountStatus.getDataBaseMonthString();
+			mDailyUsageArray = mDatabase.getDailyVolumeUsage(period);
 			
 			TextView mCurrentMonthTV = (TextView) mFragmentView.findViewById(R.id.fragment_daily_usage_month_tv); 	
 			mCurrentMonthTV.setText(mAccountStatus.getCurrentMonthString());

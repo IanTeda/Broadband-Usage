@@ -13,9 +13,6 @@ import org.xmlpull.v1.XmlPullParserException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import au.id.teda.broadband.usage.R;
@@ -289,6 +286,11 @@ public class NetworkUtilities {
         	Long offpeak = volumeUsage.offpeak;
         	Long uploads = volumeUsage.uploads;
         	Long freezone = volumeUsage.freezone;
+        	
+        	Calendar mDate = Calendar.getInstance();
+        	mDate.setTimeInMillis(day);
+        	
+        	Log.d(DEBUG_TAG, "Month:" + month + " Date:" + mDate.getTime());
         	
         	mDatabase.addReplaceEntry(mUsername, day, month, peak, offpeak, uploads, freezone);
         }

@@ -1,6 +1,7 @@
 package au.id.teda.broadband.usage.database;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import android.content.Context;
@@ -8,11 +9,13 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
+import android.util.Log;
+import au.id.teda.broadband.usage.ui.MainActivity;
 import au.id.teda.broadband.usage.util.DailyVolumeUsage;
 
 public class DailyDataDatabaseAdapter {
 	
-	//private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
+	private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
 	
 	// Set variables for adapter
 	public static final String KEY_ROWID = "_id";
@@ -143,6 +146,11 @@ public class DailyDataDatabaseAdapter {
 				Long offpeak = cursor.getLong(COLUMN_INDEX_OFFPEAK);
 				Long uploads = cursor.getLong(COLUMN_INDEX_UPLOADS);
 				Long freezone = cursor.getLong(COLUMN_INDEX_FREEZONE);
+				
+				Calendar mDate = Calendar.getInstance();
+	        	mDate.setTimeInMillis(day);
+	        	
+	        	Log.d(DEBUG_TAG, "Db Month:" + month + " Db Date:" + mDate.getTime());
 								
 				usage.add(new DailyVolumeUsage(day, month, peak, offpeak, uploads, freezone));
 				

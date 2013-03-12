@@ -18,7 +18,7 @@ import au.id.teda.broadband.usage.util.DailyVolumeUsage;
 
 public class VolumeUsageParser {
 	
-	//private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
+	private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
 	
 	private static final String ns = null; // We don't use namespaces
 	private static final String FEED_TAG = "ii_feed";
@@ -111,6 +111,7 @@ public class VolumeUsageParser {
     
     public DailyVolumeUsage readDayHour(XmlPullParser parser) throws XmlPullParserException, IOException {
     	Calendar day = getDay(parser.getAttributeValue(null, PERIOD_ATT));
+    	Log.d(DEBUG_TAG, "Date:" + day.getTime());
     	
     	parser.require(XmlPullParser.START_TAG, ns, DAY_HOUR_TAG);
     	
@@ -172,6 +173,8 @@ public class VolumeUsageParser {
     	Calendar day = Calendar.getInstance();
 		try {
 			day.setTime(sdf.parse(period));
+			day.set(Calendar.HOUR_OF_DAY, 0);
+			day.set(Calendar.MINUTE, 1);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
