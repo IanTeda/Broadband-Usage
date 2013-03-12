@@ -66,6 +66,7 @@ public class OffpeakUsageFragment extends BaseFragment {
 		
 		// Add chart view to layout view
 		GraphicalView mGraphicalView = (GraphicalView) mPieChart.getPieChartView();
+		mContainerLayout.removeAllViews();
 		mContainerLayout.addView(mGraphicalView, mChartViewParams);
 		
 		// Set text view references
@@ -102,6 +103,7 @@ public class OffpeakUsageFragment extends BaseFragment {
 		LayoutParams mChartViewParams = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
 		
 		// Add chart view to layout view
+		mContainerLayout.removeAllViews();
 		mContainerLayout.addView(mChart, mChartViewParams);
 	}
 

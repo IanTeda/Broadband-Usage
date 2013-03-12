@@ -63,6 +63,7 @@ public class UsageDoughnutFragment extends BaseFragment {
 		LayoutParams mChartViewParams = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
 		
 		// Add chart view to layout view
+		mContainerLayout.removeAllViews();
 		mContainerLayout.addView(mChart, mChartViewParams);
 	}
 	
