@@ -3,5 +3,7 @@
 
     <string name="fragment_product_plan_username">someone@iinet.net.au</string>
     <string name="fragment_product_plan_product_plan">ACCOUNT PLAN (ACCOUNT PRODUCT)</string>
+    <string name="fragment_product_plan_product">ACCOUNT PRODUCT</string>
+    <string name="fragment_product_plan_plan">ACCOUNT PLAN</string>
 
 </resources>

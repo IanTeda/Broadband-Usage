@@ -2,6 +2,7 @@ package au.id.teda.broadband.usage.helper;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -85,7 +86,8 @@ public class AccountInfoHelper {
 	 * @return shared preference string
 	 */
 	public String getPlan(){
-		return mSettings.getString(PREF_PLAN_KEY, "").toUpperCase();
+		return mSettings.getString(PREF_PLAN_KEY
+				, mContext.getResources().getString(R.string.fragment_product_plan_plan)).toUpperCase();
 	}
 	
 	/**
@@ -110,7 +112,8 @@ public class AccountInfoHelper {
 	 * @return shared preference string
 	 */
 	public String getProduct(){
-		return mSettings.getString(PREF_PRODUCT_KEY, "").toUpperCase();
+		return mSettings.getString(PREF_PRODUCT_KEY
+				, mContext.getResources().getString(R.string.fragment_product_plan_product)).toUpperCase();
 	}
 	
 	

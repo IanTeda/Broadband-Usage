@@ -26,8 +26,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	public void onPerformSync(Account account, Bundle extras, String authority,
 			ContentProviderClient provider, SyncResult syncResult) {
 		
-		NetworkUtilities mNetworkUtilities = new NetworkUtilities(mContext);
-		mNetworkUtilities.syncXmlData();
+		//NetworkUtilities mNetworkUtilities = new NetworkUtilities(mContext);
+		//mNetworkUtilities.syncXmlData();
 	}
 
 }
