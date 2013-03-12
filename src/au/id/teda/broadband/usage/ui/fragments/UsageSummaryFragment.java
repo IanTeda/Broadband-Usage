@@ -143,8 +143,7 @@ public class UsageSummaryFragment extends BaseFragment {
 		
 		// Only set text if loading phone layout
 		if (mLayoutHelper.isLayoutPhone(mLayoutUsed)){
-			mDaysNumber.setText(mAccountStatus.getDaysToGoString());
-			
+			mDaysNumber.setText(mAccountStatus.getDaysToGoString());		
 			mPeakDescription.setText(mAccountStatus.getPeakShapedRemainingString());
 			mOffpeakDescription.setText(mAccountStatus.getOffpeakShapedRemainingString());
 		}

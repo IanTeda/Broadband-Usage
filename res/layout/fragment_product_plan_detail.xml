@@ -180,7 +180,7 @@
         android:id="@+id/fragment_product_plan_detail_offpeak_hours"
         style="@style/fragment_product_plan_detail_left"
         android:layout_below="@+id/fragment_product_plan_detail_offpeak_finish"
-        android:text="@string/fragment_product_plan_detail_finish" />
+        android:text="@string/fragment_product_plan_detail_hours" />
 
     <TextView
         android:id="@+id/fragment_product_plan_detail_offpeak_quota"

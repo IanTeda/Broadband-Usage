@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.util.Log;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.ui.MainActivity;
 
@@ -222,7 +223,7 @@ public class NotificationHelper {
 		long warning = gbStringToLong(value);
 		long remaining = mStatus.getPeakDataRemaining();
 		
-		if (remaining < warning){
+		if (remaining < warning && remaining != 0){
 			return true;
 		} else {
 			return false;
@@ -298,7 +299,7 @@ public class NotificationHelper {
 		long warning = gbStringToLong(value);
 		long remaining = mStatus.getOffpeakDataRemaining();
 				
-		if (remaining < warning){
+		if (remaining < warning && remaining != 0){
 			return true;
 		} else {
 			return false;

@@ -12,17 +12,17 @@ public class CustomDonughtChartStacked extends View {
 	// Debug tag pulled from main activity
 	//private final static String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 	
-	private int mDaysSoFar;
-	private int mDaysToGo;
-	private int mDaysTotal;
+	private int mDaysSoFar = -1;
+	//private int mDaysToGo;
+	private int mDaysTotal = -1;
 	
-	private long mPeakUsed;
-	private long mPeakRemaining;
-	private long mPeakQuota;
+	private long mPeakUsed = -1;
+	//private long mPeakRemaining;
+	private long mPeakQuota = -1;
 	
-	private long mOffpeakUsed;
-	private long mOffpeakRemaining;
-	private long mOffpeakQuota;
+	private long mOffpeakUsed = -1;
+	//private long mOffpeakRemaining;
+	private long mOffpeakQuota = -1;
 	
 	private int backgroundWidth;
 	private int usageWidth;
@@ -61,20 +61,20 @@ public class CustomDonughtChartStacked extends View {
 	
 	public void setDays(int daysSoFar, int daysToGo){
 		mDaysSoFar = daysSoFar;
-		mDaysToGo = daysToGo;
+		//mDaysToGo = daysToGo;
 		mDaysTotal = daysSoFar + daysToGo;
 	}
 	
 	public void setPeakUsage(long peak, long quota){
 		mPeakUsed = peak;
 		mPeakQuota = quota;
-		mPeakRemaining = quota - peak;
+		//mPeakRemaining = quota - peak;
 	}
 	
 	public void setOffpeakUsage(long offpeak, long quota){
 		mOffpeakUsed = offpeak;
 		mOffpeakQuota = quota;
-		mOffpeakRemaining = quota - offpeak;
+		//mOffpeakRemaining = quota - offpeak;
 	}
 
 	@Override

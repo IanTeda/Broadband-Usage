@@ -343,7 +343,14 @@ public class AccountInfoHelper {
 	}
 	
 	public String getPeakQuotaString(){
-		return "/ " + Long.toString(getPeakQuotaGb()) + " (Gb) Peak";
+		long quota = getPeakQuotaGb();
+		
+		if (quota < 10){
+			return "/ 0" + Long.toString(quota) + " (Gb) Peak";
+		} else {
+			return "/ " + Long.toString(quota) + " (Gb) Peak";
+		}
+		
 	}
 	
 	/**
@@ -407,7 +414,14 @@ public class AccountInfoHelper {
 	}
 	
 	public String getOffpeakQuotaString(){
-		return "/ " + Long.toString(getOffpeakQuotaGb()) + " (Gb) Offpeak";
+		
+		long quota = getOffpeakQuotaGb();
+		
+		if (quota < 10){
+			return "/ 0" + Long.toString(quota) + " (Gb) Offpeak";
+		} else {
+			return "/ " + Long.toString(quota) + " (Gb) Offpeak";
+		}
 	}
 	
 	/**

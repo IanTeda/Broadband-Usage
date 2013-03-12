@@ -133,7 +133,9 @@ public class AccountStatusHelper {
 		int diffInDays = getDaysToGo();
 		
 		String daysToGo = Integer.toString(diffInDays);
-		if (diffInDays < 10 ){
+		if (diffInDays < 0){
+			daysToGo = "00";
+		} else if (diffInDays < 10 ){
 			daysToGo = "0" + daysToGo;
 		}
 		
@@ -206,12 +208,14 @@ public class AccountStatusHelper {
 
 		int diffInDays = getDaysSoFar();
 		
-		String daysSoGo = Integer.toString(diffInDays);
+		String daysSoFar = Integer.toString(diffInDays);
 		if (diffInDays < 10 ){
-			daysSoGo = "0" + daysSoGo;
+			daysSoFar = "0" + daysSoFar;
+		} else if (diffInDays > 31){
+			daysSoFar = "00";
 		}
 		
-		return daysSoGo;
+		return daysSoFar;
 	}
 	
 	public String getStartDateString(){
@@ -526,8 +530,12 @@ public class AccountStatusHelper {
 		int upDays = getUpTimeDays();
 		
 		String days =  Integer.toString(upDays);
-		if (upDays < 10 ){
+		if (upDays < 0){
+			days = "00";
+		} else if (upDays < 10 ){
 			days = "0" + days;
+		} else if (upDays > 31){
+			days = "00";
 		}
 		
 		return days;

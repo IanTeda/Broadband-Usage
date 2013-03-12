@@ -3,9 +3,10 @@
 
     <style name="fragment_usage_summary_layout_container">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/line_height</item>
-        <item name="android:layout_marginTop">@dimen/padding</item>
-        <item name="android:layout_marginBottom">@dimen/padding</item>
+        <item name="android:layout_height">@dimen/touch</item>
+        <!-- <item name="android:layout_marginTop">@dimen/padding</item>
+        <item name="android:layout_marginBottom">@dimen/padding</item> -->
+        <item name="android:padding">@dimen/padding</item>
     </style>
 
     <style name="fragment_usage_summary_number">

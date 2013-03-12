@@ -3,11 +3,9 @@ package au.id.teda.broadband.usage.syncadapter;
 import android.accounts.Account;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SyncResult;
 import android.os.Bundle;
-import au.id.teda.broadband.usage.authenticator.AccountAuthenticator;
 import au.id.teda.broadband.usage.util.NetworkUtilities;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
@@ -26,8 +24,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	public void onPerformSync(Account account, Bundle extras, String authority,
 			ContentProviderClient provider, SyncResult syncResult) {
 		
-		//NetworkUtilities mNetworkUtilities = new NetworkUtilities(mContext);
-		//mNetworkUtilities.syncXmlData();
+		NetworkUtilities mNetworkUtilities = new NetworkUtilities(mContext);
+		mNetworkUtilities.syncXmlData();
 	}
 
 }
