@@ -111,7 +111,6 @@ public class VolumeUsageParser {
     
     public DailyVolumeUsage readDayHour(XmlPullParser parser) throws XmlPullParserException, IOException {
     	Calendar day = getDay(parser.getAttributeValue(null, PERIOD_ATT));
-    	Log.d(DEBUG_TAG, "Date:" + day.getTime());
     	
     	parser.require(XmlPullParser.START_TAG, ns, DAY_HOUR_TAG);
     	
@@ -120,6 +119,7 @@ public class VolumeUsageParser {
     		monthSetFlag = true;
     	}
     	
+    	Log.d(DEBUG_TAG, "VUP Day:" + day.getTime());
     	Long mDay = day.getTimeInMillis();
     	Long mPeak = null;
     	Long mOffPeak = null;
@@ -147,6 +147,10 @@ public class VolumeUsageParser {
                 skip(parser);
             }
     	}
+    	
+    	Calendar mDate = Calendar.getInstance();
+    	mDate.setTimeInMillis(mDay);
+    	Log.d(DEBUG_TAG, "VUP Date:" + mDate.getTime());
     	
     	return new DailyVolumeUsage(mDay, mDataMonth, mPeak, mOffPeak, mUploads, mFreezone );
     }
@@ -179,7 +183,7 @@ public class VolumeUsageParser {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		Log.d(DEBUG_TAG, "period:" + period);
     	return day;
     }
     
