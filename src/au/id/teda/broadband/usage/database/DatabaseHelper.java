@@ -10,19 +10,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "iiNetUsage.db";
     
-    private static final String VOLUME_USAGE_TABLE_CREATE = 
+    private static final String DAILY_USAGE_TABLE_CREATE = 
 			"create table " + DailyDataDatabaseAdapter.TABLE_NAME +
 			" (" + DailyDataDatabaseAdapter.KEY_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
 			+ DailyDataDatabaseAdapter.ACCOUNT + " INTEGER NOT NULL, "
-			+ DailyDataDatabaseAdapter.DAY + " INTEGER UNIQUE, "
 			+ DailyDataDatabaseAdapter.MONTH + " TEXT NOT NULL, "
+			+ DailyDataDatabaseAdapter.DAY + " INTEGER UNIQUE, "
 			+ DailyDataDatabaseAdapter.PEAK + " INTEGER NOT NULL, "
 			+ DailyDataDatabaseAdapter.OFFPEAK + " INTEGER NOT NULL, "
 			+ DailyDataDatabaseAdapter.UPLOADS + " INTEGER NOT NULL, "
 			+ DailyDataDatabaseAdapter.FREEZONE + " INTEGER NOT NULL);";
     
-    private static final String VOLUME_USAGE_DELETE_ENTRIES =
+    private static final String HOURLY_USAGE_TABLE_CREATE = 
+			"create table " + HourlyDataDatabaseAdapter.TABLE_NAME +
+			" (" + HourlyDataDatabaseAdapter.KEY_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+			+ HourlyDataDatabaseAdapter.ACCOUNT + " INTEGER NOT NULL, "
+			+ HourlyDataDatabaseAdapter.DAY + " INTEGER UNIQUE, "
+			+ HourlyDataDatabaseAdapter.HOUR + " TEXT NOT NULL, "
+			+ HourlyDataDatabaseAdapter.PEAK + " INTEGER NOT NULL, "
+			+ HourlyDataDatabaseAdapter.OFFPEAK + " INTEGER NOT NULL, "
+			+ HourlyDataDatabaseAdapter.UPLOADS + " INTEGER NOT NULL, "
+			+ HourlyDataDatabaseAdapter.FREEZONE + " INTEGER NOT NULL);";
+    
+    private static final String DAILY_USAGE_DELETE_ENTRIES =
     	    "DROP TABLE IF EXISTS " + DailyDataDatabaseAdapter.TABLE_NAME;
+    
+    private static final String HOURLY_USAGE_DELETE_ENTRIES =
+    	    "DROP TABLE IF EXISTS " + HourlyDataDatabaseAdapter.TABLE_NAME;
 
 	public DatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -30,14 +44,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		db.execSQL(VOLUME_USAGE_TABLE_CREATE);
+		db.execSQL(DAILY_USAGE_TABLE_CREATE);
+		db.execSQL(HOURLY_USAGE_TABLE_CREATE);
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		// This database is only a cache for online data, so its upgrade policy is
         // to simply to discard the data and start over
-        db.execSQL(VOLUME_USAGE_DELETE_ENTRIES);
+        db.execSQL(DAILY_USAGE_DELETE_ENTRIES);
+        db.execSQL(HOURLY_USAGE_DELETE_ENTRIES);
         onCreate(db);
 	}
 	

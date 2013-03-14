@@ -293,7 +293,7 @@ public class NetworkUtilities {
         	
         	//Log.d(DEBUG_TAG, "NU Date:" + mDate.getTime() + " Month:" + month + " Peak:" + peak);
         	
-        	mDatabase.addReplaceEntry(mUsername, day, month, peak, offpeak, uploads, freezone);
+        	mDatabase.addReplaceEntry(mUsername, month, day, peak, offpeak, uploads, freezone);
         }
         
         mDatabase.close();

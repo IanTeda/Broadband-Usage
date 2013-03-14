@@ -150,7 +150,7 @@ public class VolumeUsageParser {
     	mDate.setTimeInMillis(mDay);
     	//Log.d(DEBUG_TAG, "VUP Date:" + mDate.getTime());
     	
-    	return new DailyVolumeUsage(mDay, mDataMonth, mPeak, mOffPeak, mUploads, mFreezone );
+    	return new DailyVolumeUsage(mDataMonth, mDay, mPeak, mOffPeak, mUploads, mFreezone );
     }
 	
     private Long readUsage(XmlPullParser parser) throws IOException, XmlPullParserException {
