@@ -31,4 +31,11 @@
     <!-- Fixed width for date column -->
     <dimen name="daily_data_date_width">40dp</dimen>
     
+        <!-- Alertbox dimension -->
+    <dimen name="alertbox_height">40dp</dimen>
+    <dimen name="alertbox_padding">3dp</dimen>
+    <dimen name="alertbox_border_radius">3dp</dimen>
+    <dimen name="alertbox_border_width">1dp</dimen>
+    <dimen name="alertbox_text_size">17sp</dimen>
+    
 </resources>

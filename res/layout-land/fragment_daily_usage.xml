@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/au.id.teda.broadband.usage"
     android:layout_width="fill_parent"
     android:layout_height="match_parent" >
 
@@ -52,5 +53,34 @@
             android:orientation="vertical" >
         </LinearLayout>
     </au.id.teda.broadband.usage.ui.SafeViewFlipper>
+
+    <LinearLayout
+        android:id="@+id/chart_pagination"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <View
+            android:id="@+id/fragment_daily_usage_listview_dot"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/pagination_inactive" />
+
+        <View
+            android:id="@+id/fragment_daily_usage_bar_chart_dot"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/pagination_inactive" />
+
+        <View
+            android:id="@+id/fragment_daily_usage_line_chart_dot"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:background="@drawable/pagination_inactive" />
+    </LinearLayout>
 
 </RelativeLayout>

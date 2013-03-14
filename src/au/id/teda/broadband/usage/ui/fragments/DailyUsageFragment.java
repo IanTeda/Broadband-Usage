@@ -21,6 +21,7 @@ import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.chart.StackedBarChart;
 import au.id.teda.broadband.usage.chart.StackedLineChart;
 import au.id.teda.broadband.usage.database.DailyDataDatabaseAdapter;
+import au.id.teda.broadband.usage.ui.PaginationView;
 import au.id.teda.broadband.usage.util.DailyVolumeUsage;
 import au.id.teda.broadband.usage.util.DailyVolumeUsageAdapter;
 
@@ -40,6 +41,8 @@ public class DailyUsageFragment extends BaseFragment {
 	private Animation mAnimSlideRightIn;
 	private Animation mAnimSlideRightOut;
 	private ViewFlipper mViewFlipper;
+	
+	private PaginationView mPaginationView;
     
     // Preference key for viewfliper tab location
     private final static String PREF_FLIPPER_KEY = "pref_flipper_tab_key";
@@ -55,6 +58,10 @@ public class DailyUsageFragment extends BaseFragment {
 		
 		// Set reference to view flipper
 		mViewFlipper = (ViewFlipper) mFragmentView.findViewById(R.id.fragment_daily_usage_view_flipper);
+		
+		mPaginationView = new PaginationView(mFragmentView, mContext);
+		
+		setPageNation();
 		
 		return mFragmentView;
 	}
@@ -257,6 +264,7 @@ public class DailyUsageFragment extends BaseFragment {
 					mViewFlipper.setOutAnimation(mAnimSlideLeftOut);
 					mViewFlipper.showNext();
 					setFlipperTitle();
+					setPageNation();
 					return true;
 				}
 				// Else check if it is a left to right swipe
@@ -266,6 +274,7 @@ public class DailyUsageFragment extends BaseFragment {
 					mViewFlipper.setOutAnimation(mAnimSlideRightOut);
 					mViewFlipper.showPrevious();
 					setFlipperTitle();
+					setPageNation();
 					return true;
 				}
 			} catch (Exception e) {
@@ -283,5 +292,12 @@ public class DailyUsageFragment extends BaseFragment {
 
 	}
 
+	public void setPageNation(){
+		mPaginationView.setActive(getViewFlipperTab());
+	}
+	
+	public int getViewFlipperTab(){
+		return mViewFlipper.getDisplayedChild();
+	}
 
 }
