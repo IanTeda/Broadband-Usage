@@ -154,7 +154,7 @@ public class OffpeakUsageFragment extends BaseFragment {
 		
 		mDailyPeak.setText(IntUsageToString(mAccountStatus.getOffpeakDailyAverageUsedMb()));
 		//TODO: Update method below
-		mDailyPeakVariation.setText(IntUsageToString(mAccountStatus.getPeakAverageVariationMb()));
+		mDailyPeakVariation.setText(IntUsageToString(mAccountStatus.getOffpeakAverageVariationMb()));
 	}
 
 }

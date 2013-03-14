@@ -367,6 +367,13 @@ public class AccountStatusHelper {
 		return average;
 	}
 	
+	public int getOffpeakAverageVariationMb(){
+		long quota = mInfo.getOffpeakQuotaDailyMb();
+		long daily = getOffpeakDailyAverageUsedMb();
+		int variation = (int) (daily - quota);
+		return variation;
+	}
+	
 	public int getOffpeakDataUsedGb(){
 		return (int) (mSettings.getLong(OFFPEAK_DATA_USED, 0) / GB);
 	}
