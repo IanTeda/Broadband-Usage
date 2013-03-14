@@ -291,8 +291,6 @@ public class NetworkUtilities {
         	Calendar mDate = Calendar.getInstance();
         	mDate.setTimeInMillis(day);
         	
-        	//Log.d(DEBUG_TAG, "NU Date:" + mDate.getTime() + " Month:" + month + " Peak:" + peak);
-        	
         	mDatabase.addReplaceEntry(mUsername, month, day, peak, offpeak, uploads, freezone);
         }
         

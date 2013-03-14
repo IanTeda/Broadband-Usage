@@ -167,6 +167,7 @@ public class StackedLineChart extends ChartBuilder {
 		renderer.setYAxisMax(getMaxDataUsage());
 		renderer.setAxesColor(getLabelColor());
 		renderer.setLabelsColor(getLabelColor());
+		renderer.setXLabelsColor(getLabelColor());
 	    
 	    // Set point size to 0 to hide
 	    renderer.setPointSize(0f);

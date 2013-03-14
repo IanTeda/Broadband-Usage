@@ -101,6 +101,7 @@ public class StackedBarChart extends ChartBuilder {
 		renderer.setYAxisMin(0);
 		renderer.setYAxisMax(getMaxDataUsage());
 		renderer.setLabelsColor(getLabelColor());
+		renderer.setXLabelsColor(getLabelColor());
 	    
 	    // Chart render settings
 	    renderer.setApplyBackgroundColor(true);
