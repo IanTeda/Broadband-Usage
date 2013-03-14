@@ -27,8 +27,8 @@ public class PaginationView {
 
 	// Change size of pagination square
 	private final float scale;
-	private final int activeSize = 15;
-	private final int inactiveSize =12;
+	private final int DOT_ACTIVE_SIZE = 8;
+	private final int DOT_INACTIVE_SIZE = 6;
 
 	/**
 	 * Class constructor
@@ -114,8 +114,8 @@ public class PaginationView {
 	 */
 	private void setActiveSize(View view){
 		ViewGroup.LayoutParams params = view.getLayoutParams();
-		params.height =  getPixelDip(activeSize);
-		params.width = getPixelDip(activeSize);
+		params.height =  getPixelDip(DOT_ACTIVE_SIZE);
+		params.width = getPixelDip(DOT_ACTIVE_SIZE);
 		view.setLayoutParams(params);
 	}
 
@@ -125,8 +125,8 @@ public class PaginationView {
 	 */
 	private void setInactiveSize(View view){
 		ViewGroup.LayoutParams params = view.getLayoutParams();
-		params.height =  getPixelDip(inactiveSize);
-		params.width = getPixelDip(inactiveSize);
+		params.height =  getPixelDip(DOT_INACTIVE_SIZE);
+		params.width = getPixelDip(DOT_INACTIVE_SIZE);
 		view.setLayoutParams(params);
 	}
 

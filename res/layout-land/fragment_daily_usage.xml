@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res/au.id.teda.broadband.usage"
     android:layout_width="fill_parent"
     android:layout_height="match_parent" >
 
     <TextView
         android:id="@+id/fragment_daily_usage_month_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:visibility="gone" />
 
     <TextView
         android:id="@+id/fragment_daily_usage_title_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:visibility="gone" />
 
     <View
         android:id="@+id/fragment_daily_usage_line"
-        android:layout_width="fill_parent"
-        android:layout_height="2dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:visibility="gone" />
 
     <au.id.teda.broadband.usage.ui.SafeViewFlipper
@@ -37,8 +36,6 @@
             android:id="@+id/fragment_daily_usage_bar_chart_container"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_below="@+id/fragment_daily_usage_line"
-            android:layout_marginTop="@dimen/margin"
             android:background="@color/background_alt_light"
             android:orientation="vertical" >
         </LinearLayout>
@@ -47,8 +44,6 @@
             android:id="@+id/fragment_daily_usage_line_chart_container"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_below="@+id/fragment_daily_usage_line"
-            android:layout_marginTop="@dimen/margin"
             android:background="@color/background_alt_light"
             android:orientation="vertical" >
         </LinearLayout>
@@ -57,29 +52,30 @@
     <LinearLayout
         android:id="@+id/chart_pagination"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:gravity="center"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/padding" >
 
         <View
             android:id="@+id/fragment_daily_usage_listview_dot"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
             android:background="@drawable/pagination_inactive" />
 
         <View
             android:id="@+id/fragment_daily_usage_bar_chart_dot"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
             android:background="@drawable/pagination_inactive" />
 
         <View
             android:id="@+id/fragment_daily_usage_line_chart_dot"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:background="@drawable/pagination_inactive" />
     </LinearLayout>
 
