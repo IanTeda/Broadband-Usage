@@ -77,6 +77,19 @@ public class DailyUsageFragment extends BaseFragment {
 	}
 	
 	/**
+	 * Called 5th in the fragment life cycle
+	 */
+	@Override
+	public void onResume() {
+		super.onResume();
+				
+		// Build action bar title string
+		String title = mContext.getResources().getString(R.string.app_name) + " - " + mAccountStatus.getCurrentMonthString();
+		// Set action bar title
+		getSherlockActivity().getSupportActionBar().setTitle(title);
+	}
+	
+	/**
 	 * Called 1st in the death of fragment
 	 */
 	@Override
