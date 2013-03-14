@@ -137,26 +137,26 @@ public class DailyDataDatabaseAdapter {
 		
 		// Iterate cursor and store values in array list
 		cursor.moveToFirst();
-		if (cursor != null){
-			while (cursor.moveToNext()){
+		while (cursor.isAfterLast() == false) {
 				
-				Long day = cursor.getLong(COLUMN_INDEX_DAY);
-				String month = cursor.getString(COLUMN_INDEX_MONTH);
-				Long peak = cursor.getLong(COLUMN_INDEX_PEAK);
-				Long offpeak = cursor.getLong(COLUMN_INDEX_OFFPEAK);
-				Long uploads = cursor.getLong(COLUMN_INDEX_UPLOADS);
-				Long freezone = cursor.getLong(COLUMN_INDEX_FREEZONE);
-				
-				Calendar mDate = Calendar.getInstance();
-	        	mDate.setTimeInMillis(day);
-	        	
-	        	Log.d(DEBUG_TAG, "Db Month:" + month + " Db Date:" + mDate.getTime());
-								
-				usage.add(new DailyVolumeUsage(day, month, peak, offpeak, uploads, freezone));
-				
-			}
-			cursor.close();
+			Long day = cursor.getLong(COLUMN_INDEX_DAY);
+			String month = cursor.getString(COLUMN_INDEX_MONTH);
+			Long peak = cursor.getLong(COLUMN_INDEX_PEAK);
+			Long offpeak = cursor.getLong(COLUMN_INDEX_OFFPEAK);
+			Long uploads = cursor.getLong(COLUMN_INDEX_UPLOADS);
+			Long freezone = cursor.getLong(COLUMN_INDEX_FREEZONE);
+			
+			Calendar mDate = Calendar.getInstance();
+        	mDate.setTimeInMillis(day);
+        	
+        	Log.d(DEBUG_TAG, "Db Month:" + month + " Db Date:" + mDate.getTime());
+							
+			usage.add(new DailyVolumeUsage(day, month, peak, offpeak, uploads, freezone));
+			
+			cursor.moveToNext();
+			
 		}
+		cursor.close();
 		
 		// Close database connection
 		close();

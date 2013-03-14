@@ -27,6 +27,7 @@ import au.id.teda.broadband.usage.parser.AccountStatusParser;
 import au.id.teda.broadband.usage.parser.AccountStatusParser.AccountStatus;
 import au.id.teda.broadband.usage.parser.ErrorParser;
 import au.id.teda.broadband.usage.parser.VolumeUsageParser;
+import au.id.teda.broadband.usage.ui.MainActivity;
 
 
 /**
@@ -41,7 +42,7 @@ import au.id.teda.broadband.usage.parser.VolumeUsageParser;
  */
 public class NetworkUtilities {
 	
-	private static final String DEBUG_TAG = "bbusage";
+	private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
 
 	/** Activity context **/
     private Context mContext;
@@ -290,7 +291,7 @@ public class NetworkUtilities {
         	Calendar mDate = Calendar.getInstance();
         	mDate.setTimeInMillis(day);
         	
-        	Log.d(DEBUG_TAG, "NU Date:" + mDate.getTime() + " Month:" + month);
+        	//Log.d(DEBUG_TAG, "NU Date:" + mDate.getTime() + " Month:" + month + " Peak:" + peak);
         	
         	mDatabase.addReplaceEntry(mUsername, day, month, peak, offpeak, uploads, freezone);
         }

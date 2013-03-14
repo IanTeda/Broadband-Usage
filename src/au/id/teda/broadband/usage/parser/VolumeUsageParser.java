@@ -11,16 +11,14 @@ import java.util.List;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-import android.util.Log;
 import android.util.Xml;
-import au.id.teda.broadband.usage.ui.MainActivity;
 import au.id.teda.broadband.usage.util.DailyVolumeUsage;
 
 public class VolumeUsageParser {
 	
-	private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
+	//private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
 	
-	private static final String ns = null; // We don't use namespaces
+	private static final String ns = null; // We don't use name spaces
 	private static final String FEED_TAG = "ii_feed";
 	private static final String VOLUME_USAGE_TAG = "volume_usage";
 	private static final String DAY_HOUR_TAG = "day_hour";
@@ -111,6 +109,8 @@ public class VolumeUsageParser {
     
     public DailyVolumeUsage readDayHour(XmlPullParser parser) throws XmlPullParserException, IOException {
     	Calendar day = getDay(parser.getAttributeValue(null, PERIOD_ATT));
+    	Long mDay = day.getTimeInMillis();
+    	//Log.d(DEBUG_TAG, "DailyVolumeUsage() > day:" + day.getTime());
     	
     	parser.require(XmlPullParser.START_TAG, ns, DAY_HOUR_TAG);
     	
@@ -119,8 +119,6 @@ public class VolumeUsageParser {
     		monthSetFlag = true;
     	}
     	
-    	Log.d(DEBUG_TAG, "VUP Day:" + day.getTime());
-    	Long mDay = day.getTimeInMillis();
     	Long mPeak = null;
     	Long mOffPeak = null;
     	Long mUploads  = null;
@@ -150,7 +148,7 @@ public class VolumeUsageParser {
     	
     	Calendar mDate = Calendar.getInstance();
     	mDate.setTimeInMillis(mDay);
-    	Log.d(DEBUG_TAG, "VUP Date:" + mDate.getTime());
+    	//Log.d(DEBUG_TAG, "VUP Date:" + mDate.getTime());
     	
     	return new DailyVolumeUsage(mDay, mDataMonth, mPeak, mOffPeak, mUploads, mFreezone );
     }
@@ -183,7 +181,7 @@ public class VolumeUsageParser {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Log.d(DEBUG_TAG, "period:" + period);
+		//Log.d(DEBUG_TAG, "getDay() > period:" + period + " Day:" + day.getTime());
     	return day;
     }
     
