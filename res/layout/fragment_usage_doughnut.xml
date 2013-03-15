@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="fill_parent" >
 
     <LinearLayout
         android:id="@+id/fragment_usage_donught"
         android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_alignParentLeft="true"
+        android:layout_height="fill_parent"
         android:layout_alignParentTop="true"
         android:orientation="vertical" />
 
@@ -23,7 +22,7 @@
         <TextView
             android:id="@+id/fragment_usage_donught_peak_percent"
             style="@style/fragment_usage_doughnut_percent"
-            android:layout_marginBottom="-12dp"/>
+            android:layout_marginBottom="-12dp" />
 
         <TextView
             android:id="@+id/fragment_usage_donught_peak_title"
@@ -44,7 +43,6 @@
             android:id="@+id/fragment_usage_donught_offpeak_percent"
             style="@style/fragment_usage_doughnut_percent"
             android:layout_marginTop="-15dp" />
-        
     </LinearLayout>
 
 </RelativeLayout>

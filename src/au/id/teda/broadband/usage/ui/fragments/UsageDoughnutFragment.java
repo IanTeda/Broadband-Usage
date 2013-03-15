@@ -47,9 +47,21 @@ public class UsageDoughnutFragment extends BaseFragment {
 	        public void onGlobalLayout() {
 	        	// Get layout parameters
 	    		LayoutParams parms = mContainerLayout.getLayoutParams();
+	    		int iHeight = getView().getHeight();
+	    		int iWidth = getView().getWidth();
 	    		
-    			// Set height equal to parent layout width
-    			parms.height = getView().getWidth();
+	    		if (iHeight < iWidth){
+	    			// Set wdith equal to height
+	    			parms.width = iHeight;
+	    			
+	    			// Add padding to center chart
+	    			int padding = ((iWidth - iHeight) / 2);
+	    			getView().setPadding(padding, 0, padding, 0);
+	    		} else {
+	    			// Set height equal to width
+	    			parms.height = iWidth;
+	    			
+	    		}
 	        }
 	    });
 	

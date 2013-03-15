@@ -8,6 +8,7 @@
         <item name="android:textSize">@dimen/text_xxlarge</item>
         <item name="android:textColor">@color/base</item>
         <item name="android:text">@string/fragment_usage_doughnut_percent</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="fragment_usage_doughnut_percent_title">
