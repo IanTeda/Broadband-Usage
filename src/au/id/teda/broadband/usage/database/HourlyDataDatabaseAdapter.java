@@ -1,7 +1,6 @@
 package au.id.teda.broadband.usage.database;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import android.content.Context;
@@ -9,9 +8,6 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
-import android.util.Log;
-import au.id.teda.broadband.usage.ui.MainActivity;
-import au.id.teda.broadband.usage.util.DailyVolumeUsage;
 import au.id.teda.broadband.usage.util.HourlyVolumeUsage;
 
 public class HourlyDataDatabaseAdapter {
@@ -21,13 +17,13 @@ public class HourlyDataDatabaseAdapter {
 	// Set variables for adapter
 	public static final String KEY_ROWID = "_id";
 	public static final String ACCOUNT = "account";
-	public static final String HOUR = "hour";
 	public static final String DAY = "day";
+	public static final String HOUR = "hour";
     public static final String PEAK = "peak";
     public static final String OFFPEAK = "offpeak";
     public static final String UPLOADS = "uploads";
     public static final String FREEZONE = "freezone";
-    public static final String TABLE_NAME = "volume_usage_hourly";
+    public static final String TABLE_NAME = "hourly_volume_usage";
     
     private SQLiteDatabase mDatabase;
     private DatabaseHelper mDatabbaseHelper;
