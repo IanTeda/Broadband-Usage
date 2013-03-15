@@ -50,7 +50,7 @@
     </au.id.teda.broadband.usage.ui.SafeViewFlipper>
 
     <LinearLayout
-        android:id="@+id/chart_pagination"
+        android:id="@+id/fragment_daily_usage_pagination"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

@@ -81,7 +81,6 @@ public class PeakUsageFragment extends BaseFragment {
 	private void loadDonughtChart() {
 		// Set layout container for chart
 		final LinearLayout mContainerLayout = (LinearLayout) mFragmentView.findViewById(R.id.fragment_peak_usage_donught);
-		final TextView mLayoutUsed = (TextView) mFragmentView.findViewById(R.id.fragment_peak_usage_summary_size);
 		
 		// Listen for view being inflated
 		ViewTreeObserver mViewTreeObserver = mContainerLayout.getViewTreeObserver();
@@ -90,15 +89,9 @@ public class PeakUsageFragment extends BaseFragment {
 	        public void onGlobalLayout() {
 	        	// Get layout parameters
 	    		LayoutParams parms = mContainerLayout.getLayoutParams();
-	    		
-	    		if (mLayoutHelper.isLayout_w1024dp(mLayoutUsed)){
-	    			// Set width equal to parent layout height
-		    		parms.width = getView().getHeight();
 	    			
-	    		} else {
-	    			// Set height equal to parent layout width
-	    			parms.height = getView().getWidth();
-	    		}
+	    		// Set height equal to parent layout width
+	    		parms.height = getView().getWidth();
 	        }
 	    });
 	
