@@ -107,7 +107,7 @@ public class UsageSummaryFragment extends BaseFragment {
 	protected void loadFragmentView(){
 			
 		// Used in both sofar and remaining views for phone
-		if (mLayoutHelper.isLayoutPhone(mLayoutUsed)){
+		if (mLayoutHelper.isLayoutPhonePort(mLayoutUsed)){
 			mCurrentMonth.setText(mAccountStatus.getCurrentMonthString());
 			mDaysDescription.setText(mAccountStatus.getRolloverDateString());
 			mPeakSummary.setText(mAccountInfo.getPeakQuotaString());
@@ -142,7 +142,7 @@ public class UsageSummaryFragment extends BaseFragment {
 		mDaysSummary.setText(mContext.getString(R.string.fragment_usage_summary_days_to_go));
 		
 		// Only set text if loading phone layout
-		if (mLayoutHelper.isLayoutPhone(mLayoutUsed)){
+		if (mLayoutHelper.isLayoutPhonePort(mLayoutUsed)){
 			mDaysNumber.setText(mAccountStatus.getDaysToGoString());		
 			mPeakDescription.setText(mAccountStatus.getPeakShapedRemainingString());
 			mOffpeakDescription.setText(mAccountStatus.getOffpeakShapedRemainingString());
@@ -160,7 +160,7 @@ public class UsageSummaryFragment extends BaseFragment {
 		mDaysSummary.setText(mContext.getString(R.string.fragment_usage_summary_days_so_far));
 		
 		// Only set text if loading phone layout
-		if (mLayoutHelper.isLayoutPhone(mLayoutUsed)){
+		if (mLayoutHelper.isLayoutPhonePort(mLayoutUsed)){
 			mDaysNumber.setText(mAccountStatus.getDaysSoFarString());
 			mPeakDescription.setText(mAccountStatus.getPeakShapedUsedString());
 			mOffpeakDescription.setText(mAccountStatus.getOffpeakShapedUsedString());

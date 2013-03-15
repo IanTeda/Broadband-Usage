@@ -32,10 +32,20 @@ public class LayoutHelper {
     	mEditor = mSettings.edit();
     }
 	
-    public boolean isLayoutPhone(TextView mLayoutUsed){
+    public boolean isLayoutPhonePort(TextView mLayoutUsed){
 		CharSequence size = mLayoutUsed.getText();
 		if ( size != null 
 				&& size.equals(mContext.getString(R.string.size_phone_port))){
+			return true;
+		} else {
+			return false;
+		}
+	}
+    
+    public boolean isLayoutPhoneLand(TextView mLayoutUsed){
+		CharSequence size = mLayoutUsed.getText();
+		if ( size != null 
+				&& size.equals(mContext.getString(R.string.size_phone_land))){
 			return true;
 		} else {
 			return false;

@@ -83,10 +83,15 @@ public class DailyUsageFragment extends BaseFragment {
 	public void onResume() {
 		super.onResume();
 				
-		// Build action bar title string
-		String title = mContext.getResources().getString(R.string.app_name) + " - " + mAccountStatus.getCurrentMonthString();
-		// Set action bar title
-		getSherlockActivity().getSupportActionBar().setTitle(title);
+		TextView mLayoutUsed = (TextView) mFragmentView.findViewById(R.id.fragment_daily_usage_size);
+		
+		// Check to see if layout used is landscape
+		if (mLayoutHelper.isLayoutPhoneLand(mLayoutUsed)){
+			// Build action bar title string
+			String title = mContext.getResources().getString(R.string.app_name) + " - " + mAccountStatus.getCurrentMonthString();
+			// Set action bar title
+			getSherlockActivity().getSupportActionBar().setTitle(title);
+		}
 	}
 	
 	/**
