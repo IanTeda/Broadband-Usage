@@ -11,7 +11,7 @@
     <string name="size_phone_port">size_phone_port</string>
     <string name="size_phone_land">size_phone_land</string>
     <string name="size_w1024dp">size_w1024dp</string>
-    <string name="size_w600dp">size_w600dp</string>
+    <string name="size_w800dp">size_w800dp</string>
 
     <!-- Chart Data Series Labels -->
     <string name="chart_data_series_peak">Peak</string>

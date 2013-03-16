@@ -2,39 +2,36 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/fragment_usage_summary_container"
     android:layout_width="fill_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/margin"
-    android:background="@color/background_alt"
     android:orientation="vertical"
     android:paddingLeft="@dimen/vert_margin"
-    android:paddingRight="@dimen/vert_margin" >
+    android:paddingRight="0dp" >
 
     <TextView
         android:id="@+id/fragment_usage_summary_size"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:text="@string/size_phone_port"
+        android:text="@string/size_w1024dp"
         android:visibility="gone" />
 
     <TextView
-        android:id="@+id/fragment_usage_summary_current_month_tv"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/fragment_usage_summary_current_month"
-        android:textColor="@color/accent"
-        android:textSize="@dimen/text_xlarge"
-        android:textStyle="bold" />
+        android:id="@+id/fragment_usage_summary_current_month"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone" />
 
     <View
-        android:layout_width="fill_parent"
-        android:layout_height="2dp"
-        android:layout_marginBottom="@dimen/padding"
-        android:background="@color/base" />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone" />
 
     <!-- Days -->
+
     <RelativeLayout
         android:id="@+id/fragment_usage_summary_days_container"
-        style="@style/fragment_usage_summary_layout_container" >
+        style="@style/fragment_usage_summary_layout_container1024"
+        android:visibility="gone" >
 
         <TextView
             android:id="@+id/fragment_usage_summary_days_number"
@@ -58,11 +55,11 @@
     <!-- Peak -->
     <RelativeLayout
         android:id="@+id/fragment_usage_summary_peak_container"
-        style="@style/fragment_usage_summary_layout_container" >
+        style="@style/fragment_usage_summary_layout_container1024" >
 
         <TextView
             android:id="@+id/fragment_usage_summary_peak_number"
-            style="@style/fragment_usage_summary_number"
+            style="@style/fragment_usage_summary_number_1024"
             android:text="@string/fragment_usage_summary_number" />
 
         <TextView
@@ -70,23 +67,23 @@
             style="@style/fragment_usage_summary_number_description"
             android:layout_alignBaseline="@+id/fragment_usage_summary_peak_number"
             android:layout_toRightOf="@+id/fragment_usage_summary_peak_number"
-            android:text="@string/fragment_usage_summary_used_status" />
+            android:text="@string/fragment_usage_summary_used_no_status" />
 
         <TextView
             android:id="@+id/fragment_usage_summary_peak_summary"
-            style="@style/fragment_usage_summary_number_summary"
+            style="@style/fragment_usage_summary_number_summary_1024"
             android:layout_toRightOf="@+id/fragment_usage_summary_peak_number"
-            android:text="@string/fragment_usage_summary_peak_quota" />
+            android:text="@string/fragment_usage_summary_peak_quota_alt" />
     </RelativeLayout>
 
     <!-- Offpeak -->
     <RelativeLayout
         android:id="@+id/fragment_usage_summary_offpeak_container"
-        style="@style/fragment_usage_summary_layout_container" >
+        style="@style/fragment_usage_summary_layout_container1024" >
 
         <TextView
             android:id="@+id/fragment_usage_summary_offpeak_number"
-            style="@style/fragment_usage_summary_number"
+            style="@style/fragment_usage_summary_number_1024"
             android:text="@string/fragment_usage_summary_number" />
 
         <TextView
@@ -94,24 +91,23 @@
             style="@style/fragment_usage_summary_number_description"
             android:layout_alignBaseline="@+id/fragment_usage_summary_offpeak_number"
             android:layout_toRightOf="@+id/fragment_usage_summary_offpeak_number"
-            android:text="@string/fragment_usage_summary_used_status" />
+            android:text="@string/fragment_usage_summary_used_no_status" />
 
         <TextView
             android:id="@+id/fragment_usage_summary_offpeak_summary"
-            style="@style/fragment_usage_summary_number_summary"
+            style="@style/fragment_usage_summary_number_summary_1024"
             android:layout_toRightOf="@+id/fragment_usage_summary_offpeak_number"
-            android:text="@string/fragment_usage_summary_offpeak_quota" />
+            android:text="@string/fragment_usage_summary_offpeak_quota_alt" />
     </RelativeLayout>
 
     <!-- Uploads -->
     <RelativeLayout
         android:id="@+id/fragment_usage_summary_uploads_container"
-        style="@style/fragment_usage_summary_layout_container"
-        android:visibility="gone" >
+        style="@style/fragment_usage_summary_layout_container1024" >
 
         <TextView
             android:id="@+id/fragment_usage_summary_uploads_number"
-            style="@style/fragment_usage_summary_number"
+            style="@style/fragment_usage_summary_number_1024"
             android:text="@string/fragment_usage_summary_number" />
 
         <TextView
@@ -123,7 +119,7 @@
 
         <TextView
             android:id="@+id/fragment_usage_summary_uploads_summary"
-            style="@style/fragment_usage_summary_number_summary"
+            style="@style/fragment_usage_summary_number_summary_1024"
             android:layout_toRightOf="@+id/fragment_usage_summary_uploads_number"
             android:text="@string/fragment_usage_summary_uploads_quota" />
     </RelativeLayout>
@@ -131,12 +127,11 @@
     <!-- Freezone -->
     <RelativeLayout
         android:id="@+id/fragment_usage_summary_freezone_container"
-        style="@style/fragment_usage_summary_layout_container"
-        android:visibility="gone" >
+        style="@style/fragment_usage_summary_layout_container1024" >
 
         <TextView
             android:id="@+id/fragment_usage_summary_freezone_number"
-            style="@style/fragment_usage_summary_number"
+            style="@style/fragment_usage_summary_number_1024"
             android:text="@string/fragment_usage_summary_number" />
 
         <TextView
@@ -148,19 +143,21 @@
 
         <TextView
             android:id="@+id/fragment_usage_summary_freezone_summary"
-            style="@style/fragment_usage_summary_number_summary"
+            style="@style/fragment_usage_summary_number_summary_1024"
             android:layout_toRightOf="@+id/fragment_usage_summary_freezone_number"
             android:text="@string/fragment_usage_summary_freezone_quota" />
     </RelativeLayout>
 
     <!-- Uptime -->
+
     <RelativeLayout
         android:id="@+id/fragment_rollover_uptime_uptime_container"
-        style="@style/fragment_usage_summary_layout_container" >
+        style="@style/fragment_usage_summary_layout_container1024"
+        android:visibility="gone" >
 
         <TextView
             android:id="@+id/fragment_rollover_uptime_uptime_number"
-            style="@style/fragment_usage_summary_number"
+            style="@style/fragment_usage_summary_number_1024"
             android:text="@string/fragment_usage_summary_number" />
 
         <TextView
@@ -172,7 +169,7 @@
 
         <TextView
             android:id="@+id/fragment_drollover_uptime_uptime_summary"
-            style="@style/fragment_usage_summary_number_summary"
+            style="@style/fragment_usage_summary_number_summary_1024"
             android:layout_toRightOf="@+id/fragment_rollover_uptime_uptime_number"
             android:text="@string/fragment_usage_summary_ip_days" />
     </RelativeLayout>

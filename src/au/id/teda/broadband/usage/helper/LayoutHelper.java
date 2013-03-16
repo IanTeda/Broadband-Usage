@@ -62,7 +62,15 @@ public class LayoutHelper {
 		}
 	}
     
-    
+    public boolean isLayout_w800dp(TextView mLayoutUsed){
+		CharSequence size = mLayoutUsed.getText();
+		if ( size != null 
+				&& size.equals(mContext.getString(R.string.size_w800dp))){
+			return true;
+		} else {
+			return false;
+		}
+	}
 	
 	public int getScreenOrientation() {
 	    Display getOrient = ((Activity) mContext).getWindowManager().getDefaultDisplay();

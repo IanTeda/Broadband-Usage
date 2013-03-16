@@ -1,13 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:layout_height="fill_parent" >
 
     <fragment
-        android:id="@+id/fragment_usage_summary"
+        android:id="@+id/fragment_daily_usage"
         android:name="au.id.teda.broadband.usage.ui.fragments.DailyUsageFragment"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:layout_height="336dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="@dimen/vert_margin"
+        android:layout_marginRight="@dimen/vert_margin"
+        android:layout_marginTop="@dimen/vert_margin"
+        tools:layout="@layout/fragment_daily_usage" />
 
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/usage_container"
+        android:layout_width="fill_parent"
+        android:layout_height="288dp"
+        android:orientation="horizontal"
+        android:layout_below="@+id/fragment_daily_usage" >
+
+        <fragment
+            android:id="@+id/fragment_usage_doughnut"
+            android:name="au.id.teda.broadband.usage.ui.fragments.UsageDoughnutFragment"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            tools:layout="@layout/fragment_usage_doughnut" />
+
+        <fragment
+            android:id="@+id/fragment_usage_summary"
+            android:name="au.id.teda.broadband.usage.ui.fragments.UsageSummaryFragment"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            tools:layout="@layout/fragment_usage_summary" />
+        
+    </LinearLayout>
+
+</RelativeLayout>

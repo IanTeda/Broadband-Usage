@@ -2,12 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content" >
-    
-        <TextView
+
+    <TextView
         android:id="@+id/fragment_usage_donught_size"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:text="@string/size_w1024dp"
+        android:text="@string/size_w800dp"
         android:visibility="gone" />
 
     <LinearLayout

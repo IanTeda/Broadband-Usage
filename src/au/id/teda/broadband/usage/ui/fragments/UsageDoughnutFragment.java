@@ -59,15 +59,14 @@ public class UsageDoughnutFragment extends BaseFragment {
 	    		// Get width of layout
 	    		int iWidth = layout.getWidth();
 	    		
-	    		Log.d(DEBUG_TAG, "iHeight:" + iHeight + " iWidth:" + iWidth);
-	    		
-	    		if (mLayoutHelper.isScreen_w1024dp()){
+	    		if (mLayoutHelper.isLayout_w1024dp(mLayoutUsed) || mLayoutHelper.isLayout_w800dp(mLayoutUsed)){
 	    			// Set wdith equal to height
 	    			parms.width = iHeight;
 	    			
 	    			// Add padding to center chart
 	    			int padding = ((iWidth - iHeight) / 2);
 	    			layout.setPadding(padding, 0, padding, 0);
+	    			
 	    		} else {
 	    			// Set height equal to width
 	    			parms.height = iWidth;
