@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             tools:layout="@layout/fragment_product_plan" />
-
+        
         <fragment
             android:id="@+id/fragment_usage_doughnut"
             android:name="au.id.teda.broadband.usage.ui.fragments.UsageDoughnutFragment"

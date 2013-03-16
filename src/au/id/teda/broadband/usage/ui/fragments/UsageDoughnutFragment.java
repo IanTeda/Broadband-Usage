@@ -1,6 +1,7 @@
 package au.id.teda.broadband.usage.ui.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,8 @@ public class UsageDoughnutFragment extends BaseFragment {
 		// Set fragment layout to be inflated
 		mFragmentView = inflater.inflate(R.layout.fragment_usage_doughnut, container, false);
 		
+		Log.d(DEBUG_TAG, "UsageDoughnutFragment");
+		
 		return mFragmentView;
 	}
 	
@@ -39,28 +42,35 @@ public class UsageDoughnutFragment extends BaseFragment {
 	private void loadDonughtChart() {
 		// Set layout container for chart
 		final LinearLayout mContainerLayout = (LinearLayout) mFragmentView.findViewById(R.id.fragment_usage_donught);
+		final TextView mLayoutUsed = (TextView) mFragmentView.findViewById(R.id.fragment_usage_donught_size);
 		
 		// Listen for view being inflated
 		ViewTreeObserver mViewTreeObserver = mContainerLayout.getViewTreeObserver();
 		mViewTreeObserver.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 	        @Override
 	        public void onGlobalLayout() {
-	        	// Get layout parameters
+	        	
+	        	// Get layout parameters for container
 	    		LayoutParams parms = mContainerLayout.getLayoutParams();
-	    		int iHeight = getView().getHeight();
-	    		int iWidth = getView().getWidth();
+	    		// Get reference to layout view
+	    		View layout = getView();
+	    		// Get height of layout
+	    		int iHeight = layout.getHeight();
+	    		// Get width of layout
+	    		int iWidth = layout.getWidth();
 	    		
-	    		if (iHeight < iWidth){
+	    		Log.d(DEBUG_TAG, "iHeight:" + iHeight + " iWidth:" + iWidth);
+	    		
+	    		if (mLayoutHelper.isScreen_w1024dp()){
 	    			// Set wdith equal to height
 	    			parms.width = iHeight;
 	    			
 	    			// Add padding to center chart
 	    			int padding = ((iWidth - iHeight) / 2);
-	    			getView().setPadding(padding, 0, padding, 0);
+	    			layout.setPadding(padding, 0, padding, 0);
 	    		} else {
 	    			// Set height equal to width
 	    			parms.height = iWidth;
-	    			
 	    		}
 	        }
 	    });
