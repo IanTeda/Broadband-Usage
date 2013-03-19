@@ -4,8 +4,10 @@
     <style name="fragment_usage_summary_layout_container">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/touch</item>
-        <!-- <item name="android:layout_marginTop">@dimen/padding</item>
-        <item name="android:layout_marginBottom">@dimen/padding</item> -->
+        <!--
+        <item name="android:layout_marginTop">@dimen/padding</item>
+        <item name="android:layout_marginBottom">@dimen/padding</item>
+        -->
         <item name="android:padding">@dimen/padding</item>
     </style>
 
@@ -40,7 +42,7 @@
         <item name="android:textSize">@dimen/text_small</item>
         <item name="android:textStyle">bold</item>
     </style>
-    
+
     <style name="fragment_usage_summary_layout_container1024">
         <item name="android:layout_height">@dimen/touch</item>
         <item name="android:layout_marginLeft">0dp</item>
@@ -50,15 +52,18 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:visibility">visible</item>
-	</style>
-	
+    </style>
+
     <style name="fragment_usage_summary_number_1024" parent="fragment_usage_summary_number">
         <item name="android:layout_marginTop">-10dp</item>
     </style>
-    
+
     <style name="fragment_usage_summary_number_summary_1024" parent="fragment_usage_summary_number_summary">
         <item name="android:layout_marginTop">2dp</item>
-        </style>
-        
+    </style>
+    
+    <style name="fragment_usage_summary_number_summary_800" parent="fragment_usage_summary_number_summary_1024">
+        <item name="android:textSize">@dimen/text_normal</item>
+    </style>
 
 </resources>

@@ -3,7 +3,6 @@ package au.id.teda.broadband.usage.ui.fragments;
 import org.achartengine.GraphicalView;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

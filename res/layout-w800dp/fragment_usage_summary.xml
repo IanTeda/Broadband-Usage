@@ -3,16 +3,13 @@
     android:id="@+id/fragment_usage_summary_container"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/margin"
-    android:orientation="vertical"
-    android:paddingLeft="@dimen/vert_margin"
-    android:paddingRight="0dp" >
+    android:orientation="horizontal" >
 
     <TextView
         android:id="@+id/fragment_usage_summary_size"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:text="@string/size_w1024dp"
+        android:text="@string/size_w800dp"
         android:visibility="gone" />
 
     <TextView
@@ -71,7 +68,7 @@
 
         <TextView
             android:id="@+id/fragment_usage_summary_peak_summary"
-            style="@style/fragment_usage_summary_number_summary_1024"
+            style="@style/fragment_usage_summary_number_summary_800"
             android:layout_toRightOf="@+id/fragment_usage_summary_peak_number"
             android:text="@string/fragment_usage_summary_peak_quota_alt" />
     </RelativeLayout>
@@ -95,7 +92,7 @@
 
         <TextView
             android:id="@+id/fragment_usage_summary_offpeak_summary"
-            style="@style/fragment_usage_summary_number_summary_1024"
+            style="@style/fragment_usage_summary_number_summary_800"
             android:layout_toRightOf="@+id/fragment_usage_summary_offpeak_number"
             android:text="@string/fragment_usage_summary_offpeak_quota_alt" />
     </RelativeLayout>
@@ -119,7 +116,7 @@
 
         <TextView
             android:id="@+id/fragment_usage_summary_uploads_summary"
-            style="@style/fragment_usage_summary_number_summary_1024"
+            style="@style/fragment_usage_summary_number_summary_800"
             android:layout_toRightOf="@+id/fragment_usage_summary_uploads_number"
             android:text="@string/fragment_usage_summary_uploads_quota" />
     </RelativeLayout>
@@ -143,7 +140,7 @@
 
         <TextView
             android:id="@+id/fragment_usage_summary_freezone_summary"
-            style="@style/fragment_usage_summary_number_summary_1024"
+            style="@style/fragment_usage_summary_number_summary_800"
             android:layout_toRightOf="@+id/fragment_usage_summary_freezone_number"
             android:text="@string/fragment_usage_summary_freezone_quota" />
     </RelativeLayout>
