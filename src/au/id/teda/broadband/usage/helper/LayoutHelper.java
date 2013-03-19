@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Display;
 import android.widget.TextView;
 import au.id.teda.broadband.usage.R;
@@ -15,7 +14,7 @@ import au.id.teda.broadband.usage.ui.MainActivity;
 public class LayoutHelper {
 	
 	// Debug tag pulled from main activity
-	private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
+	//private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
 	
 	// Activity context
     private static Context mContext;
@@ -26,7 +25,7 @@ public class LayoutHelper {
     
     // Class constructor
     public LayoutHelper(Context context) {
-    	this.mContext = context;
+    	mContext = context;
     	
     	mSettings = PreferenceManager.getDefaultSharedPreferences(mContext);
     	mEditor = mSettings.edit();
@@ -131,6 +130,44 @@ public class LayoutHelper {
 	    float dpWidth  = outMetrics.widthPixels / density;
 	    
 	    return dpWidth;
+	}
+	
+	/**
+	 * Checks if the device is a tablet or a phone
+	 * 
+	 * @param activityContext
+	 *            The Activity Context.
+	 * @return Returns true if the device is a Tablet
+	 */
+	public boolean isTabletDevice() {
+	    // Verifies if the Generalized Size of the device is XLARGE to be
+	    // considered a Tablet
+	    boolean xlarge = ((mContext.getResources().getConfiguration().screenLayout & 
+	                        Configuration.SCREENLAYOUT_SIZE_MASK) == 
+	                        Configuration.SCREENLAYOUT_SIZE_XLARGE);
+
+	    // If XLarge, checks if the Generalized Density is at least MDPI
+	    // (160dpi)
+	    if (xlarge) {
+	        DisplayMetrics metrics = new DisplayMetrics();
+	        Activity activity = (Activity) mContext;
+	        activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+	        // MDPI=160, DEFAULT=160, DENSITY_HIGH=240, DENSITY_MEDIUM=160,
+	        // DENSITY_TV=213, DENSITY_XHIGH=320
+	        if (metrics.densityDpi == DisplayMetrics.DENSITY_DEFAULT
+	                || metrics.densityDpi == DisplayMetrics.DENSITY_HIGH
+	                || metrics.densityDpi == DisplayMetrics.DENSITY_MEDIUM
+	                || metrics.densityDpi == DisplayMetrics.DENSITY_TV
+	                || metrics.densityDpi == DisplayMetrics.DENSITY_XHIGH) {
+
+	            // Yes, this is a tablet!
+	            return true;
+	        }
+	    }
+
+	    // No, this is not a tablet!
+	    return false;
 	}
 
 }

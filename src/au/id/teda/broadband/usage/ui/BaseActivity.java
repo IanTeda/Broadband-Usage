@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.helper.ConnectivityHelper;
+import au.id.teda.broadband.usage.helper.LayoutHelper;
 import au.id.teda.broadband.usage.util.FontUtils;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -34,6 +35,9 @@ public class BaseActivity extends SherlockFragmentActivity {
     // Broadcast receiver objects
 	private SyncReceiver mSyncReceiver;
     private IntentFilter filter;
+    
+    // Layout helper to determine if tablet
+    private LayoutHelper mLayoutHelper;
 
     // Called 1st in the activity life cycle
 	@Override
@@ -59,6 +63,8 @@ public class BaseActivity extends SherlockFragmentActivity {
         	refreshing = savedInstanceState.getBoolean(STATE_REFRESHING);
         	savedInstanceState.clear();
         }
+        
+        mLayoutHelper = new LayoutHelper(this);
 	}
 	    
 	// Called 2nd in the activity life cycle
@@ -107,7 +113,12 @@ public class BaseActivity extends SherlockFragmentActivity {
 	// Create options menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getSupportMenuInflater().inflate(R.menu.options_menu, menu);
+    	
+    	if (mLayoutHelper.isTabletDevice()){
+    		getSupportMenuInflater().inflate(R.menu.options_menu_tablet, menu);
+    	} else {
+    		getSupportMenuInflater().inflate(R.menu.options_menu_phone, menu);
+    	}
         
         // Set object reference for refresh item
         mRefreshMenuItem = menu.findItem(R.id.menu_refresh);
