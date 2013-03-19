@@ -14,7 +14,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.authenticator.AccountAuthenticator;
 import au.id.teda.broadband.usage.database.DailyDataDatabaseAdapter;
@@ -27,7 +26,6 @@ import au.id.teda.broadband.usage.parser.AccountStatusParser;
 import au.id.teda.broadband.usage.parser.AccountStatusParser.AccountStatus;
 import au.id.teda.broadband.usage.parser.ErrorParser;
 import au.id.teda.broadband.usage.parser.VolumeUsageParser;
-import au.id.teda.broadband.usage.ui.MainActivity;
 
 
 /**
@@ -42,7 +40,7 @@ import au.id.teda.broadband.usage.ui.MainActivity;
  */
 public class NetworkUtilities {
 	
-	private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
+	//private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 
 	/** Activity context **/
     private Context mContext;
@@ -174,9 +172,9 @@ public class NetworkUtilities {
         try {
         	account = mAccountInfoParser.parse(stream);
         } catch (XmlPullParserException e) {
-			Log.e(DEBUG_TAG, "XmlPullParserException: " + e);
+			//Log.e(DEBUG_TAG, "XmlPullParserException: " + e);
 		} catch (IOException e) {
-			Log.e(DEBUG_TAG, "IOException: " + e);
+			//Log.e(DEBUG_TAG, "IOException: " + e);
         }
         
         AccountInfoHelper mAccountInfoHelper = new AccountInfoHelper(mContext);
@@ -214,9 +212,9 @@ public class NetworkUtilities {
         try {
         	status = mAccountStatusParser.parse(stream);
         } catch (XmlPullParserException e) {
-			Log.e(DEBUG_TAG, "XmlPullParserException: " + e);
+			//Log.e(DEBUG_TAG, "XmlPullParserException: " + e);
 		} catch (IOException e) {
-			Log.e(DEBUG_TAG, "IOException: " + e);
+			//Log.e(DEBUG_TAG, "IOException: " + e);
         }
         
         AccountStatusHelper mAccountStatusHelper = new AccountStatusHelper(mContext);
@@ -271,9 +269,9 @@ public class NetworkUtilities {
         try {
         	usage = mVolumeUsageParser.parse(stream);
         } catch (XmlPullParserException e) {
-			Log.e(DEBUG_TAG, "XmlPullParserException: " + e);
+			//Log.e(DEBUG_TAG, "XmlPullParserException: " + e);
 		} catch (IOException e) {
-			Log.e(DEBUG_TAG, "IOException: " + e);
+			//Log.e(DEBUG_TAG, "IOException: " + e);
         }
         
         // Initiate database

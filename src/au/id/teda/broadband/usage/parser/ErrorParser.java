@@ -10,6 +10,8 @@ import android.util.Xml;
 
 public class ErrorParser {
 	
+	//private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
+	
     private static final String ns = null; // We don't use namespaces
     private static final String FEED_TAG = "ii_feed";
     private static final String ERROR_TAG = "error";

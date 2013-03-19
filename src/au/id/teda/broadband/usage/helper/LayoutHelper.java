@@ -13,7 +13,7 @@ import au.id.teda.broadband.usage.R;
 public class LayoutHelper {
 	
 	// Debug tag pulled from main activity
-	//private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
+	//private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 	
 	// Activity context
     private static Context mContext;

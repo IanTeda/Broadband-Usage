@@ -12,7 +12,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -30,7 +29,7 @@ import au.id.teda.broadband.usage.util.NetworkUtilities;
 public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 	
 	/** Debug tag **/
-	private static final String DEBUG_TAG = "bbusage";
+	//private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
     
     /** The Intent flag to confirm credentials. */
     public static final String PARAM_CONFIRM_CREDENTIALS = "confirmCredentials";
@@ -298,8 +297,6 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
             try {
             	return mNetworkUtilities.authenticate(mUsername, mPassword);
             } catch (Exception ex) {
-                Log.e(DEBUG_TAG, "UserLoginTask.doInBackground: failed to authenticate");
-                Log.i(DEBUG_TAG, ex.toString());
                 return false;
             }
         	

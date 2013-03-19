@@ -1,4 +1,4 @@
-package au.id.teda.broadband.usage.ui;
+package au.id.teda.broadband.usage.util;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -14,7 +14,7 @@ import au.id.teda.broadband.usage.R;
 public class PaginationView {
 
 	// Static strings for debug tags
-	//private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
+	//private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 
 	// View objects for pagination
 	private final View mListViewDot;

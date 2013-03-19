@@ -8,12 +8,11 @@ import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import au.id.teda.broadband.usage.R;
 
 public class AccountAuthenticator extends AbstractAccountAuthenticator {
 	
-	private static final String DEBUG_TAG = "bbusage";
+	//private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 	
 	/** Account type String. This needs to match authenticator.xml type **/
     public static final String ACCOUNT_TYPE = "au.net.iinet.account";
@@ -46,13 +45,11 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
 
     @Override
     public Bundle confirmCredentials(AccountAuthenticatorResponse response, Account account, Bundle options) {
-        Log.d(DEBUG_TAG, "confirmCredentials()");
         return null;
     }
 
     @Override
     public Bundle editProperties(AccountAuthenticatorResponse response, String accountType) {
-        Log.d(DEBUG_TAG, "editProperties()");
         return null;
     }
 
@@ -60,27 +57,23 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
 	public Bundle getAuthToken(AccountAuthenticatorResponse response,
 			Account account, String authTokenType, Bundle options)
 			throws NetworkErrorException {
-		Log.d(DEBUG_TAG, "getAuthToken()");
 		return null;
 	}
 
 	@Override
 	public String getAuthTokenLabel(String authTokenType) {
-		Log.d(DEBUG_TAG, "getAuthTokenLabel()");
 		return null;
 	}
 
 	@Override
 	public Bundle hasFeatures(AccountAuthenticatorResponse response,
 			Account account, String[] features) throws NetworkErrorException {
-		Log.d(DEBUG_TAG, "hasFeatures()");
 		return null;
 	}
 
     @Override
     public Bundle updateCredentials(AccountAuthenticatorResponse response, Account account,
             String authTokenType, Bundle loginOptions) {
-        Log.d(DEBUG_TAG, "updateCredentials()");
         return null;
     }
     

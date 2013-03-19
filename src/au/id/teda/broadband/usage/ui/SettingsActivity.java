@@ -18,7 +18,7 @@ import au.id.teda.broadband.usage.syncadapter.DummyContentProvider;
 
 public class SettingsActivity extends SherlockPreferenceActivity implements OnSharedPreferenceChangeListener {
 	
-	//private static final String DEBUG_TAG = "bbusage";
+	//private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 	
 	public static final long HALF_HOUR = 60 * 30;
 	public static final long HOUR = HALF_HOUR * 2;

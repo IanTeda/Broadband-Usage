@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteStatement;
 
 public class UptimeDatabaseAdapter {
 	
-	//private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
+	//private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 	
 	// Set variables for adapter
 	public static final String KEY_ROWID = "_id";

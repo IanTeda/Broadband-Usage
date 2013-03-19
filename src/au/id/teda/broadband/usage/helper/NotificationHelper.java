@@ -14,7 +14,7 @@ import au.id.teda.broadband.usage.ui.MainActivity;
 // TODO: Improve multiply notification (i.e. show as one)
 public class NotificationHelper {
 
-	//public static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
+	//public static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 	
 	private static final String KEY_NOTIFICATION_PERIOD = "notification_period";
 	private static final String KEY_NOTIFY_END_OF_PERIOD_NEAR = "notify_end_of_period_near";

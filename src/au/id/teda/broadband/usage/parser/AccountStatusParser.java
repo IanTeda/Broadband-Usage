@@ -16,7 +16,7 @@ import android.util.Xml;
 
 public class AccountStatusParser {
 	
-	//private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
+	//private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 	
 	// We don't use namespaces
 	private static final String ns = null;
