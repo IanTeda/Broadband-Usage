@@ -1,8 +1,5 @@
 package au.id.teda.broadband.usage.ui.fragments;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;

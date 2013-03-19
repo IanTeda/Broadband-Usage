@@ -168,7 +168,7 @@ public class CustomDonughtChartStacked extends View {
 
 		// Calculate angle based on percentage ratios
 		int angleUsed = (int) (used * 360);
-		int angleTotal = 360;
+		//int angleTotal = 360;
 		//int angleRemaining = (angleTotal - angleUsed);
 		
 		// Calculate arc lengths based on angles

@@ -25,7 +25,6 @@ import au.id.teda.broadband.usage.ui.PaginationView;
 import au.id.teda.broadband.usage.util.DailyVolumeUsage;
 import au.id.teda.broadband.usage.util.DailyVolumeUsageAdapter;
 
-// TODO: Handle empty usage array
 public class DailyUsageFragment extends BaseFragment {
 	
 	// View inflated by fragment

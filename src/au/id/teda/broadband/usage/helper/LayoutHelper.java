@@ -9,7 +9,6 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.widget.TextView;
 import au.id.teda.broadband.usage.R;
-import au.id.teda.broadband.usage.ui.MainActivity;
 
 public class LayoutHelper {
 	
@@ -126,7 +125,7 @@ public class LayoutHelper {
 	    display.getMetrics(outMetrics);
 
 	    float density  = mContext.getResources().getDisplayMetrics().density;
-	    float dpHeight = outMetrics.heightPixels / density;
+	    //float dpHeight = outMetrics.heightPixels / density;
 	    float dpWidth  = outMetrics.widthPixels / density;
 	    
 	    return dpWidth;

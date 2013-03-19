@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:paddingLeft="@dimen/vert_margin"
-    android:paddingRight="@dimen/vert_margin" >
+    android:paddingRight="@dimen/vert_margin"
+    android:orientation="vertical" >
 
     <fragment
         android:id="@+id/fragment_daily_usage"
         android:name="au.id.teda.broadband.usage.ui.fragments.DailyUsageFragment"
         android:layout_width="fill_parent"
-        android:layout_height="384dp"
-        android:layout_alignParentTop="true"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:layout_marginTop="@dimen/vert_margin"
         tools:layout="@layout/fragment_daily_usage" />
 
@@ -20,34 +21,7 @@
         android:name="au.id.teda.broadband.usage.ui.fragments.UsageSummaryFragment"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/fragment_daily_usage"
         android:layout_marginTop="@dimen/margin"
         tools:layout="@layout/fragment_usage_summary" />
 
-    <LinearLayout
-        android:id="@+id/usage_container"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/fragment_usage_summary"
-        android:orientation="horizontal" >
-
-        <fragment
-            android:id="@+id/fragment_peak_usage"
-            android:name="au.id.teda.broadband.usage.ui.fragments.PeakUsageFragment"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/padding"
-            android:layout_weight="1"
-            tools:layout="@layout/fragment_peak_usage" />
-
-        <fragment
-            android:id="@+id/fragment_offpeak_usage"
-            android:name="au.id.teda.broadband.usage.ui.fragments.OffpeakUsageFragment"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding"
-            android:layout_weight="1"
-            tools:layout="@layout/fragment_offpeak_usage" />
-    </LinearLayout>
-
-</RelativeLayout>
+</LinearLayout>

@@ -29,6 +29,7 @@ public class ClockFragment extends BaseFragment {
 	protected void loadFragmentView(){
 			
 		// Set clock ticking
+		@SuppressWarnings("unused")
 		CustomDigitalClock dc = (CustomDigitalClock) mFragmentView.findViewById(R.id.fragment_clock_digital);
 			
 		// Set current data period

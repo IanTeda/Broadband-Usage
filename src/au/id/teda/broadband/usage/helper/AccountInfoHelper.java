@@ -1,15 +1,13 @@
 package au.id.teda.broadband.usage.helper;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import au.id.teda.broadband.usage.R;
-import au.id.teda.broadband.usage.ui.MainActivity;
 
 public class AccountInfoHelper {
 	
@@ -85,9 +83,10 @@ public class AccountInfoHelper {
 	 * Method for getting account plan
 	 * @return shared preference string
 	 */
+	@SuppressLint("DefaultLocale")
 	public String getPlan(){
 		return mSettings.getString(PREF_PLAN_KEY
-				, mContext.getResources().getString(R.string.fragment_product_plan_plan)).toUpperCase();
+				, mContext.getResources().getString(R.string.fragment_product_plan_plan)).toUpperCase(Locale.getDefault());
 	}
 	
 	/**
@@ -111,9 +110,10 @@ public class AccountInfoHelper {
 	 * Method for getting account product
 	 * @return shared preference string
 	 */
+	@SuppressLint("DefaultLocale")
 	public String getProduct(){
 		return mSettings.getString(PREF_PRODUCT_KEY
-				, mContext.getResources().getString(R.string.fragment_product_plan_product)).toUpperCase();
+				, mContext.getResources().getString(R.string.fragment_product_plan_product)).toUpperCase(Locale.getDefault());
 	}
 	
 	
@@ -121,6 +121,7 @@ public class AccountInfoHelper {
 	 * Check if product has been set
 	 * @return true if product string length is greater then 0
 	 */
+	@SuppressLint("DefaultLocale")
 	public boolean isProductSet(){
 		// Check product string length is greater then 0
 		if (getProduct().length() > 0){
@@ -134,8 +135,9 @@ public class AccountInfoHelper {
 			
 	}
 	
+	@SuppressLint("DefaultLocale")
 	public String getProductPlanString(){
-		return getPlan().toUpperCase() + " (" + getProduct().toUpperCase() + ")";
+		return getPlan().toUpperCase(Locale.getDefault()) + " (" + getProduct().toUpperCase() + ")";
 	}
 	
 	/**

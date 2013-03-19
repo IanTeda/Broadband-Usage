@@ -4,14 +4,13 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
-import au.id.teda.broadband.usage.ui.BaseActivity;
-import au.id.teda.broadband.usage.ui.MainActivity;
 import au.id.teda.broadband.usage.util.NetworkUtilities;
 
+@SuppressLint("DefaultLocale") // For some reason cannot remove the lint warning
 public class AccountStatusHelper {
 	
 	//private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
@@ -154,7 +153,7 @@ public class AccountStatusHelper {
 		
 		// Get date value of calendar and format
 		String currentMonth = sdf.format(rollover.getTime());
-		return currentMonth.toUpperCase();
+		return currentMonth.toUpperCase(Locale.getDefault());
 	}
 	
 	public String getDataBaseMonthString(){
@@ -178,11 +177,11 @@ public class AccountStatusHelper {
 		Calendar rollover = getQuotaResetDate();
 		
 		//Set up formater
-		SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_dd_MMMM_yyyy);
+		SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_dd_MMMM_yyyy, Locale.getDefault());
 		
 		// Get date value of calendar and format
 		String rolloverDate = sdf.format(rollover.getTime());
-		return rolloverDate.toUpperCase();
+		return rolloverDate.toUpperCase(Locale.getDefault());
 	}
 	
 	public Calendar getQuotaStartDate(){
@@ -226,12 +225,12 @@ public class AccountStatusHelper {
 		Calendar start = getQuotaStartDate();
 		
 		//Set up formater
-		SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_dd_MMMM_yyyy);
+		SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_dd_MMMM_yyyy, Locale.getDefault());
 		
 		// Get date value of calendar and format
 
 		String startDate = sdf.format(start.getTime());
-		return startDate.toUpperCase();
+		return startDate.toUpperCase(Locale.getDefault());
 	}
 
 	public int getDaysThisPeriod(){
@@ -561,7 +560,7 @@ public class AccountStatusHelper {
 		
 		//TODO Add local to formatter
 		//Set up formatter
-		SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_dd_MMM_YYYY);
+		SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_dd_MMM_YYYY, Locale.getDefault());
 		
 		// Get date value of calendar and format
 		String syncDateTime = sdf.format(lastSyncCal.getTime());

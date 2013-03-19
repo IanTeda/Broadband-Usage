@@ -50,6 +50,7 @@
     </RelativeLayout>
 
     <!-- Peak -->
+
     <RelativeLayout
         android:id="@+id/fragment_usage_summary_peak_container"
         style="@style/fragment_usage_summary_layout_container1024" >
@@ -74,6 +75,7 @@
     </RelativeLayout>
 
     <!-- Offpeak -->
+
     <RelativeLayout
         android:id="@+id/fragment_usage_summary_offpeak_container"
         style="@style/fragment_usage_summary_layout_container1024" >
@@ -98,6 +100,7 @@
     </RelativeLayout>
 
     <!-- Uploads -->
+
     <RelativeLayout
         android:id="@+id/fragment_usage_summary_uploads_container"
         style="@style/fragment_usage_summary_layout_container1024" >
@@ -122,9 +125,11 @@
     </RelativeLayout>
 
     <!-- Freezone -->
+
     <RelativeLayout
         android:id="@+id/fragment_usage_summary_freezone_container"
-        style="@style/fragment_usage_summary_layout_container1024" >
+        style="@style/fragment_usage_summary_layout_container1024"
+        android:layout_marginRight="0dp" >
 
         <TextView
             android:id="@+id/fragment_usage_summary_freezone_number"

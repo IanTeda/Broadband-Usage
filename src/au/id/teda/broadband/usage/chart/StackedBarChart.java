@@ -7,28 +7,15 @@ import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.View;
 import au.id.teda.broadband.usage.R;
-import au.id.teda.broadband.usage.database.DailyDataDatabaseAdapter;
-import au.id.teda.broadband.usage.helper.AccountInfoHelper;
-import au.id.teda.broadband.usage.helper.AccountStatusHelper;
-import au.id.teda.broadband.usage.ui.MainActivity;
 import au.id.teda.broadband.usage.util.DailyVolumeUsage;
 
 public class StackedBarChart extends ChartBuilder {
 	
 	// Debug tag pulled from main activity
-	private final static String DEBUG_TAG = MainActivity.DEBUG_TAG;
-	
-	// View inflated by fragment
-	private View mFragmentView;
-	
-	// Helper classes
-	private AccountInfoHelper mAccountInfo;
-	private AccountStatusHelper mAccountStatus;
+	//private final static String DEBUG_TAG = MainActivity.DEBUG_TAG;
 	
     // Activity context to be used
 	private Context mContext;
@@ -40,9 +27,6 @@ public class StackedBarChart extends ChartBuilder {
 	public StackedBarChart(Context context) {
 		super(context);
 		this.mContext = context;
-		
-		mAccountInfo = new AccountInfoHelper(mContext);
-		mAccountStatus = new AccountStatusHelper(mContext);
 	}
 	
 	public View getBarChartView (DailyVolumeUsage[] usage){

@@ -45,7 +45,8 @@ public class BaseActivity extends SherlockFragmentActivity {
 		super.onCreate(savedInstanceState);
         
         // Set up the action bar.
-        final ActionBar mActionBar = getSupportActionBar();
+        @SuppressWarnings("unused")
+		final ActionBar mActionBar = getSupportActionBar();
         
         // Set font to Roboto on SDK < 11
     	if (Build.VERSION.SDK_INT < 11) {

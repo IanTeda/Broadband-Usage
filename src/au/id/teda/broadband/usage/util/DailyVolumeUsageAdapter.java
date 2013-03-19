@@ -5,10 +5,11 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,17 +17,15 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import au.id.teda.broadband.usage.R;
-import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
-import au.id.teda.broadband.usage.ui.MainActivity;
 
 public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
 	
 	// Debug tag pulled from main activity
-	private final static String DEBUG_TAG = MainActivity.DEBUG_TAG;
+	//private final static String DEBUG_TAG = MainActivity.DEBUG_TAG;
 	
 	// Helper classes
-	private AccountInfoHelper mAccountInfo;
+	//private AccountInfoHelper mAccountInfo;
 	private AccountStatusHelper mAccountStatus;
 	
 	private Context mContext; 
@@ -36,9 +35,9 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
     private int mAccumPosition = 0;
     private long[] accumArray;
     
- // Integer used to determine row number and background color
-    private int rowNum;
-    private int oldRowNum;
+    // Integer used to determine row number and background color
+    //private int rowNum;
+    //private int oldRowNum;
     
     private int GB = 1000000;
     
@@ -63,7 +62,7 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
         this.data = data;
         
         // Load helper classes
-     	mAccountInfo = new AccountInfoHelper(mContext);
+     	//mAccountInfo = new AccountInfoHelper(mContext);
      	mAccountStatus = new AccountStatusHelper(mContext);
         
         // Intialise array
@@ -149,18 +148,19 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
     }
 
 	// Return string values for date long millisec stored in db
+	@SuppressLint("DefaultLocale")
 	private String LongDateToString(long millisecs, String convertTo) {
 		DateFormat date_format = null;
 		if (convertTo == "dayOfWeek") {
-			date_format = new SimpleDateFormat("EEE");
+			date_format = new SimpleDateFormat("EEE", Locale.getDefault());
 		} else if (convertTo == "dateOfMouth"){
-			date_format = new SimpleDateFormat("dd");
+			date_format = new SimpleDateFormat("dd", Locale.getDefault());
 		} else if (convertTo == "mouthOfYear"){
-			date_format = new SimpleDateFormat("MMM");
+			date_format = new SimpleDateFormat("MMM", Locale.getDefault());
 		}
 		Date resultdate = new Date(millisecs);
 		String date = date_format.format(resultdate);
-		return date.toUpperCase();
+		return date.toUpperCase(Locale.getDefault());
 	}
 
 	// Return formated string value for int stored in db

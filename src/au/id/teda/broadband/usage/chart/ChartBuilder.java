@@ -16,16 +16,16 @@ import au.id.teda.broadband.usage.helper.AccountStatusHelper;
 
 public class ChartBuilder {
 
-	private static final String DEBUG_TAG = "bbusage";
+	//private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 
 	private Context mContext;
 
-	private static final String PEAK = "Peak";
-	private static final String OFFPEAK = "Offpeak";
-	private static final String REMAINING = "Remaining";
-	private static final String TITLE = "Data Usage";
+	//private static final String PEAK = "Peak";
+	//private static final String OFFPEAK = "Offpeak";
+	//private static final String REMAINING = "Remaining";
+	//private static final String TITLE = "Data Usage";
 
-	private double maxDataUsage = 0;
+	//private double maxDataUsage = 0;
 	long accumPeak;
 	long accumPeakStacked;
 	long accumOffpeak = 0;
@@ -42,8 +42,8 @@ public class ChartBuilder {
 	
 	private final String xAxes;
 	
-	private final static int LEGEND_TEXT_SIZE = 18;
-	private final static int LABEL_TEXT_SIZE = 12;
+	//private final static int LEGEND_TEXT_SIZE = 18;
+	//private final static int LABEL_TEXT_SIZE = 12;
 
 	// Chart builder constructor
 	public ChartBuilder(Context context) {

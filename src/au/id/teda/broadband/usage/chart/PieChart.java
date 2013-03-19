@@ -6,13 +6,12 @@ import org.achartengine.renderer.DefaultRenderer;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
-import au.id.teda.broadband.usage.ui.BaseActivity;
 
 public class PieChart extends ChartBuilder {
 	
 
 	// Static tag strings for logging information and debug
-	 private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
+	//private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 	// private static final String INFO_TAG = PieChart.class.getSimpleName();
 
 	// Context for class

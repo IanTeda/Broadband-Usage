@@ -7,13 +7,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-import android.util.Log;
 import android.util.Xml;
-import au.id.teda.broadband.usage.ui.MainActivity;
 
 public class AccountInfoParser {
 	
@@ -225,7 +224,7 @@ public class AccountInfoParser {
 	    }
 	    
 	    private long getCalendarInMillis(String time){
-	    	SimpleDateFormat hourMintueFormat = new SimpleDateFormat("HH:mm");
+	    	SimpleDateFormat hourMintueFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
 	    	Calendar timeValue = Calendar.getInstance();
 			try {
 				timeValue.setTime(hourMintueFormat.parse(time));

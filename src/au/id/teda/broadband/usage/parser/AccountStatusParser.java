@@ -7,17 +7,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-import android.util.Log;
 import android.util.Xml;
-import au.id.teda.broadband.usage.ui.MainActivity;
 
 public class AccountStatusParser {
 	
-	private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
+	//private static final String DEBUG_TAG = MainActivity.DEBUG_TAG;
 	
 	// We don't use namespaces
 	private static final String ns = null;
@@ -303,7 +302,7 @@ public class AccountStatusParser {
 	    }
 	    
 	    private Calendar getDateTimeValue(String dateTime){
-	    	SimpleDateFormat hourMintueFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	    	SimpleDateFormat hourMintueFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 	    	Calendar timeValue = Calendar.getInstance();
 			try {
 				timeValue.setTime(hourMintueFormat.parse(dateTime));

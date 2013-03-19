@@ -1,7 +1,6 @@
 package au.id.teda.broadband.usage.util;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.database.ContentObserver;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -43,7 +42,7 @@ public class CustomDigitalClock extends TextView {
     }
 
     private void initClock(Context context) {
-        Resources r = context.getResources();
+        //Resources r = context.getResources();
 
         if (mCalendar == null) {
             mCalendar = Calendar.getInstance();

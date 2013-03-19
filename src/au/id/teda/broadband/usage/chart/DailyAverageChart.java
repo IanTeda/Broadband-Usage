@@ -2,13 +2,9 @@ package au.id.teda.broadband.usage.chart;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.RectF;
-import android.util.Log;
 import android.view.View;
 import au.id.teda.broadband.usage.helper.LayoutHelper;
-import au.id.teda.broadband.usage.ui.BaseActivity;
 
 public class DailyAverageChart extends View {
 	
