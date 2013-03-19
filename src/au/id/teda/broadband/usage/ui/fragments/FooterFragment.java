@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import au.id.teda.broadband.usage.R;
 
-public class FragmentFooter extends BaseFragment  {
+public class FooterFragment extends BaseFragment  {
 		
 	// View inflated by fragment
 	private View mFragmentView;
