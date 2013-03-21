@@ -16,5 +16,8 @@ public class AccountInfoActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.activity_account_info);
+		
+		// Show home (up) button
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 }

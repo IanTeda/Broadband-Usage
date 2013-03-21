@@ -17,7 +17,6 @@ import au.id.teda.broadband.usage.helper.ConnectivityHelper;
 import au.id.teda.broadband.usage.helper.LayoutHelper;
 import au.id.teda.broadband.usage.util.FontUtils;
 
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -43,10 +42,6 @@ public class BaseActivity extends SherlockFragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-        
-        // Set up the action bar.
-        @SuppressWarnings("unused")
-		final ActionBar mActionBar = getSupportActionBar();
         
         // Set font to Roboto on SDK < 11
     	if (Build.VERSION.SDK_INT < 11) {
@@ -135,19 +130,19 @@ public class BaseActivity extends SherlockFragmentActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-        case R.id.menu_account_info:
+        	case R.id.menu_account_info:
         		Intent mAccountInfoIntent = new Intent(getBaseContext(), AccountInfoActivity.class);
         		startActivity(mAccountInfoIntent);
         		return true;
-        case R.id.menu_data_usage:
+        	case R.id.menu_data_usage:
         		Intent mUsageActivityIntent = new Intent(getBaseContext(), UsageActivity.class);
         		startActivity(mUsageActivityIntent);
         		return true;
-        case R.id.menu_settings:
+        	case R.id.menu_settings:
                 Intent mSettingsActivityIntent = new Intent(getBaseContext(), SettingsActivity.class);
                 startActivity(mSettingsActivityIntent);
                 return true;
-        case R.id.menu_refresh:
+        	case R.id.menu_refresh:
         		// Check for connectivity before requesting sync
         		ConnectivityHelper mNetwork = new ConnectivityHelper(this);
         		if(mNetwork.isConnected()){
@@ -158,7 +153,16 @@ public class BaseActivity extends SherlockFragmentActivity {
         			noConnectivityToast();
         		}
         		return true;
-        default:
+        	case android.R.id.home:
+	            // This is called when the Home (Up) button is pressed in the Action Bar.
+	            Intent mMainActivityInetnt = new Intent(this, MainActivity.class);
+	            mMainActivityInetnt.addFlags(
+	                    Intent.FLAG_ACTIVITY_CLEAR_TOP |
+	                    Intent.FLAG_ACTIVITY_NEW_TASK);
+	            startActivity(mMainActivityInetnt);
+	            finish();
+	            return true;
+        	default:
                 return super.onOptionsItemSelected(item);
         }
     }

@@ -40,6 +40,9 @@ public class UsageActivity extends BaseActivity {
 		mIndicator.setSelectedColor(getResources().getColor(R.color.base));
 		mIndicator.setFooterColor(getResources().getColor(R.color.accent));
 		mIndicator.setFooterIndicatorStyle(IndicatorStyle.Underline);
+		
+		// Show home (up) button
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 			
 	}
 

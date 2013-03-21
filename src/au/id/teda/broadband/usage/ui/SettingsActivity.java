@@ -1,10 +1,12 @@
 package au.id.teda.broadband.usage.ui;
 
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
+import com.actionbarsherlock.view.MenuItem;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.preference.ListPreference;
 import android.preference.PreferenceManager;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.authenticator.AccountAuthenticator;
+import au.id.teda.broadband.usage.helper.ConnectivityHelper;
 import au.id.teda.broadband.usage.syncadapter.DummyContentProvider;
 
 // For +3.0 this should be preference fragment
@@ -48,6 +51,9 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnSh
         mDaysToGoListPreference = (ListPreference) getPreferenceScreen().findPreference(this.getString(R.string.pref_notify_days2go_array_key));
         mPeakNearPreference = (ListPreference) getPreferenceScreen().findPreference(this.getString(R.string.pref_notify_peak_near_array_key));
         mOffpeakNearPreference = (ListPreference) getPreferenceScreen().findPreference(this.getString(R.string.pref_notify_offpeak_near_array_key));
+    
+        // Show home (up) button
+     	getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -89,6 +95,24 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnSh
 		
 		
 	}
+	
+    // Handle options menu clicks
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        	case android.R.id.home:
+	            // This is called when the Home (Up) button is pressed in the Action Bar.
+	            Intent mMainActivityInetnt = new Intent(this, MainActivity.class);
+	            mMainActivityInetnt.addFlags(
+	                    Intent.FLAG_ACTIVITY_CLEAR_TOP |
+	                    Intent.FLAG_ACTIVITY_NEW_TASK);
+	            startActivity(mMainActivityInetnt);
+	            finish();
+	            return true;
+        	default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 	
 	private static Account getAccount(AccountManager accountManager) {
 	    Account[] accounts = accountManager.getAccountsByType(AccountAuthenticator.ACCOUNT_TYPE);
