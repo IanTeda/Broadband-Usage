@@ -14,7 +14,6 @@ import android.preference.ListPreference;
 import android.preference.PreferenceManager;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.authenticator.AccountAuthenticator;
-import au.id.teda.broadband.usage.helper.ConnectivityHelper;
 import au.id.teda.broadband.usage.syncadapter.DummyContentProvider;
 
 // For +3.0 this should be preference fragment

@@ -23,7 +23,7 @@ public class MainActivity extends BaseActivity {
         
        	// Don't show up button on home page action bar
        	getSupportActionBar().setHomeButtonEnabled(false);
-       	// Set action bar title different to manifest
+       	// Set action bar title different to manifest label
        	getSupportActionBar().setTitle(R.string.action_bar_title);
         
        	setContentView(R.layout.activity_main);

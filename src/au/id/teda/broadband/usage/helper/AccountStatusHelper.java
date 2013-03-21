@@ -35,6 +35,7 @@ public class AccountStatusHelper {
 	private final static long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
 	
 	private final static String FORMAT_dd_MMM_YYYY = "dd-MMM-yyyy HH:mm";
+	private final static String FORMAT_EEE_dd_MMM_YYYY = "EEE, dd-MMM-yyyy HH:mm";
 
 	// Activity context
     private static Context mContext;
@@ -558,9 +559,8 @@ public class AccountStatusHelper {
     	Calendar lastSyncCal = Calendar.getInstance();
 		lastSyncCal.setTimeInMillis(lastSyncMillis);
 		
-		//TODO Add local to formatter
 		//Set up formatter
-		SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_dd_MMM_YYYY, Locale.getDefault());
+		SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_EEE_dd_MMM_YYYY, Locale.getDefault());
 		
 		// Get date value of calendar and format
 		String syncDateTime = sdf.format(lastSyncCal.getTime());
