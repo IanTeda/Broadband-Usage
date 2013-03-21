@@ -93,7 +93,7 @@ public class DailyUsageFragment extends BaseFragment {
 		// Check to see if layout used is landscape
 		if (mLayoutHelper.isLayoutPhoneLand(mLayoutUsed)){
 			// Build action bar title string
-			String title = mContext.getResources().getString(R.string.app_name) + " - " + mAccountStatus.getCurrentMonthString();
+			String title = mContext.getResources().getString(R.string.actionbar_title) + " - " + mAccountStatus.getCurrentMonthString();
 			// Set action bar title
 			getSherlockActivity().getSupportActionBar().setTitle(title);
 		}
@@ -204,6 +204,7 @@ public class DailyUsageFragment extends BaseFragment {
 		ListView mListView = (ListView) mFragmentView.findViewById(R.id.fragment_daily_usage_listview);
 		
 		// Add list view header
+		@SuppressWarnings("static-access")
 		View headerView = ((LayoutInflater) getActivity().getSystemService(getActivity().LAYOUT_INFLATER_SERVICE)).inflate(R.layout.listview_data_table_header, null, false);
 		if (mListView.getHeaderViewsCount() == 0){
 			mListView.addHeaderView(headerView);

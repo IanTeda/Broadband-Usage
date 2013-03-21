@@ -52,8 +52,10 @@ public class SettingsActivity extends SherlockPreferenceActivity implements OnSh
         mPeakNearPreference = (ListPreference) getPreferenceScreen().findPreference(this.getString(R.string.pref_notify_peak_near_array_key));
         mOffpeakNearPreference = (ListPreference) getPreferenceScreen().findPreference(this.getString(R.string.pref_notify_offpeak_near_array_key));
     
-        // Show home (up) button
+        // Show home (up) button on action bar
      	getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+     // Set action bar title
+       	getSupportActionBar().setTitle(R.string.actionbar_title_settings);
     }
 
     @Override

@@ -43,6 +43,8 @@ public class UsageActivity extends BaseActivity {
 		
 		// Show home (up) button
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		// Set action bar title
+		getSupportActionBar().setTitle(R.string.actionbar_title);
 			
 	}
 
