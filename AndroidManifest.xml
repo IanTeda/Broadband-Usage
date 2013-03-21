@@ -84,10 +84,10 @@
         </activity>
         <activity 
             android:name=".ui.AccountInfoActivity"
-            android:label="@string/action_bar_title" />
+            android:label="@string/action_bar_title_account" />
         <activity 
             android:name="au.id.teda.broadband.usage.ui.UsageActivity"
-            android:label="@string/action_bar_title" />
+            android:label="@string/action_bar_title_usage" />
 
     </application>
 
