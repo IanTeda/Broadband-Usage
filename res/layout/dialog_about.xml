@@ -20,6 +20,7 @@
         android:layout_toRightOf="@+id/dialog_about_logo"
         android:layout_alignParentTop="true"
         android:layout_marginTop="@dimen/margin"
+        android:paddingBottom="@dimen/padding"
         android:gravity="center"/>
     
     <TextView 
@@ -28,6 +29,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/dialog_about_info"
         android:layout_marginTop="@dimen/margin"
-        android:textStyle="italic" />
+        android:textStyle="italic"
+        android:gravity="center"
+        android:paddingBottom="@dimen/padding" />
     
 </RelativeLayout>

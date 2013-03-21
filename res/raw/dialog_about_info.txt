@@ -1,5 +1,4 @@
-<h3>iiNet Broadband Usage</h3></br>
-Version <b>Beta</b></br>
-Copyright 2013</br>
-<b>www.teda.id.au/code/broadband-usage</b></br>
-</br>
+<h3>iiNet Broadband Usage</h3>
+Version <b>Beta</b><br>
+Copyright 2013<br>
+<b>www.teda.id.au/code/broadband-usage</b>
