@@ -5,7 +5,8 @@
     <string name="action_bar_title">BROADBAND USAGE</string>
     <string name="action_bar_title_settings">SETTINGS</string>
     <string name="action_bar_title_account">ACCOUNT INFO</string>
-    <string name="action_bar_title_usage">USAGE BREAKDOWN</string>
+    <string name="action_bar_title_usage">DATA USAGE</string>
+    <string name="action_bar_title_authenticator">ADD ACCOUNT</string>
     
     <!-- Action bar tabs -->
     <string name="action_bar_tab_current">October 2012</string>
