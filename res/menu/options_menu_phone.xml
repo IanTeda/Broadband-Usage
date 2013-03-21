@@ -19,4 +19,9 @@
         android:icon="@drawable/ic_menu_settings"
         android:orderInCategory="200"
         android:showAsAction="collapseActionView" />
+    <item android:id="@+id/menu_about"
+        android:title="@string/menu_about"
+        android:icon="@drawable/ic_menu_settings"
+        android:orderInCategory="210"
+        android:showAsAction="collapseActionView" />
 </menu>

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.helper.ConnectivityHelper;
 import au.id.teda.broadband.usage.helper.LayoutHelper;
+import au.id.teda.broadband.usage.ui.fragments.AboutDialogFragment;
 import au.id.teda.broadband.usage.util.FontUtils;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -141,6 +143,11 @@ public class BaseActivity extends SherlockFragmentActivity {
         	case R.id.menu_settings:
                 Intent mSettingsActivityIntent = new Intent(getBaseContext(), SettingsActivity.class);
                 startActivity(mSettingsActivityIntent);
+                return true;
+        	case R.id.menu_about:
+        		FragmentManager fm = getSupportFragmentManager();
+                AboutDialogFragment mDialog = new AboutDialogFragment();
+                mDialog.show(fm, "dlg_edit_name");
                 return true;
         	case R.id.menu_refresh:
         		// Check for connectivity before requesting sync

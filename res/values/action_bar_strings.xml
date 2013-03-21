@@ -18,5 +18,6 @@
     <string name="menu_analyse">Analyse Usage</string>
     <string name="menu_account_info">Account Info</string>
     <string name="menu_data_usage">Data Usage</string>
+    <string name="menu_about">About</string>
     
 </resources>
