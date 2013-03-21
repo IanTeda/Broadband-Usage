@@ -40,66 +40,10 @@
         android:layout_below="@+id/fragment_daily_usage_month_tv"
         android:background="@color/base_light" />
 
-    <au.id.teda.broadband.usage.ui.SafeViewFlipper
-        android:id="@+id/fragment_daily_usage_view_flipper"
+    <ListView
+        android:id="@+id/fragment_daily_usage_listview"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@+id/fragment_daily_usage_line" >
-
-        <ListView
-            android:id="@+id/fragment_daily_usage_listview"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" />
-
-        <LinearLayout
-            android:id="@+id/fragment_daily_usage_bar_chart_container"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_below="@+id/fragment_daily_usage_line"
-            android:layout_marginTop="@dimen/margin"
-            android:background="@color/background_alt_light"
-            android:orientation="vertical" >
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/fragment_daily_usage_line_chart_container"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_below="@+id/fragment_daily_usage_line"
-            android:layout_marginTop="@dimen/margin"
-            android:background="@color/background_alt_light"
-            android:orientation="vertical" >
-        </LinearLayout>
-    </au.id.teda.broadband.usage.ui.SafeViewFlipper>
-
-    <LinearLayout
-        android:id="@+id/fragment_daily_usage_pagination"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingBottom="@dimen/padding" >
-
-        <View
-            android:id="@+id/fragment_daily_usage_listview_dot"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/pagination_inactive" />
-
-        <View
-            android:id="@+id/fragment_daily_usage_bar_chart_dot"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/pagination_inactive" />
-
-        <View
-            android:id="@+id/fragment_daily_usage_line_chart_dot"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/pagination_inactive" />
-    </LinearLayout>
+        android:layout_below="@+id/fragment_daily_usage_line" />
 
 </RelativeLayout>

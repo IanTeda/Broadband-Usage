@@ -16,12 +16,4 @@
         android:layout_marginTop="@dimen/vert_margin"
         tools:layout="@layout/fragment_daily_usage" />
 
-    <fragment
-        android:id="@+id/fragment_usage_summary"
-        android:name="au.id.teda.broadband.usage.ui.fragments.UsageSummaryFragment"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin"
-        tools:layout="@layout/fragment_usage_summary" />
-
 </LinearLayout>

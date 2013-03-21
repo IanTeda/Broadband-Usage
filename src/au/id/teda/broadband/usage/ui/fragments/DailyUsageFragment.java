@@ -41,6 +41,9 @@ public class DailyUsageFragment extends BaseFragment {
 	private Animation mAnimSlideRightOut;
 	private ViewFlipper mViewFlipper;
 	
+	// Layout used
+	private TextView mLayoutUsed;
+	
 	private PaginationView mPaginationView;
     
     // Preference key for viewfliper tab location
@@ -54,13 +57,18 @@ public class DailyUsageFragment extends BaseFragment {
 			Bundle savedInstanceState) {
 		// Set reference to fragment layout to be inflated
 		mFragmentView = inflater.inflate(R.layout.fragment_daily_usage, container, false);
+		mLayoutUsed = (TextView) mFragmentView.findViewById(R.id.fragment_daily_usage_size);
 		
-		// Set reference to view flipper
-		mViewFlipper = (ViewFlipper) mFragmentView.findViewById(R.id.fragment_daily_usage_view_flipper);
-		
-		mPaginationView = new PaginationView(mFragmentView, mContext);
-		
-		setPageNation();
+		if (!mLayoutHelper.isLayout_w800dp(mLayoutUsed)){
+			// Set reference to view flipper
+			mViewFlipper = (ViewFlipper) mFragmentView.findViewById(R.id.fragment_daily_usage_view_flipper);
+			
+			// Load pagination view
+			mPaginationView = new PaginationView(mFragmentView, mContext);
+			
+			// Set pagination
+			setPageNation();
+		}
 		
 		return mFragmentView;
 	}
@@ -81,8 +89,6 @@ public class DailyUsageFragment extends BaseFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-				
-		TextView mLayoutUsed = (TextView) mFragmentView.findViewById(R.id.fragment_daily_usage_size);
 		
 		// Check to see if layout used is landscape
 		if (mLayoutHelper.isLayoutPhoneLand(mLayoutUsed)){
@@ -100,10 +106,12 @@ public class DailyUsageFragment extends BaseFragment {
 	public void onPause() {
 		super.onPause();
 		
-		// Remember ViewFliper tab position on fragment pause
-	    int flipperPosition = mViewFlipper.getDisplayedChild();
-	    mEditor.putInt(PREF_FLIPPER_KEY, flipperPosition);
-	    mEditor.commit();
+		if (!mLayoutHelper.isLayout_w800dp(mLayoutUsed)){
+			// Remember ViewFliper tab position on fragment pause
+		    int flipperPosition = mViewFlipper.getDisplayedChild();
+		    mEditor.putInt(PREF_FLIPPER_KEY, flipperPosition);
+		    mEditor.commit();
+		}
 	}
 	
 	/**
@@ -122,10 +130,14 @@ public class DailyUsageFragment extends BaseFragment {
 			TextView mCurrentMonthTV = (TextView) mFragmentView.findViewById(R.id.fragment_daily_usage_month_tv); 	
 			mCurrentMonthTV.setText(mAccountStatus.getCurrentMonthString());
 			
-			setFlipperView();
+			if (!mLayoutHelper.isLayout_w800dp(mLayoutUsed)){
+				setFlipperView();
+				loadStackedBarChart();
+				loadStackedLineChart();
+			}
+			
 			loadDataTable();
-			loadStackedBarChart();
-			loadStackedLineChart();
+			
 		}
 	}
 
@@ -277,21 +289,25 @@ public class DailyUsageFragment extends BaseFragment {
 				// Check if it is a right to left swipe
 				if (motionEvent1.getX() - motionEvent2.getX() > SWIPE_MIN_DISTANCE
 						&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-					mViewFlipper.setInAnimation(mAnimSlideLeftIn);
-					mViewFlipper.setOutAnimation(mAnimSlideLeftOut);
-					mViewFlipper.showNext();
-					setFlipperTitle();
-					setPageNation();
+					if (!mLayoutHelper.isLayout_w800dp(mLayoutUsed)){
+						mViewFlipper.setInAnimation(mAnimSlideLeftIn);
+						mViewFlipper.setOutAnimation(mAnimSlideLeftOut);
+						mViewFlipper.showNext();
+						setFlipperTitle();
+						setPageNation();
+					}
 					return true;
 				}
 				// Else check if it is a left to right swipe
 				else if (motionEvent2.getX() - motionEvent1.getX() > SWIPE_MIN_DISTANCE
 						&& Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-					mViewFlipper.setInAnimation(mAnimSlideRightIn);
-					mViewFlipper.setOutAnimation(mAnimSlideRightOut);
-					mViewFlipper.showPrevious();
-					setFlipperTitle();
-					setPageNation();
+					if (!mLayoutHelper.isLayout_w800dp(mLayoutUsed)){
+						mViewFlipper.setInAnimation(mAnimSlideRightIn);
+						mViewFlipper.setOutAnimation(mAnimSlideRightOut);
+						mViewFlipper.showPrevious();
+						setFlipperTitle();
+						setPageNation();
+					}
 					return true;
 				}
 			} catch (Exception e) {
