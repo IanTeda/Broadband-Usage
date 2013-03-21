@@ -26,7 +26,11 @@ public class UsageActivity extends BaseActivity {
 		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);			
+		super.onCreate(savedInstanceState);
+		
+		// Show home (up) button
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+					
 		setContentView(R.layout.activity_usage);
         
 		mAdapter = new UsageActivityAdapter(getSupportFragmentManager());
@@ -40,12 +44,7 @@ public class UsageActivity extends BaseActivity {
 		mIndicator.setSelectedColor(getResources().getColor(R.color.base));
 		mIndicator.setFooterColor(getResources().getColor(R.color.accent));
 		mIndicator.setFooterIndicatorStyle(IndicatorStyle.Underline);
-		
-		// Show home (up) button
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		// Set action bar title
-		getSupportActionBar().setTitle(R.string.actionbar_title);
-			
+
 	}
 
     class UsageActivityAdapter extends FragmentPagerAdapter {

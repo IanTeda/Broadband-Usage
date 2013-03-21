@@ -93,7 +93,7 @@ public class DailyUsageFragment extends BaseFragment {
 		// Check to see if layout used is landscape
 		if (mLayoutHelper.isLayoutPhoneLand(mLayoutUsed)){
 			// Build action bar title string
-			String title = mContext.getResources().getString(R.string.actionbar_title) + " - " + mAccountStatus.getCurrentMonthString();
+			String title = mContext.getResources().getString(R.string.action_bar_title) + " - " + mAccountStatus.getCurrentMonthString();
 			// Set action bar title
 			getSherlockActivity().getSupportActionBar().setTitle(title);
 		}

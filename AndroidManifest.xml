@@ -65,7 +65,7 @@
         </activity>
         <activity
             android:name=".ui.MainActivity"
-            android:label="@string/title_activity_main" >
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -75,15 +75,19 @@
 
         <activity
             android:name=".ui.SettingsActivity"
-            android:label="Broadband Usage Setting" >
+            android:label="@string/action_bar_title_settings" >
             <intent-filter>
                 <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.AccountInfoActivity"></activity>
-        <activity android:name="au.id.teda.broadband.usage.ui.UsageActivity"></activity>
+        <activity 
+            android:name=".ui.AccountInfoActivity"
+            android:label="@string/action_bar_title" />
+        <activity 
+            android:name="au.id.teda.broadband.usage.ui.UsageActivity"
+            android:label="@string/action_bar_title" />
 
     </application>
 

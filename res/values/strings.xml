@@ -1,8 +1,8 @@
 <resources>
 
     <string name="app_name">iiNet Broadband Usage</string>
-    <string name="actionbar_title">BROADBAND USAGE</string>
-    <string name="actionbar_title_settings">SETTINGS</string>
+    
+    <!-- Account Authenticator Strings -->
     <string name="account_manager_name">iiNet</string>
     <string name="sync_broadcast_action">au.id.teda.broadband.usage.BROADCAST</string>
     <string name="sync_broadcast_message">sync_message</string>
