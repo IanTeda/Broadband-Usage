@@ -69,13 +69,10 @@ public class NotificationHelper {
 		
 		if (isNewPeriod() 
 				&& !isEndOfPeriodOverNotified()
-				&& showEndOfPeriodOverNotification()
-				&& isAppInitalised()){
+				&& showEndOfPeriodOverNotification()){
 
 			notifyEndOfPeriodOver();
 			resetNotificationStatus();
-		} else {
-			setAppInitalised(true);
 		}
 		
 		if (isPeakQuotaNear() 
@@ -183,17 +180,8 @@ public class NotificationHelper {
 			return true;
 		}
 	}
-	
-	private boolean isAppInitalised(){
-		return mSettings.getBoolean(mContext.getString(R.string.notification_app_intialised_key), false);
-	}
-	
-	private void setAppInitalised(boolean flag){
-		mEditor.putBoolean(mContext.getString(R.string.notification_app_intialised_key), flag);
-		mEditor.commit();
-	}
 
-	private void setEndOfPeriodOverNotified(boolean flag){
+	public void setEndOfPeriodOverNotified(boolean flag){
 		mEditor.putBoolean(KEY_NOTIFY_END_OF_PERIOD_OVER, flag);
 		mEditor.commit();
 	}
