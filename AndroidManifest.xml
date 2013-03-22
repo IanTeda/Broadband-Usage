@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="au.id.teda.broadband.usage"
     android:versionCode="1"
-    android:versionName="Alpha" >
+    android:versionName="Beta 1" >
 
     <uses-sdk
         android:minSdkVersion="10"
@@ -19,6 +19,7 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
     <application
+        android:allowBackup="false"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/MyTheme" >
@@ -42,6 +43,7 @@
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
             </intent-filter>
+
             <meta-data
                 android:name="android.content.SyncAdapter"
                 android:resource="@xml/syncadapter" />
@@ -61,7 +63,8 @@
 
             <!--
                 No intent-filter here! This activity is only ever launched by
-                someone who explicitly knows the class name            -->
+                someone who explicitly knows the class name
+            -->
         </activity>
         <activity
             android:name=".ui.MainActivity"
@@ -72,7 +75,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.SettingsActivity"
             android:label="@string/action_bar_title_settings" >
@@ -82,13 +84,12 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity 
+        <activity
             android:name=".ui.AccountInfoActivity"
             android:label="@string/action_bar_title_account" />
-        <activity 
+        <activity
             android:name="au.id.teda.broadband.usage.ui.UsageActivity"
             android:label="@string/action_bar_title_usage" />
-
     </application>
 
 </manifest>
