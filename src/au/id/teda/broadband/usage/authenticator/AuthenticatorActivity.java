@@ -237,10 +237,6 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         setAccountAuthenticatorResult(intent.getExtras());
         setResult(RESULT_OK, intent);
         
-        // Don't show notification after adding account
-        NotificationHelper mNotification = new NotificationHelper(this);
-        mNotification.setEndOfPeriodOverNotified(true);
-        
         finish();
 	}
     
