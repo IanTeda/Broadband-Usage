@@ -107,7 +107,7 @@ public class AccountStatusHelper {
 	}
 	
 	public Calendar getQuotaResetDate(){
-		long milliseconds = mSettings.getLong(QUOTA_RESET_DATE, 0);
+		long milliseconds = mSettings.getLong(QUOTA_RESET_DATE, -1);
 		Calendar mCalendar = Calendar.getInstance();
 		mCalendar.setTimeInMillis(milliseconds);
 		return mCalendar;
@@ -186,7 +186,7 @@ public class AccountStatusHelper {
 	}
 	
 	public Calendar getQuotaStartDate(){
-		long milliseconds = mSettings.getLong(QUOTA_START_DATE, 0);
+		long milliseconds = mSettings.getLong(QUOTA_START_DATE, -1);
 		Calendar mCalendar = Calendar.getInstance();
 		mCalendar.setTimeInMillis(milliseconds);
 		return mCalendar;
@@ -247,13 +247,13 @@ public class AccountStatusHelper {
 	}
 	
 	public long getPeakDataUsed(){
-		return mSettings.getLong(PEAK_DATA_USED, 0);
+		return mSettings.getLong(PEAK_DATA_USED, -1);
 	}
 	
 	public int getPeakDailyAverageUsedMb(){
-		long used = getPeakDataUsed();
-		long days = getDaysSoFar();
-		int average = (int) (used / days / MB);
+		long used = getPeakDataUsed() / MB;
+		long days = getDaysSoFar() / MB;
+		int average = (int) (used / days);
 		return average;
 	}
 	
@@ -265,7 +265,7 @@ public class AccountStatusHelper {
 	}
 	
 	public int getPeakDataUsedGb(){
-		return (int) (mSettings.getLong(PEAK_DATA_USED, 0) / GB);
+		return (int) (mSettings.getLong(PEAK_DATA_USED, -1) / GB);
 	}
 	
 	public int getPeakDataUsedLessUploadsGb(){
@@ -357,13 +357,13 @@ public class AccountStatusHelper {
 	}
 	
 	public long getOffpeakDataUsed(){
-		return mSettings.getLong(OFFPEAK_DATA_USED, 0);
+		return mSettings.getLong(OFFPEAK_DATA_USED, -1);
 	}
 	
 	public int getOffpeakDailyAverageUsedMb(){
-		long used = getOffpeakDataUsed();
-		long days = getDaysSoFar();
-		int average = (int) (used / days / MB);
+		long used = getOffpeakDataUsed() / MB;
+		long days = getDaysSoFar() / MB;
+		int average = (int) (used / days);
 		return average;
 	}
 	
@@ -375,7 +375,7 @@ public class AccountStatusHelper {
 	}
 	
 	public int getOffpeakDataUsedGb(){
-		return (int) (mSettings.getLong(OFFPEAK_DATA_USED, 0) / GB);
+		return (int) (mSettings.getLong(OFFPEAK_DATA_USED, -1) / GB);
 	}
 	
 	public int getOffpeakDataUsedLessUploadsGb(){
@@ -467,7 +467,7 @@ public class AccountStatusHelper {
 	}
 	
 	public long getUploadsDataUsed(){
-		return mSettings.getLong(UPLOADS_DATA_USED, 0);
+		return mSettings.getLong(UPLOADS_DATA_USED, -1);
 	}
 	
 	public int getUploadsDataUsedGb(){
@@ -485,7 +485,7 @@ public class AccountStatusHelper {
 	}
 	
 	public long getFreezoneDataUsed(){
-		return mSettings.getLong(FREEZONE_DATA_USED, 0);
+		return mSettings.getLong(FREEZONE_DATA_USED, -1);
 	}
 	
 	public int getFreezoneDataUsedGb(){
@@ -512,7 +512,7 @@ public class AccountStatusHelper {
 	}
 	
 	public Calendar getUpTimeDate(){
-		long milliseconds = mSettings.getLong(UP_TIME_DATE, 0);
+		long milliseconds = mSettings.getLong(UP_TIME_DATE, -1);
 		Calendar mCalendar = Calendar.getInstance();
 		mCalendar.setTimeInMillis(milliseconds);
 		return mCalendar;
@@ -550,7 +550,7 @@ public class AccountStatusHelper {
 	
     
     private Long getLastSyncTime(){
-    	return mSettings.getLong(NetworkUtilities.PREF_LAST_SYNC_KEY, 0);
+    	return mSettings.getLong(NetworkUtilities.PREF_LAST_SYNC_KEY, -1);
     }
     
     public String getLastSyncTimeString(){

@@ -3,6 +3,7 @@ package au.id.teda.broadband.usage.ui.fragments;
 import org.achartengine.GraphicalView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -138,8 +139,10 @@ public class PeakUsageFragment extends BaseFragment {
 		
 		// Initialize chart class
 		DailyAverageChart mChart = new DailyAverageChart(mContext);
-		int average = mAccountStatus.getPeakDailyAverageUsedMb();
+		//int average = mAccountStatus.getPeakDailyAverageUsedMb();
 		int quota = (int) mAccountInfo.getPeakQuotaDailyMb();
+		int average = quota;
+		Log.d(DEBUG_TAG, "quota:" + quota + " average:" + average);
 		mChart.setData(average, quota);
 	
 		// Set layout parameters for chart view

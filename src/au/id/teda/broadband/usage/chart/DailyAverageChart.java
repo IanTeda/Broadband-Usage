@@ -71,7 +71,7 @@ public class DailyAverageChart extends View {
 	    
 		float leftAverage = left;
 		float topAverage = top;
-		float rightAverage = mAverageUsage * right / (mAverageQuota * 2);
+		float rightAverage = (mAverageUsage/mAverageQuota) * right;
 		float bottomAverage = bottom;
 	    
 	    mAveragePaint.setColor(usageColor);

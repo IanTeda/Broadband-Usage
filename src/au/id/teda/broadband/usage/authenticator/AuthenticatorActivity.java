@@ -21,7 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.helper.ConnectivityHelper;
-import au.id.teda.broadband.usage.helper.NotificationHelper;
 import au.id.teda.broadband.usage.syncadapter.DummyContentProvider;
 import au.id.teda.broadband.usage.ui.SettingsActivity;
 import au.id.teda.broadband.usage.util.FontUtils;
