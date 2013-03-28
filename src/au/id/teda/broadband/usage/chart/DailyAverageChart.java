@@ -3,16 +3,17 @@ package au.id.teda.broadband.usage.chart;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.View;
 import au.id.teda.broadband.usage.helper.LayoutHelper;
+import au.id.teda.broadband.usage.ui.BaseActivity;
 
 public class DailyAverageChart extends View {
 	
 	// Debug tag pulled from main activity
 	//private final static String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 	
-	private int mAverageUsage;
-	private int mAverageQuota;
+	private float mPercentageUsed;
 	
 	private int usageColor;
 	private int usageColorAlt;
@@ -45,8 +46,7 @@ public class DailyAverageChart extends View {
 	}
 	
 	public void setData(int average, int quota){
-		mAverageUsage = average;
-		mAverageQuota = quota;
+		mPercentageUsed = average/quota;
 	}
 	
 	@Override
@@ -71,7 +71,7 @@ public class DailyAverageChart extends View {
 	    
 		float leftAverage = left;
 		float topAverage = top;
-		float rightAverage = (mAverageUsage/mAverageQuota) * right;
+		float rightAverage = mPercentageUsed * (right/2);
 		float bottomAverage = bottom;
 	    
 	    mAveragePaint.setColor(usageColor);

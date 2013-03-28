@@ -34,7 +34,7 @@ public class AccountStatusHelper {
 	private final static long MB = 1000000;
 	private final static long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
 	
-	private final static String FORMAT_dd_MMM_YYYY = "dd-MMM-yyyy HH:mm";
+	//private final static String FORMAT_dd_MMM_YYYY = "dd-MMM-yyyy HH:mm";
 	private final static String FORMAT_EEE_dd_MMM_YYYY = "EEE, dd-MMM-yyyy HH:mm";
 
 	// Activity context
@@ -252,7 +252,7 @@ public class AccountStatusHelper {
 	
 	public int getPeakDailyAverageUsedMb(){
 		long used = getPeakDataUsed() / MB;
-		long days = getDaysSoFar() / MB;
+		long days = getDaysSoFar();
 		int average = (int) (used / days);
 		return average;
 	}
@@ -362,7 +362,7 @@ public class AccountStatusHelper {
 	
 	public int getOffpeakDailyAverageUsedMb(){
 		long used = getOffpeakDataUsed() / MB;
-		long days = getDaysSoFar() / MB;
+		long days = getDaysSoFar();
 		int average = (int) (used / days);
 		return average;
 	}
