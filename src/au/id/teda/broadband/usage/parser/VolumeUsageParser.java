@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -171,7 +172,7 @@ public class VolumeUsageParser {
     
     private Calendar getDay(String period){
     	String FORMAT_YYYY_MM_DD  = "yyyy-MM-dd";
-    	SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_YYYY_MM_DD);
+    	SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_YYYY_MM_DD, Locale.getDefault());
     	Calendar day = Calendar.getInstance();
 		try {
 			day.setTime(sdf.parse(period));
@@ -190,7 +191,7 @@ public class VolumeUsageParser {
     	String FORMAT_YYYYMM = "yyyyMM";
     	period.add(Calendar.DATE, 27 );
     	
-    	SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_YYYYMM);
+    	SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_YYYYMM, Locale.getDefault());
     	String month = sdf.format(period.getTime());
     	
     	return month;
