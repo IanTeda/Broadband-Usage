@@ -14,49 +14,49 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "iiNetUsage.db";
     
     private static final String DAILY_USAGE_TABLE_CREATE = 
-			"create table " + DailyDataDatabaseAdapter.TABLE_NAME +
-			" (" + DailyDataDatabaseAdapter.KEY_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-			+ DailyDataDatabaseAdapter.ACCOUNT + " TEXT NOT NULL, "
-			+ DailyDataDatabaseAdapter.MONTH + " TEXT NOT NULL, "
-			+ DailyDataDatabaseAdapter.DAY + " INTEGER UNIQUE, "
-			+ DailyDataDatabaseAdapter.PEAK + " INTEGER NOT NULL, "
-			+ DailyDataDatabaseAdapter.OFFPEAK + " INTEGER NOT NULL, "
-			+ DailyDataDatabaseAdapter.UPLOADS + " INTEGER NOT NULL, "
-			+ DailyDataDatabaseAdapter.FREEZONE + " INTEGER NOT NULL);";
+			"create table " + DailyDataTableAdapter.TABLE_NAME +
+			" (" + DailyDataTableAdapter.KEY_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+			+ DailyDataTableAdapter.ACCOUNT + " TEXT NOT NULL, "
+			+ DailyDataTableAdapter.MONTH + " TEXT NOT NULL, "
+			+ DailyDataTableAdapter.DAY + " INTEGER UNIQUE, "
+			+ DailyDataTableAdapter.PEAK + " INTEGER NOT NULL, "
+			+ DailyDataTableAdapter.OFFPEAK + " INTEGER NOT NULL, "
+			+ DailyDataTableAdapter.UPLOADS + " INTEGER NOT NULL, "
+			+ DailyDataTableAdapter.FREEZONE + " INTEGER NOT NULL);";
     
     private static final String HOURLY_USAGE_TABLE_CREATE = 
-			"create table " + HourlyDataDatabaseAdapter.TABLE_NAME +
-			" (" + HourlyDataDatabaseAdapter.KEY_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-			+ HourlyDataDatabaseAdapter.ACCOUNT + " TEXT NOT NULL, "
-			+ HourlyDataDatabaseAdapter.DAY + " TEXT UNIQUE, "
-			+ HourlyDataDatabaseAdapter.HOUR + " TEXT NOT NULL, "
-			+ HourlyDataDatabaseAdapter.PEAK + " INTEGER NOT NULL, "
-			+ HourlyDataDatabaseAdapter.OFFPEAK + " INTEGER NOT NULL, "
-			+ HourlyDataDatabaseAdapter.UPLOADS + " INTEGER NOT NULL, "
-			+ HourlyDataDatabaseAdapter.FREEZONE + " INTEGER NOT NULL);";
+			"create table " + HourlyDataTableAdapter.TABLE_NAME +
+			" (" + HourlyDataTableAdapter.KEY_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+			+ HourlyDataTableAdapter.ACCOUNT + " TEXT NOT NULL, "
+			+ HourlyDataTableAdapter.DAY + " TEXT UNIQUE, "
+			+ HourlyDataTableAdapter.HOUR + " TEXT NOT NULL, "
+			+ HourlyDataTableAdapter.PEAK + " INTEGER NOT NULL, "
+			+ HourlyDataTableAdapter.OFFPEAK + " INTEGER NOT NULL, "
+			+ HourlyDataTableAdapter.UPLOADS + " INTEGER NOT NULL, "
+			+ HourlyDataTableAdapter.FREEZONE + " INTEGER NOT NULL);";
     
     private static final String UP_TIME_TABLE_CREATE = 
-			"create table " + UptimeDatabaseAdapter.TABLE_NAME +
-			" (" + UptimeDatabaseAdapter.KEY_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-			+ UptimeDatabaseAdapter.ACCOUNT + " TEXT NOT NULL, "
-			+ UptimeDatabaseAdapter.START + " INTEGER UNIQUE, "
-			+ UptimeDatabaseAdapter.FINISH + " INTEGER NOT NULL, "
-			+ UptimeDatabaseAdapter.IP + " TEXT NOT NULL);";
+			"create table " + UptimeTableAdapter.TABLE_NAME +
+			" (" + UptimeTableAdapter.KEY_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+			+ UptimeTableAdapter.ACCOUNT + " TEXT NOT NULL, "
+			+ UptimeTableAdapter.START + " INTEGER UNIQUE, "
+			+ UptimeTableAdapter.FINISH + " INTEGER NOT NULL, "
+			+ UptimeTableAdapter.IP + " TEXT NOT NULL);";
     
     private static final String HISTORICAL_TABLE_CREATE = 
 			"create table " + HistoricalMonthsTableAdapter.TABLE_NAME +
 			" (" + HistoricalMonthsTableAdapter.KEY_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
 			+ HistoricalMonthsTableAdapter.ACCOUNT + " TEXT NOT NULL, "
-			+ HistoricalMonthsTableAdapter.MONTH + " INTEGER UNIQUE, ";
+			+ HistoricalMonthsTableAdapter.MONTH + " INTEGER UNIQUE); ";
     
     private static final String DAILY_USAGE_DELETE_ENTRIES =
-    	    "DROP TABLE IF EXISTS " + DailyDataDatabaseAdapter.TABLE_NAME;
+    	    "DROP TABLE IF EXISTS " + DailyDataTableAdapter.TABLE_NAME;
     
     private static final String HOURLY_USAGE_DELETE_ENTRIES =
-    	    "DROP TABLE IF EXISTS " + HourlyDataDatabaseAdapter.TABLE_NAME;
+    	    "DROP TABLE IF EXISTS " + HourlyDataTableAdapter.TABLE_NAME;
     
     private static final String UP_TIME_DELETE_ENTRIES =
-    	    "DROP TABLE IF EXISTS " + UptimeDatabaseAdapter.TABLE_NAME;
+    	    "DROP TABLE IF EXISTS " + UptimeTableAdapter.TABLE_NAME;
     
     private static final String HISTORICAL_DELETE_ENTRIES =
     	    "DROP TABLE IF EXISTS " + HistoricalMonthsTableAdapter.TABLE_NAME;

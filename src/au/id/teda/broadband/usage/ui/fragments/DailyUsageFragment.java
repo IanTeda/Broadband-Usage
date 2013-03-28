@@ -20,7 +20,7 @@ import android.widget.ViewFlipper;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.chart.StackedBarChart;
 import au.id.teda.broadband.usage.chart.StackedLineChart;
-import au.id.teda.broadband.usage.database.DailyDataDatabaseAdapter;
+import au.id.teda.broadband.usage.database.DailyDataTableAdapter;
 import au.id.teda.broadband.usage.util.DailyVolumeUsage;
 import au.id.teda.broadband.usage.util.DailyVolumeUsageAdapter;
 import au.id.teda.broadband.usage.util.PaginationView;
@@ -123,7 +123,7 @@ public class DailyUsageFragment extends BaseFragment {
     			&& mAccountStatus.isStatusSet()){
 			
 	        // Get volume usage array
-			DailyDataDatabaseAdapter mDatabase = new DailyDataDatabaseAdapter(mContext);
+			DailyDataTableAdapter mDatabase = new DailyDataTableAdapter(mContext);
 			String period = mAccountStatus.getDataBaseMonthString();
 			mDailyUsageArray = mDatabase.getDailyVolumeUsage(period);
 			

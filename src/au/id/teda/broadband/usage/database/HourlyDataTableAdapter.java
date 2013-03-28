@@ -8,22 +8,22 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
-import au.id.teda.broadband.usage.util.DailyVolumeUsage;
+import au.id.teda.broadband.usage.util.HourlyVolumeUsage;
 
-public class DailyDataDatabaseAdapter {
+public class HourlyDataTableAdapter {
 	
 	//private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 	
 	// Set variables for adapter
 	public static final String KEY_ROWID = "_id";
 	public static final String ACCOUNT = "account";
-	public static final String MONTH = "month";
 	public static final String DAY = "day";
+	public static final String HOUR = "hour";
     public static final String PEAK = "peak";
     public static final String OFFPEAK = "offpeak";
     public static final String UPLOADS = "uploads";
     public static final String FREEZONE = "freezone";
-    public static final String TABLE_NAME = "daily_volume_usage";
+    public static final String TABLE_NAME = "hourly_volume_usage";
     
     private SQLiteDatabase mDatabase;
     private DatabaseHelper mDatabbaseHelper;
@@ -32,7 +32,7 @@ public class DailyDataDatabaseAdapter {
 	 * VolumeUsageDailyDbAdapter class constructor 
 	 * @param context
 	 */
-    public DailyDataDatabaseAdapter (Context context){
+    public HourlyDataTableAdapter (Context context){
     	mDatabbaseHelper = new DatabaseHelper(context);
 	}
     
@@ -55,27 +55,27 @@ public class DailyDataDatabaseAdapter {
     /**
      * Add entry or replace if exists
      * @param userAccount
+     * @param hour
      * @param day
-     * @param month
      * @param peak
      * @param offpeak
      * @param uploads
      * @param freezone
      * @return Row ID 
      */
- 	public Long addReplaceEntry (String userAccount, String month, long day, long peak, long offpeak, long uploads, long freezone){
+ 	public Long addReplaceEntry (String userAccount, long hour, String day, long peak, long offpeak, long uploads, long freezone){
  		String comma = ", ";
  		SQLiteStatement statement = null;
  		
  		String INSERT_STATEMENT = "INSERT OR REPLACE INTO " + TABLE_NAME +
-        		" (" + ACCOUNT + comma + MONTH + comma + DAY + comma 
+        		" (" + DAY + comma + ACCOUNT + comma + HOUR + comma 
         		+ PEAK + comma + OFFPEAK + comma + UPLOADS + comma + FREEZONE + ")" +
         		" VALUES (?,?,?,?,?,?,?)";
  		
  		statement = mDatabase.compileStatement(INSERT_STATEMENT);
  		statement.bindString(1, userAccount);
-        statement.bindString(2, month);
-        statement.bindString(3, Long.toString(day));
+        statement.bindString(2, day);	
+        statement.bindString(3, Long.toString(hour));
         statement.bindString(4, Long.toString(peak));
         statement.bindString(5, Long.toString(offpeak));
         statement.bindString(6, Long.toString(uploads));
@@ -101,7 +101,7 @@ public class DailyDataDatabaseAdapter {
 		
 		//Log.d(DEBUG_TAG, "DailyDataDBAdapter > fetchPeriodUsage(): " + period);
 		String dbQuery = "SELECT * FROM " + TABLE_NAME
-				+ " WHERE " + MONTH
+				+ " WHERE " + DAY
 				+ " = '" + period +"';";
 		Cursor cursor = database.rawQuery(dbQuery, null);
 		return cursor;
@@ -112,7 +112,7 @@ public class DailyDataDatabaseAdapter {
 	 * @param period
 	 * @return DailyVolumeUsage[]
 	 */
-	public DailyVolumeUsage[] getDailyVolumeUsage(String period){
+	public HourlyVolumeUsage[] getDailyVolumeUsage(String period){
 		
 		// Open database connection
 		open();
@@ -121,11 +121,11 @@ public class DailyDataDatabaseAdapter {
 		Cursor cursor = getPriodUsageCursor(period);
 		
 		// Intiate lista array to store cursor
-		List<DailyVolumeUsage> usage = new ArrayList<DailyVolumeUsage>();
+		List<HourlyVolumeUsage> usage = new ArrayList<HourlyVolumeUsage>();
 		
 		// Get column numbers for use with cursor
-		int COLUMN_INDEX_MONTH = cursor.getColumnIndex(MONTH);
 		int COLUMN_INDEX_DAY = cursor.getColumnIndex(DAY);
+		int COLUMN_INDEX_HOUR = cursor.getColumnIndex(HOUR);
 		int COLUMN_INDEX_PEAK = cursor.getColumnIndex(PEAK);
 		int COLUMN_INDEX_OFFPEAK = cursor.getColumnIndex(OFFPEAK);
 		int COLUMN_INDEX_UPLOADS = cursor.getColumnIndex(UPLOADS);
@@ -136,14 +136,14 @@ public class DailyDataDatabaseAdapter {
 		cursor.moveToFirst();
 		while (cursor.isAfterLast() == false) {
 			
-			String month = cursor.getString(COLUMN_INDEX_MONTH);
-			Long day = cursor.getLong(COLUMN_INDEX_DAY);
+			String day = cursor.getString(COLUMN_INDEX_DAY);
+			Long hour = cursor.getLong(COLUMN_INDEX_HOUR);
 			Long peak = cursor.getLong(COLUMN_INDEX_PEAK);
 			Long offpeak = cursor.getLong(COLUMN_INDEX_OFFPEAK);
 			Long uploads = cursor.getLong(COLUMN_INDEX_UPLOADS);
 			Long freezone = cursor.getLong(COLUMN_INDEX_FREEZONE);
-							
-			usage.add(new DailyVolumeUsage(month, day, peak, offpeak, uploads, freezone));
+        								
+			usage.add(new HourlyVolumeUsage(day, hour, peak, offpeak, uploads, freezone));
 			
 			cursor.moveToNext();
 			
@@ -154,7 +154,7 @@ public class DailyDataDatabaseAdapter {
 		close();
 		
 		// Convert list array to an array of DailyVolumeUsage
-		DailyVolumeUsage volumeUsage[] = usage.toArray(new DailyVolumeUsage[usage.size()]);
+		HourlyVolumeUsage volumeUsage[] = usage.toArray(new HourlyVolumeUsage[usage.size()]);
 		
 		// Return volume usage array
 		return volumeUsage;

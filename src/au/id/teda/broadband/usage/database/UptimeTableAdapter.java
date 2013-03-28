@@ -5,7 +5,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 
-public class UptimeDatabaseAdapter {
+public class UptimeTableAdapter {
 	
 	//private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 	
@@ -24,7 +24,7 @@ public class UptimeDatabaseAdapter {
 	 * VolumeUsageDailyDbAdapter class constructor 
 	 * @param context
 	 */
-    public UptimeDatabaseAdapter (Context context){
+    public UptimeTableAdapter (Context context){
     	mDatabbaseHelper = new DatabaseHelper(context);
 	}
     

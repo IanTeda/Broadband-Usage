@@ -16,7 +16,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.authenticator.AccountAuthenticator;
-import au.id.teda.broadband.usage.database.DailyDataDatabaseAdapter;
+import au.id.teda.broadband.usage.database.DailyDataTableAdapter;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
 import au.id.teda.broadband.usage.helper.NotificationHelper;
@@ -275,7 +275,7 @@ public class NetworkUtilities {
         }
         
         // Initiate database
-        DailyDataDatabaseAdapter mDatabase = new DailyDataDatabaseAdapter(mContext);
+        DailyDataTableAdapter mDatabase = new DailyDataTableAdapter(mContext);
         mDatabase.open();
         
         for (DailyVolumeUsage volumeUsage : usage) {
