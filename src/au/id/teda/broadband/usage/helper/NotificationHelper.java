@@ -387,7 +387,7 @@ public class NotificationHelper {
 	
 	private void showNotificaiton(String title, String message, int id){
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext);
-		mBuilder.setSmallIcon(R.drawable.ic_launcher);
+		mBuilder.setSmallIcon(R.drawable.ic_notification);
 		mBuilder.setContentTitle(title);
 		mBuilder.setContentText(message);
 		
