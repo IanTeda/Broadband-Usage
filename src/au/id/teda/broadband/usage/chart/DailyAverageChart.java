@@ -46,7 +46,12 @@ public class DailyAverageChart extends View {
 	}
 	
 	public void setData(int average, int quota){
-		mPercentageUsed = average/quota;
+		// Check to see if we have zero values
+		if (quota == 0 || average == 0){
+			mPercentageUsed = 1;
+		} else {
+			mPercentageUsed = average/quota;
+		}	
 	}
 	
 	@Override

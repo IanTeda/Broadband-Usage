@@ -91,7 +91,8 @@ public class NetworkUtilities {
     	// Get input stream
         InputStream inputStream = getUrlInputStream(urlBuilder(mUsername, mAccountAuthenticator.getPassword()));
     	
-    	//InputStream inputStream = mContext.getResources().openRawResource(R.raw.naked_dsl_home_5);
+        // Use XML in raw folder to development
+    	//InputStream inputStream = mContext.getResources().openRawResource(R.raw.march_2013_usage);
     	
         UnclosableBufferedInputStream  bis = new UnclosableBufferedInputStream (inputStream);
     	

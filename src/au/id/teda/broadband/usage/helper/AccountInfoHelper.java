@@ -145,7 +145,7 @@ public class AccountInfoHelper {
 	 * @return shared preference string
 	 */
 	public long getOffpeakStartTime(){
-		return mSettings.getLong(PREF_OFFPEAK_START_KEY, -1);
+		return mSettings.getLong(PREF_OFFPEAK_START_KEY, 0);
 	}
 	
 	/**
@@ -170,7 +170,7 @@ public class AccountInfoHelper {
 	 * @return shared preference string
 	 */
 	public long getOffpeakEndTime(){
-		return mSettings.getLong(PREF_OFFPEAK_END_KEY, -1);
+		return mSettings.getLong(PREF_OFFPEAK_END_KEY, 0);
 	}
 	
 	public String getOffpeakEndTimeString(){
@@ -305,7 +305,7 @@ public class AccountInfoHelper {
 	 * @return shared preference Long
 	 */
 	public long getPeakQuota(){
-		return mSettings.getLong(PREF_PEAK_QUOTA_KEY, -1);
+		return mSettings.getLong(PREF_PEAK_QUOTA_KEY, 0);
 	}
 	
 	public int getPeakQuotaGb(){
@@ -376,7 +376,7 @@ public class AccountInfoHelper {
 	 * @return shared preference Long
 	 */
 	public long getOffpeakQuota(){
-		return mSettings.getLong(PREF_OFFPEAK_QUOTA_KEY, -1);
+		return mSettings.getLong(PREF_OFFPEAK_QUOTA_KEY, 0);
 	}
 	
 	public int getOffpeakQuotaGb(){
