@@ -39,7 +39,7 @@
         </service>
         <service
             android:name=".syncadapter.SyncService"
-            android:exported="true" >
+            android:exported="false" >
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
             </intent-filter>

@@ -64,6 +64,7 @@
         android:layout_height="fill_parent"
         android:layout_below="@+id/fragment_usage_summary"
         android:layout_toRightOf="@+id/activity_main_left_column_container"
+        android:baselineAligned="false"
         android:orientation="horizontal" >
         
         <fragment

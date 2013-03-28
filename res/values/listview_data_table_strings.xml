@@ -9,5 +9,6 @@
     <string name="listview_data_table_freezone_heading">Freezone</string>
     <string name="listview_data_table_daily_heading">Daily</string>
     <string name="listview_data_table_accum_heading">Accum</string>
+    <string name="listview_data_table_gb">(GB)</string>
     
 </resources>

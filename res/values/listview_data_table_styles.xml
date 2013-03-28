@@ -16,6 +16,7 @@
         <item name="android:textSize">@dimen/text_tiny</item>
         <item name="android:text">(Mb)</item>
         <item name="android:textColor">@color/text_light</item>
+        <item name="android:textIsSelectable">false</item>
     </style>
     
     <style name="listview_data_table_row_number">
@@ -24,6 +25,7 @@
         <item name="android:gravity">center_vertical|right</item>
         <item name="android:text">00,000</item>
         <item name="android:textSize">@dimen/text_large</item>
+        <item name="android:textIsSelectable">false</item>
     </style>
     
     <style name="listview_data_table_row">

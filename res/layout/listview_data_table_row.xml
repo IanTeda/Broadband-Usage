@@ -31,7 +31,6 @@
             android:layout_height="fill_parent"
             android:layout_alignParentLeft="true"
             android:gravity="right|center_vertical"
-            android:text="29"
             android:textColor="@color/accent"
             android:textSize="@dimen/text_large" />
 
@@ -42,7 +41,6 @@
             android:layout_marginTop="12dp"
             android:layout_toRightOf="@+id/listview_data_table_row_date"
             android:gravity="center"
-            android:text="MON"
             android:textSize="@dimen/text_micro"
             android:textStyle="bold" />
 
@@ -54,7 +52,6 @@
             android:layout_marginTop="-6dp"
             android:layout_toRightOf="@+id/listview_data_table_row_date"
             android:gravity="center"
-            android:text="JAN"
             android:textColor="@color/text_light"
             android:textScaleX="1.3"
             android:textSize="@dimen/text_tiny" />
@@ -154,7 +151,7 @@
             android:id="@+id/listview_data_table_row_accum_description"
             style="@style/listview_data_table_row_description"
             android:layout_alignBaseline="@+id/listview_data_table_row_accum_number"
-            android:text="(Gb)" />
+            android:text="@string/listview_data_table_gb" />
 
         <TextView
             android:id="@+id/listview_data_table_row_accum_number"
