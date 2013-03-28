@@ -43,6 +43,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			+ UptimeDatabaseAdapter.FINISH + " INTEGER NOT NULL, "
 			+ UptimeDatabaseAdapter.IP + " TEXT NOT NULL);";
     
+    private static final String HISTORICAL_TABLE_CREATE = 
+			"create table " + HistoricalMonthsTableAdapter.TABLE_NAME +
+			" (" + HistoricalMonthsTableAdapter.KEY_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+			+ HistoricalMonthsTableAdapter.ACCOUNT + " TEXT NOT NULL, "
+			+ HistoricalMonthsTableAdapter.MONTH + " INTEGER UNIQUE, ";
+    
     private static final String DAILY_USAGE_DELETE_ENTRIES =
     	    "DROP TABLE IF EXISTS " + DailyDataDatabaseAdapter.TABLE_NAME;
     
@@ -51,6 +57,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     
     private static final String UP_TIME_DELETE_ENTRIES =
     	    "DROP TABLE IF EXISTS " + UptimeDatabaseAdapter.TABLE_NAME;
+    
+    private static final String HISTORICAL_DELETE_ENTRIES =
+    	    "DROP TABLE IF EXISTS " + HistoricalMonthsTableAdapter.TABLE_NAME;
 
 	public DatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -61,6 +70,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		db.execSQL(DAILY_USAGE_TABLE_CREATE);
 		db.execSQL(HOURLY_USAGE_TABLE_CREATE);
 		db.execSQL(UP_TIME_TABLE_CREATE);
+		db.execSQL(HISTORICAL_TABLE_CREATE);
 	}
 
 	@Override
@@ -70,6 +80,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(DAILY_USAGE_DELETE_ENTRIES);
         db.execSQL(HOURLY_USAGE_DELETE_ENTRIES);
         db.execSQL(UP_TIME_DELETE_ENTRIES);
+        db.execSQL(HISTORICAL_DELETE_ENTRIES);
         onCreate(db);
 	}
 	
