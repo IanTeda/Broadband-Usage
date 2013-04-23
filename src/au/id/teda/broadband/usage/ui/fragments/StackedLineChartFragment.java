@@ -77,7 +77,7 @@ public class StackedLineChartFragment extends BaseFragment {
 			GraphicalView mLineChartView = (GraphicalView) mLineChart.getChartView(mDailyUsageArray);
 
 			// Add chart view to layout view
-			//mChartContainer.removeAllViews();
+			mChartContainer.removeAllViews();
 			mChartContainer.addView(mLineChartView, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 		}
 	}

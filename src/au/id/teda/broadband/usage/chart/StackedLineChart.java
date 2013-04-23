@@ -8,15 +8,13 @@ import org.achartengine.renderer.XYSeriesRenderer;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.util.DailyVolumeUsage;
 
 public class StackedLineChart extends ChartBuilder {
-
-	// Debug tag pulled from main activity
-	//private final static String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 	
 	// Helper classes
 	private AccountInfoHelper mAccountInfo;
@@ -44,7 +42,7 @@ public class StackedLineChart extends ChartBuilder {
 	
 	protected XYMultipleSeriesDataset getStackedLineChartDataSet(DailyVolumeUsage[] usage) {
 		
-		// Set daily average objects and initialise
+		// Set daily average objects and initialize
 		double peakAv = 0;
 		double offpeakAv = 0;
 		double offPeakAvStacked = 0;
@@ -55,17 +53,20 @@ public class StackedLineChart extends ChartBuilder {
 		CategorySeries peakQuotaSeries = new CategorySeries(mContext.getString(R.string.chart_data_series_peak_quota));
 		CategorySeries offpeakQuotaSeries = new CategorySeries(mContext.getString(R.string.chart_data_series_offpeak_quota));
 		
-		// Get average daily useage
+		// Get average daily usage
 		long peakDailyAv = mAccountInfo.getPeakQuotaDailyMb();
 		long offpeakDailyAv = mAccountInfo.getOffpeakQuotaDailyMb();
 		
 		
         for (DailyVolumeUsage volumeUsage : usage) {
-        	Long peakUsage = (volumeUsage.peak / MB);
-        	Long offpeakUsage = (volumeUsage.offpeak / MB);
+        	Long peak = (volumeUsage.peak / MB);
+        	Long offpeak = (volumeUsage.offpeak / MB);        	
         	
-        	accumPeak = accumPeak + peakUsage;
-        	accumOffpeak = accumOffpeak + offpeakUsage;
+        	accumPeak = accumPeak + peak;
+        	accumOffpeak = accumOffpeak + offpeak;
+        	
+        	Log.d(DEBUG_TAG, "Peak: " + peak + " | Offpeak: " + offpeak);
+
         	
 			// Set average daily line
 			peakAv = peakAv + peakDailyAv;
@@ -115,6 +116,7 @@ public class StackedLineChart extends ChartBuilder {
 	    r.setLineWidth(1);
 	    renderer.addSeriesRenderer(r);
 	    
+	    //TODO: Change off peak fill color
 	    // Offpeak series render settings
 	    r = new XYSeriesRenderer();
 	    r.setColor(getOffpeakColor());

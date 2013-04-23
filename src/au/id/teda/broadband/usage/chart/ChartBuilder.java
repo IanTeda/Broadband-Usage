@@ -13,17 +13,13 @@ import org.achartengine.renderer.XYSeriesRenderer;
 import android.content.Context;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
+import au.id.teda.broadband.usage.ui.BaseActivity;
 
 public class ChartBuilder {
 
-	//private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
+	protected static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 
 	private Context mContext;
-
-	//private static final String PEAK = "Peak";
-	//private static final String OFFPEAK = "Offpeak";
-	//private static final String REMAINING = "Remaining";
-	//private static final String TITLE = "Data Usage";
 
 	//private double maxDataUsage = 0;
 	long accumPeak;
