@@ -37,6 +37,8 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
     private int mAccumPosition = 0;
     private long[] accumArray;
     private int mOverColor;
+    private int mEvenBackgroundColor;
+    private int mOddBackgroundColor;
     
     // Integer used to determine row number and background color
     //private int rowNum;
@@ -74,6 +76,8 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
         accumArray = new long[days];
         
         mOverColor = context.getResources().getColor(R.color.accent);
+        mEvenBackgroundColor = context.getResources().getColor(R.color.background);
+        mOddBackgroundColor = context.getResources().getColor(R.color.background_alt_light);
     }
 
 	@Override
@@ -178,23 +182,33 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
 			holder.mHightlight.setBackgroundColor(mOverColor);
 		} else {
 			if (isRowEven(rowNumber)){
-				holder.mHightlight.setBackgroundColor(mContext.getResources().getColor(R.color.background));
+				holder.mHightlight.setBackgroundColor(mEvenBackgroundColor);
 			} else {
-				holder.mHightlight.setBackgroundColor(mContext.getResources().getColor(R.color.background_alt_light));
+				holder.mHightlight.setBackgroundColor(mOddBackgroundColor);
 			}
 		}
 	}
 
+	/**
+	 * Set row background color based on odd and even row number
+	 * @param holder
+	 * @param rowNumber
+	 */
 	private void setRowBackground(ViewHolder holder, int rowNumber) {
 		// Set alternate row backgrounds
 		if (isRowEven(rowNumber)){
-			holder.mRow.setBackgroundResource(R.color.background);
+			holder.mRow.setBackgroundColor(mEvenBackgroundColor);
 		} else {
-			holder.mRow.setBackgroundResource(R.color.background_alt_light);
+			holder.mRow.setBackgroundColor(mOddBackgroundColor);
 		}
 	}
 
-	// Return string values for date long millisec stored in db
+	/**
+	 * Reutnr string value for date long milliseced
+	 * @param millisecs
+	 * @param convertTo
+	 * @return
+	 */
 	@SuppressLint("DefaultLocale")
 	private String LongDateToString(long millisecs, String convertTo) {
 		DateFormat date_format = null;
@@ -210,7 +224,11 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
 		return date.toUpperCase(Locale.getDefault());
 	}
 
-	// Return formated string value for int stored in db
+	/**
+	 * Return formated string value of long to MB
+	 * @param usage
+	 * @return
+	 */
 	private String IntUsageToString (long usage){
 		NumberFormat numberFormat = new DecimalFormat("#,###");
 		return numberFormat.format(usage/GB);
