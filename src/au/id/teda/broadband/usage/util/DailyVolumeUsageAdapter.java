@@ -9,6 +9,7 @@ import java.util.Locale;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,15 +18,16 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import au.id.teda.broadband.usage.R;
+import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
 
 public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
 	
 	// Debug tag pulled from main activity
-	//private final static String DEBUG_TAG = MainActivity.DEBUG_TAG;
+	//private final static String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 	
 	// Helper classes
-	//private AccountInfoHelper mAccountInfo;
+	private AccountInfoHelper mAccountInfo;
 	private AccountStatusHelper mAccountStatus;
 	
 	private Context mContext; 
@@ -34,6 +36,7 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
     private long runningTotal = 0;
     private int mAccumPosition = 0;
     private long[] accumArray;
+    private int mOverColor;
     
     // Integer used to determine row number and background color
     //private int rowNum;
@@ -43,6 +46,7 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
     
     private final class ViewHolder {
     	public LinearLayout mRow;
+    	public View mHightlight;
     	public TextView mNumber;
 	    public TextView mDate;
 	    public TextView mDay;
@@ -62,12 +66,14 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
         this.data = data;
         
         // Load helper classes
-     	//mAccountInfo = new AccountInfoHelper(mContext);
+     	mAccountInfo = new AccountInfoHelper(mContext);
      	mAccountStatus = new AccountStatusHelper(mContext);
         
-        // Intialise array
+        // Initialize array
         int days = ( mAccountStatus.getDaysToGo() + mAccountStatus.getDaysSoFar() );
         accumArray = new long[days];
+        
+        mOverColor = context.getResources().getColor(R.color.accent);
     }
 
 	@Override
@@ -81,7 +87,8 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
             view = inflater.inflate(layoutResourceId, parent, false);
             
             holder = new ViewHolder();
-            holder.mRow=  (LinearLayout) view.findViewById(R.id.listview_data_table_row_container);
+            holder.mHightlight = view.findViewById(R.id.listview_data_table_row_highlight);
+            holder.mRow = (LinearLayout) view.findViewById(R.id.listview_data_table_row_container);
             holder.mNumber = (TextView) view.findViewById(R.id.listview_data_table_row_number);
             holder.mDate = (TextView) view.findViewById(R.id.listview_data_table_row_date);
             holder.mDay = (TextView) view.findViewById(R.id.listview_data_table_row_date_day);
@@ -118,12 +125,7 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
         
         int rowNumber = position + 1;
         
-        // Set alternate row backgrounds
-		if (isRowEven(rowNumber)){
-			holder.mRow.setBackgroundResource(R.color.background);
-		} else {
-			holder.mRow.setBackgroundResource(R.color.background_alt_light);
-		}
+        setRowBackground(holder, rowNumber);
         
         // Set text
         holder.mNumber.setText(String.valueOf(rowNumber));
@@ -142,10 +144,55 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
 	        FontUtils.setRobotoFont(mContext, view);
 	    }
 		
-		//TODO: Highlight if over daily average
+		setOverUsageColor(holder, usage, rowNumber);
 		
         return view;
     }
+
+	/**
+	 * Set the text and high lighter view to accent if usage over daily quota
+	 * @param holder
+	 * @param usage
+	 * @param rowNumber
+	 */
+	private void setOverUsageColor(ViewHolder holder, DailyVolumeUsage usage,
+			int rowNumber) {
+		long dailyPeakQuota = mAccountInfo.getPeakQuotaDailyMb();
+		long peak = usage.peak/1000000;
+		long dailyOffpeakQuota = mAccountInfo.getOffpeakQuotaDailyMb();
+		long offpeak = usage.offpeak/1000000;
+		
+		if (peak > dailyPeakQuota) {
+			holder.mPeak.setTextColor(mOverColor);
+		} else {
+			holder.mPeak.setTextColor(Color.BLACK);
+		}
+			
+		if (offpeak > dailyOffpeakQuota) {
+			holder.mOffpeak.setTextColor(mOverColor);
+		} else {
+			holder.mOffpeak.setTextColor(Color.BLACK);
+		}
+		
+		if (peak > dailyPeakQuota || offpeak > dailyOffpeakQuota){
+			holder.mHightlight.setBackgroundColor(mOverColor);
+		} else {
+			if (isRowEven(rowNumber)){
+				holder.mHightlight.setBackgroundColor(mContext.getResources().getColor(R.color.background));
+			} else {
+				holder.mHightlight.setBackgroundColor(mContext.getResources().getColor(R.color.background_alt_light));
+			}
+		}
+	}
+
+	private void setRowBackground(ViewHolder holder, int rowNumber) {
+		// Set alternate row backgrounds
+		if (isRowEven(rowNumber)){
+			holder.mRow.setBackgroundResource(R.color.background);
+		} else {
+			holder.mRow.setBackgroundResource(R.color.background_alt_light);
+		}
+	}
 
 	// Return string values for date long millisec stored in db
 	@SuppressLint("DefaultLocale")

@@ -26,7 +26,7 @@ import com.actionbarsherlock.view.MenuItem;
 public class BaseActivity extends SherlockFragmentActivity {
 	
 	// Debug tag to be used for application
-	//public static final String DEBUG_TAG = "bbusage";
+	public static final String DEBUG_TAG = "bbusage";
 
 	// Refresh icon variables
     private static MenuItem mRefreshMenuItem;
