@@ -8,7 +8,7 @@ import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import au.id.teda.broadband.usage.R;
+import au.id.teda.broadband.usage.dev.R;
 
 public class AccountAuthenticator extends AbstractAccountAuthenticator {
 	

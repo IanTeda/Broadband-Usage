@@ -9,7 +9,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import au.id.teda.broadband.usage.R;
+import au.id.teda.broadband.usage.dev.R;
 import au.id.teda.broadband.usage.chart.CustomDonughtChartStacked;
 
 public class UsageDoughnutFragment extends BaseFragment {

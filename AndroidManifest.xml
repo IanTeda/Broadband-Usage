@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="au.id.teda.broadband.usage"
+    package="au.id.teda.broadband.usage.dev"
     android:versionCode="3"
     android:versionName="Beta" >
 
@@ -26,7 +26,7 @@
 
         <!-- The authenticator service -->
         <service
-            android:name=".authenticator.AuthenticatationService"
+            android:name="au.id.teda.broadband.usage.authenticator.AuthenticatationService"
             android:exported="false"
             android:process=":auth" >
             <intent-filter>
@@ -38,7 +38,7 @@
                 android:resource="@xml/authenticator" />
         </service>
         <service
-            android:name=".syncadapter.SyncService"
+            android:name="au.id.teda.broadband.usage.syncadapter.SyncService"
             android:exported="false" >
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
@@ -50,14 +50,14 @@
         </service>
 
         <provider
-            android:name=".syncadapter.DummyContentProvider"
+            android:name="au.id.teda.broadband.usage.syncadapter.DummyContentProvider"
             android:authorities="au.id.teda.broadband.usage"
             android:exported="false"
             android:label="@string/sync_adapter_label"
             android:syncable="true" />
 
         <activity
-            android:name=".authenticator.AuthenticatorActivity"
+            android:name="au.id.teda.broadband.usage.authenticator.AuthenticatorActivity"
             android:excludeFromRecents="true"
             android:label="@string/action_bar_title_authenticator" >
 
@@ -67,7 +67,7 @@
             -->
         </activity>
         <activity
-            android:name=".ui.MainActivity"
+            android:name="au.id.teda.broadband.usage.ui.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -76,7 +76,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.SettingsActivity"
+            android:name="au.id.teda.broadband.usage.ui.SettingsActivity"
             android:label="@string/action_bar_title_settings" >
             <intent-filter>
                 <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />
@@ -85,7 +85,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.AccountInfoActivity"
+            android:name="au.id.teda.broadband.usage.ui.AccountInfoActivity"
             android:label="@string/action_bar_title_account" />
         <activity
             android:name="au.id.teda.broadband.usage.ui.UsageActivity"

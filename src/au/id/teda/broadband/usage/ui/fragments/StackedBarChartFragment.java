@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
-import au.id.teda.broadband.usage.R;
+import au.id.teda.broadband.usage.dev.R;
 import au.id.teda.broadband.usage.chart.StackedBarChart;
 import au.id.teda.broadband.usage.database.DailyDataTableAdapter;
 import au.id.teda.broadband.usage.util.DailyVolumeUsage;

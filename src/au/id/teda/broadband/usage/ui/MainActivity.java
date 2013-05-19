@@ -2,7 +2,7 @@ package au.id.teda.broadband.usage.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import au.id.teda.broadband.usage.R;
+import au.id.teda.broadband.usage.dev.R;
 import au.id.teda.broadband.usage.authenticator.AccountAuthenticator;
 import au.id.teda.broadband.usage.authenticator.AuthenticatorActivity;
 

@@ -8,7 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import au.id.teda.broadband.usage.R;
+import au.id.teda.broadband.usage.dev.R;
 import au.id.teda.broadband.usage.ui.fragments.OffpeakUsageFragment;
 import au.id.teda.broadband.usage.ui.fragments.PeakUsageFragment;
 

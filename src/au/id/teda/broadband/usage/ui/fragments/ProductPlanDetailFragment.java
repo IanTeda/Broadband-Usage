@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import au.id.teda.broadband.usage.R;
+import au.id.teda.broadband.usage.dev.R;
 
 public class ProductPlanDetailFragment extends BaseFragment {
 

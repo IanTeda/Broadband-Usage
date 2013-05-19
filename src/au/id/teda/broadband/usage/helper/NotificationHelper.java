@@ -8,7 +8,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
-import au.id.teda.broadband.usage.R;
+import au.id.teda.broadband.usage.dev.R;
 import au.id.teda.broadband.usage.ui.MainActivity;
 
 // TODO: Improve multiply notification (i.e. show as one)

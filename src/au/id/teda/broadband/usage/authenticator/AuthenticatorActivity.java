@@ -19,7 +19,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import au.id.teda.broadband.usage.R;
+import au.id.teda.broadband.usage.dev.R;
 import au.id.teda.broadband.usage.helper.ConnectivityHelper;
 import au.id.teda.broadband.usage.syncadapter.DummyContentProvider;
 import au.id.teda.broadband.usage.ui.SettingsActivity;

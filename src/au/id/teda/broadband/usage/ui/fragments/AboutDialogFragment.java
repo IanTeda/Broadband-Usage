@@ -15,7 +15,7 @@ import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-import au.id.teda.broadband.usage.R;
+import au.id.teda.broadband.usage.dev.R;
 
 public class AboutDialogFragment extends DialogFragment {
 	

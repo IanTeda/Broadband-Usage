@@ -8,7 +8,7 @@ import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.widget.TextView;
-import au.id.teda.broadband.usage.R;
+import au.id.teda.broadband.usage.dev.R;
 
 public class LayoutHelper {
 	

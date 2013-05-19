@@ -17,7 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
-import au.id.teda.broadband.usage.R;
+import au.id.teda.broadband.usage.dev.R;
 import au.id.teda.broadband.usage.chart.StackedBarChart;
 import au.id.teda.broadband.usage.chart.StackedLineChart;
 import au.id.teda.broadband.usage.database.DailyDataTableAdapter;

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
-import au.id.teda.broadband.usage.R;
+import au.id.teda.broadband.usage.dev.R;
 
 /**
  * Class for ViewFlipper pagination

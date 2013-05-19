@@ -10,7 +10,7 @@ import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.View.OnTouchListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import au.id.teda.broadband.usage.R;
+import au.id.teda.broadband.usage.dev.R;
 import au.id.teda.broadband.usage.helper.NotificationHelper;
 
 public class UsageSummaryFragment extends BaseFragment {

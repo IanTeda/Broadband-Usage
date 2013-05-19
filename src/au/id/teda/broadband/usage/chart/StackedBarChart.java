@@ -9,7 +9,7 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
-import au.id.teda.broadband.usage.R;
+import au.id.teda.broadband.usage.dev.R;
 import au.id.teda.broadband.usage.util.DailyVolumeUsage;
 
 public class StackedBarChart extends ChartBuilder {

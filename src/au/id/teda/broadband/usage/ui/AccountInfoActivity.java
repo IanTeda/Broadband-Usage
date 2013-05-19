@@ -1,7 +1,7 @@
 package au.id.teda.broadband.usage.ui;
 
 import android.os.Bundle;
-import au.id.teda.broadband.usage.R;
+import au.id.teda.broadband.usage.dev.R;
 
 /**
  * Activity holder for account info fragment
