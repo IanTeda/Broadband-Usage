@@ -26,6 +26,7 @@ import au.id.teda.broadband.usage.ui.SettingsActivity;
 import au.id.teda.broadband.usage.util.FontUtils;
 import au.id.teda.broadband.usage.util.NetworkUtilities;
 
+//TODO: Rewrite activity for better error display and add type of account (peak_offpeak or anytime)
 public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 	
 	/** Debug tag **/

@@ -1,8 +1,5 @@
 package au.id.teda.broadband.usage.ui;
 
-import com.viewpagerindicator.TitlePageIndicator;
-import com.viewpagerindicator.TitlePageIndicator.IndicatorStyle;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import au.id.teda.broadband.usage.dev.R;
 import au.id.teda.broadband.usage.ui.fragments.OffpeakUsageFragment;
 import au.id.teda.broadband.usage.ui.fragments.PeakUsageFragment;
+import com.viewpagerindicator.TitlePageIndicator;
 
 /**
  * Activity holder for PeakUsageFragment
@@ -43,7 +41,7 @@ public class UsageActivity extends BaseActivity {
 		mIndicator.setSelectedBold(true);
 		mIndicator.setSelectedColor(getResources().getColor(R.color.base));
 		mIndicator.setFooterColor(getResources().getColor(R.color.accent));
-		mIndicator.setFooterIndicatorStyle(IndicatorStyle.Underline);
+		mIndicator.setFooterIndicatorStyle(TitlePageIndicator.IndicatorStyle.Underline);
 
 	}
 
