@@ -12,14 +12,14 @@
 
         <fragment
             android:id="@+id/fragment_clock"
-            android:name="au.id.teda.broadband.usage.ui.fragments.ClockFragment"
+            android:name="au.id.teda.broadband.dev.fragments.ClockFragment"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             tools:layout="@layout/fragment_clock" />
 
         <fragment
             android:id="@+id/fragment_product_plan_detail"
-            android:name="au.id.teda.broadband.usage.ui.fragments.ProductPlanDetailFragment"
+            android:name="au.id.teda.broadband.dev.fragments.ProductPlanDetailFragment"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             tools:layout="@layout/fragment_product_plan_detail" />

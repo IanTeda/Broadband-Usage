@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/fragment_stacked_bar_chart"
-        android:name="au.id.teda.broadband.usage.ui.fragments.StackedBarChartFragment"
+        android:name="au.id.teda.broadband.dev.fragments.StackedBarChartFragment"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
 

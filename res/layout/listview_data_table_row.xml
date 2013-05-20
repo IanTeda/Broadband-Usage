@@ -57,7 +57,7 @@
             android:textSize="@dimen/text_tiny" />
     </RelativeLayout>
 
-    <!-- Peak data usage column -->
+    <!-- Peak data dev column -->
 
     <RelativeLayout
         android:id="@+id/listview_data_table_row_peak_container"
@@ -74,7 +74,7 @@
             android:layout_toLeftOf="@+id/listview_data_table_row_peak_description" />
     </RelativeLayout>
 
-    <!-- Offpeak data usage -->
+    <!-- Offpeak data dev -->
 
     <RelativeLayout
         android:id="@+id/listview_data_table_row_offpeak_container"
@@ -123,7 +123,7 @@
             android:layout_toLeftOf="@+id/listview_data_table_row_freezone_description" />
     </RelativeLayout>
 
-    <!-- Total daily usage -->
+    <!-- Total daily dev -->
 
     <RelativeLayout
         android:id="@+id/listview_data_table_row_total_container"

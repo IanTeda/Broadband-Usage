@@ -9,7 +9,7 @@
 
     <fragment
         android:id="@+id/fragment_daily_usage"
-        android:name="au.id.teda.broadband.usage.ui.fragments.DailyUsageFragment"
+        android:name="au.id.teda.broadband.dev.fragments.DailyUsageFragment"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
