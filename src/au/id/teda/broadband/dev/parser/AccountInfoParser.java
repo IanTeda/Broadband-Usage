@@ -29,16 +29,19 @@ public class AccountInfoParser {
 	private static final String EXPECTED_TRAFFIC_TYPES_TAG = "expected_traffic_types";
 	private static final String TYPE_TAG = "type";
 	private static final String QUOTA_ALLOCATION = "quota_allocation";
+    private static final String ANYTIME_ATT = "anytime";
 	private static final String PEAK_ATT = "peak";
 	private static final String OFFPEAK_ATT = "offpeak";
 	private static final String CLASSIFICATION_ATT = "classification";
 	
 	private String mPlan = null;
 	private String mProduct = null;
-	private long mOffpeakStartTime;
-	private long mOffpeakEndTime;
-	private long mPeakQuota;
-	private long mOffpeakQuota;
+    private boolean bIsAnyTime = false;
+	private long mOffpeakStartTime = -1;
+	private long mOffpeakEndTime = -1;
+    private long mAnytimeQuota = -1;
+	private long mPeakQuota = -1;
+	private long mOffpeakQuota = -1;
 	
 	private long MB = 1000000;
 	    
@@ -46,18 +49,22 @@ public class AccountInfoParser {
 	public static class AccountInfo {
 		public final String plan;
 	    public final String product;
+        public final boolean isAnyTime;
 	    public final long offpeakStartTime;
 	    public final long offpeakEndTime;
+        public final long anytimeQuota;
 	    public final long peakQuota;
 	    public final long offpeakQuota;
 
-	    private AccountInfo(String plan, String product
+	    private AccountInfo(String plan, String product, boolean isAnyTime
 	    		, long offpeakStartTime, long offpeakEndTime
-	    		, long peakQuota, long offpeakQuota) {
+	    		, long anytimeQuota, long peakQuota, long offpeakQuota) {
 	    	this.plan = plan;
 	        this.product = product;
+            this.isAnyTime = isAnyTime;
 	        this.offpeakStartTime = offpeakStartTime;
 	        this.offpeakEndTime = offpeakEndTime;
+            this.anytimeQuota = anytimeQuota;
 	        this.peakQuota = peakQuota;
 	        this.offpeakQuota = offpeakQuota;
 	    }
@@ -94,9 +101,9 @@ public class AccountInfoParser {
 	            
 	        }
 	    	
-	    	accountInfo.add(new AccountInfo(mPlan, mProduct
+	    	accountInfo.add(new AccountInfo(mPlan, mProduct, bIsAnyTime
 	    			, mOffpeakStartTime, mOffpeakEndTime
-	    			, mPeakQuota, mOffpeakQuota));
+	    			, mAnytimeQuota, mPeakQuota, mOffpeakQuota));
 	    	
 	        return accountInfo;
 	    }
@@ -166,10 +173,15 @@ public class AccountInfoParser {
 		    	
 	            String tagName = parser.getName();
 	            if (tagName.equals(QUOTA_ALLOCATION)){
-	            	if (classification.equals(PEAK_ATT)){
+                    if (classification.equals(ANYTIME_ATT)){
+                        mAnytimeQuota = stringToLong(readQuota(parser)) * MB;
+                        bIsAnyTime = true;
+                    } else if (classification.equals(PEAK_ATT)){
 	            		mPeakQuota = stringToLong(readQuota(parser)) * MB;
+
 		    		} else if (classification.equals(OFFPEAK_ATT)){
 		    			mOffpeakQuota = stringToLong(readQuota(parser)) * MB;
+
 		    		}
 	            } else {
 	            	skip(parser);

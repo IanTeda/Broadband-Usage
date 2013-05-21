@@ -17,8 +17,10 @@ public class AccountInfoHelper {
 	private final static String PREF_ACCOUNT_KEY = "pref_account_key";
 	private final static String PREF_PLAN_KEY = "pref_plan_key";
 	private final static String PREF_PRODUCT_KEY = "pref_product";
+    private final static String PREF_IS_ANYTIME_KEY = "pref_is_anytime_key";
 	private final static String PREF_OFFPEAK_START_KEY = "pref_offpeak_start";
 	private final static String PREF_OFFPEAK_END_KEY = "pref_offpeak_end";
+    private final static String PREF_ANYTIME_QUOTA_KEY = "pref_anytime_quota_key";
 	private final static String PREF_PEAK_QUOTA_KEY = "pref_peak_quota";
 	private final static String PREF_OFFPEAK_QUOTA_KEY = "pref_offpeak_quota";
 	
@@ -40,15 +42,17 @@ public class AccountInfoHelper {
     	mEditor = mSettings.edit();
     }
     
-    public void setAccountInfo(String userAccount, String plan, String product,
-			long offpeakStartTime, long offpeakEndTime, long peakQuota,
-			long offpeakQuota){
+    public void setAccountInfo(String userAccount, String plan, String product, boolean isAnytime,
+			long offpeakStartTime, long offpeakEndTime,
+            long anyTimeQuota, long peakQuota,	long offpeakQuota){
 		
     	mEditor.putString(PREF_ACCOUNT_KEY, userAccount);
     	mEditor.putString(PREF_PLAN_KEY, plan);
     	mEditor.putString(PREF_PRODUCT_KEY, product);
+        mEditor.putBoolean(PREF_IS_ANYTIME_KEY, isAnytime);
     	mEditor.putLong(PREF_OFFPEAK_START_KEY, offpeakStartTime);
     	mEditor.putLong(PREF_OFFPEAK_END_KEY, offpeakEndTime);
+        mEditor.putLong(PREF_ANYTIME_QUOTA_KEY, anyTimeQuota);
     	mEditor.putLong(PREF_PEAK_QUOTA_KEY, peakQuota);
     	mEditor.putLong(PREF_OFFPEAK_QUOTA_KEY, offpeakQuota);
     	

@@ -185,20 +185,24 @@ public class NetworkUtilities {
         
         String plan = null;
         String product = null;
+        boolean isAnyTime = false;
     	long offpeakStartTime;
     	long offpeakEndTime;
+        long anyTimeQuota;
     	long peakQuota;
     	long offpeakQuota;
         for (AccountInfo accountInfo : account) {
         	
         	plan = accountInfo.plan;
         	product = accountInfo.product;
+            isAnyTime = accountInfo.isAnyTime;
         	offpeakStartTime = accountInfo.offpeakStartTime;
         	offpeakEndTime = accountInfo.offpeakEndTime;
+            anyTimeQuota = accountInfo.anytimeQuota;
         	peakQuota = accountInfo.offpeakQuota;
         	offpeakQuota = accountInfo.offpeakQuota;
         	
-        	mAccountInfoHelper.setAccountInfo(mUsername, plan, product, offpeakStartTime, offpeakEndTime, peakQuota, offpeakQuota);
+        	mAccountInfoHelper.setAccountInfo(mUsername, plan, product, isAnyTime, offpeakStartTime, offpeakEndTime, anyTimeQuota, peakQuota, offpeakQuota);
         	
         }
                  
