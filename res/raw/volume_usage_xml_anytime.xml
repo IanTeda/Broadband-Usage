@@ -1,0 +1,186 @@
+<ii_feed>
+    <account_info>
+        <plan>Home-2 Turbo</plan>
+        <product>adsl_home V2</product>
+    </account_info>
+    <volume_usage>
+        <quota_reset>
+            <anniversary>8</anniversary>
+            <days_so_far>10</days_so_far>
+            <days_remaining>22</days_remaining>
+        </quota_reset>        
+        <expected_traffic_types>
+            <type classification="anytime" used="9630836434">
+                <name>anytime</name>
+                <quota_allocation>60000</quota_allocation>
+                <is_shaped speed="0">false</is_shaped>
+            </type>
+            <type classification="uploads" used="1400506541">
+                <name>uploads</name>
+            </type>
+            <type classification="freezone" used="43344717">
+                <name>freezone</name>
+            </type>
+        </expected_traffic_types>
+        <volume_usage>
+            <day_hour period="2013-05-08">
+                <usage type="anytime">0</usage>
+                <usage type="uploads">0</usage>
+                <usage type="freezone">0</usage>
+            </day_hour>
+            <day_hour period="2013-05-09">
+                <usage type="anytime">0</usage>
+                <usage type="uploads">0</usage>
+                <usage type="freezone">0</usage>
+            </day_hour>
+            <day_hour period="2013-05-10">
+                <usage type="anytime">0</usage>
+                <usage type="uploads">0</usage>
+                <usage type="freezone">0</usage>
+            </day_hour>
+            <day_hour period="2013-05-11">
+                <usage type="anytime">0</usage>
+                <usage type="uploads">0</usage>
+                <usage type="freezone">0</usage>
+            </day_hour>
+            <day_hour period="2013-05-12">
+                <usage type="anytime">0</usage>
+                <usage type="uploads">0</usage>
+                <usage type="freezone">0</usage>
+            </day_hour>
+            <day_hour period="2013-05-13">
+                <usage type="anytime">0</usage>
+                <usage type="uploads">0</usage>
+                <usage type="freezone">0</usage>
+            </day_hour>
+            <day_hour period="2013-05-14">
+                <usage type="anytime">0</usage>
+                <usage type="uploads">0</usage>
+                <usage type="freezone">0</usage>
+            </day_hour>
+            <day_hour period="2013-05-15">
+                <usage type="anytime">1844844587</usage>
+                <usage type="uploads">264735014</usage>
+                <usage type="freezone">33820921</usage>
+            </day_hour>
+            <day_hour period="2013-05-16">
+                <usage type="anytime">7532596299</usage>
+                <usage type="uploads">1101638731</usage>
+                <usage type="freezone">5091422</usage>
+            </day_hour>
+            <day_hour period="2013-05-17">
+                <usage type="anytime">253395548</usage>
+                <usage type="uploads">34132796</usage>
+                <usage type="freezone">4432374</usage>
+            </day_hour>
+            <day_hour period="2013-05-18">
+                <usage type="anytime">0</usage>
+                <usage type="uploads">0</usage>
+                <usage type="freezone">0</usage>
+            </day_hour>
+            <day_hour period="2013-05-19">
+                <usage type="anytime">0</usage>
+                <usage type="uploads">0</usage>
+                <usage type="freezone">0</usage>
+            </day_hour>
+            <day_hour period="2013-05-20">
+                <usage type="anytime">0</usage>
+                <usage type="uploads">0</usage>
+                <usage type="freezone">0</usage>
+            </day_hour>
+            <day_hour period="2013-05-21">
+                <usage type="anytime">0</usage>
+                <usage type="uploads">0</usage>
+                <usage type="freezone">0</usage>
+            </day_hour>
+            <day_hour period="2013-05-22">
+                <usage type="anytime">0</usage>
+                <usage type="uploads">0</usage>
+                <usage type="freezone">0</usage>
+            </day_hour>
+            <day_hour period="2013-05-23">
+                <usage type="anytime">0</usage>
+                <usage type="uploads">0</usage>
+                <usage type="freezone">0</usage>
+            </day_hour>
+            <day_hour period="2013-05-24">
+                <usage type="anytime">0</usage>
+                <usage type="uploads">0</usage>
+                <usage type="freezone">0</usage>
+            </day_hour>
+            <day_hour period="2013-05-25">
+                <usage type="anytime">0</usage>
+                <usage type="uploads">0</usage>
+                <usage type="freezone">0</usage>
+            </day_hour>
+            <day_hour period="2013-05-26">
+                <usage type="anytime">0</usage>
+                <usage type="uploads">0</usage>
+                <usage type="freezone">0</usage>
+            </day_hour>
+            <day_hour period="2013-05-27">
+                <usage type="anytime">0</usage>
+                <usage type="uploads">0</usage>
+                <usage type="freezone">0</usage>
+            </day_hour>
+            <day_hour period="2013-05-28">
+                <usage type="anytime">0</usage>
+                <usage type="uploads">0</usage>
+                <usage type="freezone">0</usage>
+            </day_hour>
+            <day_hour period="2013-05-29">
+                <usage type="anytime">0</usage>
+                <usage type="uploads">0</usage>
+                <usage type="freezone">0</usage>
+            </day_hour>
+            <day_hour period="2013-05-30">
+                <usage type="anytime">0</usage>
+                <usage type="uploads">0</usage>
+                <usage type="freezone">0</usage>
+            </day_hour>
+            <day_hour period="2013-05-31">
+                <usage type="anytime">0</usage>
+                <usage type="uploads">0</usage>
+                <usage type="freezone">0</usage>
+            </day_hour>
+            <day_hour period="2013-06-01">
+                <usage type="anytime">0</usage>
+                <usage type="uploads">0</usage>
+                <usage type="freezone">0</usage>
+            </day_hour>
+            <day_hour period="2013-06-02">
+                <usage type="anytime">0</usage>
+                <usage type="uploads">0</usage>
+                <usage type="freezone">0</usage>
+            </day_hour>
+            <day_hour period="2013-06-03">
+                <usage type="anytime">0</usage>
+                <usage type="uploads">0</usage>
+                <usage type="freezone">0</usage>
+            </day_hour>
+            <day_hour period="2013-06-04">
+                <usage type="anytime">0</usage>
+                <usage type="uploads">0</usage>
+                <usage type="freezone">0</usage>
+            </day_hour>
+            <day_hour period="2013-06-05">
+                <usage type="anytime">0</usage>
+                <usage type="uploads">0</usage>
+                <usage type="freezone">0</usage>
+            </day_hour>
+            <day_hour period="2013-06-06">
+                <usage type="anytime">0</usage>
+                <usage type="uploads">0</usage>
+                <usage type="freezone">0</usage>
+            </day_hour>
+            <day_hour period="2013-06-07">
+                <usage type="anytime">0</usage>
+                <usage type="uploads">0</usage>
+                <usage type="freezone">0</usage>
+            </day_hour>
+        </volume_usage>
+    </volume_usage>
+    <connections>
+        <ip on_since="2013-05-15 12:35:03">124.168.6.71</ip>
+    </connections>
+</ii_feed>

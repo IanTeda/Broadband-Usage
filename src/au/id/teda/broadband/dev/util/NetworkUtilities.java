@@ -144,7 +144,9 @@ public class NetworkUtilities {
     	ErrorParser mErrorParser = new ErrorParser();
     	
     	try {
-    		InputStream urlStream = getUrlInputStream(urlBuilder(username, password));
+    		//InputStream urlStream = getUrlInputStream(urlBuilder(username, password));
+            // Use XML in raw folder to development
+            InputStream urlStream = mContext.getResources().openRawResource(R.raw.volume_usage_xml_anytime);
 			errorString = mErrorParser.parse(urlStream);
 		} catch (XmlPullParserException e) {
 			e.printStackTrace();

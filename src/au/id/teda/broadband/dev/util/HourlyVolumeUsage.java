@@ -1,6 +1,7 @@
 package au.id.teda.broadband.dev.util;
 
 public class HourlyVolumeUsage {
+
 	public String day;
 	public long hour;
 	public long peak;
