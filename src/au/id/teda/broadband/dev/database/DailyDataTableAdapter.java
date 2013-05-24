@@ -19,6 +19,7 @@ public class DailyDataTableAdapter {
 	public static final String ACCOUNT = "account";
 	public static final String MONTH = "month";
 	public static final String DAY = "day";
+    public static final String ANYTIME = "anytime";
     public static final String PEAK = "peak";
     public static final String OFFPEAK = "offpeak";
     public static final String UPLOADS = "uploads";
@@ -63,23 +64,24 @@ public class DailyDataTableAdapter {
      * @param freezone
      * @return Row ID 
      */
- 	public Long addReplaceEntry (String userAccount, String month, long day, long peak, long offpeak, long uploads, long freezone){
+ 	public Long addReplaceEntry (String userAccount, String month, long day, long anytime, long peak, long offpeak, long uploads, long freezone){
  		String comma = ", ";
  		SQLiteStatement statement = null;
  		
  		String INSERT_STATEMENT = "INSERT OR REPLACE INTO " + TABLE_NAME +
         		" (" + ACCOUNT + comma + MONTH + comma + DAY + comma 
-        		+ PEAK + comma + OFFPEAK + comma + UPLOADS + comma + FREEZONE + ")" +
-        		" VALUES (?,?,?,?,?,?,?)";
+        		+ ANYTIME + comma + PEAK + comma + OFFPEAK + comma + UPLOADS + comma + FREEZONE + ")" +
+        		" VALUES (?,?,?,?,?,?,?,?)";
  		
  		statement = mDatabase.compileStatement(INSERT_STATEMENT);
  		statement.bindString(1, userAccount);
         statement.bindString(2, month);
         statement.bindString(3, Long.toString(day));
-        statement.bindString(4, Long.toString(peak));
-        statement.bindString(5, Long.toString(offpeak));
-        statement.bindString(6, Long.toString(uploads));
-        statement.bindString(7, Long.toString(freezone));
+        statement.bindString(4, Long.toString(anytime));
+        statement.bindString(5, Long.toString(peak));
+        statement.bindString(6, Long.toString(offpeak));
+        statement.bindString(7, Long.toString(uploads));
+        statement.bindString(8, Long.toString(freezone));
  		
  		// Insert the new row, returning the primary key value of the new row
  		long newRowId;
@@ -126,6 +128,7 @@ public class DailyDataTableAdapter {
 		// Get column numbers for use with cursor
 		int COLUMN_INDEX_MONTH = cursor.getColumnIndex(MONTH);
 		int COLUMN_INDEX_DAY = cursor.getColumnIndex(DAY);
+        int COLUMN_INDEX_ANYTIME = cursor.getColumnIndex(ANYTIME);
 		int COLUMN_INDEX_PEAK = cursor.getColumnIndex(PEAK);
 		int COLUMN_INDEX_OFFPEAK = cursor.getColumnIndex(OFFPEAK);
 		int COLUMN_INDEX_UPLOADS = cursor.getColumnIndex(UPLOADS);
@@ -138,12 +141,13 @@ public class DailyDataTableAdapter {
 			
 			String month = cursor.getString(COLUMN_INDEX_MONTH);
 			Long day = cursor.getLong(COLUMN_INDEX_DAY);
+            Long anytime = cursor.getLong(COLUMN_INDEX_ANYTIME);
 			Long peak = cursor.getLong(COLUMN_INDEX_PEAK);
 			Long offpeak = cursor.getLong(COLUMN_INDEX_OFFPEAK);
 			Long uploads = cursor.getLong(COLUMN_INDEX_UPLOADS);
 			Long freezone = cursor.getLong(COLUMN_INDEX_FREEZONE);
 							
-			usage.add(new DailyVolumeUsage(month, day, peak, offpeak, uploads, freezone));
+			usage.add(new DailyVolumeUsage(month, day, anytime, peak, offpeak, uploads, freezone));
 			
 			cursor.moveToNext();
 			

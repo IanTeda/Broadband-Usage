@@ -9,6 +9,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import android.util.Log;
+import au.id.teda.broadband.dev.activity.BaseActivity;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -17,7 +19,7 @@ import au.id.teda.broadband.dev.util.DailyVolumeUsage;
 
 public class VolumeUsageParser {
 	
-	//private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
+	private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 	
 	private static final String ns = null; // We don't use name spaces
 	private static final String FEED_TAG = "ii_feed";
@@ -26,6 +28,7 @@ public class VolumeUsageParser {
 	private static final String USAGE_TAG = "dev";
 	private static final String PERIOD_ATT	= "period";
 	private static final String TYPE_ATT = "type";
+    private static final String ANYTIME = "anytime";
 	private static final String PEAK = "peak";
 	private static final String OFFPEAK = "offpeak";
 	private static final String UPLOADS = "uploads";
@@ -119,11 +122,12 @@ public class VolumeUsageParser {
     		mDataMonth = getMonthString(day);
     		monthSetFlag = true;
     	}
-    	
-    	Long mPeak = null;
-    	Long mOffPeak = null;
-    	Long mUploads  = null;
-    	Long mFreezone = null;
+
+        Long mAnytime = Long.valueOf(-1);
+    	Long mPeak = Long.valueOf(-1);
+    	Long mOffPeak = Long.valueOf(-1);
+    	Long mUploads  = Long.valueOf(-1);
+    	Long mFreezone = Long.valueOf(-1);
     	
     	while (parser.next() != XmlPullParser.END_TAG) {
             if (parser.getEventType() != XmlPullParser.START_TAG) {
@@ -133,7 +137,9 @@ public class VolumeUsageParser {
             String tagName = parser.getName();
             String tagAtt = parser.getAttributeValue(null, TYPE_ATT);
             if (tagName.equals(USAGE_TAG)){
-            	if (tagAtt.equals(PEAK)){
+                if (tagAtt.equals(ANYTIME)){
+                    mAnytime = readUsage(parser);
+                } else if (tagAtt.equals(PEAK)){
             		mPeak = readUsage(parser);
 	    		} else if (tagAtt.equals(OFFPEAK)){
 	    			mOffPeak = readUsage(parser);
@@ -150,8 +156,10 @@ public class VolumeUsageParser {
     	Calendar mDate = Calendar.getInstance();
     	mDate.setTimeInMillis(mDay);
     	//Log.d(DEBUG_TAG, "VUP Date:" + mDate.getTime());
-    	
-    	return new DailyVolumeUsage(mDataMonth, mDay, mPeak, mOffPeak, mUploads, mFreezone );
+
+        Log.d(DEBUG_TAG, "mAnytime: " + mAnytime + " | mUploads: " + mUploads + " | mFreezone: " + mFreezone);
+
+        return new DailyVolumeUsage(mDataMonth, mDay, mAnytime, mPeak, mOffPeak, mUploads, mFreezone );
     }
 	
     private Long readUsage(XmlPullParser parser) throws IOException, XmlPullParserException {

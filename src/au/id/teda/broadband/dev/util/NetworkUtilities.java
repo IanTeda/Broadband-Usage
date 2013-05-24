@@ -94,7 +94,7 @@ public class NetworkUtilities {
         //InputStream inputStream = getUrlInputStream(urlBuilder(mUsername, mAccountAuthenticator.getPassword()));
     	
         // Use XML in raw folder to development
-    	InputStream inputStream = mContext.getResources().openRawResource(R.raw.volume_usage_xml_anytime);
+    	InputStream inputStream = mContext.getResources().openRawResource(R.raw.naked_dsl_home_5);
     	
         UnclosableBufferedInputStream  bis = new UnclosableBufferedInputStream (inputStream);
     	
@@ -322,15 +322,17 @@ public class NetworkUtilities {
         for (DailyVolumeUsage volumeUsage : usage) {
         	Long day = volumeUsage.day;
         	String month = volumeUsage.month;
+            Long anytime = volumeUsage.anytime;
         	Long peak = volumeUsage.peak;
         	Long offpeak = volumeUsage.offpeak;
         	Long uploads = volumeUsage.uploads;
         	Long freezone = volumeUsage.freezone;
+
+            Log.d(DEBUG_TAG, "day: " + day + " | month" + month +
+                    " | anytime: " + anytime + " | peak: " + peak + " | offpeak: " + offpeak +
+                    " | uploads: " + uploads + " | freezone: " + freezone);
         	
-        	Calendar mDate = Calendar.getInstance();
-        	mDate.setTimeInMillis(day);
-        	
-        	mDatabase.addReplaceEntry(mUsername, month, day, peak, offpeak, uploads, freezone);
+        	mDatabase.addReplaceEntry(mUsername, month, day, anytime, peak, offpeak, uploads, freezone);
         }
         
         mDatabase.close();

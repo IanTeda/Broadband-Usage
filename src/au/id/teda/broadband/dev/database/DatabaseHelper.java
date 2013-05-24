@@ -10,7 +10,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	//private final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 	
 	// If you change the database schema, you must increment the database version.
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "iiNetUsage.db";
     
     private static final String DAILY_USAGE_TABLE_CREATE = 
@@ -19,6 +19,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			+ DailyDataTableAdapter.ACCOUNT + " TEXT NOT NULL, "
 			+ DailyDataTableAdapter.MONTH + " TEXT NOT NULL, "
 			+ DailyDataTableAdapter.DAY + " INTEGER UNIQUE, "
+            + DailyDataTableAdapter.ANYTIME + " INTEGER NOT NULL, "
 			+ DailyDataTableAdapter.PEAK + " INTEGER NOT NULL, "
 			+ DailyDataTableAdapter.OFFPEAK + " INTEGER NOT NULL, "
 			+ DailyDataTableAdapter.UPLOADS + " INTEGER NOT NULL, "
