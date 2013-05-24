@@ -30,6 +30,7 @@ public class AccountStatusParser {
 	private static final String EXPECTED_TRAFFIC_TYPES_TAG = "expected_traffic_types";
 	private static final String TYPE_TAG = "type";
 	private static final String CLASSIFICATION_ATT = "classification";
+    private static final String ANYTIME_ATT = "anytime";
 	private static final String PEAK_ATT = "peak";
 	private static final String OFFPEAK_ATT = "offpeak";
 	private static final String UPLOADS_ATT = "uploads";
@@ -43,14 +44,17 @@ public class AccountStatusParser {
 	
 	private long mQuotaResetDate;
 	private long mQuotaStartDate;
-	private long mPeakDataUsed;
-	private int mPeakSpeed;
+    private long mAnyTimeDataUsed = -1;
+    private int mAnyTimeSpeed = -1;
+    private boolean mAnyTimeIsShaped = false;
+	private long mPeakDataUsed = -1;
+	private int mPeakSpeed = -1;
 	private boolean mPeakIsShaped = false;
-	private long mOffpeakDataUsed;
-	private int mOffpeakSpeed;
+	private long mOffpeakDataUsed = -1;
+	private int mOffpeakSpeed = -1;
 	private boolean mOffpeakIsShaped = false;
-	private long mUploadsDataUsed;
-	private long mFreezoneDataUsed;
+	private long mUploadsDataUsed =-1;
+	private long mFreezoneDataUsed = -1;
 	private String mIpAddress = null;
 	private long mUpTimeDate;
 	    
@@ -58,6 +62,9 @@ public class AccountStatusParser {
 	public static class AccountStatus {
 	    public final long quotaResetDate;
 	    public final long quotaStartDate;
+        public final long anyTimeDataUsed;
+        public final int anyTimeSpeed;
+        public final boolean anyTimeIsShaped;
 	    public final long peakDataUsed;
 	    public final int peakSpeed;
 	    public final boolean peakIsShaped;
@@ -70,6 +77,7 @@ public class AccountStatusParser {
 	    public final long upTimeDate;
 
 	    private AccountStatus( long quotaResetDate, long quotaStartDate
+                , long anyTimeDataUsed, int anyTimeSpeed, boolean anyTimeIsShaped
 	    		, long peakDataUsed, int peakSpeed, boolean peakIsShaped
 	    		, long offpeakDataUsed, int offpeakSpeed, boolean offpeakIsShaped
 	    		, long uploadsDataUsed
@@ -78,6 +86,9 @@ public class AccountStatusParser {
 	    	
 	    	this.quotaStartDate = quotaStartDate;
 	        this.quotaResetDate = quotaResetDate;
+            this.anyTimeDataUsed = anyTimeDataUsed;
+            this.anyTimeSpeed = anyTimeSpeed;
+            this.anyTimeIsShaped = anyTimeIsShaped;
 	        this.peakDataUsed = peakDataUsed;
 	        this.peakSpeed = peakSpeed;
 	        this.peakIsShaped = peakIsShaped;
@@ -124,6 +135,7 @@ public class AccountStatusParser {
 	    }
 	    
 	    status.add( new AccountStatus(mQuotaResetDate, mQuotaStartDate
+                    , mAnyTimeDataUsed, mAnyTimeSpeed, mAnyTimeIsShaped
 	        		, mPeakDataUsed, mPeakSpeed, mPeakIsShaped
 	        		, mOffpeakDataUsed, mOffpeakSpeed, mOffpeakIsShaped
 	        		, mUploadsDataUsed, mFreezoneDataUsed
@@ -215,7 +227,9 @@ public class AccountStatusParser {
 		    	String tagAtt = parser.getAttributeValue(null, CLASSIFICATION_ATT);
 		    	
 		    	if (tagName.equals(TYPE_TAG)) {
-		    		if (tagAtt.equals(PEAK_ATT)){
+                    if (tagAtt.equals(ANYTIME_ATT)){
+                        mAnyTimeDataUsed = stringToLong(readDataUsed(parser));
+                    } else if (tagAtt.equals(PEAK_ATT)){
 		    			mPeakDataUsed = stringToLong(readDataUsed(parser));
 		    		} else if (tagAtt.equals(OFFPEAK_ATT)){
 		    			mOffpeakDataUsed = stringToLong(readDataUsed(parser));
@@ -245,6 +259,10 @@ public class AccountStatusParser {
 		    	
 	            String tagName = parser.getName();
 	            if (tagName.equals(IS_SHAPED_TAG)){
+                    if (classification.equals(ANYTIME_ATT)){
+                        mAnyTimeSpeed = stringToInt(readShapedSpeed(parser));
+                        mAnyTimeIsShaped = readIsShaped(parser);
+                    }
 	            	if (classification.equals(PEAK_ATT)){
 	            		mPeakSpeed = stringToInt(readShapedSpeed(parser));
 	            		mPeakIsShaped = readIsShaped(parser);

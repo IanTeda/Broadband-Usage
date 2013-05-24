@@ -5,11 +5,15 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
+import au.id.teda.broadband.dev.activity.BaseActivity;
 import au.id.teda.broadband.dev.authenticator.AccountAuthenticator;
 import au.id.teda.broadband.dev.syncadapter.DummyContentProvider;
 
 public class ConnectivityHelper {
-	
+
+    //private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
+
     // Connection flags.
     private static boolean isWifiConnected = false;
     private static boolean isMobileConnected = false;
@@ -68,8 +72,8 @@ public class ConnectivityHelper {
     }
     
 	public void requestSync(){
-		AccountAuthenticator mAccountAuthenticator = new AccountAuthenticator(mContext);
-		ContentResolver.requestSync (mAccountAuthenticator.getAccount(), DummyContentProvider.PROVIDER, new Bundle());
+        AccountAuthenticator mAccountAuthenticator = new AccountAuthenticator(mContext);
+		ContentResolver.requestSync(mAccountAuthenticator.getAccount(), DummyContentProvider.PROVIDER, new Bundle());
 	}
 
 }

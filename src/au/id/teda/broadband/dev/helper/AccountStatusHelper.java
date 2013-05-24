@@ -19,6 +19,9 @@ public class AccountStatusHelper {
 	private final static String ACCOUNT = "account";
 	private final static String QUOTA_RESET_DATE = "quotaResetDate";
 	private final static String QUOTA_START_DATE = "quotaStartDate";
+    private final static String ANYTIME_DATA_USED = "anyTimeDataUsed";
+    private final static String ANYTIME_SPEED = "anyTimeSpeed";
+    private final static String ANYTIME_IS_SHAPED = "anyTimeIsShaped";
 	private final static String PEAK_DATA_USED = "peakDataUsed";
 	private final static String PEAK_SPEED = "peakSpeed";
 	private final static String PEAK_IS_SHAPED = "peakIsShaped";
@@ -56,6 +59,7 @@ public class AccountStatusHelper {
     }
     
     public void setAccoutStatus(String userAccount, long quotaResetDate, long quotaStartDate
+            , long anyTimeDataUsed, boolean anyTimeIsShaped, long anyTimeSpeed
     		, long peakDataUsed, boolean peakIsShaped, long peakSpeed
     		, long offpeakDataUsed, boolean offpeakIsShaped, long offpeakSpeed
     		, long uploadsDataUsed
@@ -65,6 +69,9 @@ public class AccountStatusHelper {
     	mEditor.putString(ACCOUNT, userAccount);
     	mEditor.putLong(QUOTA_RESET_DATE, quotaResetDate);
 		mEditor.putLong(QUOTA_START_DATE, quotaStartDate);
+        mEditor.putLong(ANYTIME_DATA_USED, anyTimeDataUsed);
+        mEditor.putBoolean(ANYTIME_IS_SHAPED, anyTimeIsShaped);
+        mEditor.putLong(ANYTIME_SPEED, anyTimeSpeed);
 		mEditor.putLong(PEAK_DATA_USED, peakDataUsed);
 		mEditor.putBoolean(PEAK_IS_SHAPED, peakIsShaped);
 		mEditor.putLong(PEAK_SPEED, peakSpeed);

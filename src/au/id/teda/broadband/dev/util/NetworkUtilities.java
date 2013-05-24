@@ -8,6 +8,8 @@ import java.net.URL;
 import java.util.Calendar;
 import java.util.List;
 
+import android.util.Log;
+import au.id.teda.broadband.dev.activity.BaseActivity;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.content.Context;
@@ -40,7 +42,7 @@ import au.id.teda.broadband.dev.parser.VolumeUsageParser;
  */
 public class NetworkUtilities {
 	
-	//private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
+	private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 
 	/** Activity context **/
     private Context mContext;
@@ -89,10 +91,10 @@ public class NetworkUtilities {
     private UnclosableBufferedInputStream getXmlBufferedInputStream() throws IOException {
        
     	// Get input stream
-        InputStream inputStream = getUrlInputStream(urlBuilder(mUsername, mAccountAuthenticator.getPassword()));
+        //InputStream inputStream = getUrlInputStream(urlBuilder(mUsername, mAccountAuthenticator.getPassword()));
     	
         // Use XML in raw folder to development
-    	//InputStream inputStream = mContext.getResources().openRawResource(R.raw.march_2013_usage);
+    	InputStream inputStream = mContext.getResources().openRawResource(R.raw.volume_usage_xml_anytime);
     	
         UnclosableBufferedInputStream  bis = new UnclosableBufferedInputStream (inputStream);
     	
@@ -201,7 +203,10 @@ public class NetworkUtilities {
             anyTimeQuota = accountInfo.anytimeQuota;
         	peakQuota = accountInfo.offpeakQuota;
         	offpeakQuota = accountInfo.offpeakQuota;
-        	
+
+            Log.d(DEBUG_TAG, "isAnyTime:" + isAnyTime);
+            Log.d(DEBUG_TAG, "anyTimeQuota:" + anyTimeQuota);
+
         	mAccountInfoHelper.setAccountInfo(mUsername, plan, product, isAnyTime, offpeakStartTime, offpeakEndTime, anyTimeQuota, peakQuota, offpeakQuota);
         	
         }
@@ -228,6 +233,9 @@ public class NetworkUtilities {
         
         long quotaResetDate;
         long quotaStartDate;
+        long anyTimeDateUsed;
+        boolean anyTimeIsShaped;
+        long anyTimeSpeed;
 	    long peakDataUsed;
 	    long offpeakDataUsed;
 	    long uploadsDataUsed;
@@ -242,6 +250,9 @@ public class NetworkUtilities {
         for (AccountStatus accountStatus : status) {
         	quotaResetDate = accountStatus.quotaResetDate;
         	quotaStartDate = accountStatus.quotaStartDate;
+            anyTimeDateUsed = accountStatus.anyTimeDataUsed;
+            anyTimeSpeed = accountStatus.anyTimeSpeed;
+            anyTimeIsShaped = accountStatus.anyTimeIsShaped;
         	peakDataUsed = accountStatus.peakDataUsed;
         	offpeakDataUsed = accountStatus.offpeakDataUsed;
         	uploadsDataUsed = accountStatus.uploadsDataUsed;
@@ -252,9 +263,32 @@ public class NetworkUtilities {
         	offpeakIsShaped = accountStatus.offpeakIsShaped;
         	ipAddress = accountStatus.ipAddress;
         	upTimeDate = accountStatus.upTimeDate;
-        	
+
+            /**
+            Log.d(DEBUG_TAG, "quotaResetDate: " + quotaResetDate +
+                    " | quotaStartDate: " + quotaStartDate);
+
+            Log.d(DEBUG_TAG, "anyTimeDateUsed: " + anyTimeDateUsed +
+                    " | anyTimeIsShaped: " + anyTimeIsShaped +
+                    " | anyTimeSpeed: " + anyTimeSpeed);
+
+            Log.d(DEBUG_TAG, "peakDataUsed: " + peakDataUsed +
+                    " | peakIsShaped: " + peakIsShaped +
+                    " | peakSpeed: " + peakSpeed);
+
+            Log.d(DEBUG_TAG, "offpeakDataUsed: " + offpeakDataUsed +
+                    " | offpeakIsShaped: " + offpeakIsShaped +
+                    " | offpeakSpeed: " + offpeakSpeed);
+
+            Log.d(DEBUG_TAG, "uploadsDataUsed: " + uploadsDataUsed +
+                    " | freezoneDataUsed: " + freezoneDataUsed +
+                    " | ipAddress: " + ipAddress +
+                    " | upTimeDate: " + upTimeDate);
+             **/
+
         	mAccountStatusHelper.setAccoutStatus(mUsername
         			, quotaResetDate, quotaStartDate
+                    , anyTimeDateUsed, anyTimeIsShaped, anyTimeSpeed
         			, peakDataUsed, peakIsShaped, peakSpeed
         			, offpeakDataUsed, offpeakIsShaped, offpeakSpeed
         			, uploadsDataUsed, freezoneDataUsed

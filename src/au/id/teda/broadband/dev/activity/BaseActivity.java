@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -19,6 +20,7 @@ import au.id.teda.broadband.dev.helper.LayoutHelper;
 import au.id.teda.broadband.dev.fragments.AboutDialogFragment;
 import au.id.teda.broadband.dev.util.FontUtils;
 
+import au.id.teda.broadband.dev.util.NetworkUtilities;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -154,8 +156,11 @@ public class BaseActivity extends SherlockFragmentActivity {
         		ConnectivityHelper mNetwork = new ConnectivityHelper(this);
         		if(mNetwork.isConnected()){
         			// Request sync
-        			mNetwork.requestSync();
-        		} else {
+        			//mNetwork.requestSync();
+                    Log.d(DEBUG_TAG, "Menu Refresh");
+                    NetworkUtilities mNetUtil = new NetworkUtilities(this);
+                    mNetUtil.syncXmlData();
+                } else {
         			// Toast no connectivity
         			noConnectivityToast();
         		}

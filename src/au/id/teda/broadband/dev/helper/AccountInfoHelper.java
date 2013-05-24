@@ -143,6 +143,10 @@ public class AccountInfoHelper {
 	public String getProductPlanString(){
 		return getPlan().toUpperCase(Locale.getDefault()) + " (" + getProduct().toUpperCase() + ")";
 	}
+
+    public boolean isAccountAnyTime(){
+        return mSettings.getBoolean(PREF_ANYTIME_QUOTA_KEY, false);
+    }
 	
 	/**
 	 * Method for getting off peak start time
