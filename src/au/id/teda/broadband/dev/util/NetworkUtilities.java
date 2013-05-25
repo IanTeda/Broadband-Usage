@@ -204,8 +204,8 @@ public class NetworkUtilities {
         	peakQuota = accountInfo.offpeakQuota;
         	offpeakQuota = accountInfo.offpeakQuota;
 
-            Log.d(DEBUG_TAG, "isAnyTime:" + isAnyTime);
-            Log.d(DEBUG_TAG, "anyTimeQuota:" + anyTimeQuota);
+            //Log.d(DEBUG_TAG, "isAnyTime:" + isAnyTime);
+            //Log.d(DEBUG_TAG, "anyTimeQuota:" + anyTimeQuota);
 
         	mAccountInfoHelper.setAccountInfo(mUsername, plan, product, isAnyTime, offpeakStartTime, offpeakEndTime, anyTimeQuota, peakQuota, offpeakQuota);
         	
@@ -284,7 +284,7 @@ public class NetworkUtilities {
                     " | freezoneDataUsed: " + freezoneDataUsed +
                     " | ipAddress: " + ipAddress +
                     " | upTimeDate: " + upTimeDate);
-             **/
+
 
         	mAccountStatusHelper.setAccoutStatus(mUsername
         			, quotaResetDate, quotaStartDate
@@ -293,6 +293,7 @@ public class NetworkUtilities {
         			, offpeakDataUsed, offpeakIsShaped, offpeakSpeed
         			, uploadsDataUsed, freezoneDataUsed
         			, ipAddress, upTimeDate);
+            **/
 
         }
     	
@@ -328,10 +329,12 @@ public class NetworkUtilities {
         	Long uploads = volumeUsage.uploads;
         	Long freezone = volumeUsage.freezone;
 
+            /**
             Log.d(DEBUG_TAG, "day: " + day + " | month" + month +
                     " | anytime: " + anytime + " | peak: " + peak + " | offpeak: " + offpeak +
                     " | uploads: " + uploads + " | freezone: " + freezone);
-        	
+        	**/
+
         	mDatabase.addReplaceEntry(mUsername, month, day, anytime, peak, offpeak, uploads, freezone);
         }
         

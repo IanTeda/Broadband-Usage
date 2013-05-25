@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../ActionBarSherlock/ActionBarSherlock.iml" filepath="$PROJECT_DIR$/../ActionBarSherlock/ActionBarSherlock.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Broadband-Usage.iml" filepath="$PROJECT_DIR$/Broadband-Usage.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../ViewPageIndicator/ViewPageIndicator.iml" filepath="$PROJECT_DIR$/../ViewPageIndicator/ViewPageIndicator.iml" />
+    </modules>
+  </component>
+</project>
+

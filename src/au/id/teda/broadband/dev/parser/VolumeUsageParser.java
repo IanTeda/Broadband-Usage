@@ -25,7 +25,7 @@ public class VolumeUsageParser {
 	private static final String FEED_TAG = "ii_feed";
 	private static final String VOLUME_USAGE_TAG = "volume_usage";
 	private static final String DAY_HOUR_TAG = "day_hour";
-	private static final String USAGE_TAG = "dev";
+	private static final String USAGE_TAG = "usage";
 	private static final String PERIOD_ATT	= "period";
 	private static final String TYPE_ATT = "type";
     private static final String ANYTIME = "anytime";
@@ -136,7 +136,9 @@ public class VolumeUsageParser {
             
             String tagName = parser.getName();
             String tagAtt = parser.getAttributeValue(null, TYPE_ATT);
+
             if (tagName.equals(USAGE_TAG)){
+
                 if (tagAtt.equals(ANYTIME)){
                     mAnytime = readUsage(parser);
                 } else if (tagAtt.equals(PEAK)){
@@ -157,7 +159,11 @@ public class VolumeUsageParser {
     	mDate.setTimeInMillis(mDay);
     	//Log.d(DEBUG_TAG, "VUP Date:" + mDate.getTime());
 
-        Log.d(DEBUG_TAG, "mAnytime: " + mAnytime + " | mUploads: " + mUploads + " | mFreezone: " + mFreezone);
+        /**
+        Log.d(DEBUG_TAG, "mAnytime: " + mAnytime +
+                " | mPeak: " + mPeak + " | mOffpeak: " + mOffPeak +
+                " | mUploads: " + mUploads + " | mFreezone: " + mFreezone);
+        **/
 
         return new DailyVolumeUsage(mDataMonth, mDay, mAnytime, mPeak, mOffPeak, mUploads, mFreezone );
     }
