@@ -252,6 +252,32 @@ public class AccountStatusHelper {
 		String days = String.valueOf(getDaysThisPeriod());
 		return "/ " + days + " days so far";
 	}
+
+    public long getAnyTimeDataUsed(){
+        return mSettings.getLong(ANYTIME_DATA_USED, -2);
+    }
+
+    public int getAnyTimeDataUsedMb(){
+        return (int) (mSettings.getLong(ANYTIME_DATA_USED, -2) / MB);
+    }
+
+    public int getAnyTimeDataUsedGb(){
+        return (int) (mSettings.getLong(ANYTIME_DATA_USED, -2) / GB);
+    }
+
+    public int getAnyTimeDailyAverageUsedMb(){
+        long used = getAnyTimeDataUsedMb();
+        long days = getDaysSoFar();
+        int average = (int) (used / days);
+        return average;
+    }
+
+    public int getAnyTimeAverageVariationMb(){
+        long quota = mInfo.getAnyTimeQuotaDailyMb();
+        long daily = getPeakDailyAverageUsedMb();
+        int variation = (int) (daily - quota);
+        return variation;
+    }
 	
 	public long getPeakDataUsed(){
 		return mSettings.getLong(PEAK_DATA_USED, 0);

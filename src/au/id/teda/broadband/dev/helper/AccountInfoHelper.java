@@ -7,11 +7,13 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import au.id.teda.broadband.dev.R;
+import au.id.teda.broadband.dev.activity.BaseActivity;
 
 public class AccountInfoHelper {
 	
-	//private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
+	private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 	
 	// Set static string values for preference keys
 	private final static String PREF_ACCOUNT_KEY = "pref_account_key";
@@ -89,8 +91,7 @@ public class AccountInfoHelper {
 	 */
 	@SuppressLint("DefaultLocale")
 	public String getPlan(){
-		return mSettings.getString(PREF_PLAN_KEY
-				, mContext.getResources().getString(R.string.fragment_product_plan_plan)).toUpperCase(Locale.getDefault());
+        return mSettings.getString(PREF_PLAN_KEY, mContext.getResources().getString(R.string.fragment_product_plan_plan)).toUpperCase(Locale.getDefault());
 	}
 	
 	/**
@@ -307,7 +308,48 @@ public class AccountInfoHelper {
 			return false;
 		}
 	}
-	
+
+
+    public long getAnyTimeQuota(){
+        return mSettings.getLong(PREF_ANYTIME_QUOTA_KEY, 0);
+    }
+
+    public int getAnyTimeQuotaGb(){
+        return (int) (getAnyTimeQuota() / GB);
+    }
+
+    public long getAnyTimeQuotaMb(){
+        return (getAnyTimeQuota() / MB);
+    }
+
+    public long getAnyTimeQuotaDailyMb(){
+        long quota = getAnyTimeQuotaMb() * 12;
+        long days = 360;
+
+        if (days > 0 && quota > 0){
+            return ( quota / days);
+        } else {
+            return 0;
+        }
+    }
+
+    public long getAnyTimeQuotaDailyGb(){
+        long quota = getAnyTimeQuotaMb() * 12;
+        long days = 360;
+        return ( quota / days);
+    }
+
+    public String getAnyTimeQuotaString(){
+        long quota = getAnyTimeQuotaGb();
+
+        if (quota < 10){
+            return "/ 0" + Long.toString(quota) + " (Gb) AnyTime";
+        } else {
+            return "/ " + Long.toString(quota) + " (Gb) AnyTime";
+        }
+
+    }
+
 	/**
 	 * Method for getting peak quota value
 	 * @return shared preference Long

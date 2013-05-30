@@ -3,5 +3,7 @@
     <string name="fragment_usage_doughnut_percent">00%</string>
     <string name="fragment_usage_doughnut_peak">PEAK</string>
     <string name="fragment_usage_doughnut_offpeak">OFFPEAK</string>
+    <string name="fragment_usage_anytime_doughnut_anytime">ANYTIME</string>
+    <string name="fragment_usage_anytime_doughnut_days">DAYS SO FAR</string>
     
 </resources>

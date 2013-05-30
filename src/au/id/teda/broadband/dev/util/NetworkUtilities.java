@@ -91,10 +91,10 @@ public class NetworkUtilities {
     private UnclosableBufferedInputStream getXmlBufferedInputStream() throws IOException {
        
     	// Get input stream
-        //InputStream inputStream = getUrlInputStream(urlBuilder(mUsername, mAccountAuthenticator.getPassword()));
+        InputStream inputStream = getUrlInputStream(urlBuilder(mUsername, mAccountAuthenticator.getPassword()));
     	
         // Use XML in raw folder to development
-    	InputStream inputStream = mContext.getResources().openRawResource(R.raw.naked_dsl_home_5);
+    	//InputStream inputStream = mContext.getResources().openRawResource(R.raw.naked_dsl_home_5);
     	
         UnclosableBufferedInputStream  bis = new UnclosableBufferedInputStream (inputStream);
     	
@@ -146,9 +146,9 @@ public class NetworkUtilities {
     	ErrorParser mErrorParser = new ErrorParser();
     	
     	try {
-    		//InputStream urlStream = getUrlInputStream(urlBuilder(username, password));
+    		InputStream urlStream = getUrlInputStream(urlBuilder(username, password));
             // Use XML in raw folder to development
-            InputStream urlStream = mContext.getResources().openRawResource(R.raw.volume_usage_xml_anytime);
+            //InputStream urlStream = mContext.getResources().openRawResource(R.raw.volume_usage_xml_anytime);
 			errorString = mErrorParser.parse(urlStream);
 		} catch (XmlPullParserException e) {
 			e.printStackTrace();

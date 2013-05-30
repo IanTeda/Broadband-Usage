@@ -8,11 +8,13 @@ import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import au.id.teda.broadband.dev.R;
+import au.id.teda.broadband.dev.activity.BaseActivity;
 
 public class AccountAuthenticator extends AbstractAccountAuthenticator {
 	
-	//private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
+	private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 	
 	/** Account type String. This needs to match authenticator.xml type **/
     public static final String ACCOUNT_TYPE = "au.net.iinet.account";
@@ -82,8 +84,8 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
     	// Get accounts based on account type
     	Account[] accounts = mAccountManager.getAccountsByType(ACCOUNT_TYPE);
     	if (accounts.length > 0){
-    		return accounts[0];
-    	} else {
+            return accounts[0];
+        } else {
     		return null;
     	}
     }

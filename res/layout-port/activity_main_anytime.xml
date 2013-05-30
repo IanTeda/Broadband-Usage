@@ -1,0 +1,46 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true" >
+
+    <RelativeLayout
+        android:id="@+id/activity_main_ll_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <fragment
+            android:id="@+id/fragment_product_plan"
+            android:name="au.id.teda.broadband.dev.fragments.ProductPlanFragment"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            tools:layout="@layout/fragment_product_plan" />
+        
+        <fragment
+            android:id="@+id/fragment_usage_anytime_doughnut"
+            android:name="au.id.teda.broadband.dev.fragments.UsageAnyTimeDoughnutFragment"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fragment_product_plan"
+            tools:layout="@layout/fragment_usage_doughnut" />
+
+        <fragment
+            android:id="@+id/fragment_usage_summary"
+            android:name="au.id.teda.broadband.dev.fragments.UsageSummaryFragment"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fragment_usage_anytime_doughnut"
+            tools:layout="@layout/fragment_usage_summary" />
+
+        <fragment
+            android:id="@+id/fragment_footer"
+            android:name="au.id.teda.broadband.dev.fragments.FooterFragment"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/touch"
+            android:layout_below="@+id/fragment_usage_summary"
+            tools:layout="@layout/fragment_footer" />
+    </RelativeLayout>
+
+</ScrollView>

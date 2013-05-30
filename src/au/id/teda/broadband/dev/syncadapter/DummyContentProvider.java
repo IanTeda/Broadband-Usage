@@ -12,7 +12,7 @@ import android.net.Uri;
  */
 public class DummyContentProvider extends ContentProvider {
 	
-	public final static String PROVIDER = "au.id.teda.broadband.dev";
+	public final static String PROVIDER = "au.id.teda.broadband.usage";
 
 	@Override
 	public int delete(Uri arg0, String arg1, String[] arg2) {

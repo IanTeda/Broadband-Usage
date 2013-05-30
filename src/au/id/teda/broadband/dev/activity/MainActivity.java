@@ -23,8 +23,13 @@ public class MainActivity extends BaseActivity {
        	getSupportActionBar().setHomeButtonEnabled(false);
        	// Set action bar title different to manifest label
        	getSupportActionBar().setTitle(R.string.action_bar_title);
-        
-       	setContentView(R.layout.activity_main);
+
+        // Check if account is an anytime account and load layout
+        if (mAccountInfo.isAccountAnyTime()){
+            setContentView(R.layout.activity_main_anytime);
+        } else {
+           	setContentView(R.layout.activity_main);
+        }
         
     }
 

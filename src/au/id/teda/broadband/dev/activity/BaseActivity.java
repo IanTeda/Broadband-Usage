@@ -15,6 +15,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.Toast;
 import au.id.teda.broadband.dev.R;
+import au.id.teda.broadband.dev.helper.AccountInfoHelper;
 import au.id.teda.broadband.dev.helper.ConnectivityHelper;
 import au.id.teda.broadband.dev.helper.LayoutHelper;
 import au.id.teda.broadband.dev.fragments.AboutDialogFragment;
@@ -42,6 +43,9 @@ public class BaseActivity extends SherlockFragmentActivity {
     // Layout helper to determine if tablet
     private LayoutHelper mLayoutHelper;
 
+    // Account Info Helper class
+    protected AccountInfoHelper mAccountInfo;
+
     // Called 1st in the activity life cycle
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +69,8 @@ public class BaseActivity extends SherlockFragmentActivity {
         }
         
         mLayoutHelper = new LayoutHelper(this);
+
+        mAccountInfo = new AccountInfoHelper(this);
 	}
 	    
 	// Called 2nd in the activity life cycle
@@ -156,10 +162,10 @@ public class BaseActivity extends SherlockFragmentActivity {
         		ConnectivityHelper mNetwork = new ConnectivityHelper(this);
         		if(mNetwork.isConnected()){
         			// Request sync
-        			//mNetwork.requestSync();
+        			mNetwork.requestSync();
                     Log.d(DEBUG_TAG, "Menu Refresh");
-                    NetworkUtilities mNetUtil = new NetworkUtilities(this);
-                    mNetUtil.syncXmlData();
+                    //NetworkUtilities mNetUtil = new NetworkUtilities(this);
+                    //mNetUtil.syncXmlData();
                 } else {
         			// Toast no connectivity
         			noConnectivityToast();

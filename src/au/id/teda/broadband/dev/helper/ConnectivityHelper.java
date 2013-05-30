@@ -12,7 +12,7 @@ import au.id.teda.broadband.dev.syncadapter.DummyContentProvider;
 
 public class ConnectivityHelper {
 
-    //private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
+    private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 
     // Connection flags.
     private static boolean isWifiConnected = false;
@@ -72,6 +72,7 @@ public class ConnectivityHelper {
     }
     
 	public void requestSync(){
+        Log.d(DEBUG_TAG, "requestSync");
         AccountAuthenticator mAccountAuthenticator = new AccountAuthenticator(mContext);
 		ContentResolver.requestSync(mAccountAuthenticator.getAccount(), DummyContentProvider.PROVIDER, new Bundle());
 	}
