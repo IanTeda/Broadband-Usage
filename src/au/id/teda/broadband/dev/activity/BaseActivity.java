@@ -163,7 +163,7 @@ public class BaseActivity extends SherlockFragmentActivity {
         		if(mNetwork.isConnected()){
         			// Request sync
         			mNetwork.requestSync();
-                    Log.d(DEBUG_TAG, "Menu Refresh");
+                    //Log.d(DEBUG_TAG, "Menu Refresh");
                     //NetworkUtilities mNetUtil = new NetworkUtilities(this);
                     //mNetUtil.syncXmlData();
                 } else {

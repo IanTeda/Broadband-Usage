@@ -146,7 +146,7 @@ public class AccountInfoHelper {
 	}
 
     public boolean isAccountAnyTime(){
-        return mSettings.getBoolean(PREF_ANYTIME_QUOTA_KEY, false);
+        return mSettings.getBoolean(PREF_IS_ANYTIME_KEY, false);
     }
 	
 	/**
