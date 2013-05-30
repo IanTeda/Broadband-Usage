@@ -6,11 +6,13 @@ import android.content.ContentProviderClient;
 import android.content.Context;
 import android.content.SyncResult;
 import android.os.Bundle;
+import android.util.Log;
+import au.id.teda.broadband.dev.activity.BaseActivity;
 import au.id.teda.broadband.dev.util.NetworkUtilities;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	
-	//private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
+	private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 
     private final Context mContext;
     
@@ -23,7 +25,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	@Override
 	public void onPerformSync(Account account, Bundle extras, String authority,
 			ContentProviderClient provider, SyncResult syncResult) {
-		
+
+        Log.d(DEBUG_TAG, "onPerformSync");
+
 		NetworkUtilities mNetworkUtilities = new NetworkUtilities(mContext);
 		mNetworkUtilities.syncXmlData();
 	}
