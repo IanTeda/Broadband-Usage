@@ -218,6 +218,7 @@ public class NetworkUtilities {
      * @param stream
      */
     private void setAccountStatus(UnclosableBufferedInputStream stream){
+
     	AccountStatusParser mAccountStatusParser= new AccountStatusParser();
     	List<AccountStatus> status = null;
     	
@@ -284,7 +285,7 @@ public class NetworkUtilities {
                     " | freezoneDataUsed: " + freezoneDataUsed +
                     " | ipAddress: " + ipAddress +
                     " | upTimeDate: " + upTimeDate);
-
+            **/
 
         	mAccountStatusHelper.setAccoutStatus(mUsername
         			, quotaResetDate, quotaStartDate
@@ -293,7 +294,7 @@ public class NetworkUtilities {
         			, offpeakDataUsed, offpeakIsShaped, offpeakSpeed
         			, uploadsDataUsed, freezoneDataUsed
         			, ipAddress, upTimeDate);
-            **/
+
 
         }
     	

@@ -9,6 +9,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import android.util.Log;
+import au.id.teda.broadband.dev.activity.BaseActivity;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -16,7 +18,7 @@ import android.util.Xml;
 
 public class AccountStatusParser {
 	
-	//private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
+	private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 	
 	// We don't use namespaces
 	private static final String ns = null;
@@ -196,22 +198,28 @@ public class AccountStatusParser {
 		    	
 		    	if (tagName.equals(DAYS_REMAINING_TAG)){
 		    		daysRemaining = readText(parser);
-		    	} else if (tagName.equals(DAYS_SO_FARE_TAG)){
+                } else if (tagName.equals(DAYS_SO_FARE_TAG)){
 		    		daysSoFare = readText(parser);
 		    	} else {
 		    		skip(parser);
 		    	}
 	    	}
-	    	
-	    	Calendar quotaResetDate = Calendar.getInstance();
-	    	quotaResetDate.add(Calendar.DATE, Integer.parseInt(daysRemaining) );
-	    	quotaResetDate.set(Calendar.HOUR_OF_DAY, 0);
-	    	mQuotaResetDate = quotaResetDate.getTimeInMillis();
 
+            Log.d(DEBUG_TAG, "daysSoFare: " + daysSoFare);
+            Calendar quotaResetDate = Calendar.getInstance();
+            Log.d(DEBUG_TAG, "quotaResetDate: " + quotaResetDate.getTime());
+            quotaResetDate.add(Calendar.DATE, Integer.parseInt(daysRemaining) );
+	    	quotaResetDate.set(Calendar.HOUR_OF_DAY, 0);
+            Log.d(DEBUG_TAG, "quotaResetDate: " + quotaResetDate.getTime());
+            mQuotaResetDate = quotaResetDate.getTimeInMillis();
+
+            Log.d(DEBUG_TAG, "daysRemaining: " + daysRemaining);
 	    	Calendar quotaStartDate = Calendar.getInstance();
-	    	quotaStartDate.add(Calendar.DATE, ( -1 * Integer.parseInt(daysSoFare) ) );
+            Log.d(DEBUG_TAG, "quotaStartDate: " + quotaStartDate.getTime());
+            quotaStartDate.add(Calendar.DATE, ( -1 * Integer.parseInt(daysSoFare) ) );
 	    	quotaStartDate.set(Calendar.HOUR_OF_DAY, 0);
-	    	mQuotaStartDate = quotaStartDate.getTimeInMillis();
+            Log.d(DEBUG_TAG, "quotaStartDate: " + quotaStartDate.getTime());
+            mQuotaStartDate = quotaStartDate.getTimeInMillis();
 	    	
 	    }
 	    

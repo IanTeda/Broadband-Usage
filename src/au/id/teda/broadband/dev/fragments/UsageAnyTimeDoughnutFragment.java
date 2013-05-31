@@ -1,6 +1,7 @@
 package au.id.teda.broadband.dev.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,9 @@ public class UsageAnyTimeDoughnutFragment extends BaseFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// Set fragment layout to be inflated
 		mFragmentView = inflater.inflate(R.layout.fragment_usage_anytime_doughnut, container, false);
-		
+
+        Log.d(DEBUG_TAG, "UsageAnyTimeDoughnutFragment");
+
 		return mFragmentView;
 	}
 	
@@ -72,10 +75,13 @@ public class UsageAnyTimeDoughnutFragment extends BaseFragment {
 	        }
 	    });
 
+        Log.d(DEBUG_TAG, "DaysSofFar: " + mAccountStatus.getDaysSoFar() +
+                            "DaysToGo: " + mAccountStatus.getDaysToGo());
+
         // Initialize chart class
         CustomDonughtChart mChart = new CustomDonughtChart(mContext);
         mChart.setDays(mAccountStatus.getDaysSoFar(), mAccountStatus.getDaysToGo());
-        mChart.setUsage(mAccountStatus.getAnyTimeDataUsed(), mAccountInfo.getPeakQuota());
+        mChart.setUsage(mAccountStatus.getAnyTimeDataUsed(), mAccountInfo.getAnyTimeQuota());
 	
 		// Set layout parameters for chart view
 		LayoutParams mChartViewParams = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);

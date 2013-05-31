@@ -8,12 +8,14 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
+import au.id.teda.broadband.dev.activity.BaseActivity;
 import au.id.teda.broadband.dev.util.NetworkUtilities;
 
 @SuppressLint("DefaultLocale") // For some reason cannot remove the lint warning
 public class AccountStatusHelper {
 	
-	//private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
+	private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 	
 	// Set static string values for preference keys
 	private final static String ACCOUNT = "account";
@@ -65,8 +67,12 @@ public class AccountStatusHelper {
     		, long uploadsDataUsed
     		, long freezoneDataUsed
     		, String ipAddress, long upTimeDate) {
-    	
-    	mEditor.putString(ACCOUNT, userAccount);
+
+        Log.d(DEBUG_TAG, "Status quotaStartDate: " + getCalendarFromMillis(quotaStartDate).getTime());
+        Log.d(DEBUG_TAG, "Status quotaResetDate: " + getCalendarFromMillis(quotaResetDate).getTime());
+
+
+        mEditor.putString(ACCOUNT, userAccount);
     	mEditor.putLong(QUOTA_RESET_DATE, quotaResetDate);
 		mEditor.putLong(QUOTA_START_DATE, quotaStartDate);
         mEditor.putLong(ANYTIME_DATA_USED, anyTimeDataUsed);
@@ -710,6 +716,12 @@ public class AccountStatusHelper {
 			return false;
 		}
 	}
+
+    private Calendar getCalendarFromMillis(long milliseconds){
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(milliseconds);
+        return cal;
+    }
 
 
 

@@ -2,6 +2,7 @@ package au.id.teda.broadband.dev.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import au.id.teda.broadband.dev.R;
 import au.id.teda.broadband.dev.authenticator.AccountAuthenticator;
 import au.id.teda.broadband.dev.authenticator.AuthenticatorActivity;
@@ -26,9 +27,11 @@ public class MainActivity extends BaseActivity {
 
         // Check if account is an anytime account and load layout
         if (mAccountInfo.isAccountAnyTime()){
+            Log.d(DEBUG_TAG, "activity_main_anytime");
             setContentView(R.layout.activity_main_anytime);
         } else {
-           	setContentView(R.layout.activity_main);
+            Log.d(DEBUG_TAG, "activity_main");
+            setContentView(R.layout.activity_main);
         }
         
     }

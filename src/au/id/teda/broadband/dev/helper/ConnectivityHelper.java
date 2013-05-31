@@ -72,7 +72,6 @@ public class ConnectivityHelper {
     }
     
 	public void requestSync(){
-        Log.d(DEBUG_TAG, "requestSync");
         AccountAuthenticator mAccountAuthenticator = new AccountAuthenticator(mContext);
 		ContentResolver.requestSync(mAccountAuthenticator.getAccount(), DummyContentProvider.PROVIDER, new Bundle());
 	}
