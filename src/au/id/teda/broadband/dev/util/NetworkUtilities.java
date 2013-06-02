@@ -42,7 +42,7 @@ import au.id.teda.broadband.dev.parser.VolumeUsageParser;
  */
 public class NetworkUtilities {
 	
-	private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
+	//private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 
 	/** Activity context **/
     private Context mContext;

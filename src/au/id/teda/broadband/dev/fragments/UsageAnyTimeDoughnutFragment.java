@@ -37,7 +37,7 @@ public class UsageAnyTimeDoughnutFragment extends BaseFragment {
 	protected void loadFragmentView() {
 
 		loadDonughtChart();
-		//loadChartText();
+		loadChartText();
 	}
 	
 	private void loadDonughtChart() {
@@ -75,8 +75,13 @@ public class UsageAnyTimeDoughnutFragment extends BaseFragment {
 	        }
 	    });
 
+        /**
         Log.d(DEBUG_TAG, "DaysSofFar: " + mAccountStatus.getDaysSoFar() +
-                            "DaysToGo: " + mAccountStatus.getDaysToGo());
+                            " | DaysToGo: " + mAccountStatus.getDaysToGo());
+
+        Log.d(DEBUG_TAG, "getAnyTimeDataUsed: " + mAccountStatus.getAnyTimeDataUsed() +
+                " | getAnyTimeQuota: " + mAccountInfo.getAnyTimeQuota());
+         **/
 
         // Initialize chart class
         CustomDonughtChart mChart = new CustomDonughtChart(mContext);
@@ -109,12 +114,12 @@ public class UsageAnyTimeDoughnutFragment extends BaseFragment {
 	    });
 		
 		// Set TextView references
-		final TextView mPeakPercent = (TextView) mFragmentView.findViewById(R.id.fragment_usage_donught_peak_percent);
-		final TextView mOffpeakPercent = (TextView) mFragmentView.findViewById(R.id.fragment_usage_donught_offpeak_percent);
+		final TextView anyTextView = (TextView) mFragmentView.findViewById(R.id.fragment_usage_donught_anytime_percent);
+//		final TextView daysTextView = (TextView) mFragmentView.findViewById(R.id.fragment_usage_anytime_donught_days);
 
 		// Set TextView values
-		mPeakPercent.setText(mAccountStatus.getPeakDataUsedPercentString());
-		mOffpeakPercent.setText(mAccountStatus.getOffpeakDataUsedPercentString());
+		anyTextView.setText(mAccountStatus.getAnyTimeDataUsedPercentString());
+//		daysTextView.setText(mAccountStatus.getOffpeakDataUsedPercentString());
 	}
 
 }

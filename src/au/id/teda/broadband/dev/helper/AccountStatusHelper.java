@@ -284,6 +284,18 @@ public class AccountStatusHelper {
         int variation = (int) (daily - quota);
         return variation;
     }
+
+    public int getAnyTimeDataUsedPercent(){
+        long used = getAnyTimeDataUsed();
+        long quota = mInfo.getAnyTimeQuota();
+        int percent = (int) ((used * 100.0f) / quota);
+        return percent;
+    }
+
+    public String getAnyTimeDataUsedPercentString(){
+        int percent = getAnyTimeDataUsedPercent();
+        return String.valueOf(percent) + "%";
+    }
 	
 	public long getPeakDataUsed(){
 		return mSettings.getLong(PEAK_DATA_USED, 0);

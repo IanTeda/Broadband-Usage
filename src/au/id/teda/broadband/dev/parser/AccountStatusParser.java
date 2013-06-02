@@ -18,7 +18,7 @@ import android.util.Xml;
 
 public class AccountStatusParser {
 	
-	private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
+	//private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 	
 	// We don't use namespaces
 	private static final String ns = null;
@@ -205,20 +205,14 @@ public class AccountStatusParser {
 		    	}
 	    	}
 
-            Log.d(DEBUG_TAG, "daysSoFare: " + daysSoFare);
             Calendar quotaResetDate = Calendar.getInstance();
-            Log.d(DEBUG_TAG, "quotaResetDate: " + quotaResetDate.getTime());
             quotaResetDate.add(Calendar.DATE, Integer.parseInt(daysRemaining) );
 	    	quotaResetDate.set(Calendar.HOUR_OF_DAY, 0);
-            Log.d(DEBUG_TAG, "quotaResetDate: " + quotaResetDate.getTime());
             mQuotaResetDate = quotaResetDate.getTimeInMillis();
 
-            Log.d(DEBUG_TAG, "daysRemaining: " + daysRemaining);
 	    	Calendar quotaStartDate = Calendar.getInstance();
-            Log.d(DEBUG_TAG, "quotaStartDate: " + quotaStartDate.getTime());
             quotaStartDate.add(Calendar.DATE, ( -1 * Integer.parseInt(daysSoFare) ) );
 	    	quotaStartDate.set(Calendar.HOUR_OF_DAY, 0);
-            Log.d(DEBUG_TAG, "quotaStartDate: " + quotaStartDate.getTime());
             mQuotaStartDate = quotaStartDate.getTimeInMillis();
 	    	
 	    }

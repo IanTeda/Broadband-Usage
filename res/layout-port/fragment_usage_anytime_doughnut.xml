@@ -26,6 +26,11 @@
         android:gravity="center"
         android:orientation="vertical" >
 
+        <View
+                android:layout_width="130dp"
+                android:layout_height="2dp"
+                android:background="@color/accent" />
+
         <TextView
             android:id="@+id/fragment_usage_donught_anytime_percent"
             style="@style/fragment_usage_doughnut_percent"
@@ -37,19 +42,18 @@
             android:text="@string/fragment_usage_anytime_doughnut_anytime" />
 
         <View
-            android:id="@+id/fragment_usage_donught_line"
             android:layout_width="130dp"
             android:layout_height="2dp"
             android:background="@color/accent" />
 
-        <TextView
-            style="@style/fragment_usage_doughnut_percent_title"
-            android:text="@string/fragment_usage_anytime_doughnut_days" />
+        <!--<TextView-->
+            <!--style="@style/fragment_usage_doughnut_percent_title"-->
+            <!--android:text="@string/fragment_usage_anytime_doughnut_days" />-->
 
-        <TextView
-            android:id="@+id/fragment_usage_anytime_donught_days"
-            style="@style/fragment_usage_doughnut_percent"
-            android:layout_marginTop="-15dp" />
+        <!--<TextView-->
+            <!--android:id="@+id/fragment_usage_anytime_donught_days"-->
+            <!--style="@style/fragment_usage_doughnut_percent"-->
+            <!--android:layout_marginTop="-15dp" />-->
     </LinearLayout>
 
 </RelativeLayout>
