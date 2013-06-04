@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,9 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import au.id.teda.broadband.dev.R;
-import au.id.teda.broadband.dev.helper.AccountInfoHelper;
 import au.id.teda.broadband.dev.helper.ConnectivityHelper;
-import au.id.teda.broadband.dev.helper.LayoutHelper;
 import au.id.teda.broadband.dev.util.FontUtils;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
@@ -92,11 +92,10 @@ public class InitialiseActivity extends SherlockFragmentActivity {
 
             String msg = i.getStringExtra(MESSAGE);
             if (msg.equals(SYNC_COMPLETE)){
-                Log.d("bbusage", "Complete Sync");
                 Intent mi = new Intent(getBaseContext(), MainActivity.class);
                 startActivity(mi);
             } else if (msg.equals(SYNC_START)){
-                Log.d("bbusage", "Start Sync");
+                // Nothing to see here
             }
         }
 
