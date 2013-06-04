@@ -7,10 +7,12 @@ import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import au.id.teda.broadband.dev.R;
 import au.id.teda.broadband.dev.helper.AccountInfoHelper;
+import au.id.teda.broadband.dev.helper.ConnectivityHelper;
 import au.id.teda.broadband.dev.helper.LayoutHelper;
 import au.id.teda.broadband.dev.util.FontUtils;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -47,7 +49,12 @@ public class InitialiseActivity extends SherlockFragmentActivity {
         mSyncReceiver = new SyncReceiver();
 
         mProgress = (ProgressBar) findViewById(R.id.activity_initialise_progressBar);
-        //mProgress.setInderterminate(true);
+        mProgress.isIndeterminate();
+        mProgress.setVisibility(View.VISIBLE);
+
+        //TODO: Will this trigger two syncs on first load?
+        ConnectivityHelper mNetwork = new ConnectivityHelper(this);
+        mNetwork.requestSync();
 
     }
 
