@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import au.id.teda.broadband.dev.R;
+import au.id.teda.broadband.dev.activity.InitialiseActivity;
 import au.id.teda.broadband.dev.helper.ConnectivityHelper;
 import au.id.teda.broadband.dev.syncadapter.DummyContentProvider;
 import au.id.teda.broadband.dev.activity.SettingsActivity;
@@ -237,7 +238,9 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         setAccountAuthenticatorResult(intent.getExtras());
         setResult(RESULT_OK, intent);
         
-        finish();
+        //finish();
+        Intent i = new Intent(this, InitialiseActivity.class);
+        startActivity(i);
 	}
     
     /**

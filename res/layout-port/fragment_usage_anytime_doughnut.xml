@@ -44,6 +44,7 @@
         <View
             android:layout_width="130dp"
             android:layout_height="2dp"
+            android:layout_marginTop="12dp"
             android:background="@color/accent" />
 
         <!--<TextView-->
