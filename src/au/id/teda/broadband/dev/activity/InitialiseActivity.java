@@ -4,11 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -19,6 +16,9 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 /**
  * Created by ian on 4/06/13.
+ *
+ *  Initialisation app so we don't show peak/offpeak layout with anytime accounts
+ *  on MainActivity load.
  */
 public class InitialiseActivity extends SherlockFragmentActivity {
 
@@ -32,6 +32,7 @@ public class InitialiseActivity extends SherlockFragmentActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Set layout to load
         setContentView(R.layout.activity_initialise);
 
         // Set font to Roboto on SDK < 11
@@ -40,7 +41,8 @@ public class InitialiseActivity extends SherlockFragmentActivity {
             FontUtils.setRobotoFont(this, godfatherView);
         }
 
-        getSupportActionBar().hide();
+        // Set action bar title
+        getSupportActionBar().setTitle(getString(R.string.action_bar_title_initialise));
 
 
         // Setup broadcast receiver for background sync, with broadcast filter
@@ -48,6 +50,7 @@ public class InitialiseActivity extends SherlockFragmentActivity {
         filter = new IntentFilter(BROADCAST);
         mSyncReceiver = new SyncReceiver();
 
+        // Setup indeterminate progress bar
         mProgress = (ProgressBar) findViewById(R.id.activity_initialise_progressBar);
         mProgress.isIndeterminate();
         mProgress.setVisibility(View.VISIBLE);
@@ -92,6 +95,7 @@ public class InitialiseActivity extends SherlockFragmentActivity {
 
             String msg = i.getStringExtra(MESSAGE);
             if (msg.equals(SYNC_COMPLETE)){
+                // Start MainActivity after sync complete
                 Intent mi = new Intent(getBaseContext(), MainActivity.class);
                 startActivity(mi);
             } else if (msg.equals(SYNC_START)){

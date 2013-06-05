@@ -15,16 +15,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Initialising Application"
+                android:text="@string/activity_initialise_splash"
                 android:id="@+id/activity_initialise_tv"
+                android:paddingLeft="@dimen/touch_half"
+                android:paddingRight="@dimen/touch_half"
                 android:layout_gravity="center"/>
 
         <ProgressBar
                 style="?android:attr/progressBarStyleHorizontal"
+                android:indeterminateDrawable="@drawable/progress_indeterminate_horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:indeterminateDrawable="@drawable/progress_bar_accent"
-                android:maxHeight="10dip" android:minHeight="10dip"
+                android:minHeight="12dip"
+                android:maxHeight="12dip"
                 android:indeterminate="true"
                 android:id="@+id/activity_initialise_progressBar"/>
 
