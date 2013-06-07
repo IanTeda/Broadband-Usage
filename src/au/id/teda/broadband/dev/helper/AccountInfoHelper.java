@@ -343,9 +343,9 @@ public class AccountInfoHelper {
         long quota = getAnyTimeQuotaGb();
 
         if (quota < 10){
-            return "/ 0" + Long.toString(quota) + " (Gb) AnyTime";
+            return "/ 0" + Long.toString(quota) + " (Gb) anytime";
         } else {
-            return "/ " + Long.toString(quota) + " (Gb) AnyTime";
+            return "/ " + Long.toString(quota) + " (Gb) anytime";
         }
 
     }
@@ -398,9 +398,9 @@ public class AccountInfoHelper {
 		long quota = getPeakQuotaGb();
 		
 		if (quota < 10){
-			return "/ 0" + Long.toString(quota) + " (Gb) Peak";
+			return "/ 0" + Long.toString(quota) + " (Gb) peak";
 		} else {
-			return "/ " + Long.toString(quota) + " (Gb) Peak";
+			return "/ " + Long.toString(quota) + " (Gb) peak";
 		}
 		
 	}
@@ -470,9 +470,9 @@ public class AccountInfoHelper {
 		long quota = getOffpeakQuotaGb();
 		
 		if (quota < 10){
-			return "/ 0" + Long.toString(quota) + " (Gb) Offpeak";
+			return "/ 0" + Long.toString(quota) + " (Gb) offpeak";
 		} else {
-			return "/ " + Long.toString(quota) + " (Gb) Offpeak";
+			return "/ " + Long.toString(quota) + " (Gb) offpeak";
 		}
 	}
 	

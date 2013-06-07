@@ -27,19 +27,19 @@
             tools:layout="@layout/fragment_usage_anytime_doughnut" />
 
         <fragment
-            android:id="@+id/fragment_usage_summary"
-            android:name="au.id.teda.broadband.dev.fragments.UsageSummaryFragment"
+            android:id="@+id/fragment_usage_summary_anytime"
+            android:name="au.id.teda.broadband.dev.fragments.UsageSummaryAnyTimeFragment"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/fragment_usage_anytime_doughnut"
-            tools:layout="@layout/fragment_usage_summary" />
+            tools:layout="@layout/fragment_usage_summary_anytime" />
 
         <fragment
             android:id="@+id/fragment_footer"
             android:name="au.id.teda.broadband.dev.fragments.FooterFragment"
             android:layout_width="fill_parent"
             android:layout_height="@dimen/touch"
-            android:layout_below="@+id/fragment_usage_summary"
+            android:layout_below="@+id/fragment_usage_summary_anytime"
             tools:layout="@layout/fragment_footer" />
     </RelativeLayout>
 

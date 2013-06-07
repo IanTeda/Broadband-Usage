@@ -259,16 +259,20 @@ public class AccountStatusHelper {
 		return "/ " + days + " days so far";
 	}
 
+    /**
+     *  Start any time methods
+     */
+
     public long getAnyTimeDataUsed(){
-        return mSettings.getLong(ANYTIME_DATA_USED, -2);
+        return mSettings.getLong(ANYTIME_DATA_USED, 0);
     }
 
-    public int getAnyTimeDataUsedMb(){
-        return (int) (mSettings.getLong(ANYTIME_DATA_USED, -2) / MB);
+    public long getAnyTimeDataUsedMb(){
+        return (getAnyTimeDataUsed() / MB);
     }
 
-    public int getAnyTimeDataUsedGb(){
-        return (int) (mSettings.getLong(ANYTIME_DATA_USED, -2) / GB);
+    public long getAnyTimeDataUsedGb(){
+        return (getAnyTimeDataUsed() / GB);
     }
 
     public int getAnyTimeDailyAverageUsedMb(){
@@ -280,9 +284,37 @@ public class AccountStatusHelper {
 
     public int getAnyTimeAverageVariationMb(){
         long quota = mInfo.getAnyTimeQuotaDailyMb();
-        long daily = getPeakDailyAverageUsedMb();
+        long daily = getAnyTimeDailyAverageUsedMb();
         int variation = (int) (daily - quota);
         return variation;
+    }
+
+    public int getAnyTimeDataUsedLessUploadsGb(){
+        int download = (int) getAnyTimeDataUsedGb();
+        int upload = getUploadsDataUsedGb();
+        return (download - upload);
+    }
+
+    public String getAnyTimeDataUsedGbString(){
+        long data = getAnyTimeDataUsedGb();
+
+        String used = Long.toString(data);
+        if (data < 10 ){
+            used = "0" + used;
+        }
+
+        return used;
+    }
+
+    public String getAnyTimeDataUsedLessUploadsGbString(){
+        long data = getAnyTimeDataUsedLessUploadsGb();
+
+        String used = Long.toString(data);
+        if (data < 10 ){
+            used = "0" + used;
+        }
+
+        return used;
     }
 
     public int getAnyTimeDataUsedPercent(){
@@ -296,7 +328,58 @@ public class AccountStatusHelper {
         int percent = getAnyTimeDataUsedPercent();
         return String.valueOf(percent) + "%";
     }
-	
+
+    public long getAnyTimeDataRemaining(){
+        long quota = mInfo.getAnyTimeQuota();
+        long used = getAnyTimeDataUsed();
+
+        return (quota - used);
+    }
+
+    public int getAnyTimeDataRemaingGb(){
+        return (int) ( getAnyTimeDataRemaining() / GB );
+    }
+
+    public String getAnyTimeDataRemaingGbString(){
+        int data = getAnyTimeDataRemaingGb();
+        String remaining = String.valueOf(data);
+
+        if (data < 10 ){
+            remaining = "0" + remaining;
+        }
+
+        return remaining;
+    }
+
+    public boolean isAnyTimeShaped(){
+        return mSettings.getBoolean(ANYTIME_IS_SHAPED, false);
+    }
+
+    public String getAnyTimeShapedUsedString(){
+        boolean isShaped = isAnyTimeShaped();
+        if (isShaped){
+            return "USED DATA (SHAPED)";
+        } else {
+            return "USED DATA (UNSHAPED)";
+        }
+    }
+
+    public String getAnyTimeShapedRemainingString(){
+        boolean isShaped = isAnyTimeShaped();
+        if (isShaped){
+            return "REMAINING DATA (SHAPED)";
+        } else {
+            return "REMAINING DATA (UNSHAPED)";
+        }
+    }
+
+    public long getAnyTimeSpeed(){
+        return mSettings.getLong(ANYTIME_SPEED, 0);
+    }
+
+    /**
+     *  Start Peak Data Methods
+     */
 	public long getPeakDataUsed(){
 		return mSettings.getLong(PEAK_DATA_USED, 0);
 	}
@@ -406,6 +489,10 @@ public class AccountStatusHelper {
 	public long getPeakSpeed(){
 		return mSettings.getLong(PEAK_SPEED, 0);
 	}
+
+    /**
+     *  Start off peak
+     */
 	
 	public long getOffpeakDataUsed(){
 		return mSettings.getLong(OFFPEAK_DATA_USED, 0);
