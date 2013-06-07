@@ -26,12 +26,22 @@ public class FooterFragment extends BaseFragment  {
 		
 	@Override
 	protected void loadFragmentView(){
-		// Set TextView reference
-		TextView mLastSyncTV = (TextView) mFragmentView.findViewById(R.id.fragment_footer_last_sync_tv);
-		TextView mDataPeriodTV = (TextView) mFragmentView.findViewById(R.id.fragment_footer_data_period_tv);
-	    
-		// Set TextView text vaules
-		mLastSyncTV.setText(mAccountStatus.getLastSyncTimeString());
-		mDataPeriodTV.setText(Html.fromHtml(mAccountInfo.getDataPeriodString()));
+
+        // Set last sync time
+        TextView mLastSyncTV = (TextView) mFragmentView.findViewById(R.id.fragment_footer_last_sync_tv);
+        mLastSyncTV.setText(mAccountStatus.getLastSyncTimeString());
+
+
+        // Check if account is an anytime account and load layout
+        TextView mDataPeriodTV = (TextView) mFragmentView.findViewById(R.id.fragment_footer_data_period_tv);
+        if (mAccountInfo.isAccountAnyTime()){
+            // Is any time so hide data period
+            mDataPeriodTV.setVisibility(View.GONE);
+        } else {
+            // Set data period
+            mDataPeriodTV.setText(Html.fromHtml(mAccountInfo.getDataPeriodString()));
+        }
+
+
 	}
 }
