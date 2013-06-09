@@ -8,6 +8,12 @@
     <string name="notification_end_of_period_near_message">Days to quota reset</string>
     <string name="notification_end_of_period_over_title">Quota Reset</string>
     <string name="notification_end_of_period_over_message">Time to start downloading</string>
+
+    <!-- Anytime Data -->
+    <string name="notification_anytime_data_near_title">Data Usage Near</string>
+    <string name="notification_anytime_data_near_message">Gbs until quota reached</string>
+    <string name="notification_anytime_data_over_title">Data Usage Over</string>
+    <string name="notification_anytime_data_over_message">Days until quota reset</string>
     
     <!-- Peak Data -->
     <string name="notification_peak_data_near_title">Peak Data Usage</string>

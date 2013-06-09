@@ -57,8 +57,23 @@
             android:textSize="@dimen/text_tiny" />
     </RelativeLayout>
 
-    <!-- Peak data dev column -->
+    <!-- Anytime data column -->
+    <RelativeLayout
+            android:id="@+id/listview_data_table_row_anytime_container"
+            style="@style/listview_data_table_column" >
 
+        <TextView
+                android:id="@+id/listview_data_table_row_anytime_description"
+                style="@style/listview_data_table_row_description"
+                android:layout_alignBaseline="@+id/listview_data_table_row_anytime_number" />
+
+        <TextView
+                android:id="@+id/listview_data_table_row_anytime_number"
+                style="@style/listview_data_table_row_number"
+                android:layout_toLeftOf="@+id/listview_data_table_row_anytime_description" />
+    </RelativeLayout>
+
+    <!-- Peak data dev column -->
     <RelativeLayout
         android:id="@+id/listview_data_table_row_peak_container"
         style="@style/listview_data_table_column" >
@@ -75,7 +90,6 @@
     </RelativeLayout>
 
     <!-- Offpeak data dev -->
-
     <RelativeLayout
         android:id="@+id/listview_data_table_row_offpeak_container"
         style="@style/listview_data_table_column" >
@@ -92,7 +106,6 @@
     </RelativeLayout>
 
     <!-- Uploads -->
-
     <RelativeLayout
         android:id="@+id/listview_data_table_row_uploads_container"
         style="@style/listview_data_table_column" >
@@ -124,7 +137,6 @@
     </RelativeLayout>
 
     <!-- Total daily dev -->
-
     <RelativeLayout
         android:id="@+id/listview_data_table_row_total_container"
         style="@style/listview_data_table_column"

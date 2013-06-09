@@ -8,11 +8,13 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
+import android.util.Log;
+import au.id.teda.broadband.dev.activity.BaseActivity;
 import au.id.teda.broadband.dev.util.DailyVolumeUsage;
 
 public class DailyDataTableAdapter {
 	
-	//private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
+	private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 	
 	// Set variables for adapter
 	public static final String KEY_ROWID = "_id";
@@ -146,8 +148,18 @@ public class DailyDataTableAdapter {
 			Long offpeak = cursor.getLong(COLUMN_INDEX_OFFPEAK);
 			Long uploads = cursor.getLong(COLUMN_INDEX_UPLOADS);
 			Long freezone = cursor.getLong(COLUMN_INDEX_FREEZONE);
-							
-			usage.add(new DailyVolumeUsage(month, day, anytime, peak, offpeak, uploads, freezone));
+
+            /**
+            Log.d(DEBUG_TAG, "DailyVolumeUsage > month:" + month +
+                    ", day:" + day +
+                    ", anytime:" + anytime +
+                    ", peak:" + peak +
+                    ", offpeak:" + offpeak +
+                    ", uploads:" + uploads +
+                    ", freezone:" + freezone);
+             **/
+
+            usage.add(new DailyVolumeUsage(month, day, anytime, peak, offpeak, uploads, freezone));
 			
 			cursor.moveToNext();
 			

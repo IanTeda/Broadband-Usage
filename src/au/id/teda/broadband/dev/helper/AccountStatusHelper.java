@@ -68,10 +68,6 @@ public class AccountStatusHelper {
     		, long freezoneDataUsed
     		, String ipAddress, long upTimeDate) {
 
-        Log.d(DEBUG_TAG, "Status quotaStartDate: " + getCalendarFromMillis(quotaStartDate).getTime());
-        Log.d(DEBUG_TAG, "Status quotaResetDate: " + getCalendarFromMillis(quotaResetDate).getTime());
-
-
         mEditor.putString(ACCOUNT, userAccount);
     	mEditor.putLong(QUOTA_RESET_DATE, quotaResetDate);
 		mEditor.putLong(QUOTA_START_DATE, quotaStartDate);
@@ -95,28 +91,38 @@ public class AccountStatusHelper {
 	}
     
     public boolean isStatusSet() {
-    	
-		// Check to see if we have all the account status information stored
-		if (isQuotaResetDateSet()
-				&& isQuotaStartDateSet()
-				&& isPeakDataSet()
-				&& isPeakIsShapedSet()
-				&& isPeakSpeedSet()
-				&& isOffpeakDataSet()
-				&& isOffpeakIsShapedSet()
-				&& isOffpeakSpeedSet()
-				&& isUploadsDataSet()
-				&& isFreezoneDataSet()
-				&& isUpTimeDateSet()){
-			
-			// Looks like we have every thing, so return true
-			return true;
-		} else {
 
-			// Dosen't seem to be all there so return false
-			return false;
-			
-		}
+        if (mInfo.isAccountAnyTime()
+                && isQuotaResetDateSet()
+                && isQuotaStartDateSet()
+                && isAnytimeDataSet()
+                && isAnytimeIsShapedSet()
+                && isAnytimeSpeedSet()
+                && isUploadsDataSet()
+                && isFreezoneDataSet()
+                && isUpTimeDateSet()){
+
+            return true;
+
+        } else if (!mInfo.isAccountAnyTime()
+                && isQuotaResetDateSet()
+                && isQuotaStartDateSet()
+                && isPeakDataSet()
+                && isPeakIsShapedSet()
+                && isPeakSpeedSet()
+                && isOffpeakDataSet()
+                && isOffpeakIsShapedSet()
+                && isOffpeakSpeedSet()
+                && isUploadsDataSet()
+                && isFreezoneDataSet()
+                && isUpTimeDateSet()){
+
+            return true;
+
+        } else {
+
+            return false;
+        }
 	}
 	
 	public Calendar getQuotaResetDate(){
@@ -723,6 +729,34 @@ public class AccountStatusHelper {
 			return false;
 		}
 	}
+
+    public boolean isAnytimeDataSet(){
+        if (getAnyTimeDataUsed() > 0){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public boolean isAnytimeIsShapedSet(){
+        if (isAnyTimeShaped()){
+            return false;
+        }
+        else {
+            return true;
+        }
+
+    }
+
+    public boolean isAnytimeSpeedSet(){
+        if (getAnyTimeSpeed() > -1){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 	
 	public boolean isPeakDataSet(){
 		if (getPeakDataUsed() > 0){

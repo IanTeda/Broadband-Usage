@@ -19,6 +19,8 @@ public class NotificationHelper {
 	private static final String KEY_NOTIFICATION_PERIOD = "notification_period";
 	private static final String KEY_NOTIFY_END_OF_PERIOD_NEAR = "notify_end_of_period_near";
 	private static final String KEY_NOTIFY_END_OF_PERIOD_OVER = "notify_end_of_period_over";
+    private static final String KEY_NOTIFY_ANYTIME_QUOTA_NEAR = "notify_anytime_quota_near";
+    private static final String KEY_NOTIFY_ANYTIME_QUOTA_OVER = "notify_anytime_quotat_over";
 	private static final String KEY_NOTIFY_PEAK_QUOTA_NEAR = "notify_peak_quota_near";
 	private static final String KEY_NOTIFY_PEAK_QUOTA_OVER = "notify_peak_quota_over";
 	private static final String KEY_NOTIFY_OFFPEAK_QUOTA_NEAR = "notify_offpeak_quota_near";
@@ -74,31 +76,51 @@ public class NotificationHelper {
 			notifyEndOfPeriodOver();
 			resetNotificationStatus();
 		}
-		
-		if (isPeakQuotaNear() 
+
+        if (isAnyTimeQuotaNear()
+                && !isAnyTimeQuotaNearNotified()
+                && showAnyTimeQuotaNearNotification()
+                && mInfo.isAccountAnyTime()){
+
+            notifyAnyTimeDataNear();
+        }
+
+        if (isAnyTimeQuotaOver()
+                && !isAnyTimeQuotaOverNotified()
+                && showAnyTimeQuotaOverNotification()
+                && mInfo.isAccountAnyTime()){
+
+            notifyAnyTimeQuotaOver();
+        }
+
+        if (isPeakQuotaNear()
 				&& !isPeakQuotaNearNotified()
-				&& showPeakQuotaNearNotification()){
+				&& showPeakQuotaNearNotification()
+                && !mInfo.isAccountAnyTime()){
 
 			notifyPeakDataNear();
 		}
 		
 		if (isPeakQuotaOver() 
 				&& !isPeakQuotaOverNotified()
-				&& showPeakQuotaOverNotification()){
+				&& showPeakQuotaOverNotification()
+                && !mInfo.isAccountAnyTime()){
 
 			notifyPeakQuotaOver();
 		} 
 		
 		if (isOffpeakQuotaNear() 
 				&& !isOffpeakQuotaNearNotified()
-				&& showOffpeakQuotaNearNotification()){
+				&& showOffpeakQuotaNearNotification()
+                && !mInfo.isAccountAnyTime()){
 
 			notifyOffpeakDataNear();
 		}
 		
 		if (isOffpeakQuotaOver() 
 				&& !isOffpeakQuotaOverNotified()
-				&& showOffpeakQuotaOverNotification()){
+				&& showOffpeakQuotaOverNotification()
+                && !mInfo.isAccountAnyTime()){
 			
 			notifyOffpeakQuotaOver();
 		}
@@ -110,12 +132,18 @@ public class NotificationHelper {
 		setNotificationPeriod(period);
 		setEndOfPeriodNearNotified(false);
 		setEndOfPeriodOverNotified(false);
+        setAnyTimeQuotaNearNotified(false);
+        setAnyTimeQuotaOverNotified(false);
 		setPeakQuotaNearNotified(false);
 		setPeakQuotaOverNotified(false);
 		setOffpeakQuotaNearNotified(false);
 		setOffpeakQuotaOverNotified(false);
 	}
-	
+
+    /**
+     * Start period notification methods
+     */
+
 	private void setNotificationPeriod(String period){
 		mEditor.putString(KEY_NOTIFICATION_PERIOD, period);
 		mEditor.commit();
@@ -200,7 +228,91 @@ public class NotificationHelper {
 	private boolean isEndOfPeriodOverNotified(){
 		return mSettings.getBoolean(KEY_NOTIFY_END_OF_PERIOD_OVER, false);
 	}
-	
+
+    /**
+     *  Start anytime notification methods
+     */
+
+    private String getAnyTimeQuotaNearWarning(){
+        return mSettings.getString(mContext.getString(R.string.pref_notify_anytime_near_array_key), "five_gb");
+    }
+
+    public boolean isAnyTimeQuotaNear(){
+        String value = getAnyTimeQuotaNearWarning();
+        long warning = gbStringToLong(value);
+        long remaining = mStatus.getAnyTimeDataRemaining();
+
+        if (remaining < warning && remaining != 0){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean showAnyTimeQuotaNearNotification(){
+        String value = getAnyTimeQuotaNearWarning();
+
+        if (value.equals("never")){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private void notifyAnyTimeDataNear(){
+
+        // TODO: Add long message with download stats remaining
+        String title = mContext.getString(R.string.notification_peak_data_near_title);
+        String message = mStatus.getAnyTimeDataRemaingGbString() + " " + mContext.getString(R.string.notification_anytime_data_near_message);
+
+        showNotificaiton(title, message, 3);
+        setAnyTimeQuotaNearNotified(true);
+    }
+
+    private void setAnyTimeQuotaNearNotified(boolean flag){
+        mEditor.putBoolean(KEY_NOTIFY_ANYTIME_QUOTA_NEAR, flag);
+        mEditor.commit();
+    }
+
+    private boolean isAnyTimeQuotaNearNotified(){
+        return mSettings.getBoolean(KEY_NOTIFY_ANYTIME_QUOTA_NEAR, false);
+    }
+
+    public boolean isAnyTimeQuotaOver(){
+        long quota = mInfo.getAnyTimeQuota();
+        long used = mStatus.getAnyTimeDataUsed();
+
+        if (used > quota){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean showAnyTimeQuotaOverNotification(){
+        return mSettings.getBoolean(mContext.getString(R.string.pref_notify_anytime_over_checkbox_key), true);
+    }
+
+    private void notifyAnyTimeQuotaOver(){
+        String title = mContext.getString(R.string.notification_anytime_data_over_title);
+        String message = mStatus.getDaysToGoString() + " " + mContext.getString(R.string.notification_anytime_data_over_message);
+        showNotificaiton(title, message, 4);
+        setAnyTimeQuotaOverNotified(true);
+    }
+
+    private void setAnyTimeQuotaOverNotified(boolean flag){
+        mEditor.putBoolean(KEY_NOTIFY_ANYTIME_QUOTA_OVER, flag);
+        mEditor.commit();
+    }
+
+    private boolean isAnyTimeQuotaOverNotified(){
+        return mSettings.getBoolean(KEY_NOTIFY_ANYTIME_QUOTA_OVER, false);
+    }
+
+    /**
+     *  Start peak notification methods
+     */
+
 	private String getPeakQuotaNearWarning(){
 		return mSettings.getString(mContext.getString(R.string.pref_notify_peak_near_array_key), "five_gb");
 	}
@@ -276,6 +388,10 @@ public class NotificationHelper {
 	private boolean isPeakQuotaOverNotified(){
 		return mSettings.getBoolean(KEY_NOTIFY_PEAK_QUOTA_OVER, false);
 	}
+
+    /**
+     *  Start off peak notification methods
+     */
 	
 	private String getOffpeakQuotaWarning(){
 		return mSettings.getString(mContext.getString(R.string.pref_notify_offpeak_near_array_key), "five_gb"); 
@@ -352,7 +468,11 @@ public class NotificationHelper {
 	private boolean isOffpeakQuotaOverNotified(){
 		return mSettings.getBoolean(KEY_NOTIFY_OFFPEAK_QUOTA_OVER, false);
 	}
-	
+
+    /**
+     * Start helper methods
+     */
+
 	private long daysStringtoMillis(String value){
       
 		if (value.equals("one_day")){

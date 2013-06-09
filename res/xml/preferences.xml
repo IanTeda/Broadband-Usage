@@ -36,6 +36,21 @@
         android:defaultValue="three_days"
         android:entries="@array/pref_notify_days2go_array_entries"
         android:entryValues="@array/pref_notify_days2go_array_values" />
+
+    <!-- Nearing AnyTime Quota -->
+    <ListPreference
+            android:title="@string/pref_notify_anytime_near_array_title"
+            android:key="@string/pref_notify_anytime_near_array_key"
+            android:defaultValue="five_gb"
+            android:entries="@array/pref_notify_gb_array_entries"
+            android:entryValues="@array/pref_notify_gb_array_values" />
+
+    <!-- Over AnyTime Quota -->
+    <CheckBoxPreference
+            android:title="@string/pref_notify_anytime_over_checkbox_title"
+            android:summary="@string/pref_notify_anytime_over_checkbox_summary"
+            android:key="@string/pref_notify_anytime_over_checkbox_key"
+            android:defaultValue="true" />
     
     <!-- Nearing Peak Quota -->
     <ListPreference

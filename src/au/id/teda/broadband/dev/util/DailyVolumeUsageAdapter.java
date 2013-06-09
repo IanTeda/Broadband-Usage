@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import au.id.teda.broadband.dev.R;
 import au.id.teda.broadband.dev.helper.AccountInfoHelper;
@@ -53,6 +54,7 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
 	    public TextView mDate;
 	    public TextView mDay;
 	    public TextView mMonth;
+        public TextView mAnytime;
 	    public TextView mPeak;
 	    public TextView mOffpeak;
 	    public TextView mUploads;
@@ -78,6 +80,7 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
         mOverColor = context.getResources().getColor(R.color.accent);
         mEvenBackgroundColor = context.getResources().getColor(R.color.background);
         mOddBackgroundColor = context.getResources().getColor(R.color.background_alt_light);
+
     }
 
 	@Override
@@ -96,7 +99,8 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
             holder.mNumber = (TextView) view.findViewById(R.id.listview_data_table_row_number);
             holder.mDate = (TextView) view.findViewById(R.id.listview_data_table_row_date);
             holder.mDay = (TextView) view.findViewById(R.id.listview_data_table_row_date_day);
-            holder.mMonth = (TextView) view.findViewById(R.id.listview_data_table_row_date_month); 
+            holder.mMonth = (TextView) view.findViewById(R.id.listview_data_table_row_date_month);
+            holder.mAnytime = (TextView) view.findViewById(R.id.listview_data_table_row_anytime_number);
             holder.mPeak = (TextView) view.findViewById(R.id.listview_data_table_row_peak_number);
             holder.mOffpeak = (TextView) view.findViewById(R.id.listview_data_table_row_offpeak_number);
             holder.mUploads = (TextView) view.findViewById(R.id.listview_data_table_row_uploads_number);
@@ -112,8 +116,17 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
         }
         
         DailyVolumeUsage usage = data[position];
-        
-        long daylyTotal = usage.peak + usage.offpeak;
+
+        // Calculate daily total
+        long daylyTotal = -1;
+        // Check if i'm an anytime account
+        if (mAccountInfo.isAccountAnyTime()){
+            daylyTotal = usage.anytime;
+
+        // Else I must be a peak / off peak
+        } else {
+            daylyTotal = usage.peak + usage.offpeak;
+        }
         
 		// Need to use an array to store accumulative values because views are destroyed
 		// Check to see if rows are increasing
@@ -136,6 +149,7 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
 		holder.mDate.setText(LongDateToString(usage.day, "dateOfMouth"));
 		holder.mDay.setText(LongDateToString(usage.day, "dayOfWeek"));
 		holder.mMonth.setText(LongDateToString(usage.day, "mouthOfYear"));
+        holder.mAnytime.setText(IntUsageToString(usage.anytime));
 		holder.mPeak.setText(IntUsageToString(usage.peak));
 		holder.mOffpeak.setText(IntUsageToString(usage.offpeak));
 		holder.mUploads.setText(IntUsageToString(usage.uploads));
@@ -149,6 +163,24 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
 	    }
 		
 		setOverUsageColor(holder, usage, rowNumber);
+
+        // Hide rows based on account type
+        if (mAccountInfo.isAccountAnyTime()){
+            // Hide peak container
+            RelativeLayout peakContainer = (RelativeLayout) view.findViewById(R.id.listview_data_table_row_peak_container);
+            peakContainer.setVisibility(View.GONE);
+
+            // Hide offpeak container
+            RelativeLayout offpeakContainer = (RelativeLayout) view.findViewById(R.id.listview_data_table_row_offpeak_container);
+            offpeakContainer.setVisibility(View.GONE);
+
+        } else {
+
+            // Hide anytime container
+            RelativeLayout anytimeContainer = (RelativeLayout) view.findViewById(R.id.listview_data_table_row_anytime_container);
+            anytimeContainer.setVisibility(View.GONE);
+
+        }
 		
         return view;
     }
@@ -161,11 +193,20 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
 	 */
 	private void setOverUsageColor(ViewHolder holder, DailyVolumeUsage usage,
 			int rowNumber) {
+        long GB = 1000000;
+        long dailyAnytimeQuota = mAccountInfo.getAnyTimeQuotaDailyMb();
+        long anytime = usage.anytime/GB;
 		long dailyPeakQuota = mAccountInfo.getPeakQuotaDailyMb();
-		long peak = usage.peak/1000000;
+		long peak = usage.peak/GB;
 		long dailyOffpeakQuota = mAccountInfo.getOffpeakQuotaDailyMb();
-		long offpeak = usage.offpeak/1000000;
-		
+		long offpeak = usage.offpeak/GB;
+
+        if (anytime > dailyAnytimeQuota) {
+            holder.mAnytime.setTextColor(mOverColor);
+        } else {
+            holder.mAnytime.setTextColor(Color.BLACK);
+        }
+
 		if (peak > dailyPeakQuota) {
 			holder.mPeak.setTextColor(mOverColor);
 		} else {

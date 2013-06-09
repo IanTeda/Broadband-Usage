@@ -67,22 +67,38 @@ public class AccountInfoHelper {
 	 * @return true if all data present
 	 */
 	public boolean isInfoSet() {
-		
-		// Check to see if we have all the account information stored
-		if (isPlanSet()
-				&& isProductSet()
-				&& isOffpeakStartSet()
-				&& isOffpeakEndSet()
-				&& isPeakQuotaSet()
-				&& isOffpeakQuotaSet()) {
-			
-			// Looks like it does so lets return true
-			return true;
-		} else {
-			
-			// Doesn't seem to be all there so return false
-			return false;
-		}
+
+        // Check if anytime account and plan/product is set
+        if (isAccountAnyTime()
+                && isPlanSet()
+                && isProductSet()){
+
+            // No need to check for peak/offpeak start times since this is an anytime account
+            return true;
+
+        // Else check if not an anytime account and plan/product set
+        } else if (!isAccountAnyTime()
+                && isPlanSet()
+                && isProductSet()) {
+
+            // Check to see if we have all the account information stored
+            if (isOffpeakStartSet()
+                    && isOffpeakEndSet()
+                    && isPeakQuotaSet()
+                    && isOffpeakQuotaSet()) {
+
+                // Looks like it does so lets return true
+                return true;
+            } else {
+
+                // Doesn't seem to be all there so return false
+                return false;
+            }
+
+        // Default return
+        } else {
+            return false;
+        }
 	}
 	
 	/**

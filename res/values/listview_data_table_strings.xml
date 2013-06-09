@@ -3,6 +3,7 @@
     
     <string name="listview_data_table_row_heading">No.</string>
     <string name="listview_data_table_date_heading">Date</string>
+    <string name="listview_data_table_anytime_heading">Anytime</string>
     <string name="listview_data_table_peak_heading">Peak</string>
     <string name="listview_data_table_offpeak_heading">Offpeak</string>
     <string name="listview_data_table_uploads_heading">Uploads</string>

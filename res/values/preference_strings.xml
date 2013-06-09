@@ -54,11 +54,20 @@
         <item>seven_days</item>
         <item>fourteen_days</item>
     </string-array>
-    
-	<!-- Over Peak Quota -->
+
+    <!-- New Period Notification -->
     <string name="pref_notify_new_period_checkbox_title">New Data Period</string>
     <string name="pref_notify_new_period_checkbox_summary">Notify quota rollover</string>
     <string name="pref_notify_new_period_checkbox_key">new_data_period_cbox</string>
+
+    <!-- Nearing Anytime Quota -->
+    <string name="pref_notify_anytime_near_array_title">Usage Warning</string>
+    <string name="pref_notify_anytime_near_array_key">anytime_near_array</string>
+
+    <!-- Over Anytime Quota -->
+    <string name="pref_notify_anytime_over_checkbox_title">Data Quota Over</string>
+    <string name="pref_notify_anytime_over_checkbox_summary">Warn when quota over</string>
+    <string name="pref_notify_anytime_over_checkbox_key">anytime_over_quota</string>
     
     <!-- Nearing Peak Quota -->
     <string name="pref_notify_peak_near_array_title">Peak Usage Warning</string>
