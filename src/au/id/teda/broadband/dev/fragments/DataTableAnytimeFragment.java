@@ -27,8 +27,6 @@ public class DataTableAnytimeFragment extends BaseFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        Log.d(DEBUG_TAG, "DataTableAnytimeFragment onCreate");
-
 		// Set reference to fragment layout to be inflated
 		mFragmentView = inflater.inflate(R.layout.fragment_data_table_anytime, container, false);
 		
@@ -40,10 +38,6 @@ public class DataTableAnytimeFragment extends BaseFragment {
 	 */
 	@Override
 	protected void loadFragmentView(){
-
-        Log.d(DEBUG_TAG, "DataTableAnytimeFragment loadFragmentView");
-
-        Log.d(DEBUG_TAG, "isInfoSet:" + mAccountInfo.isInfoSet() + " | isStatusSet:" + mAccountStatus.isStatusSet());
 
 		if (mAccountInfo.isInfoSet() 
     			&& mAccountStatus.isStatusSet()){

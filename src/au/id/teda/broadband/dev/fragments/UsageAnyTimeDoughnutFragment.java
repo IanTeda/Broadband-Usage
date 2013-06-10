@@ -28,8 +28,6 @@ public class UsageAnyTimeDoughnutFragment extends BaseFragment {
 		// Set fragment layout to be inflated
 		mFragmentView = inflater.inflate(R.layout.fragment_usage_anytime_doughnut, container, false);
 
-        Log.d(DEBUG_TAG, "UsageAnyTimeDoughnutFragment");
-
 		return mFragmentView;
 	}
 	

@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -11,6 +12,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import au.id.teda.broadband.dev.R;
+import au.id.teda.broadband.dev.activity.BaseActivity;
 import au.id.teda.broadband.dev.helper.AccountInfoHelper;
 import au.id.teda.broadband.dev.helper.AccountStatusHelper;
 
@@ -86,9 +89,9 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
 	@Override
 	public View getView(int position, View view, ViewGroup parent) {
 
+        // Setup view holder
 		ViewHolder holder = null;
-        
-        if(view == null){
+        if(view == null) {
         	
             LayoutInflater inflater = LayoutInflater.from(mContext);
             view = inflater.inflate(layoutResourceId, parent, false);
@@ -109,9 +112,7 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
             holder.mAccum = (TextView) view.findViewById(R.id.listview_data_table_row_accum_number);
             
             view.setTag(holder);
-        }
-        else
-        {
+        } else {
             holder = (ViewHolder)view.getTag();
         }
         
@@ -133,8 +134,13 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
 		if (mAccumPosition < position || position == 0){
 			// Check to see if row number in array does not have a value
 			if (accumArray[position] == 0){
-				// Add new total to accumulative total
-				runningTotal = runningTotal + daylyTotal;
+
+                if (isDatePastToday(usage.day)) {
+                    runningTotal = 0;
+                } else {
+                    // Add new total to accumulative total
+                    runningTotal = runningTotal + daylyTotal;
+                }
 				// Add accumulative total to array based on position
 				accumArray[position] = runningTotal;
 			}
@@ -143,27 +149,46 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
         int rowNumber = position + 1;
         
         setRowBackground(holder, rowNumber);
-        
-        // Set text
-        holder.mNumber.setText(String.valueOf(rowNumber));
-		holder.mDate.setText(LongDateToString(usage.day, "dateOfMouth"));
-		holder.mDay.setText(LongDateToString(usage.day, "dayOfWeek"));
-		holder.mMonth.setText(LongDateToString(usage.day, "mouthOfYear"));
-        holder.mAnytime.setText(IntUsageToString(usage.anytime));
-		holder.mPeak.setText(IntUsageToString(usage.peak));
-		holder.mOffpeak.setText(IntUsageToString(usage.offpeak));
-		holder.mUploads.setText(IntUsageToString(usage.uploads));
-		holder.mFreezone.setText(IntUsageToString(usage.freezone));
-		holder.mTotal.setText(IntUsageToString(daylyTotal));
-		holder.mAccum.setText(IntUsageToString(accumArray[position] / 1000));
-       
-		// Set font to roboto
+        setCellText(position, holder, usage, daylyTotal, rowNumber);
+        setOverUsageColor(holder, usage, rowNumber);
+        setTableRows(view);
+
+        // Set font to roboto
 		if (Build.VERSION.SDK_INT < 11) {
 	        FontUtils.setRobotoFont(mContext, view);
 	    }
-		
-		setOverUsageColor(holder, usage, rowNumber);
 
+        return view;
+    }
+
+    /**
+     * Set cell text for row
+     * @param position
+     * @param holder
+     * @param usage
+     * @param daylyTotal
+     * @param rowNumber
+     */
+    private void setCellText(int position, ViewHolder holder, DailyVolumeUsage usage, long daylyTotal, int rowNumber) {
+        // Set text
+        holder.mNumber.setText(String.valueOf(rowNumber));
+        holder.mDate.setText(LongDateToString(usage.day, "dateOfMouth"));
+        holder.mDay.setText(LongDateToString(usage.day, "dayOfWeek"));
+        holder.mMonth.setText(LongDateToString(usage.day, "mouthOfYear"));
+        holder.mAnytime.setText(IntUsageToString(usage.anytime));
+        holder.mPeak.setText(IntUsageToString(usage.peak));
+        holder.mOffpeak.setText(IntUsageToString(usage.offpeak));
+        holder.mUploads.setText(IntUsageToString(usage.uploads));
+        holder.mFreezone.setText(IntUsageToString(usage.freezone));
+        holder.mTotal.setText(IntUsageToString(daylyTotal));
+        holder.mAccum.setText(IntUsageToString(accumArray[position] / 1000));
+    }
+
+    /**
+     * Set table rows for different account types
+     * @param view
+     */
+    private void setTableRows(View view) {
         // Hide rows based on account type
         if (mAccountInfo.isAccountAnyTime()){
             // Hide peak container
@@ -181,11 +206,41 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
             anytimeContainer.setVisibility(View.GONE);
 
         }
-		
-        return view;
     }
 
-	/**
+    /**
+     * Check if date passed to method is past current date
+     * @param milliseconds
+     * @return
+     */
+    private boolean isDatePastToday (long milliseconds){
+        Calendar now = Calendar.getInstance();
+        setCalToMidnight(now);
+
+        Calendar date = Calendar.getInstance();
+        date.setTimeInMillis(milliseconds);
+        setCalToMidnight(date);
+
+        if ( date.getTimeInMillis() <= now.getTimeInMillis() ){
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
+    /**
+     * Set time in calendar object to midnight
+     * @param cal
+     */
+    private void setCalToMidnight(Calendar cal) {
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+    }
+
+    /**
 	 * Set the text and high lighter view to accent if dev over daily quota
 	 * @param holder
 	 * @param usage
