@@ -68,13 +68,13 @@ public class StackedLineChartFragment extends BaseFragment {
 			mDailyUsageArray = mDatabase.getDailyVolumeUsage(period);
 			
 			// Set layout container for chart
-			LinearLayout mChartContainer = (LinearLayout) mFragmentView.findViewById(R.id.fragment_stacked_line_chart_conatiner);
+			LinearLayout mChartContainer = (LinearLayout) mFragmentView.findViewById(R.id.fragment_stacked_line_chart_container);
 
 			// Initialize chart class
 			StackedLineChart mLineChart = new StackedLineChart(mContext);
 			
 			// Get chart view from library
-			GraphicalView mLineChartView = (GraphicalView) mLineChart.getChartView(mDailyUsageArray);
+			GraphicalView mLineChartView = (GraphicalView) mLineChart.getStackedLineChartView(mDailyUsageArray);
 
 			// Add chart view to layout view
 			mChartContainer.removeAllViews();

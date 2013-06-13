@@ -16,6 +16,8 @@
     <string name="size_w800dp">size_w800dp</string>
     
     <!-- Chart Data Series Labels -->
+    <string name="chart_data_series_anytime">Anytime</string>
+    <string name="chart_data_series_anytime_quota">Quota</string>
     <string name="chart_data_series_peak">Peak</string>
     <string name="chart_data_series_offpeak">Offpeak</string>
     <string name="chart_data_series_uploads">Uploads</string>

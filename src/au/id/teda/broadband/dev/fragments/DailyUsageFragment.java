@@ -234,7 +234,7 @@ public class DailyUsageFragment extends BaseFragment {
 		StackedLineChart mLineChart = new StackedLineChart(mContext);
 		
 		// Get chart view from library
-		GraphicalView mLineChartView = (GraphicalView) mLineChart.getChartView(mDailyUsageArray);
+		GraphicalView mLineChartView = (GraphicalView) mLineChart.getStackedLineChartView(mDailyUsageArray);
 
 		// Add chart view to layout view
 		mChartContainer.removeAllViews();

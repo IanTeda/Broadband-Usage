@@ -23,8 +23,8 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="ActionBarSherlock" />
     <orderEntry type="library" name="android-support-v4" level="project" />
-    <orderEntry type="library" name="achartengine-1.1.0" level="project" />
     <orderEntry type="module" module-name="ViewPageIndicator" />
+    <orderEntry type="library" name="achartengine-1.0.0" level="application" />
   </component>
 </module>
 

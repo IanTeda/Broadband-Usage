@@ -5,8 +5,8 @@
     android:orientation="vertical" >
 
     <fragment
-        android:id="@+id/fragment_data_table_anytime"
-        android:name="au.id.teda.broadband.dev.fragments.DataTableAnytimeFragment"
+        android:id="@+id/fragment_staked_line_chart"
+        android:name="au.id.teda.broadband.dev.fragments.StackedLineChartFragment"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
 

@@ -22,6 +22,7 @@ public class ChartBuilder {
 	private Context mContext;
 
 	//private double maxDataUsage = 0;
+    long accumAnytime;
 	long accumPeak;
 	long accumPeakStacked;
 	long accumOffpeak = 0;
