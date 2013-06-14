@@ -1,5 +1,6 @@
 package au.id.teda.broadband.dev.fragments;
 
+import android.util.Log;
 import org.achartengine.GraphicalView;
 
 import android.os.Bundle;
@@ -60,7 +61,10 @@ public class StackedBarChartFragment extends BaseFragment {
 	 */
 	@Override
 	protected void loadFragmentView(){
-		if (mAccountInfo.isInfoSet() 
+
+        //Log.d(DEBUG_TAG, "isInfoSet:" + mAccountInfo.isInfoSet() + " isStatusSet:" + mAccountStatus.isStatusSet());
+
+        if (mAccountInfo.isInfoSet()
     			&& mAccountStatus.isStatusSet()){
 			
 	        // Get volume dev array

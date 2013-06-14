@@ -85,6 +85,8 @@ public class AccountStatusHelper {
 		mEditor.putString(IP_ADDRESS, ipAddress);
 		mEditor.putLong(UP_TIME_DATE, upTimeDate);
 
+        Log.d(DEBUG_TAG, "uptime:" + upTimeDate);
+
 		// Commit values to preferences
 		mEditor.commit();
 		
@@ -92,7 +94,7 @@ public class AccountStatusHelper {
     
     public boolean isStatusSet() {
 
-        /**
+/**
         Log.d(DEBUG_TAG, "" + mInfo.isAccountAnyTime()
                 + isQuotaResetDateSet()
                 + isQuotaStartDateSet()
@@ -102,7 +104,8 @@ public class AccountStatusHelper {
                 + isUploadsDataSet()
                 + isFreezoneDataSet()
                 + isUpTimeDateSet());
-         **/
+ **/
+
 
         if (mInfo.isAccountAnyTime()
                 && isQuotaResetDateSet()
@@ -111,8 +114,7 @@ public class AccountStatusHelper {
                 && isAnytimeIsShapedSet()
                 && isAnytimeSpeedSet()
                 && isUploadsDataSet()
-                && isFreezoneDataSet()
-                && isUpTimeDateSet()){
+                && isFreezoneDataSet()){
 
             return true;
 
@@ -126,8 +128,7 @@ public class AccountStatusHelper {
                 && isOffpeakIsShapedSet()
                 && isOffpeakSpeedSet()
                 && isUploadsDataSet()
-                && isFreezoneDataSet()
-                && isUpTimeDateSet()){
+                && isFreezoneDataSet()){
 
             return true;
 
@@ -668,7 +669,7 @@ public class AccountStatusHelper {
 	}
 	
 	public Calendar getUpTimeDate(){
-		long milliseconds = mSettings.getLong(UP_TIME_DATE, 0);
+		long milliseconds = mSettings.getLong(UP_TIME_DATE, -1);
 		Calendar mCalendar = Calendar.getInstance();
 		mCalendar.setTimeInMillis(milliseconds);
 		return mCalendar;

@@ -5,8 +5,8 @@
     android:orientation="vertical" >
 
     <fragment
-        android:id="@+id/fragment_staked_line_chart"
-        android:name="au.id.teda.broadband.dev.fragments.StackedLineChartFragment"
+        android:id="@+id/fragment_staked_bar_chart"
+        android:name="au.id.teda.broadband.dev.fragments.StackedBarChartFragment"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
 

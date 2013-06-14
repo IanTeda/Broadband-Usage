@@ -1,5 +1,7 @@
 package au.id.teda.broadband.dev.chart;
 
+import android.util.Log;
+import au.id.teda.broadband.dev.helper.AccountInfoHelper;
 import org.achartengine.ChartFactory;
 import org.achartengine.chart.BarChart.Type;
 import org.achartengine.model.CategorySeries;
@@ -12,6 +14,7 @@ import android.view.View;
 import au.id.teda.broadband.dev.R;
 import au.id.teda.broadband.dev.util.DailyVolumeUsage;
 
+//TODO: Add uploads to chart
 public class StackedBarChart extends ChartBuilder {
 	
 	// Debug tag pulled from main activity
@@ -19,6 +22,9 @@ public class StackedBarChart extends ChartBuilder {
 	
     // Activity context to be used
 	private Context mContext;
+
+    // Helper classes
+    private AccountInfoHelper mAccountInfo;
 	
 	private int MB = 1000000;
 	
@@ -27,7 +33,10 @@ public class StackedBarChart extends ChartBuilder {
 	public StackedBarChart(Context context) {
 		super(context);
 		this.mContext = context;
-	}
+
+        mAccountInfo = new AccountInfoHelper(mContext);
+
+    }
 	
 	public View getBarChartView (DailyVolumeUsage[] usage){
 		return ChartFactory.getBarChartView(mContext, 
@@ -41,15 +50,52 @@ public class StackedBarChart extends ChartBuilder {
 	}
 	
 	protected XYMultipleSeriesDataset getStackedBarChartDataSet(DailyVolumeUsage[] usage) {
-		
-		// Set String value categories for graph
-		CategorySeries peakSeries = new CategorySeries(mContext.getString(R.string.chart_data_series_peak));
-		CategorySeries offpeakSeries = new CategorySeries(mContext.getString(R.string.chart_data_series_offpeak));
+        if(mAccountInfo.isAccountAnyTime()){
+            return getAnytimeDataset(usage);
+        } else {
+            return getPeakOffpeakDataset(usage);
+        }
+
+    }
+
+    private XYMultipleSeriesRenderer getStackedBarChartRenderer() {
+        if (mAccountInfo.isAccountAnyTime()){
+            return getAnytimeSeriesRenderer();
+        } else {
+            return getPeakOffpeakSeriesRenderer();
+        }
+    }
+
+    private XYMultipleSeriesDataset getAnytimeDataset(DailyVolumeUsage[] usage) {
+        // Set String value categories for graph
+        CategorySeries anytimeSeries = new CategorySeries(mContext.getString(R.string.chart_data_series_anytime));
+
+        for (DailyVolumeUsage volumeUsage : usage) {
+            Long anytimeUsage = (volumeUsage.anytime / MB);
+
+            // Add current cursor values to data series
+            anytimeSeries.add(anytimeUsage);
+
+            // Set max data dev for rendering graph
+            if (max < anytimeUsage) {
+                max = anytimeUsage * 1.05;
+            }
+        }
+
+        XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
+        dataset.addSeries(anytimeSeries.toXYSeries());
+        return dataset;
+    }
+
+    private XYMultipleSeriesDataset getPeakOffpeakDataset(DailyVolumeUsage[] usage) {
+        // Set String value categories for graph
+        CategorySeries peakSeries = new CategorySeries(mContext.getString(R.string.chart_data_series_peak));
+        CategorySeries offpeakSeries = new CategorySeries(mContext.getString(R.string.chart_data_series_offpeak));
 
         for (DailyVolumeUsage volumeUsage : usage) {
         	Long peakUsage = (volumeUsage.peak / MB);
         	Long offpeakUsage = (volumeUsage.offpeak / MB);
-        	
+
 			if (peakUsage > offpeakUsage) {
 				peakUsage = peakUsage + offpeakUsage;
 			} else {
@@ -66,40 +112,70 @@ public class StackedBarChart extends ChartBuilder {
 			}
         }
 
-		XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
-		dataset.addSeries(peakSeries.toXYSeries());
-		dataset.addSeries(offpeakSeries.toXYSeries());
-		return dataset;
-	}
-	
-	private XYMultipleSeriesRenderer getStackedBarChartRenderer() {
-		// Set data series color
-	    int[] colors = new int[] { getPeakColor(), getOffpeakColor() };
-	    
-	    // Load and initialise render objects
-	    XYMultipleSeriesRenderer renderer = buildBarRenderer(colors);
-	    //TODO: Add individual series renders
-	    
-	    renderer.setXAxisMin(0);
-		renderer.setXAxisMax(getChartDays());
-		renderer.setYAxisMin(0);
-		renderer.setYAxisMax(getMaxDataUsage());
-		renderer.setLabelsColor(getLabelColor());
-		renderer.setXLabelsColor(getLabelColor());
-	    
-	    // Chart render settings
-	    renderer.setApplyBackgroundColor(true);
-	    renderer.setBackgroundColor(Color.TRANSPARENT);
-	    renderer.setMarginsColor(getBackgroundColor());
-	    renderer.setPanEnabled(false, false);
-	    renderer.setFitLegend(true);
-	    renderer.setLabelsTextSize(getLabelsTextSize(12));
-	    renderer.setLegendTextSize(getLegendTextSize(12));
-	    renderer.setAxesColor(getLabelColor());
-	    renderer.setAntialiasing(true);
-	    renderer.setBarSpacing(0.5f);
-	    
-	    return renderer;
-	}
+        XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
+        dataset.addSeries(peakSeries.toXYSeries());
+        dataset.addSeries(offpeakSeries.toXYSeries());
+        return dataset;
+    }
+
+    private XYMultipleSeriesRenderer getAnytimeSeriesRenderer() {
+        // Set data series color
+        int[] colors = new int[] { getPeakColor()};
+
+        // Load and initialise render objects
+        XYMultipleSeriesRenderer renderer = buildBarRenderer(colors);
+        //TODO: Add individual series renders
+
+        renderer.setXAxisMin(0);
+        renderer.setXAxisMax(getChartDays());
+        renderer.setYAxisMin(0);
+        renderer.setYAxisMax(getMaxDataUsage());
+        renderer.setLabelsColor(getLabelColor());
+        renderer.setXLabelsColor(getLabelColor());
+
+        // Chart render settings
+        renderer.setApplyBackgroundColor(true);
+        renderer.setBackgroundColor(Color.TRANSPARENT);
+        renderer.setMarginsColor(getBackgroundColor());
+        renderer.setPanEnabled(false, false);
+        renderer.setFitLegend(true);
+        renderer.setLabelsTextSize(getLabelsTextSize(12));
+        renderer.setLegendTextSize(getLegendTextSize(12));
+        renderer.setAxesColor(getLabelColor());
+        renderer.setAntialiasing(true);
+        renderer.setBarSpacing(0.5f);
+
+        return renderer;
+    }
+
+    private XYMultipleSeriesRenderer getPeakOffpeakSeriesRenderer() {
+        // Set data series color
+        int[] colors = new int[] { getPeakColor(), getOffpeakColor() };
+
+        // Load and initialise render objects
+        XYMultipleSeriesRenderer renderer = buildBarRenderer(colors);
+        //TODO: Add individual series renders
+
+        renderer.setXAxisMin(0);
+        renderer.setXAxisMax(getChartDays());
+        renderer.setYAxisMin(0);
+        renderer.setYAxisMax(getMaxDataUsage());
+        renderer.setLabelsColor(getLabelColor());
+        renderer.setXLabelsColor(getLabelColor());
+
+        // Chart render settings
+        renderer.setApplyBackgroundColor(true);
+        renderer.setBackgroundColor(Color.TRANSPARENT);
+        renderer.setMarginsColor(getBackgroundColor());
+        renderer.setPanEnabled(false, false);
+        renderer.setFitLegend(true);
+        renderer.setLabelsTextSize(getLabelsTextSize(12));
+        renderer.setLegendTextSize(getLegendTextSize(12));
+        renderer.setAxesColor(getLabelColor());
+        renderer.setAntialiasing(true);
+        renderer.setBarSpacing(0.5f);
+
+        return renderer;
+    }
 
 }
