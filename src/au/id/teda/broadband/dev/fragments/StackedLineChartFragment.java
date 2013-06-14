@@ -1,5 +1,6 @@
 package au.id.teda.broadband.dev.fragments;
 
+import android.util.Log;
 import org.achartengine.GraphicalView;
 
 import android.os.Bundle;
@@ -60,11 +61,16 @@ public class StackedLineChartFragment extends BaseFragment {
 	 */
 	@Override
 	protected void loadFragmentView() {
-		if (mAccountInfo.isInfoSet() && mAccountStatus.isStatusSet()) {
+        //Log.d(DEBUG_TAG, "isInfoSet:" + mAccountInfo.isInfoSet() + " isStatusSet:" + mAccountStatus.isStatusSet());
+
+        if (mAccountInfo.isInfoSet() && mAccountStatus.isStatusSet()) {
 			
 	        // Get volume dev array
 			DailyDataTableAdapter mDatabase = new DailyDataTableAdapter(mContext);
 			String period = mAccountStatus.getDataBaseMonthString();
+
+            //String period = "200903"; // Used for testing old xml feeds
+            //Log.d(DEBUG_TAG, "Period:" + period);
 			mDailyUsageArray = mDatabase.getDailyVolumeUsage(period);
 			
 			// Set layout container for chart
@@ -74,7 +80,7 @@ public class StackedLineChartFragment extends BaseFragment {
 			StackedLineChart mLineChart = new StackedLineChart(mContext);
 			
 			// Get chart view from library
-			GraphicalView mLineChartView = (GraphicalView) mLineChart.getStackedLineChartView(mDailyUsageArray);
+			GraphicalView mLineChartView = (GraphicalView) mLineChart.getChartView(mDailyUsageArray);
 
 			// Add chart view to layout view
 			mChartContainer.removeAllViews();

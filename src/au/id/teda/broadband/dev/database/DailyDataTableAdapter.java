@@ -84,7 +84,7 @@ public class DailyDataTableAdapter {
         statement.bindString(6, Long.toString(offpeak));
         statement.bindString(7, Long.toString(uploads));
         statement.bindString(8, Long.toString(freezone));
- 		
+
  		// Insert the new row, returning the primary key value of the new row
  		long newRowId;
  		newRowId = statement.executeInsert();
@@ -120,7 +120,9 @@ public class DailyDataTableAdapter {
 		
 		// Open database connection
 		open();
-		
+
+        //Log.d(DEBUG_TAG, "getDailyVolumeUsage(" + period + ")" );
+
 		// Get cursor of values from database
 		Cursor cursor = getPriodUsageCursor(period);
 		

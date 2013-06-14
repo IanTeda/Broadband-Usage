@@ -1,5 +1,7 @@
 package au.id.teda.broadband.dev.chart;
 
+import android.util.Log;
+import au.id.teda.broadband.dev.activity.BaseActivity;
 import org.achartengine.ChartFactory;
 import org.achartengine.model.CategorySeries;
 import org.achartengine.model.XYMultipleSeriesDataset;
@@ -8,81 +10,98 @@ import org.achartengine.renderer.XYSeriesRenderer;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.View;
 import au.id.teda.broadband.dev.R;
 import au.id.teda.broadband.dev.helper.AccountInfoHelper;
 import au.id.teda.broadband.dev.util.DailyVolumeUsage;
 
 public class StackedLineChart extends ChartBuilder {
-	
-	// Helper classes
-	private AccountInfoHelper mAccountInfo;
-	
+
+    // Debug tag pulled from main activity
+    //private final static String DEBUG_TAG = BaseActivity.DEBUG_TAG;
+
+    // Helper classes
+    private AccountInfoHelper mAccountInfo;
+
     // Activity context to be used
-	private Context mContext;
-	
-	private int MB = 1000000;
-	
-	private double max = 0;
-	
+    private Context mContext;
 
-	public StackedLineChart(Context context) {
-		super(context);
-		this.mContext = context;
-		
-		mAccountInfo = new AccountInfoHelper(mContext);
-	}
-	
-	public View getStackedLineChartView(DailyVolumeUsage[] usage) {
-		return ChartFactory.getLineChartView(mContext, 
-				getStackedLineChartDataSet(usage),
-				getStackedLineChartRenderer());
-	}
-	
-	protected XYMultipleSeriesDataset getStackedLineChartDataSet(DailyVolumeUsage[] usage) {
+    private int MB = 1000000;
 
-        XYMultipleSeriesDataset dataset;
-        if (mAccountInfo.isAccountAnyTime()) {
-            Log.d(DEBUG_TAG, "getStackedLineChartDataSet > Anytime");
-            dataset = getAnytimeDataSet(usage);
+    private double max = 0;
+
+
+    public StackedLineChart(Context context) {
+        super(context);
+        this.mContext = context;
+
+        mAccountInfo = new AccountInfoHelper(mContext);
+
+        //Log.d(DEBUG_TAG, "StackedLineChart");
+    }
+
+    public View getChartView(DailyVolumeUsage[] usage) {
+        //Log.d(DEBUG_TAG, "getChartView");
+
+        return ChartFactory.getLineChartView(mContext,
+                getStackedLineChartDataSet(usage),
+                getStackedLineChartRenderer());
+    }
+
+    protected XYMultipleSeriesDataset getStackedLineChartDataSet(DailyVolumeUsage[] usage) {
+
+        if(mAccountInfo.isAccountAnyTime()){
+            return getAnytimeSeriesDataset(usage);
         } else {
-            Log.d(DEBUG_TAG, "getStackedLineChartDataSet > Peak/Offpeak");
-            dataset = getPeakOffpeakDataSet(usage);
+            return getPeakOffpeakSeriesDataset(usage);
         }
-        return dataset;
-	}
+    }
 
-    private XYMultipleSeriesDataset getAnytimeDataSet(DailyVolumeUsage[] usage) {
-        // Set daily average objects and initialize
-        double accumAnytimeQuota = 0;
+    private XYMultipleSeriesRenderer getStackedLineChartRenderer() {
+        if(mAccountInfo.isAccountAnyTime()){
+            return getAnytimeSeriesRenderer();
+        } else {
+            return getPeakOffpeakSeriesRenderer();
+        }
+    }
+
+    private XYMultipleSeriesDataset getAnytimeSeriesDataset(DailyVolumeUsage[] usage) {
+        //Log.d(DEBUG_TAG, "getStackedLineChartDataSet");
+
+        // Set daily average objects and initialise
+        double anytimeAv = 0;
 
         // Set String value categories for graph
         CategorySeries anytimeSeries = new CategorySeries(mContext.getString(R.string.chart_data_series_anytime));
         CategorySeries anytimeQuotaSeries = new CategorySeries(mContext.getString(R.string.chart_data_series_anytime_quota));
 
-        // Get average daily dev
+        // Get average daily useage
         long anytimeDailyAv = mAccountInfo.getAnyTimeQuotaDailyMb();
 
+
         for (DailyVolumeUsage volumeUsage : usage) {
-            Long anytime = (volumeUsage.anytime / MB);
+            Long anytimeUsage = (volumeUsage.anytime / MB);
 
-            accumAnytime = accumAnytime + anytime;
-            accumAnytimeQuota = accumAnytimeQuota + anytimeDailyAv;
+            accumAnytime = accumAnytime + anytimeUsage;
 
-            //Log.d(DEBUG_TAG, "accumAnytime: " + accumAnytime);
-            //Log.d(DEBUG_TAG, "accumAnytimeQuota: " + accumAnytimeQuota);
+            // Set average daily line
+            anytimeAv = anytimeAv + anytimeDailyAv;
 
             // Add current cursor values to data series
             anytimeSeries.add(accumAnytime);
-            anytimeQuotaSeries.add(accumAnytimeQuota);
+            anytimeQuotaSeries.add(anytimeAv);
 
-            // Set max data dev for rendering graph
-            if (max < accumAnytimeQuota) {
-                max = accumAnytimeQuota;
+            //Log.d(DEBUG_TAG, "accumAnytime:" + accumAnytime + " anytimeAv:" + anytimeAv);
+
+            // Set max data usage for rendering graph
+            if (accumAnytime >= anytimeAv) {
+                max = accumAnytime;
+            } else {
+                max = anytimeAv;
             }
-        }
 
+            //Log.d(DEBUG_TAG, "Set Max:" + max);
+        }
 
         XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
         dataset.addSeries(anytimeSeries.toXYSeries());
@@ -90,8 +109,10 @@ public class StackedLineChart extends ChartBuilder {
         return dataset;
     }
 
-    private XYMultipleSeriesDataset getPeakOffpeakDataSet(DailyVolumeUsage[] usage) {
-        // Set daily average objects and initialize
+    private XYMultipleSeriesDataset getPeakOffpeakSeriesDataset(DailyVolumeUsage[] usage) {
+        //Log.d(DEBUG_TAG, "getStackedLineChartDataSet");
+
+        // Set daily average objects and initialise
         double peakAv = 0;
         double offpeakAv = 0;
         double offPeakAvStacked = 0;
@@ -102,39 +123,42 @@ public class StackedLineChart extends ChartBuilder {
         CategorySeries peakQuotaSeries = new CategorySeries(mContext.getString(R.string.chart_data_series_peak_quota));
         CategorySeries offpeakQuotaSeries = new CategorySeries(mContext.getString(R.string.chart_data_series_offpeak_quota));
 
-        // Get average daily dev
+        // Get average daily useage
         long peakDailyAv = mAccountInfo.getPeakQuotaDailyMb();
         long offpeakDailyAv = mAccountInfo.getOffpeakQuotaDailyMb();
 
 
         for (DailyVolumeUsage volumeUsage : usage) {
-        	Long peak = (volumeUsage.peak / MB);
-        	Long offpeak = (volumeUsage.offpeak / MB);
+            Long peakUsage = (volumeUsage.peak / MB);
+            Long offpeakUsage = (volumeUsage.offpeak / MB);
 
-        	accumPeak = accumPeak + peak;
-        	accumOffpeak = accumOffpeak + offpeak;
+            //Log.d(DEBUG_TAG, "DailyVolumeUsage");
 
-        	Log.d(DEBUG_TAG, "Peak: " + peak + " | Offpeak: " + offpeak);
+            accumAnytime = accumAnytime + peakUsage;
+            accumOffpeak = accumOffpeak + offpeakUsage;
 
+            // Set average daily line
+            peakAv = peakAv + peakDailyAv;
+            offpeakAv = offpeakAv + offpeakDailyAv;
+            offPeakAvStacked = peakAv + offpeakAv;
 
-			// Set average daily line
-			peakAv = peakAv + peakDailyAv;
-			offpeakAv = offpeakAv + offpeakDailyAv;
-			offPeakAvStacked = peakAv + offpeakAv;
+            // Make data stacked (achartengine does not do it by default).
+            accumPeakStacked = accumAnytime + accumOffpeak;
 
-			// Make data stacked (achartengine does not do it by default).
-			accumPeakStacked = accumPeak + accumOffpeak;
+            // Add current cursor values to data series
+            peakSeries.add(accumPeakStacked);
+            offpeakSeries.add(accumOffpeak);
+            peakQuotaSeries.add(peakAv);
+            offpeakQuotaSeries.add(offPeakAvStacked);
 
-			// Add current cursor values to data series
-			peakSeries.add(accumPeakStacked);
-			offpeakSeries.add(accumOffpeak);
-			peakQuotaSeries.add(peakAv);
-			offpeakQuotaSeries.add(offPeakAvStacked);
+            //Log.d(DEBUG_TAG, "accumPeakStacked:" + accumPeakStacked + " accumOffpeak:" + accumOffpeak);
 
-			// Set max data dev for rendering graph
-			if (max < (accumPeak + accumOffpeak)) {
-				max = accumPeak + accumOffpeak;
-			}
+            // Set max data usage for rendering graph
+            if (accumPeakStacked >= offPeakAvStacked) {
+                max = accumPeakStacked;
+            } else {
+                max = offPeakAvStacked;
+            }
         }
 
         XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
@@ -145,72 +169,9 @@ public class StackedLineChart extends ChartBuilder {
         return dataset;
     }
 
-    public double getMaxDataUsage() {
-		long max = mAccountInfo.getPeakQuotaMb() + mAccountInfo.getOffpeakQuotaMb();
-		return max;
-	}
-
-	private XYMultipleSeriesRenderer getStackedLineChartRenderer() {
-
-        XYMultipleSeriesRenderer renderer;
-        if (mAccountInfo.isAccountAnyTime()) {
-            renderer = getAnytimeSeriesRenderer();
-        } else {
-            renderer = getPeakOffpeakSeriesRenderer();
-        }
-        return renderer;
-
-    }
-
-    private XYMultipleSeriesRenderer getAnytimeSeriesRenderer() {
-        // Set render object and initialise
-        XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
-
-        // Set series render object
-        XYSeriesRenderer r = new XYSeriesRenderer();
-
-        // Peak series render settings
-        r.setColor(getPeakColor());
-        r.setFillBelowLine(true);
-        r.setFillBelowLineColor(getPeakFillColor());
-        r.setFillPoints(false);
-        r.setLineWidth(1);
-        renderer.addSeriesRenderer(r);
-
-        // Peak daily series render settings
-        r = new XYSeriesRenderer();
-        r.setColor(getPeakTrendColor());
-        r.setFillBelowLine(false);
-        r.setFillPoints(false);
-        r.setLineWidth(2);
-        renderer.addSeriesRenderer(r);
-
-        // Graph render settings
-        renderer.setApplyBackgroundColor(true);
-        renderer.setBackgroundColor(Color.TRANSPARENT);
-        renderer.setMarginsColor(getBackgroundColor());
-        renderer.setPanEnabled(false, false);
-        renderer.setShowLegend(true);
-        renderer.setFitLegend(true);
-        renderer.setLabelsTextSize(getLabelsTextSize(12));
-        renderer.setLegendTextSize(getLabelsTextSize(12));
-        renderer.setAxesColor(getLabelColor());
-        renderer.setAntialiasing(true);
-        renderer.setXAxisMin(0);
-        renderer.setXAxisMax(getChartDays());
-        renderer.setYAxisMin(0);
-        renderer.setYAxisMax(getMaxDataUsage());
-        renderer.setAxesColor(getLabelColor());
-        renderer.setLabelsColor(getLabelColor());
-        renderer.setXLabelsColor(getLabelColor());
-
-        // Set point size to 0 to hide
-        renderer.setPointSize(0f);
-
-        return renderer;
-    }
-
     private XYMultipleSeriesRenderer getPeakOffpeakSeriesRenderer() {
+        //Log.d(DEBUG_TAG, "getStackedLineChartRenderer");
+
         // Set render object and initialise
         XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
 
@@ -225,7 +186,6 @@ public class StackedLineChart extends ChartBuilder {
         r.setLineWidth(1);
         renderer.addSeriesRenderer(r);
 
-        //TODO: Change off peak fill color
         // Offpeak series render settings
         r = new XYSeriesRenderer();
         r.setColor(getOffpeakColor());
@@ -274,5 +234,58 @@ public class StackedLineChart extends ChartBuilder {
         renderer.setPointSize(0f);
 
         return renderer;
+    }
+
+    private XYMultipleSeriesRenderer getAnytimeSeriesRenderer() {
+
+        // Set render object and initialise
+        XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
+
+        // Set series render object
+        XYSeriesRenderer r = new XYSeriesRenderer();
+
+        // Anytime line chart
+        r.setColor(getPeakColor());
+        r.setFillBelowLine(true);
+        r.setFillBelowLineColor(getPeakFillColor());
+        r.setFillPoints(false);
+        r.setLineWidth(1);
+        renderer.addSeriesRenderer(r);
+
+        // Anytime quota
+        r = new XYSeriesRenderer();
+        r.setColor(getPeakTrendColor());
+        r.setFillBelowLine(false);
+        r.setFillPoints(false);
+        r.setLineWidth(2);
+        renderer.addSeriesRenderer(r);
+
+        // Graph render settings
+        renderer.setApplyBackgroundColor(true);
+        renderer.setBackgroundColor(Color.TRANSPARENT);
+        renderer.setMarginsColor(getBackgroundColor());
+        renderer.setPanEnabled(false, false);
+        renderer.setShowLegend(true);
+        renderer.setFitLegend(true);
+        renderer.setLabelsTextSize(getLabelsTextSize(12));
+        renderer.setLegendTextSize(getLabelsTextSize(12));
+        renderer.setAxesColor(getLabelColor());
+        renderer.setAntialiasing(true);
+        renderer.setXAxisMin(0);
+        renderer.setXAxisMax(getChartDays());
+        renderer.setYAxisMin(0);
+        renderer.setYAxisMax(getMaxDataUsage());
+        renderer.setAxesColor(getLabelColor());
+        renderer.setLabelsColor(getLabelColor());
+        renderer.setXLabelsColor(getLabelColor());
+
+        // Set point size to 0 to hide
+        renderer.setPointSize(0f);
+
+        return renderer;
+    }
+
+    public double getMaxDataUsage() {
+        return max;
     }
 }

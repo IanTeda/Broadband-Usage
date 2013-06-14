@@ -92,6 +92,18 @@ public class AccountStatusHelper {
     
     public boolean isStatusSet() {
 
+        /**
+        Log.d(DEBUG_TAG, "" + mInfo.isAccountAnyTime()
+                + isQuotaResetDateSet()
+                + isQuotaStartDateSet()
+                + isAnytimeDataSet()
+                + isAnytimeIsShapedSet()
+                + isAnytimeSpeedSet()
+                + isUploadsDataSet()
+                + isFreezoneDataSet()
+                + isUpTimeDateSet());
+         **/
+
         if (mInfo.isAccountAnyTime()
                 && isQuotaResetDateSet()
                 && isQuotaStartDateSet()
