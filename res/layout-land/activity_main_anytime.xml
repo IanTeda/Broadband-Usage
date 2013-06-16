@@ -1,13 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
-
-    <fragment
-        android:id="@+id/fragment_staked_bar_chart"
-        android:name="au.id.teda.broadband.dev.fragments.StackedBarChartFragment"
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:layout_height="fill_parent" >
 
-</LinearLayout>
+    <android.support.v4.view.ViewPager
+            android:id="@+id/activity_main_pager"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"/>
+
+    <com.viewpagerindicator.LinePageIndicator
+            android:id="@+id/activity_main_pager_indicator"
+            android:padding="5dip"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            app:strokeWidth="4dp"
+            app:lineWidth="30dp"
+            app:unselectedColor="@color/background_alt_dark"
+            app:selectedColor="@color/accent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

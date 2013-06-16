@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
 
-    <fragment
-        android:id="@+id/fragment_staked_line_chart"
-        android:name="au.id.teda.broadband.dev.fragments.StackedLineChartFragment"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+    <android.support.v4.view.ViewPager
+            android:id="@+id/activity_main_pager"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+    <com.viewpagerindicator.LinePageIndicator
+            android:id="@+id/activity_main_pager_indicator"
+            android:padding="5dip"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            app:strokeWidth="4dp"
+            app:lineWidth="30dp"
+            app:unselectedColor="#FF888888"
+            app:selectedColor="#FF880000"
+            />
 
 </LinearLayout>
