@@ -39,10 +39,8 @@ public class MainActivity extends BaseActivity {
 
         // Check if account is an anytime account and load layout
         if (mAccountInfo.isAccountAnyTime()){
-            Log.d(DEBUG_TAG, "activity_main_anytime");
             setContentView(R.layout.activity_main_anytime);
         } else {
-            Log.d(DEBUG_TAG, "activity_main");
             setContentView(R.layout.activity_main);
         }
 
