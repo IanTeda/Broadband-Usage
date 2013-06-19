@@ -35,6 +35,10 @@ public class ClockFragment extends BaseFragment {
 		// Set current data period
 		TextView mCurrentlyUsing = (TextView) mFragmentView.findViewById(R.id.fragment_clock_currently_using);
 		mCurrentlyUsing.setText(mAccountInfo.getPeriodString());
+
+        if (mAccountInfo.isAccountAnyTime()){
+            mCurrentlyUsing.setVisibility(View.GONE);
+        }
 		
 		// Set Username
 		TextView mUsername = (TextView) mFragmentView.findViewById(R.id.fragment_clock_username);
