@@ -19,5 +19,7 @@ public class AccountInfoActivity extends BaseActivity {
 		
 		// Show home (up) button on action bar
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
 	}
 }

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import au.id.teda.broadband.dev.R;
 
@@ -19,6 +20,21 @@ public class ProductPlanDetailFragment extends BaseFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// Set fragment layout to be inflated
 		mFragmentView = inflater.inflate(R.layout.fragment_product_plan_detail, container, false);
+
+        RelativeLayout mAnytimeContainer = (RelativeLayout) mFragmentView.findViewById(R.id.fragment_product_plan_anytime_container);
+        RelativeLayout mPeakContainer = (RelativeLayout) mFragmentView.findViewById(R.id.fragment_product_plan_peak_container);
+        RelativeLayout mOffpeakContainer = (RelativeLayout) mFragmentView.findViewById(R.id.fragment_product_plan_offpeak_container);
+
+
+        if (mAccountInfo.isAccountAnyTime()){
+            mAnytimeContainer.setVisibility(View.VISIBLE);
+            mPeakContainer.setVisibility(View.GONE);
+            mOffpeakContainer.setVisibility(View.GONE);
+        } else {
+            mAnytimeContainer.setVisibility(View.GONE);
+            mPeakContainer.setVisibility(View.VISIBLE);
+            mOffpeakContainer.setVisibility(View.VISIBLE);
+        }
 		
 		return mFragmentView;
 	}
@@ -33,6 +49,16 @@ public class ProductPlanDetailFragment extends BaseFragment {
 		// Set text in text views
 		mProduct.setText(mAccountInfo.getProduct());
 		mPlan.setText(mAccountInfo.getPlan());
+
+        // Set reference to anytime detail
+        TextView mAnytimeQuotaPeriod = (TextView) mFragmentView.findViewById(R.id.fragment_product_plan_detail_anytime_quota_data_period);
+        TextView mAnytimeQuotaDay = (TextView) mFragmentView.findViewById(R.id.fragment_product_plan_detail_anytime_quota_data_day);
+        TextView mAnytimeQuotaHour = (TextView) mFragmentView.findViewById(R.id.fragment_product_plan_detail_anytime_quota_data_hour);
+
+        // Set anytime text views
+        mAnytimeQuotaPeriod.setText(IntUsageToString(mAccountInfo.getAnyTimeQuotaGb()));
+        mAnytimeQuotaDay.setText(IntUsageToString(mAccountInfo.getAnyTimeQuotaDailyMb()));
+        mAnytimeQuotaHour.setText(IntUsageToString(mAccountInfo.getAnyTimeQuotaHourlyMb()));
 		
 		// Set reference to peak detail 		
 		TextView mPeakStart = (TextView) mFragmentView.findViewById(R.id.fragment_product_plan_detail_peak_start_time);
@@ -53,7 +79,6 @@ public class ProductPlanDetailFragment extends BaseFragment {
 		mPeakQuotaPeriod.setText(IntUsageToString(mAccountInfo.getPeakQuotaGb()));
 		mPeakQuotaDay.setText(IntUsageToString(mAccountInfo.getPeakQuotaDailyMb()));
 		mPeakQuotaHour.setText(IntUsageToString(mAccountInfo.getPeakQuotaHourlyMb()));
-		
 
 		// Set reference to peak detail 		
 		TextView mOffpeakStart = (TextView) mFragmentView.findViewById(R.id.fragment_product_plan_detail_offpeak_start_time);

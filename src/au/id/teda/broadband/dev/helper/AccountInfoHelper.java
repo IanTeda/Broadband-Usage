@@ -349,6 +349,17 @@ public class AccountInfoHelper {
         }
     }
 
+    public long getAnyTimeQuotaHourlyMb(){
+        long quota = getAnyTimeQuotaDailyMb();
+        long hours = 24;
+
+        if (hours > 0 && quota > 0){
+            return ( quota / hours);
+        } else {
+            return 0;
+        }
+    }
+
     public long getAnyTimeQuotaDailyGb(){
         long quota = getAnyTimeQuotaMb() * 12;
         long days = 360;
