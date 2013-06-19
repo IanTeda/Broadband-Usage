@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    
+    <string name="fragment_anytime_usage_percent">00%</string>
+    <string name="fragment_anytime_usage_data">ANYTIME DATA</string>
+    <string name="fragment_anytime_usage_used">ANYTIME USED</string>
+    <string name="fragment_anytime_usage_remaining">ANYTIME REMAINING</string>
+    <string name="fragment_anytime_usage_daily_title">ANYTIME DATA</string>
+    <string name="fragment_anytime_usage_daily_shaped">UNSHAPED</string>
+    <string name="fragment_anytime_usage_daily_av">DAILY AV.</string>
+    <string name="fragment_anytime_usage_daily_number">0,000</string>
+    <string name="fragment_anytime_usage_daily_number_unit">(Mb)</string>
+    <string name="fragment_anytime_usage_daily_variation">000</string>
+    <string name="fragment_anytime_usage_average_daily_title">AVERAGE DAILY USAGE CHART</string>
+    <string name="fragment_anytime_upload_download_title">UPLOAD DOWNLOAD BREAKDOWN</string>
+	<string name="fragment_anytime_upload_download_download_title">DOWNLOADS</string>
+	<string name="fragment_anytime_upload_download_download_unit">(Gb)</string>
+	<string name="fragment_anytime_upload_download_download_number">0,000</string>
+	<string name="fragment_anytime_upload_download_upload_title">UPLOADS</string>
+	<string name="fragment_anytime_upload_download_upload_unit">(Gb)</string>
+	<string name="fragment_anytime_upload_download_upload_number">0,000</string>
+    
+</resources>

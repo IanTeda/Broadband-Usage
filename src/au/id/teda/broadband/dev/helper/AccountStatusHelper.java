@@ -290,8 +290,9 @@ public class AccountStatusHelper {
         return (getAnyTimeDataUsed() / MB);
     }
 
-    public long getAnyTimeDataUsedGb(){
-        return (getAnyTimeDataUsed() / GB);
+    public int getAnyTimeDataUsedGb(){
+        int data = (int) (getAnyTimeDataUsed() / GB);
+        return data;
     }
 
     public int getAnyTimeDailyAverageUsedMb(){

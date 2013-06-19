@@ -91,6 +91,9 @@
             android:name="au.id.teda.broadband.dev.activity.UsageActivity"
             android:label="@string/action_bar_title_usage" />
         <activity
+                android:name="au.id.teda.broadband.dev.activity.AnytimeUsageActivity"
+                android:label="@string/action_bar_title_usage" />
+        <activity
                 android:name=".activity.InitialiseActivity"
                 android:label="@string/action_bar_title_initialise" />
     </application>

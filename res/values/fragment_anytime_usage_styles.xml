@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <style name="fragment_anytime_usage_number_container">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    
+    <style name="fragment_anytime_usage_number">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:textColor">@color/accent</item>
+        <item name="android:textSize">@dimen/text_xlarge</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    
+    <style name="fragment_anytime_usage_number_description">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">@dimen/padding</item>
+        <item name="android:textColor">@color/base</item>
+        <item name="android:textSize">@dimen/text_small</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    
+    <style name="fragment_anytime_usage_number_summary">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:paddingLeft">@dimen/padding</item>
+        <item name="android:textColor">@color/base_light</item>
+        <item name="android:textSize">@dimen/text_normal</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    
+</resources>

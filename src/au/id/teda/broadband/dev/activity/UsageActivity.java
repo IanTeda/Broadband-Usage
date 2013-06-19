@@ -46,10 +46,10 @@ public class UsageActivity extends BaseActivity {
 	}
 
     class UsageActivityAdapter extends FragmentPagerAdapter {
-    	
+
         private final String[] TAB_TITLES = new String[] { PeakUsageFragment.PAGE_TITLE, OffpeakUsageFragment.PAGE_TITLE };
         private int mCount = TAB_TITLES.length;
-    	
+
         public UsageActivityAdapter(FragmentManager fm) {
             super(fm);
         }

@@ -46,6 +46,9 @@ public class BaseActivity extends SherlockFragmentActivity {
     // Account Info Helper class
     protected AccountInfoHelper mAccountInfo;
 
+    // Is this an anytime account
+    protected boolean isAnytime;
+
     // Called 1st in the activity life cycle
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +74,8 @@ public class BaseActivity extends SherlockFragmentActivity {
         mLayoutHelper = new LayoutHelper(this);
 
         mAccountInfo = new AccountInfoHelper(this);
+
+        isAnytime = mAccountInfo.isAccountAnyTime();
 	}
 	    
 	// Called 2nd in the activity life cycle
@@ -145,8 +150,13 @@ public class BaseActivity extends SherlockFragmentActivity {
         		startActivity(mAccountInfoIntent);
         		return true;
         	case R.id.menu_data_usage:
-        		Intent mUsageActivityIntent = new Intent(getBaseContext(), UsageActivity.class);
-        		startActivity(mUsageActivityIntent);
+                if (isAnytime){
+                    Intent mAnytimeUsageActivityIntent = new Intent(getBaseContext(), AnytimeUsageActivity.class);
+                    startActivity(mAnytimeUsageActivityIntent);
+                } else {
+        		    Intent mUsageActivityIntent = new Intent(getBaseContext(), UsageActivity.class);
+        		    startActivity(mUsageActivityIntent);
+                }
         		return true;
         	case R.id.menu_settings:
                 Intent mSettingsActivityIntent = new Intent(getBaseContext(), SettingsActivity.class);
