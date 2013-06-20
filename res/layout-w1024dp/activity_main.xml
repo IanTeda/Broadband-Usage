@@ -1,8 +1,30 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+
+                android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
+    <android.support.v4.view.ViewPager
+            android:id="@+id/activity_main_pager"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"/>
+
+    <com.viewpagerindicator.LinePageIndicator
+            android:id="@+id/activity_main_pager_indicator"
+            android:padding="5dip"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            app:strokeWidth="4dp"
+            app:lineWidth="30dp"
+            app:unselectedColor="@color/background_alt_dark"
+            app:selectedColor="@color/accent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"/>
+
+    <!--
     <RelativeLayout
         android:id="@+id/activity_main_left_column_container"
         android:layout_width="@dimen/left_column_width"
@@ -13,7 +35,7 @@
 
         <fragment
             android:id="@+id/fragment_clock"
-            android:name="au.id.teda.broadband.dev.fragments.ClockFragment"
+            android:name="au.id.teda.broadband.usage.fragments.ClockFragment"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -21,7 +43,7 @@
 
         <fragment
             android:id="@+id/fragment_product_plan_detail"
-            android:name="au.id.teda.broadband.dev.fragments.ProductPlanDetailFragment"
+            android:name="au.id.teda.broadband.usage.fragments.ProductPlanDetailFragment"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/fragment_clock"
@@ -29,7 +51,7 @@
 
         <fragment
             android:id="@+id/fragment_footer"
-            android:name="au.id.teda.broadband.dev.fragments.FooterFragment"
+            android:name="au.id.teda.broadband.usage.fragments.FooterFragment"
             android:layout_width="fill_parent"
             android:layout_height="@dimen/touch"
             android:layout_alignParentBottom="true"
@@ -38,7 +60,7 @@
 
     <fragment
         android:id="@+id/fragment_daily_usage"
-        android:name="au.id.teda.broadband.dev.fragments.DailyUsageFragment"
+        android:name="au.id.teda.broadband.usage.fragments.DailyUsageFragment"
         android:layout_width="fill_parent"
         android:layout_height="336dp"
         android:layout_alignParentTop="true"
@@ -50,7 +72,7 @@
 
     <fragment
         android:id="@+id/fragment_usage_summary"
-        android:name="au.id.teda.broadband.dev.fragments.UsageSummaryFragment"
+        android:name="au.id.teda.broadband.usage.fragments.UsageSummaryFragment"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/fragment_daily_usage"
@@ -69,7 +91,7 @@
         
         <fragment
             android:id="@+id/fragment_usage_doughnut"
-            android:name="au.id.teda.broadband.dev.fragments.UsageDoughnutFragment"
+            android:name="au.id.teda.broadband.usage.fragments.UsageDoughnutFragment"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
@@ -77,7 +99,7 @@
 
         <fragment
             android:id="@+id/fragment_peak_usage"
-            android:name="au.id.teda.broadband.dev.fragments.PeakUsageFragment"
+            android:name="au.id.teda.broadband.usage.fragments.PeakUsageFragment"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
@@ -85,11 +107,12 @@
 
         <fragment
             android:id="@+id/fragment_offpeak_usage"
-            android:name="au.id.teda.broadband.dev.fragments.OffpeakUsageFragment"
+            android:name="au.id.teda.broadband.usage.fragments.OffpeakUsageFragment"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
             tools:layout="@layout/fragment_peak_usage" />
     </LinearLayout>
+    -->
 
 </RelativeLayout>

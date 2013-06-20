@@ -7,7 +7,7 @@
     <string name="action_bar_title_account">ACCOUNT INFO</string>
     <string name="action_bar_title_usage">DATA USAGE</string>
     <string name="action_bar_title_authenticator">ADD ACCOUNT</string>
-    <string name="action_bar_title_initialise">INITIALISE APP</string>
+    <string name="action_bar_title_initialise">INITIALISING</string>
 
 
     <!-- Action bar tabs -->

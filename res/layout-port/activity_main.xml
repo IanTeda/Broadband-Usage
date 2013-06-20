@@ -24,7 +24,7 @@
 
         <fragment
             android:id="@+id/fragment_product_plan"
-            android:name="au.id.teda.broadband.dev.fragments.ProductPlanFragment"
+            android:name="au.id.teda.broadband.usage.fragments.ProductPlanFragment"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -32,7 +32,7 @@
         
         <fragment
             android:id="@+id/fragment_usage_doughnut"
-            android:name="au.id.teda.broadband.dev.fragments.UsageDoughnutFragment"
+            android:name="au.id.teda.broadband.usage.fragments.UsageDoughnutFragment"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/fragment_product_plan"
@@ -40,7 +40,7 @@
 
         <fragment
             android:id="@+id/fragment_usage_summary"
-            android:name="au.id.teda.broadband.dev.fragments.UsageSummaryFragment"
+            android:name="au.id.teda.broadband.usage.fragments.UsageSummaryFragment"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/fragment_usage_doughnut"
@@ -48,7 +48,7 @@
 
         <fragment
             android:id="@+id/fragment_footer"
-            android:name="au.id.teda.broadband.dev.fragments.FooterFragment"
+            android:name="au.id.teda.broadband.usage.fragments.FooterFragment"
             android:layout_width="fill_parent"
             android:layout_height="@dimen/touch"
             android:layout_below="@+id/fragment_usage_summary"

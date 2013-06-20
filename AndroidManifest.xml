@@ -1,65 +1,65 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="au.id.teda.broadband.dev"
-    android:versionCode="3"
-    android:versionName="Beta" >
+          package="au.id.teda.broadband.usage"
+          android:versionCode="3"
+          android:versionName="Beta">
 
     <uses-sdk
-        android:minSdkVersion="9"
-        android:targetSdkVersion="17" />
+            android:minSdkVersion="9"
+            android:targetSdkVersion="17"/>
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
-    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
-    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_SYNC_STATS" />
-    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
-    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.USE_CREDENTIALS"/>
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.READ_SYNC_STATS"/>
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
 
     <application
-        android:allowBackup="false"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/MyTheme" >
+            android:allowBackup="false"
+            android:icon="@drawable/ic_launcher"
+            android:label="@string/app_name"
+            android:theme="@style/MyTheme">
 
         <!-- The authenticator service -->
         <service
-            android:name="au.id.teda.broadband.dev.authenticator.AuthenticatationService"
-            android:exported="false"
-            android:process=":auth" >
+                android:name=".authenticator.AuthenticatationService"
+                android:exported="false"
+                android:process=":auth">
             <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator" />
+                <action android:name="android.accounts.AccountAuthenticator"/>
             </intent-filter>
 
             <meta-data
-                android:name="android.accounts.AccountAuthenticator"
-                android:resource="@xml/authenticator" />
+                    android:name="android.accounts.AccountAuthenticator"
+                    android:resource="@xml/authenticator"/>
         </service>
         <service
-            android:name="au.id.teda.broadband.dev.syncadapter.SyncService"
-            android:exported="false" >
+                android:name=".syncadapter.SyncService"
+                android:exported="false">
             <intent-filter>
-                <action android:name="android.content.SyncAdapter" />
+                <action android:name="android.content.SyncAdapter"/>
             </intent-filter>
 
             <meta-data
-                android:name="android.content.SyncAdapter"
-                android:resource="@xml/syncadapter" />
+                    android:name="android.content.SyncAdapter"
+                    android:resource="@xml/syncadapter"/>
         </service>
 
         <provider
-            android:name="au.id.teda.broadband.dev.syncadapter.DummyContentProvider"
-            android:authorities="au.id.teda.broadband.dev"
-            android:exported="false"
-            android:label="@string/sync_adapter_label"
-            android:syncable="true" />
+                android:name=".syncadapter.DummyContentProvider"
+                android:authorities="au.id.teda.broadband.dev"
+                android:exported="false"
+                android:label="@string/sync_adapter_label"
+                android:syncable="true"/>
 
         <activity
-            android:name="au.id.teda.broadband.dev.authenticator.AuthenticatorActivity"
-            android:excludeFromRecents="true"
-            android:label="@string/action_bar_title_authenticator" >
+                android:name=".authenticator.AuthenticatorActivity"
+                android:excludeFromRecents="true"
+                android:label="@string/action_bar_title_authenticator">
 
             <!--
                 No intent-filter here! This activity is only ever launched by
@@ -67,35 +67,35 @@
             -->
         </activity>
         <activity
-            android:name="au.id.teda.broadband.dev.activity.MainActivity"
-            android:label="@string/app_name" >
+                android:name=".activity.MainActivity"
+                android:label="@string/app_name">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
-            android:name="au.id.teda.broadband.dev.activity.SettingsActivity"
-            android:label="@string/action_bar_title_settings" >
+                android:name=".activity.SettingsActivity"
+                android:label="@string/action_bar_title_settings">
             <intent-filter>
-                <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />
+                <action android:name="android.intent.action.MANAGE_NETWORK_USAGE"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <activity
-            android:name="au.id.teda.broadband.dev.activity.AccountInfoActivity"
-            android:label="@string/action_bar_title_account" />
+                android:name=".activity.AccountInfoActivity"
+                android:label="@string/action_bar_title_account"/>
         <activity
-            android:name="au.id.teda.broadband.dev.activity.UsageActivity"
-            android:label="@string/action_bar_title_usage" />
+                android:name=".activity.UsageActivity"
+                android:label="@string/action_bar_title_usage"/>
         <activity
-                android:name="au.id.teda.broadband.dev.activity.AnytimeUsageActivity"
-                android:label="@string/action_bar_title_usage" />
+                android:name=".activity.AnytimeUsageActivity"
+                android:label="@string/action_bar_title_usage"/>
         <activity
                 android:name=".activity.InitialiseActivity"
-                android:label="@string/action_bar_title_initialise" />
+                android:label="@string/action_bar_title_initialise"/>
     </application>
 
 </manifest>

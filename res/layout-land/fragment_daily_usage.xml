@@ -28,7 +28,7 @@
         android:layout_height="0dp"
         android:visibility="gone" />
 
-    <au.id.teda.broadband.dev.util.SafeViewFlipper
+    <au.id.teda.broadband.usage.util.SafeViewFlipper
         android:id="@+id/fragment_daily_usage_view_flipper"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -54,7 +54,7 @@
             android:background="@color/background_alt_light"
             android:orientation="vertical" >
         </LinearLayout>
-    </au.id.teda.broadband.dev.util.SafeViewFlipper>
+    </au.id.teda.broadband.usage.util.SafeViewFlipper>
 
     <LinearLayout
         android:id="@+id/fragment_daily_usage_pagination"
