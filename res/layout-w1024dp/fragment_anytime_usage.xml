@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/fragment_anytime_usage_scrollview"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+    <RelativeLayout
+            android:id="@+id/fragment_anytime_usage_container"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+        <TextView
+                android:id="@+id/fragment_anytime_usage_summary_size"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:text="@string/size_w1024dp"
+                android:visibility="gone"/>
+
+        <LinearLayout
+                android:id="@+id/fragment_anytime_usage_donught"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                android:visibility="gone"/>
+
+        <LinearLayout
+                android:id="@+id/fragment_anytime_usage_donught_text_container"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="gone">
+
+            <TextView
+                    android:id="@+id/fragment_anytime_usage_donught_text_percent"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:visibility="gone"/>
+
+            <TextView
+                    android:id="@+id/fragment_anytime_usage_donught_text_period"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:visibility="gone"/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:id="@+id/fragment_anytime_usage_daily_container"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_anytime_usage_donught"
+                android:layout_marginTop="@dimen/margin"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/margin"
+                android:paddingLeft="@dimen/vert_margin"
+                android:paddingRight="@dimen/vert_margin">
+
+            <TextView
+                    android:id="@+id/fragment_anytime_usage_daily_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:text="@string/fragment_anytime_usage_daily_title"
+                    android:textColor="@color/accent"
+                    android:textSize="@dimen/text_xlarge"
+                    android:textStyle="bold"/>
+
+            <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginBottom="@dimen/padding"
+                    android:background="@color/base"/>
+
+            <TextView
+                    android:id="@+id/fragment_anytime_usage_daily_shaped"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fragment_anytime_usage_daily_shaped"
+                    android:textColor="@color/text_dark"
+                    android:textSize="@dimen/text_small"
+                    android:textStyle="bold"/>
+
+            <!-- Anytime -->
+            <RelativeLayout
+                    android:id="@+id/fragment_anytime_usage_daily_number_container"
+                    style="@style/fragment_anytime_usage_number_container">
+
+                <TextView
+                        android:id="@+id/fragment_anytime_usage_daily_number"
+                        style="@style/fragment_anytime_usage_number"
+                        android:text="@string/fragment_anytime_usage_daily_number"/>
+
+                <TextView
+                        android:id="@+id/fragment_anytime_usage_daily_description"
+                        style="@style/fragment_anytime_usage_number_description"
+                        android:layout_alignBaseline="@+id/fragment_anytime_usage_daily_number"
+                        android:layout_toRightOf="@+id/fragment_anytime_usage_daily_number"
+                        android:text="@string/fragment_anytime_usage_daily_av"/>
+
+                <TextView
+                        android:id="@+id/fragment_anytime_usage_daily_description_right_unit"
+                        style="@style/fragment_anytime_usage_number_description"
+                        android:layout_alignBaseline="@+id/fragment_anytime_usage_daily_number"
+                        android:layout_alignParentRight="true"
+                        android:text="@string/fragment_anytime_usage_daily_number_unit"
+                        android:textColor="@color/base_light"
+                        android:textSize="@dimen/text_tiny"/>
+
+                <TextView
+                        android:id="@+id/fragment_anytime_usage_daily_description_right"
+                        style="@style/fragment_anytime_usage_number_description"
+                        android:layout_alignBaseline="@+id/fragment_anytime_usage_daily_number"
+                        android:layout_toLeftOf="@+id/fragment_anytime_usage_daily_description_right_unit"
+                        android:text="@string/fragment_anytime_usage_daily_variation"/>
+
+                <TextView
+                        android:id="@+id/fragment_anytime_usage_daily_summary"
+                        style="@style/fragment_anytime_usage_number_summary"
+                        android:layout_toRightOf="@+id/fragment_anytime_usage_daily_number"
+                        android:text="@string/fragment_anytime_usage_daily_number_unit"/>
+
+                <LinearLayout
+                        android:id="@+id/fragment_anytime_usage_daily_chart"
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/touch_half"
+                        android:layout_below="@+id/fragment_anytime_usage_daily_number"
+                        android:layout_marginTop="-6dp"
+                        android:background="@color/background_alt_light"
+                        android:orientation="vertical"/>
+
+                <TextView
+                        android:id="@+id/fragment_anytime_usage_average_daily_title"
+                        style="@style/fragment_anytime_usage_number_description"
+                        android:layout_below="@+id/fragment_anytime_usage_daily_chart"
+                        android:text="@string/fragment_anytime_usage_average_daily_title"/>
+            </RelativeLayout>
+
+            <!-- Upload / Download -->
+            <RelativeLayout
+                    android:id="@+id/fragment_anytime_upload_download_container"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/touch"
+                    android:layout_marginTop="@dimen/margin"
+                    android:background="@color/background_alt_light"
+                    android:gravity="center">
+
+                <LinearLayout
+                        android:id="@+id/fragment_anytime_upload_download_chart"
+                        android:layout_width="@dimen/touch"
+                        android:layout_height="@dimen/touch"
+                        android:layout_alignParentLeft="true"
+                        android:gravity="left|center_horizontal"
+                        android:orientation="vertical"/>
+
+                <TextView
+                        android:id="@+id/fragment_anytime_upload_download_download_title"
+                        style="@style/fragment_anytime_usage_number_description"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="6dp"
+                        android:text="@string/fragment_anytime_upload_download_download_title"/>
+
+                <TextView
+                        android:id="@+id/fragment_anytime_upload_download_download_unit"
+                        style="@style/fragment_anytime_usage_number_summary"
+                        android:layout_alignBaseline="@+id/fragment_anytime_upload_download_download_title"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="100dp"
+                        android:text="@string/fragment_anytime_upload_download_download_unit"/>
+
+                <TextView
+                        android:id="@+id/fragment_anytime_upload_download_download_number"
+                        style="@style/fragment_anytime_usage_number_description"
+                        android:layout_alignBaseline="@+id/fragment_anytime_upload_download_download_title"
+                        android:layout_toLeftOf="@+id/fragment_anytime_upload_download_download_unit"
+                        android:text="@string/fragment_anytime_upload_download_download_number"
+                        android:textSize="@dimen/text_large"/>
+
+                <TextView
+                        android:id="@+id/fragment_anytime_upload_download_upload_title"
+                        style="@style/fragment_anytime_usage_number_description"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"
+                        android:text="@string/fragment_anytime_upload_download_upload_title"/>
+
+                <TextView
+                        android:id="@+id/fragment_anytime_upload_download_upload_unit"
+                        style="@style/fragment_anytime_usage_number_summary"
+                        android:layout_alignBaseline="@+id/fragment_anytime_upload_download_upload_title"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="100dp"
+                        android:text="@string/fragment_anytime_upload_download_upload_unit"/>
+
+                <TextView
+                        android:id="@+id/fragment_anytime_upload_download_upload_number"
+                        style="@style/fragment_anytime_usage_number_description"
+                        android:layout_alignBaseline="@+id/fragment_anytime_upload_download_upload_title"
+                        android:layout_toLeftOf="@+id/fragment_anytime_upload_download_upload_unit"
+                        android:text="@string/fragment_anytime_upload_download_upload_number"
+                        android:textSize="@dimen/text_large"/>
+            </RelativeLayout>
+
+            <TextView
+                    android:id="@+id/fragment_anytime_upload_download_title"
+                    style="@style/fragment_anytime_usage_number_description"
+                    android:layout_width="fill_parent"
+                    android:text="@string/fragment_anytime_upload_download_title"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+</ScrollView>

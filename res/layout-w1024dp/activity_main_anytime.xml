@@ -41,7 +41,7 @@
     <android.support.v4.view.ViewPager
             android:id="@+id/activity_main_pager"
             android:layout_width="fill_parent"
-            android:layout_height="336dp"
+            android:layout_height="312dp"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="@dimen/vert_margin"
             android:layout_marginRight="@dimen/vert_margin"
@@ -70,30 +70,6 @@
             android:layout_toRightOf="@+id/activity_main_left_column_container"
             tools:layout="@layout/fragment_usage_summary" />
 
-    <!--
-
-    <fragment
-            android:id="@+id/fragment_daily_usage"
-            android:name="au.id.teda.broadband.usage.fragments.DailyUsageFragment"
-            android:layout_width="fill_parent"
-            android:layout_height="336dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="@dimen/vert_margin"
-            android:layout_marginRight="@dimen/vert_margin"
-            android:layout_marginTop="@dimen/vert_margin"
-            android:layout_toRightOf="@+id/activity_main_left_column_container"
-            tools:layout="@layout/fragment_daily_usage"/>
-
-    <fragment
-            android:id="@+id/fragment_usage_summary"
-            android:name="au.id.teda.broadband.usage.fragments.UsageSummaryFragment"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/fragment_daily_usage"
-            android:layout_marginTop="@dimen/vert_margin"
-            android:layout_toRightOf="@+id/activity_main_left_column_container"
-            tools:layout="@layout/fragment_usage_summary"/>
-
     <LinearLayout
             android:id="@+id/activity_main_usage_container"
             android:layout_width="fill_parent"
@@ -104,29 +80,20 @@
             android:orientation="horizontal">
 
         <fragment
-                android:id="@+id/fragment_usage_doughnut"
-                android:name="au.id.teda.broadband.usage.fragments.UsageDoughnutFragment"
+                android:id="@+id/fragment_usage_anytime_doughnut"
+                android:name="au.id.teda.broadband.usage.fragments.UsageAnyTimeDoughnutFragment"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 tools:layout="@layout/fragment_usage_doughnut"/>
 
         <fragment
-                android:id="@+id/fragment_peak_usage"
-                android:name="au.id.teda.broadband.usage.fragments.PeakUsageFragment"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                tools:layout="@layout/fragment_peak_usage"/>
-
-        <fragment
-                android:id="@+id/fragment_offpeak_usage"
-                android:name="au.id.teda.broadband.usage.fragments.OffpeakUsageFragment"
+                android:id="@+id/fragment_anytime_usage"
+                android:name="au.id.teda.broadband.usage.fragments.AnytimeUsageFragment"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 tools:layout="@layout/fragment_peak_usage"/>
     </LinearLayout>
-    -->
 
 </RelativeLayout>

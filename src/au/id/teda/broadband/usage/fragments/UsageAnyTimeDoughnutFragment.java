@@ -1,6 +1,7 @@
 package au.id.teda.broadband.usage.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +41,8 @@ public class UsageAnyTimeDoughnutFragment extends BaseFragment {
 		// Set layout container for chart
 		final LinearLayout mContainerLayout = (LinearLayout) mFragmentView.findViewById(R.id.fragment_usage_donught);
 		final TextView mLayoutUsed = (TextView) mFragmentView.findViewById(R.id.fragment_usage_donught_size);
-		
+
+
 		// Listen for view being inflated
 		ViewTreeObserver mViewTreeObserver = mContainerLayout.getViewTreeObserver();
 		mViewTreeObserver.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
@@ -55,19 +57,20 @@ public class UsageAnyTimeDoughnutFragment extends BaseFragment {
 	    		int iHeight = layout.getHeight();
 	    		// Get width of layout
 	    		int iWidth = layout.getWidth();
-	    		
+
 	    		if (mLayoutHelper.isLayout_w1024dp(mLayoutUsed) || mLayoutHelper.isLayout_w800dp(mLayoutUsed)){
+
 	    			// Set wdith equal to height
 	    			parms.width = iHeight;
-	    			
-	    			// Add padding to center chart
+
+                    // Add padding to center chart
 	    			int padding = ((iWidth - iHeight) / 2);
 	    			layout.setPadding(padding, 0, padding, 0);
 	    			
 	    		} else {
 	    			// Set height equal to width
 	    			parms.height = iWidth;
-	    		}
+                }
 	        }
 	    });
 
