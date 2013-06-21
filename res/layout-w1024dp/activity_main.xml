@@ -65,7 +65,7 @@
             android:name="au.id.teda.broadband.usage.fragments.UsageSummaryFragment"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/fragment_daily_usage"
+            android:layout_below="@+id/activity_main_pager"
             android:layout_marginTop="@dimen/vert_margin"
             android:layout_toRightOf="@+id/activity_main_left_column_container"
             tools:layout="@layout/fragment_usage_summary"/>

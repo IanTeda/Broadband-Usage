@@ -43,7 +43,8 @@ public class DataTableAnytimeFragment extends BaseFragment {
 	        // Get volume array
 			DailyDataTableAdapter mDatabase = new DailyDataTableAdapter(mContext);
 			String period = mAccountStatus.getDataBaseMonthString();
-			mDailyUsageArray = mDatabase.getDailyVolumeUsage(period);
+            //String period = "200903"; // Used for testing old xml feeds
+            mDailyUsageArray = mDatabase.getDailyVolumeUsage(period);
 			
 			// Initiate adapter to be used with list view
 			DailyVolumeUsageAdapter adapter = new DailyVolumeUsageAdapter(mContext, R.layout.listview_data_table_row, mDailyUsageArray);
