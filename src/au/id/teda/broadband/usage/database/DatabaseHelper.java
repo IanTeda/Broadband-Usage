@@ -31,7 +31,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			+ HourlyDataTableAdapter.ACCOUNT + " TEXT NOT NULL, "
 			+ HourlyDataTableAdapter.DAY + " TEXT UNIQUE, "
 			+ HourlyDataTableAdapter.HOUR + " TEXT NOT NULL, "
-			+ HourlyDataTableAdapter.PEAK + " INTEGER NOT NULL, "
+            + HourlyDataTableAdapter.ANYTIME + " INTEGER NOT NULL, "
+            + HourlyDataTableAdapter.PEAK + " INTEGER NOT NULL, "
 			+ HourlyDataTableAdapter.OFFPEAK + " INTEGER NOT NULL, "
 			+ HourlyDataTableAdapter.UPLOADS + " INTEGER NOT NULL, "
 			+ HourlyDataTableAdapter.FREEZONE + " INTEGER NOT NULL);";
@@ -49,18 +50,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			" (" + HistoricalMonthsTableAdapter.KEY_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
 			+ HistoricalMonthsTableAdapter.ACCOUNT + " TEXT NOT NULL, "
 			+ HistoricalMonthsTableAdapter.MONTH + " INTEGER UNIQUE); ";
-    
-    private static final String DAILY_USAGE_DELETE_ENTRIES =
-    	    "DROP TABLE IF EXISTS " + DailyDataTableAdapter.TABLE_NAME;
-    
-    private static final String HOURLY_USAGE_DELETE_ENTRIES =
-    	    "DROP TABLE IF EXISTS " + HourlyDataTableAdapter.TABLE_NAME;
-    
-    private static final String UP_TIME_DELETE_ENTRIES =
-    	    "DROP TABLE IF EXISTS " + UptimeTableAdapter.TABLE_NAME;
-    
-    private static final String HISTORICAL_DELETE_ENTRIES =
-    	    "DROP TABLE IF EXISTS " + HistoricalMonthsTableAdapter.TABLE_NAME;
 
 	public DatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -75,18 +64,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	}
 
 	@Override
-	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		// This database is only a cache for online data, so its upgrade policy is
-        // to simply to discard the data and start over
-        db.execSQL(DAILY_USAGE_DELETE_ENTRIES);
-        db.execSQL(HOURLY_USAGE_DELETE_ENTRIES);
-        db.execSQL(UP_TIME_DELETE_ENTRIES);
-        db.execSQL(HISTORICAL_DELETE_ENTRIES);
-        onCreate(db);
+	public void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {
+
+        // Loop through database upgrades
+        for (int i = oldVersion; i < newVersion; i++) {
+            switch(i) {
+                case 1:
+                    // Add anytime column to daily table
+                    database.execSQL("ALTER TABLE " + DailyDataTableAdapter.TABLE_NAME +
+                            " ADD COLUMN " + DailyDataTableAdapter.ANYTIME +
+                            " INTEGER NOT NULL");
+
+                    // Add anytime column to hourly table
+                    database.execSQL("ALTER TABLE " + HourlyDataTableAdapter.TABLE_NAME +
+                            " ADD COLUMN " + HourlyDataTableAdapter.ANYTIME +
+                            " INTEGER NOT NULL");
+                    break;
+            }
+        }
 	}
-	
-	public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        onUpgrade(db, oldVersion, newVersion);
-    }
 
 }
