@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
+import au.id.teda.broadband.usage.helper.AccountStatusHelper;
 import au.id.teda.broadband.usage.helper.ConnectivityHelper;
 import au.id.teda.broadband.usage.helper.LayoutHelper;
 import au.id.teda.broadband.usage.fragments.AboutDialogFragment;
@@ -43,6 +44,7 @@ public class BaseActivity extends SherlockFragmentActivity {
 
     // Account Info Helper class
     protected AccountInfoHelper mAccountInfo;
+    protected AccountStatusHelper mAccountStatus;
 
     // Is this an anytime account
     protected boolean isAnytime;
@@ -72,6 +74,7 @@ public class BaseActivity extends SherlockFragmentActivity {
         mLayoutHelper = new LayoutHelper(this);
 
         mAccountInfo = new AccountInfoHelper(this);
+        mAccountStatus = new AccountStatusHelper(this);
 
         isAnytime = mAccountInfo.isAccountAnyTime();
 	}

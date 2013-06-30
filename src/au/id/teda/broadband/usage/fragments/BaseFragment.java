@@ -22,7 +22,7 @@ import com.actionbarsherlock.app.SherlockFragment;
 
 public abstract class BaseFragment extends SherlockFragment {
 
-	protected final static String DEBUG_TAG = BaseActivity.DEBUG_TAG;
+	//protected final static String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 			
 	// Helper classes
 	protected AccountInfoHelper mAccountInfo;
@@ -83,7 +83,9 @@ public abstract class BaseFragment extends SherlockFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		loadFragmentView();
+        if (mAccountInfo.isInfoSet() && mAccountStatus.isStatusSet()) {
+		    loadFragmentView();
+        }
 	}
 			
 	/**
@@ -130,8 +132,10 @@ public abstract class BaseFragment extends SherlockFragment {
 			if (msg.equals(SYNC_START)){
 				// Nothing to do see here move along
 			} else if (msg.equals(SYNC_COMPLETE)){
-				loadFragmentView();
-			}
+                if (mAccountInfo.isInfoSet() && mAccountStatus.isStatusSet()) {
+                    loadFragmentView();
+                }
+            }
 		}
 		         
 	}

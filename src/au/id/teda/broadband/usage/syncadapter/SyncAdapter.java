@@ -11,7 +11,7 @@ import au.id.teda.broadband.usage.util.NetworkUtilities;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	
-	private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
+	//private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 
     private final Context mContext;
     

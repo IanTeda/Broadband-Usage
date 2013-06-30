@@ -10,6 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import au.id.teda.broadband.usage.R;
+import au.id.teda.broadband.usage.authenticator.AccountAuthenticator;
+import au.id.teda.broadband.usage.authenticator.AuthenticatorActivity;
+import au.id.teda.broadband.usage.helper.AccountInfoHelper;
+import au.id.teda.broadband.usage.helper.AccountStatusHelper;
 import au.id.teda.broadband.usage.helper.ConnectivityHelper;
 import au.id.teda.broadband.usage.util.FontUtils;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -56,8 +60,8 @@ public class InitialiseActivity extends SherlockFragmentActivity {
         mProgress.setVisibility(View.VISIBLE);
 
         //TODO: Will this trigger two syncs on first load?
-        //ConnectivityHelper mNetwork = new ConnectivityHelper(this);
-        //mNetwork.requestSync();
+        ConnectivityHelper mNetwork = new ConnectivityHelper(this);
+        mNetwork.requestSync();
 
     }
 
@@ -68,6 +72,14 @@ public class InitialiseActivity extends SherlockFragmentActivity {
 
         // Register sync reciever
         registerReceiver(mSyncReceiver, filter);
+
+        // Check to see if info and status has been set
+        AccountInfoHelper mInfo = new AccountInfoHelper(this);
+        AccountStatusHelper mStatus = new AccountStatusHelper(this);
+        // Make sure we don't get stuck if info and status is set
+        if(mInfo.isInfoSet() && mStatus.isStatusSet()){
+            startMainActivity();
+        }
     }
 
     // Called 2nd during activity destruction
@@ -96,13 +108,17 @@ public class InitialiseActivity extends SherlockFragmentActivity {
             String msg = i.getStringExtra(MESSAGE);
             if (msg.equals(SYNC_COMPLETE)){
                 // Start MainActivity after sync complete
-                Intent mi = new Intent(getBaseContext(), MainActivity.class);
-                startActivity(mi);
+                startMainActivity();
             } else if (msg.equals(SYNC_START)){
                 // Nothing to see here
             }
         }
 
+    }
+
+    private void startMainActivity() {
+        Intent mi = new Intent(getBaseContext(), MainActivity.class);
+        startActivity(mi);
     }
 
 

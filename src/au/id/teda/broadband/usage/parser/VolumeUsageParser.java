@@ -18,7 +18,7 @@ import au.id.teda.broadband.usage.util.DailyVolumeUsage;
 
 public class VolumeUsageParser {
 	
-	private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
+	//private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 	
 	private static final String ns = null; // We don't use name spaces
 	private static final String FEED_TAG = "ii_feed";

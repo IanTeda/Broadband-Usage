@@ -24,9 +24,6 @@ public class UsageSummaryFragment extends BaseFragment {
 	private TextView mDaysNumber;
 	private TextView mDaysDescription;
 	private TextView mDaysSummary;
-    private TextView mAnytimeNumber;
-    private TextView mAnytimeDescription;
-    private TextView mAnytimeSummary;
 	private TextView mPeakNumber;
 	private TextView mPeakDescription;
 	private TextView mPeakSummary;
@@ -59,9 +56,6 @@ public class UsageSummaryFragment extends BaseFragment {
     	mDaysNumber = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_days_number);
     	mDaysDescription = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_days_description);
     	mDaysSummary = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_days_summary);
-        mAnytimeNumber = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_anytime_number);
-        mAnytimeDescription = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_anytime_description);
-        mAnytimeSummary = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_anytime_summary);
 		mPeakNumber = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_peak_number);
 		mPeakDescription = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_peak_description);
 		mPeakSummary = (TextView) mFragmentView.findViewById(R.id.fragment_usage_summary_peak_summary);
@@ -116,15 +110,13 @@ public class UsageSummaryFragment extends BaseFragment {
 		if (mLayoutHelper.isLayoutPhonePort(mLayoutUsed)){
 			mCurrentMonth.setText(mAccountStatus.getCurrentMonthString());
 			mDaysDescription.setText(mAccountStatus.getRolloverDateString());
-            mAnytimeSummary.setText(mAccountInfo.getAnyTimeQuotaString());
 			mPeakSummary.setText(mAccountInfo.getPeakQuotaString());
 			mOffpeakSummary.setText(mAccountInfo.getOffpeakQuotaString());
 			mUpTimeNumber.setText(mAccountStatus.getUpTimeDaysString());
 			mIpAddress.setText(mAccountStatus.getIpAddressStrng());
 		} else if (mLayoutHelper.isLayout_w1024dp(mLayoutUsed)){
+            // Nothing to see here
 		}
-
-        setVisibilitys();
 		setSummaryView();
 		checkUsageStatus();
 	}
@@ -141,7 +133,6 @@ public class UsageSummaryFragment extends BaseFragment {
 
 	private void setUsageToGo() {
 
-        mAnytimeNumber.setText(mAccountStatus.getAnytimeDataRemaingGbString());
 		mPeakNumber.setText(mAccountStatus.getPeakDataRemaingGbString());
 		mOffpeakNumber.setText(mAccountStatus.getOffpeakDataRemaingGbString());
 		mUploadsNumber.setText(mAccountStatus.getUploadsDataUsedGbString());
@@ -153,7 +144,6 @@ public class UsageSummaryFragment extends BaseFragment {
 		// Only set text if loading phone layout
 		if (mLayoutHelper.isLayoutPhonePort(mLayoutUsed)){
 			mDaysNumber.setText(mAccountStatus.getDaysToGoString());
-            mAnytimeDescription.setText(mAccountStatus.getAnytimeShapedRemainingString());
             mPeakDescription.setText(mAccountStatus.getPeakShapedRemainingString());
 			mOffpeakDescription.setText(mAccountStatus.getOffpeakShapedRemainingString());
 		}
@@ -161,7 +151,6 @@ public class UsageSummaryFragment extends BaseFragment {
 
 	private void setUsageSoFar() {
 
-        mAnytimeNumber.setText(mAccountStatus.getAnytimeDataUsedGbString());
 		mPeakNumber.setText(mAccountStatus.getPeakDataUsedGbString());
 		mOffpeakNumber.setText(mAccountStatus.getOffpeakDataUsedGbString());
 		mUploadsNumber.setText(mAccountStatus.getUploadsDataUsedGbString());
@@ -173,26 +162,10 @@ public class UsageSummaryFragment extends BaseFragment {
 		// Only set text if loading phone layout
 		if (mLayoutHelper.isLayoutPhonePort(mLayoutUsed)){
 			mDaysNumber.setText(mAccountStatus.getDaysSoFarString());
-            mAnytimeDescription.setText(mAccountStatus.getAnytimeShapedUsedString());
 			mPeakDescription.setText(mAccountStatus.getPeakShapedUsedString());
 			mOffpeakDescription.setText(mAccountStatus.getOffpeakShapedUsedString());
 		}
 	}
-
-    private void setVisibilitys(){
-        RelativeLayout mAnytimeContainer = (RelativeLayout) mFragmentView.findViewById(R.id.fragment_usage_summary_anytime_container);
-        RelativeLayout mPeakContainer = (RelativeLayout) mFragmentView.findViewById(R.id.fragment_usage_summary_peak_container);
-        RelativeLayout mOffpeakContainer = (RelativeLayout) mFragmentView.findViewById(R.id.fragment_usage_summary_offpeak_container);
-        if (mAccountInfo.isAccountAnyTime()){
-            mAnytimeContainer.setVisibility(View.VISIBLE);
-            mPeakContainer.setVisibility(View.GONE);
-            mOffpeakContainer.setVisibility(View.GONE);
-        } else {
-            mAnytimeContainer.setVisibility(View.GONE);
-            mPeakContainer.setVisibility(View.VISIBLE);
-            mOffpeakContainer.setVisibility(View.VISIBLE);
-        }
-    }
 	
 	private boolean isVeiwSoFar(){
 		CharSequence days = mDaysSummary.getText();
@@ -210,10 +183,6 @@ public class UsageSummaryFragment extends BaseFragment {
 		
 		//TODO: Test layout logic better
 
-        if(mNotification.isAnytimeQuotaNear()){
-            setAnytimeWarning();
-        }
-
 		if(mNotification.isPeakQuotaNear()){
 			setPeakWarning();
 		}
@@ -230,11 +199,6 @@ public class UsageSummaryFragment extends BaseFragment {
 			setOffpeakError();
 		}
 	}
-
-    private void setAnytimeWarning(){
-        RelativeLayout mLayoutContaner = (RelativeLayout) mFragmentView.findViewById(R.id.fragment_usage_summary_anytime_container);
-        mLayoutContaner.setBackgroundDrawable((getResources().getDrawable(R.drawable.shape_flash_warning)));
-    }
 
 	private void setPeakWarning(){
     	RelativeLayout mLayoutContaner = (RelativeLayout) mFragmentView.findViewById(R.id.fragment_usage_summary_peak_container);

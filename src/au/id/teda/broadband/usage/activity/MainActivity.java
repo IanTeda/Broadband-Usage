@@ -6,12 +6,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.authenticator.AccountAuthenticator;
 import au.id.teda.broadband.usage.authenticator.AuthenticatorActivity;
 import au.id.teda.broadband.usage.fragments.DataTableAnytimeFragment;
 import au.id.teda.broadband.usage.fragments.StackedBarChartFragment;
 import au.id.teda.broadband.usage.fragments.StackedLineChartFragment;
+import au.id.teda.broadband.usage.parser.AccountStatusParser;
 import com.viewpagerindicator.LinePageIndicator;
 
 public class MainActivity extends BaseActivity {
@@ -39,8 +41,10 @@ public class MainActivity extends BaseActivity {
         // Check if account is an anytime account and load layout
         if (mAccountInfo.isAccountAnyTime()){
             setContentView(R.layout.activity_main_anytime);
+            // Log.d(DEBUG_TAG, "activity_main_anytime");
         } else {
             setContentView(R.layout.activity_main);
+            // Log.d(DEBUG_TAG, "activity_main");
         }
 
         mAdapter = new MainActivityPagerAdapter(getSupportFragmentManager());

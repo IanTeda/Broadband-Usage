@@ -12,7 +12,7 @@ import au.id.teda.broadband.usage.activity.BaseActivity;
 
 public class AccountInfoHelper {
 	
-	private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
+	//private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 	
 	// Set static string values for preference keys
 	private final static String PREF_ACCOUNT_KEY = "pref_account_key";

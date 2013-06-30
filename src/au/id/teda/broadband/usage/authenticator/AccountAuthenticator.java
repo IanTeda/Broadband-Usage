@@ -13,7 +13,7 @@ import au.id.teda.broadband.usage.activity.BaseActivity;
 
 public class AccountAuthenticator extends AbstractAccountAuthenticator {
 	
-	private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
+	//private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 	
 	/** Account type String. This needs to match authenticator.xml type **/
     public static final String ACCOUNT_TYPE = "au.net.iinet.account";

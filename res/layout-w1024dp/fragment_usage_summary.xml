@@ -52,30 +52,6 @@
             android:text="@string/fragment_usage_summary_date" />
     </RelativeLayout>
 
-    <!-- Anytime -->
-    <RelativeLayout
-            android:id="@+id/fragment_usage_summary_anytime_container"
-            style="@style/fragment_usage_summary_layout_container1024" >
-
-        <TextView
-                android:id="@+id/fragment_usage_summary_anytime_number"
-                style="@style/fragment_usage_summary_number_1024"
-                android:text="@string/fragment_usage_summary_number" />
-
-        <TextView
-                android:id="@+id/fragment_usage_summary_anytime_description"
-                style="@style/fragment_usage_summary_number_description"
-                android:layout_alignBaseline="@+id/fragment_usage_summary_anytime_number"
-                android:layout_toRightOf="@+id/fragment_usage_summary_anytime_number"
-                android:text="@string/fragment_usage_summary_used_no_status" />
-
-        <TextView
-                android:id="@+id/fragment_usage_summary_anytime_summary"
-                style="@style/fragment_usage_summary_number_summary_1024"
-                android:layout_toRightOf="@+id/fragment_usage_summary_anytime_number"
-                android:text="@string/fragment_usage_summary_anytime_quota_alt" />
-    </RelativeLayout>
-
     <!-- Peak -->
     <RelativeLayout
         android:id="@+id/fragment_usage_summary_peak_container"

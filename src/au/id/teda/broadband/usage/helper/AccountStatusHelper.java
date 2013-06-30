@@ -15,7 +15,7 @@ import au.id.teda.broadband.usage.util.NetworkUtilities;
 @SuppressLint("DefaultLocale") // For some reason cannot remove the lint warning
 public class AccountStatusHelper {
 	
-	private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
+	//private static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 	
 	// Set static string values for preference keys
 	private final static String ACCOUNT = "account";
@@ -84,8 +84,6 @@ public class AccountStatusHelper {
 		mEditor.putLong(FREEZONE_DATA_USED, freezoneDataUsed);
 		mEditor.putString(IP_ADDRESS, ipAddress);
 		mEditor.putLong(UP_TIME_DATE, upTimeDate);
-
-        Log.d(DEBUG_TAG, "uptime:" + upTimeDate);
 
 		// Commit values to preferences
 		mEditor.commit();

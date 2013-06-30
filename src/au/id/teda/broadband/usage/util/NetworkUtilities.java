@@ -45,6 +45,10 @@ public class NetworkUtilities {
     
     /** Activity shared preferences **/
     SharedPreferences sharedPrefs;
+
+    // Used for testing
+    int RAW_XML_TESTING_FILE = R.raw.naked_dsl_home_5;
+    boolean weTesting = true;
     
     private AccountAuthenticator mAccountAuthenticator;
     
@@ -85,14 +89,15 @@ public class NetworkUtilities {
      * @throws IOException
      */
     private UnclosableBufferedInputStream getXmlBufferedInputStream() throws IOException {
-       
-    	// Get input stream
-        InputStream inputStream = getUrlInputStream(urlBuilder(mUsername, mAccountAuthenticator.getPassword()));
+
+        InputStream stream;
+        if (weTesting){
+            stream = mContext.getResources().openRawResource(RAW_XML_TESTING_FILE);
+        } else {
+            stream = getUrlInputStream(urlBuilder(mUsername, mAccountAuthenticator.getPassword()));
+        }
     	
-        // Use XML in raw folder to development
-    	//InputStream inputStream = mContext.getResources().openRawResource(R.raw.naked_dsl_home_5);
-    	
-        UnclosableBufferedInputStream  bis = new UnclosableBufferedInputStream (inputStream);
+        UnclosableBufferedInputStream  bis = new UnclosableBufferedInputStream (stream);
     	
     	return bis;
     }
@@ -142,10 +147,13 @@ public class NetworkUtilities {
     	ErrorParser mErrorParser = new ErrorParser();
     	
     	try {
-    		InputStream urlStream = getUrlInputStream(urlBuilder(username, password));
-            // Use XML in raw folder to development
-            //InputStream urlStream = mContext.getResources().openRawResource(R.raw.volume_usage_xml_anytime);
-			errorString = mErrorParser.parse(urlStream);
+            InputStream stream;
+            if (weTesting){
+                stream = mContext.getResources().openRawResource(RAW_XML_TESTING_FILE);
+            } else {
+                stream = getUrlInputStream(urlBuilder(username, password));
+            }
+			errorString = mErrorParser.parse(stream);
 		} catch (XmlPullParserException e) {
 			e.printStackTrace();
 			return false;
