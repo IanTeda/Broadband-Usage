@@ -1,6 +1,7 @@
 package au.id.teda.broadband.usage.fragments;
 
 import au.id.teda.broadband.usage.database.DailyDataTableAdapter;
+import au.id.teda.broadband.usage.util.NetworkUtilities;
 import org.achartengine.GraphicalView;
 
 import android.os.Bundle;
@@ -66,12 +67,17 @@ public class StackedLineChartFragment extends BaseFragment {
 			
 	        // Get volume dev array
 			DailyDataTableAdapter mDatabase = new DailyDataTableAdapter(mContext);
-			String period = mAccountStatus.getDataBaseMonthString();
 
-            //String period = "200903"; // Used for testing old xml feeds
-            //Log.d(DEBUG_TAG, "Period:" + period);
-			mDailyUsageArray = mDatabase.getDailyVolumeUsage(period);
-			
+            String period;
+            if (NetworkUtilities.weTesting) {
+                period = NetworkUtilities.PERIOD_STRING;
+            } else {
+                period = mAccountStatus.getDataBaseMonthString();
+            }
+
+            // Get data array
+            mDailyUsageArray = mDatabase.getDailyVolumeUsage(period);
+
 			// Set layout container for chart
 			LinearLayout mChartContainer = (LinearLayout) mFragmentView.findViewById(R.id.fragment_stacked_line_chart_container);
 

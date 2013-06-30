@@ -1,6 +1,7 @@
 package au.id.teda.broadband.usage.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.database.DailyDataTableAdapter;
 import au.id.teda.broadband.usage.util.DailyVolumeUsage;
 import au.id.teda.broadband.usage.util.DailyVolumeUsageAdapter;
+import au.id.teda.broadband.usage.util.NetworkUtilities;
 
 public class DataTableAnytimeFragment extends BaseFragment {
 	
@@ -42,11 +44,18 @@ public class DataTableAnytimeFragment extends BaseFragment {
 			
 	        // Get volume array
 			DailyDataTableAdapter mDatabase = new DailyDataTableAdapter(mContext);
-			String period = mAccountStatus.getDataBaseMonthString();
-            //String period = "200903"; // Used for testing old xml feeds
+
+            String period;
+            if (NetworkUtilities.weTesting) {
+                period = NetworkUtilities.PERIOD_STRING;
+            } else {
+                period = mAccountStatus.getDataBaseMonthString();
+            }
+
+            // Get data array
             mDailyUsageArray = mDatabase.getDailyVolumeUsage(period);
-			
-			// Initiate adapter to be used with list view
+
+            // Initiate adapter to be used with list view
 			DailyVolumeUsageAdapter adapter = new DailyVolumeUsageAdapter(mContext, R.layout.listview_data_table_row, mDailyUsageArray);
 			
 			// Reference list view to be used
