@@ -73,12 +73,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     // Add anytime column to daily table
                     database.execSQL("ALTER TABLE " + DailyDataTableAdapter.TABLE_NAME +
                             " ADD COLUMN " + DailyDataTableAdapter.ANYTIME +
-                            " INTEGER NOT NULL");
+                            " INTEGER NOT NULL DEFAULT '-1'");
 
                     // Add anytime column to hourly table
                     database.execSQL("ALTER TABLE " + HourlyDataTableAdapter.TABLE_NAME +
                             " ADD COLUMN " + HourlyDataTableAdapter.ANYTIME +
-                            " INTEGER NOT NULL");
+                            " INTEGER NOT NULL DEFAULT '-1'");
                     break;
             }
         }
