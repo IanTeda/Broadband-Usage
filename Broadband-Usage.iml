@@ -12,6 +12,11 @@
         </notImportedProperties>
       </configuration>
     </facet>
+    <facet type="android-gradle" name="Android-Gradle">
+      <configuration>
+        <option name="GRADLE_PROJECT_PATH" />
+      </configuration>
+    </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
@@ -23,7 +28,8 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="ViewPageIndicator" />
     <orderEntry type="library" name="achartengine-1.0.0" level="application" />
-    <orderEntry type="module" module-name="ActionBarSherlock1" />
+    <orderEntry type="module" module-name="ActionBarSherlock" />
+    <orderEntry type="library" name="android-support-v4" level="project" />
   </component>
 </module>
 

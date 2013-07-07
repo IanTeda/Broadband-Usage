@@ -28,7 +28,7 @@ import com.actionbarsherlock.view.MenuItem;
 public class BaseActivity extends SherlockFragmentActivity {
 	
 	// Debug tag to be used for application
-	//public static final String DEBUG_TAG = "bbusage";
+    public static final String DEBUG_TAG = "bbusage";
 
 	// Refresh icon variables
     private static MenuItem mRefreshMenuItem;
@@ -40,7 +40,7 @@ public class BaseActivity extends SherlockFragmentActivity {
     private IntentFilter filter;
     
     // Layout helper to determine if tablet
-    private LayoutHelper mLayoutHelper;
+    protected LayoutHelper mLayoutHelper;
 
     // Account Info Helper class
     protected AccountInfoHelper mAccountInfo;
@@ -238,6 +238,10 @@ public class BaseActivity extends SherlockFragmentActivity {
     private void noConnectivityToast(){
     	Toast toast = Toast.makeText(this, "No connectivity", Toast.LENGTH_LONG);
 		toast.show();
+    }
+
+    protected void setActionbarTitle(String title){
+        this.getSupportActionBar().setTitle(title);
     }
 	
     /**

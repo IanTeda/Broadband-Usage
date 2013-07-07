@@ -12,17 +12,17 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import au.id.teda.broadband.usage.R;
+import au.id.teda.broadband.usage.activity.BaseActivity;
 import au.id.teda.broadband.usage.authenticator.AccountAuthenticator;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import au.id.teda.broadband.usage.helper.AccountStatusHelper;
 import au.id.teda.broadband.usage.helper.LayoutHelper;
-import au.id.teda.broadband.usage.activity.BaseActivity;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
 public abstract class BaseFragment extends SherlockFragment {
 
-	//protected final static String DEBUG_TAG = BaseActivity.DEBUG_TAG;
+	protected final static String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 			
 	// Helper classes
 	protected AccountInfoHelper mAccountInfo;

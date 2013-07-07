@@ -7,13 +7,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.widget.TextView;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.authenticator.AccountAuthenticator;
 import au.id.teda.broadband.usage.authenticator.AuthenticatorActivity;
 import au.id.teda.broadband.usage.fragments.DataTableAnytimeFragment;
 import au.id.teda.broadband.usage.fragments.StackedBarChartFragment;
 import au.id.teda.broadband.usage.fragments.StackedLineChartFragment;
-import au.id.teda.broadband.usage.parser.AccountStatusParser;
 import com.viewpagerindicator.LinePageIndicator;
 
 public class MainActivity extends BaseActivity {
@@ -21,6 +21,8 @@ public class MainActivity extends BaseActivity {
     private MainActivityPagerAdapter mAdapter;
     private ViewPager mPager;
     private LinePageIndicator mIndicator;
+
+    private TextView mLayoutUsed;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,7 +38,8 @@ public class MainActivity extends BaseActivity {
        	// Don't show up button on home page action bar
        	getSupportActionBar().setHomeButtonEnabled(false);
        	// Set action bar title different to manifest label
-       	getSupportActionBar().setTitle(R.string.action_bar_title);
+        setActionbarTitle(getString(R.string.action_bar_title));
+       	//getSupportActionBar().setTitle(R.string.action_bar_title);
 
         // Check if account is an anytime account and load layout
         if (mAccountInfo.isAccountAnyTime()){
@@ -54,6 +57,25 @@ public class MainActivity extends BaseActivity {
         mIndicator = (LinePageIndicator)findViewById(R.id.activity_main_pager_indicator);
         mIndicator.setViewPager(mPager);
 
+        // Set Textview used to qualify layout used
+        mLayoutUsed = (TextView) findViewById(R.id.activity_main_size);
+
+    }
+
+    /**
+     * Called 5th in the fragment life cycle
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // Check to see if layout used is landscape
+        if (mLayoutHelper.isLayoutPhoneLand(mLayoutUsed)){
+            // Build action bar title string
+            String title = this.getResources().getString(R.string.action_bar_title) + " - " + mAccountStatus.getCurrentMonthString();
+            // Set action bar title
+            setActionbarTitle(title);
+        }
     }
 
     class MainActivityPagerAdapter extends FragmentPagerAdapter {

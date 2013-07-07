@@ -6,6 +6,8 @@
       <directory url="file://$PROJECT_DIR$/../ActionBarSherlock/gen" includeSubdirectories="true" />
       <directory url="file://$PROJECT_DIR$/gen" includeSubdirectories="true" />
       <directory url="file://$PROJECT_DIR$/../ViewPageIndicator/gen" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/../AndroidBoilerPlateProject/libraries/actionbarsherlock/gen" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/libs/ActionBarSherlock/gen" includeSubdirectories="true" />
     </excludeFromCompile>
     <resourceExtensions />
     <wildcardResourcePatterns>
