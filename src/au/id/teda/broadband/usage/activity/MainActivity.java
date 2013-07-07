@@ -6,12 +6,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.widget.TextView;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.authenticator.AccountAuthenticator;
 import au.id.teda.broadband.usage.authenticator.AuthenticatorActivity;
-import au.id.teda.broadband.usage.fragments.DataTableAnytimeFragment;
+import au.id.teda.broadband.usage.fragments.DataTableFragment;
 import au.id.teda.broadband.usage.fragments.StackedBarChartFragment;
 import au.id.teda.broadband.usage.fragments.StackedLineChartFragment;
 import com.viewpagerindicator.LinePageIndicator;
@@ -31,6 +30,7 @@ public class MainActivity extends BaseActivity {
         // Check to see if account has been authenticated
         AccountAuthenticator mAccountAuthenticator = new AccountAuthenticator(this);
         if(!mAccountAuthenticator.isAccountAuthenticated()){
+            // If not load authenticator activity
         	Intent authenticator = new Intent(this, AuthenticatorActivity.class);
     		startActivity(authenticator);
         }
@@ -39,15 +39,12 @@ public class MainActivity extends BaseActivity {
        	getSupportActionBar().setHomeButtonEnabled(false);
        	// Set action bar title different to manifest label
         setActionbarTitle(getString(R.string.action_bar_title));
-       	//getSupportActionBar().setTitle(R.string.action_bar_title);
 
         // Check if account is an anytime account and load layout
         if (mAccountInfo.isAccountAnyTime()){
             setContentView(R.layout.activity_main_anytime);
-            // Log.d(DEBUG_TAG, "activity_main_anytime");
         } else {
             setContentView(R.layout.activity_main);
-            // Log.d(DEBUG_TAG, "activity_main");
         }
 
         mAdapter = new MainActivityPagerAdapter(getSupportFragmentManager());
@@ -69,7 +66,7 @@ public class MainActivity extends BaseActivity {
     public void onResume() {
         super.onResume();
 
-        // Check to see if layout used is landscape
+        // Check to see if layout used is phone in landscape
         if (mLayoutHelper.isLayoutPhoneLand(mLayoutUsed)){
             // Build action bar title string
             String title = this.getResources().getString(R.string.action_bar_title) + " - " + mAccountStatus.getCurrentMonthString();
@@ -89,7 +86,7 @@ public class MainActivity extends BaseActivity {
 
             switch (position) {
                 case 0:
-                    return new DataTableAnytimeFragment();
+                    return new DataTableFragment();
                 case 1:
                     return new StackedBarChartFragment();
                 case 2:

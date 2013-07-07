@@ -23,6 +23,9 @@
     <color name="chart_base_lighter">#ABA29A90</color>
     <color name="chart_base_dark">#AB9F94</color>
     <color name="chart_base_darker">#382717</color>
+    <color name="chart_peak">#382717</color>
+    <color name="chart_offpeak">#56473a</color>
+    <color name="chart_upload">#73675c</color>
     
     <!-- Flash message colors -->
     <color name="flash_message_warning_background">#fff1c2</color>

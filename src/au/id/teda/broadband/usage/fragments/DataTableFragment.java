@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.database.DailyDataTableAdapter;
 import au.id.teda.broadband.usage.util.DailyVolumeUsage;
@@ -86,6 +88,22 @@ public class DataTableFragment extends BaseFragment {
 			
 			// Set adapter to be used with the list view
 			mListView.setAdapter(adapter);
+
+            // Hide rows based on account type
+            if (mAccountInfo.isAccountAnyTime()){
+                // Hide peak container
+                TextView peakContainer = (TextView) mFragmentView.findViewById(R.id.listview_data_header_peak);
+                peakContainer.setVisibility(View.GONE);
+
+                // Hide offpeak container
+                TextView offpeakContainer = (TextView) mFragmentView.findViewById(R.id.listview_data_header_offpeak);
+                offpeakContainer.setVisibility(View.GONE);
+
+            } else {
+                // Hide anytime container
+                TextView anytimeContainer = (TextView) mFragmentView.findViewById(R.id.listview_data_header_anytime);
+                anytimeContainer.setVisibility(View.GONE);
+            }
 			
 			//loadDataTable();
 			

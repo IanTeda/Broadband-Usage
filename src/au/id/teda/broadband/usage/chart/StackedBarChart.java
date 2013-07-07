@@ -1,5 +1,6 @@
 package au.id.teda.broadband.usage.chart;
 
+import android.webkit.WebStorage;
 import au.id.teda.broadband.usage.helper.AccountInfoHelper;
 import org.achartengine.ChartFactory;
 import org.achartengine.chart.BarChart.Type;
@@ -68,20 +69,26 @@ public class StackedBarChart extends ChartBuilder {
     private XYMultipleSeriesDataset getAnytimeDataset(DailyVolumeUsage[] usage) {
         // Set String value categories for graph
         CategorySeries anytimeSeries = new CategorySeries(mContext.getString(R.string.chart_data_series_anytime));
+        CategorySeries uploadsSeries = new CategorySeries(mContext.getString(R.string.chart_data_series_upload));
+
 
         for (DailyVolumeUsage volumeUsage : usage) {
-            Long anytimeUsage = (volumeUsage.anytime / MB);
+
+            Long uploadUsage = (volumeUsage.uploads / MB);
+            Long anytimeUsage = (volumeUsage.anytime / MB) - uploadUsage;
 
             // Add current cursor values to data series
+            uploadsSeries.add(uploadUsage);
             anytimeSeries.add(anytimeUsage);
 
             // Set max data dev for rendering graph
-            if (max < anytimeUsage) {
-                max = anytimeUsage * 1.05;
+            if (max < uploadUsage) {
+                max = uploadUsage * 1.05;
             }
         }
 
         XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
+        dataset.addSeries(uploadsSeries.toXYSeries());
         dataset.addSeries(anytimeSeries.toXYSeries());
         return dataset;
     }
@@ -89,41 +96,40 @@ public class StackedBarChart extends ChartBuilder {
     private XYMultipleSeriesDataset getPeakOffpeakDataset(DailyVolumeUsage[] usage) {
         // Set String value categories for graph
         CategorySeries peakSeries = new CategorySeries(mContext.getString(R.string.chart_data_series_peak));
+        CategorySeries uploadsSeries = new CategorySeries(mContext.getString(R.string.chart_data_series_upload));
         CategorySeries offpeakSeries = new CategorySeries(mContext.getString(R.string.chart_data_series_offpeak));
 
         for (DailyVolumeUsage volumeUsage : usage) {
-        	Long peakUsage = (volumeUsage.peak / MB);
-        	Long offpeakUsage = (volumeUsage.offpeak / MB);
 
-			if (peakUsage > offpeakUsage) {
-				peakUsage = peakUsage + offpeakUsage;
-			} else {
-				offpeakUsage = offpeakUsage + peakUsage;
-			}
+            // Get and set usage values
+            Long peakUsage = (volumeUsage.peak / MB);
+        	Long offpeakUsage = (volumeUsage.offpeak / MB) + peakUsage;
+            Long uploadUsage = (volumeUsage.uploads / MB) + offpeakUsage;
 
 			// Add current cursor values to data series
 			peakSeries.add(peakUsage);
 			offpeakSeries.add(offpeakUsage);
+            uploadsSeries.add(uploadUsage);
 
 			// Set max data dev for rendering graph
-			if (max < peakUsage + offpeakUsage) {
-				max = peakUsage + offpeakUsage;
+			if (max < uploadUsage) {
+				max = uploadUsage * 1.05;
 			}
         }
 
         XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
-        dataset.addSeries(peakSeries.toXYSeries());
+        dataset.addSeries(uploadsSeries.toXYSeries());
         dataset.addSeries(offpeakSeries.toXYSeries());
+        dataset.addSeries(peakSeries.toXYSeries());
         return dataset;
     }
 
     private XYMultipleSeriesRenderer getAnytimeSeriesRenderer() {
         // Set data series color
-        int[] colors = new int[] { getPeakColor()};
+        int[] colors = new int[] { getUploadColor(), getPeakColor() };
 
         // Load and initialise render objects
         XYMultipleSeriesRenderer renderer = buildBarRenderer(colors);
-        //TODO: Add individual series renders
 
         renderer.setXAxisMin(0);
         renderer.setXAxisMax(getChartDays());
@@ -149,11 +155,10 @@ public class StackedBarChart extends ChartBuilder {
 
     private XYMultipleSeriesRenderer getPeakOffpeakSeriesRenderer() {
         // Set data series color
-        int[] colors = new int[] { getPeakColor(), getOffpeakColor() };
+        int[] colors = new int[] { getUploadColor(), getOffpeakColor(), getPeakColor() };
 
         // Load and initialise render objects
         XYMultipleSeriesRenderer renderer = buildBarRenderer(colors);
-        //TODO: Add individual series renders
 
         renderer.setXAxisMin(0);
         renderer.setXAxisMax(getChartDays());

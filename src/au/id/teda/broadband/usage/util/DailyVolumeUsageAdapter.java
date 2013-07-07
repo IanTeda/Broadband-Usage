@@ -116,13 +116,10 @@ public class DailyVolumeUsageAdapter extends ArrayAdapter<DailyVolumeUsage> {
         
         DailyVolumeUsage usage = data[position];
 
-        // Calculate daily total
+        // Calculate daily total based on account type
         long daylyTotal = -1;
-        // Check if i'm an anytime account
         if (mAccountInfo.isAccountAnyTime()){
             daylyTotal = usage.anytime;
-
-        // Else I must be a peak / off peak
         } else {
             daylyTotal = usage.peak + usage.offpeak;
         }

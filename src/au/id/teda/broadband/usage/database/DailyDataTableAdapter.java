@@ -126,7 +126,7 @@ public class DailyDataTableAdapter {
 		// Get cursor of values from database
 		Cursor cursor = getPriodUsageCursor(period);
 		
-		// Intiate lista array to store cursor
+		// Intiate list array to store cursor
 		List<DailyVolumeUsage> usage = new ArrayList<DailyVolumeUsage>();
 		
 		// Get column numbers for use with cursor
@@ -151,7 +151,7 @@ public class DailyDataTableAdapter {
 			Long uploads = cursor.getLong(COLUMN_INDEX_UPLOADS);
 			Long freezone = cursor.getLong(COLUMN_INDEX_FREEZONE);
 
-
+            /**
             Log.d(DEBUG_TAG, "DailyVolumeUsage > month:" + month +
                     ", day:" + day +
                     ", anytime:" + anytime +
@@ -159,6 +159,7 @@ public class DailyDataTableAdapter {
                     ", offpeak:" + offpeak +
                     ", uploads:" + uploads +
                     ", freezone:" + freezone);
+             **/
 
 
             usage.add(new DailyVolumeUsage(month, day, anytime, peak, offpeak, uploads, freezone));

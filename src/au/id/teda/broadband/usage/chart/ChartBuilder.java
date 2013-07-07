@@ -36,8 +36,14 @@ public class ChartBuilder {
 	public final int colorBaseDark;
 	public final int colorBaseDarker;
 	public final int colorAccent;
-	
-	private final String xAxes;
+
+    public final int iPeakColor;
+    public final int iOffpeakColor;
+    public final int iUploadColor;
+
+
+
+    private final String xAxes;
 	
 	//private final static int LEGEND_TEXT_SIZE = 18;
 	//private final static int LABEL_TEXT_SIZE = 12;
@@ -54,8 +60,13 @@ public class ChartBuilder {
 		colorBackgroundLight = mContext.getResources().getColor(R.color.background_alt_light);
 		colorBackground = mContext.getResources().getColor(R.color.background_alt);
 		colorAccent = mContext.getResources().getColor(R.color.accent);
-		
-		// Chart strings
+
+        iPeakColor = mContext.getResources().getColor(R.color.chart_peak);
+        iOffpeakColor = mContext.getResources().getColor(R.color.chart_offpeak);
+        iUploadColor = mContext.getResources().getColor(R.color.chart_upload);
+
+
+        // Chart strings
 		xAxes = mContext.getResources().getString(R.string.fragment_daily_usage_chart_x_title);
 
 	}
@@ -63,9 +74,9 @@ public class ChartBuilder {
 	public int getAccentColor() {
 		return colorAccent;
 	}
-	
+
 	public int getPeakColor() {
-		return colorBaseDarker;
+		return iPeakColor;
 	}
 	
 	public int getPeakFillColor(){
@@ -77,7 +88,7 @@ public class ChartBuilder {
 	}
 	
 	public int getOffpeakColor() {
-		return colorBaseDark;
+		return iOffpeakColor;
 	}
 	
 	public int getOffpeakFillColor(){
@@ -87,6 +98,18 @@ public class ChartBuilder {
 	public int getOffpeakTrendColor(){
 		return colorBase;
 	}
+
+    public int getUploadColor() {
+        return iUploadColor;
+    }
+
+    public int getUploadFillColor(){
+        return colorBaseLight;
+    }
+
+    public int getUploadTrendColor(){
+        return colorBase;
+    }
 	
 	public int getLabelColor() {
 		return colorBaseDarker;
@@ -231,7 +254,7 @@ public class ChartBuilder {
 		int daysSoFare = status.getDaysSoFar();
 		int daysToGo = status.getDaysToGo();
 
-		int chartDays = daysSoFare + daysToGo;
+		int chartDays = daysSoFare + daysToGo + 1;
 
 		return chartDays;
 	}

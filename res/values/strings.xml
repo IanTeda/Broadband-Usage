@@ -20,9 +20,11 @@
     <string name="chart_data_series_anytime_quota">Quota</string>
     <string name="chart_data_series_peak">Peak</string>
     <string name="chart_data_series_offpeak">Offpeak</string>
-    <string name="chart_data_series_uploads">Uploads</string>
+    <string name="chart_data_series_upload">Uploads</string>
     <string name="chart_data_series_freezone">Freezone</string>
-    <string name="chart_data_series_peak_quota">Peak Quota</string>
-    <string name="chart_data_series_offpeak_quota">Offpeak Quota</string>
+    <string name="chart_data_series_quota">Quota</string>
+    <string name="chart_data_series_quota_peak">Peak Quota</string>
+    <string name="chart_data_series_quota_offpeak">Offpeak Quota</string>
+
 
 </resources>
