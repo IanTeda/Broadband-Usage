@@ -4,7 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/libs/ActionBarSherlock/ActionBarSherlock.iml" filepath="$PROJECT_DIR$/libs/ActionBarSherlock/ActionBarSherlock.iml" />
       <module fileurl="file://$PROJECT_DIR$/Broadband-Usage.iml" filepath="$PROJECT_DIR$/Broadband-Usage.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../ViewPageIndicator/ViewPageIndicator.iml" filepath="$PROJECT_DIR$/../ViewPageIndicator/ViewPageIndicator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libs/ViewPagerIndicator/ViewPagerIndicator.iml" filepath="$PROJECT_DIR$/libs/ViewPagerIndicator/ViewPagerIndicator.iml" />
     </modules>
   </component>
 </project>

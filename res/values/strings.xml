@@ -21,6 +21,8 @@
     <string name="chart_data_series_peak">Peak</string>
     <string name="chart_data_series_offpeak">Offpeak</string>
     <string name="chart_data_series_upload">Uploads</string>
+    <string name="chart_data_series_upload_peak">Peak Uploads</string>
+    <string name="chart_data_series_upload_offpeak">Offpeak Uploads</string>
     <string name="chart_data_series_freezone">Freezone</string>
     <string name="chart_data_series_quota">Quota</string>
     <string name="chart_data_series_quota_peak">Peak Quota</string>

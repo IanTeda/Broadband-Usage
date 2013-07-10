@@ -110,59 +110,69 @@ public class StackedLineChart extends ChartBuilder {
         // Set daily average objects and initialise
         long peakDailyAccum = 0;
         long offpeakDailyAccum = 0;
-        long peakQuotaDailyAccum = 0;
-        long offpeakQuotaDailyAccum = 0;
+        long uploadDailyAccum = 0;
+        long quotaDailyAccum = 0;
 
         // Set String value categories for graph
         CategorySeries peakSeries = new CategorySeries(mContext.getString(R.string.chart_data_series_peak));
         CategorySeries offpeakSeries = new CategorySeries(mContext.getString(R.string.chart_data_series_offpeak));
-        CategorySeries peakQuotaSeries = new CategorySeries(mContext.getString(R.string.chart_data_series_quota_peak));
-        CategorySeries offpeakQuotaSeries = new CategorySeries(mContext.getString(R.string.chart_data_series_quota_offpeak));
+        CategorySeries uploadSeries = new CategorySeries(mContext.getString(R.string.chart_data_series_upload));
+        CategorySeries quotaSeries = new CategorySeries(mContext.getString(R.string.chart_data_series_quota));
 
 
         // Get average daily usage
-        long dailyPeakQuota = mAccountInfo.getPeakQuotaDailyMb();
-        long dailyOffpeakQuota = mAccountInfo.getOffpeakQuotaDailyMb();
+        long dailyQuota = mAccountInfo.getPeakQuotaDailyMb() + mAccountInfo.getOffpeakQuotaDailyMb();
 
         for (DailyVolumeUsage volumeUsage : usage) {
-            Long peakUsage = (volumeUsage.peak / MB);
-            Long offpeakUsage = (volumeUsage.offpeak / MB);
+            // Get values from array & take off upload guess
+            Long peak = (volumeUsage.peak / MB);
+            Long offpeak = (volumeUsage.offpeak / MB);
+            Long upload = (volumeUsage.uploads / MB);
+            Long quota = dailyQuota;
 
-            // Set daily usage
+            // Calculate usage values
+            Long peakUsage = peak - peakUploadGuess(peak, offpeak, upload);
+            Long offpeakUsage = offpeak - offpeakUploadGuess(peak, offpeak, upload);
+            Long uploadUsage = upload;
+
+            // Set daily accumulated usage for stacking chart
             peakDailyAccum = peakDailyAccum + peakUsage;
             offpeakDailyAccum = offpeakDailyAccum + offpeakUsage;
-            peakQuotaDailyAccum = peakQuotaDailyAccum + dailyPeakQuota;
-            offpeakQuotaDailyAccum = offpeakQuotaDailyAccum + dailyOffpeakQuota;
+            uploadDailyAccum = uploadDailyAccum + uploadUsage;
+            quotaDailyAccum = quotaDailyAccum + quota;
 
-            // Make data stacked (achartengine does not do it by default).
+            // Make data stacked for chart.
             long peakStacked = peakDailyAccum;
             long offpeakStacked = peakStacked + offpeakDailyAccum;
-            long peakQuotaStacked = peakQuotaDailyAccum;
-            long offpeakQuotaStacked = peakQuotaStacked + offpeakQuotaDailyAccum;
+            long uploadStacked = offpeakStacked + uploadDailyAccum;
 
             // Add current cursor values to data series
             peakSeries.add(peakStacked);
             offpeakSeries.add(offpeakStacked);
-            peakQuotaSeries.add(peakQuotaStacked);
-            offpeakQuotaSeries.add(offpeakQuotaStacked);
+            uploadSeries.add(uploadStacked);
+            quotaSeries.add(quotaDailyAccum);
 
             // Set max data usage for rendering graph
-            if (max < offpeakStacked) {
-                max = offpeakStacked;
-            } else if (max < offpeakQuotaStacked) {
-                max = offpeakQuotaStacked;
+            if (max < uploadStacked) {
+                max = uploadStacked * 1.05;
             }
 
+            if (max < quotaDailyAccum) {
+                max = quotaDailyAccum * 1.05;
+            }
+
+            //Log.d(DEBUG_TAG, "dailyQuota:" + dailyQuota + " | quotaDailyAccum:" + quotaDailyAccum);
             //Log.d(DEBUG_TAG, "peakStacked:" + peakStacked + " offpeakStacked:" + offpeakStacked + " uploadStacked:" + uploadStacked + " max:" + max);
             //Log.d(DEBUG_TAG, "peakUsage:" + peakUsage + " offpeakUsage:" + offpeakUsage + " uploadUsage:" + uploadUsage);
 
         }
 
         XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
+        dataset.addSeries(uploadSeries.toXYSeries());
         dataset.addSeries(offpeakSeries.toXYSeries());
         dataset.addSeries(peakSeries.toXYSeries());
-        dataset.addSeries(peakQuotaSeries.toXYSeries());
-        dataset.addSeries(offpeakQuotaSeries.toXYSeries());
+        dataset.addSeries(quotaSeries.toXYSeries());
+
 
         return dataset;
     }
@@ -174,29 +184,30 @@ public class StackedLineChart extends ChartBuilder {
         // Set series render object
         XYSeriesRenderer r = new XYSeriesRenderer();
 
-        // Peak series render settings
-        r.setColor(getPeakColor());
+        // Upload series render settings
+        r.setColor(getUploadColor());
         r.setFillBelowLine(true);
-        r.setFillBelowLineColor(getPeakFillColor());
+        r.setFillBelowLineColor(getUploadColor());
         r.setFillPoints(false);
-        r.setLineWidth(1);
+        r.setLineWidth(0);
         renderer.addSeriesRenderer(r);
 
         // Offpeak series render settings
         r = new XYSeriesRenderer();
         r.setColor(getOffpeakColor());
         r.setFillBelowLine(true);
-        r.setFillBelowLineColor(getOffpeakFillColor());
+        r.setFillBelowLineColor(getOffpeakColor());
         r.setFillPoints(false);
         r.setLineWidth(1);
         renderer.addSeriesRenderer(r);
 
-        // Quota daily series render settings
+        // peak series render settings
         r = new XYSeriesRenderer();
-        r.setColor(getOffpeakTrendColor());
-        r.setFillBelowLine(false);
+        r.setColor(getPeakColor());
+        r.setFillBelowLine(true);
+        r.setFillBelowLineColor(getPeakColor());
         r.setFillPoints(false);
-        r.setLineWidth(2);
+        r.setLineWidth(1);
         renderer.addSeriesRenderer(r);
 
         // Quota daily series render settings

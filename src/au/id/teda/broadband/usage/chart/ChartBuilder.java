@@ -259,6 +259,17 @@ public class ChartBuilder {
 		return chartDays;
 	}
 
+    // Calculate peak upload based on percentage value between peak & offpeak
+    protected Long peakUploadGuess(Long peak, Long offpeak, Long upload){
+        Long peakUpload = peak / (peak + offpeak) * upload;
+        return  peakUpload;
+    }
+
+    // Calculate offpeak upload based on percentage value between peak & offpeak
+    protected Long offpeakUploadGuess(Long peak, Long offpeak, Long upload){
+        Long peakUpload = offpeak / (peak + offpeak) * upload;
+        return  peakUpload;
+    }
 	
 
 }
