@@ -63,8 +63,10 @@ public class StackedLineChart extends ChartBuilder {
 
     private XYMultipleSeriesDataset getAnytimeSeriesDataset(DailyVolumeUsage[] usage) {
 
-        // Set daily average objects and initialise
-        double anytimeAv = 0;
+        // Set daily accum objects and initialise
+        long anytimeDailyAccum = 0;
+        long uploadDailyAccum = 0;
+        long quotaDailyAccum = 0;
 
         // Set String value categories for graph
         CategorySeries anytimeSeries = new CategorySeries(mContext.getString(R.string.chart_data_series_anytime));
@@ -72,34 +74,47 @@ public class StackedLineChart extends ChartBuilder {
         CategorySeries anytimeQuotaSeries = new CategorySeries(mContext.getString(R.string.chart_data_series_anytime_quota));
 
         // Get average daily useage
-        long anytimeDailyAv = mAccountInfo.getAnyTimeQuotaDailyMb();
+        long quotaDaily = mAccountInfo.getAnyTimeQuotaDailyMb();
 
 
         for (DailyVolumeUsage volumeUsage : usage) {
-            Long anytimeUsage = (volumeUsage.anytime / MB);
+            // Get values from array
+            Long anytime = (volumeUsage.anytime / MB);
+            Long upload  = (volumeUsage.uploads / MB);
 
-            accumAnytime = accumAnytime + anytimeUsage;
+            // Take off upload usage
+            Long anytimeUsage = anytime - upload;
+            Long uploadUsage = upload;
 
-            // Set average daily line
-            anytimeAv = anytimeAv + anytimeDailyAv;
+            // Calculate accumalitive values
+            anytimeDailyAccum = anytimeDailyAccum + anytimeUsage;
+            uploadDailyAccum = uploadDailyAccum + uploadUsage;
+            quotaDailyAccum = quotaDailyAccum + quotaDaily;
+
+            // Calculate stacked values
+            long anytimeStacked = anytimeDailyAccum;
+            long uploadStacked = anytimeDailyAccum + uploadDailyAccum;
 
             // Add current cursor values to data series
-            anytimeSeries.add(accumAnytime);
-            anytimeQuotaSeries.add(anytimeAv);
+            anytimeSeries.add(anytimeStacked);
+            uploadSeries.add(uploadStacked);
+            anytimeQuotaSeries.add(quotaDailyAccum);
 
-            //Log.d(DEBUG_TAG, "accumAnytime:" + accumAnytime + " anytimeAv:" + anytimeAv);
+            //Log.d(DEBUG_TAG, "anytimeUsage:" + anytimeUsage + " uploadUsage:" + uploadUsage + " quotaDaily:" + quotaDaily);
+            //Log.d(DEBUG_TAG, "anytimeDailyAccum:" + anytimeDailyAccum + " uploadDailyAccum:" + uploadDailyAccum + " quotaDailyAccum:" + quotaDailyAccum);
 
             // Set max data usage for rendering graph
-            if (accumAnytime >= anytimeAv) {
-                max = accumAnytime;
-            } else {
-                max = anytimeAv;
+            if (max <= uploadDailyAccum) {
+                max = uploadDailyAccum * 1.05;
             }
 
-            //Log.d(DEBUG_TAG, "Set Max:" + max);
+            if (max <= quotaDailyAccum ){
+                max = quotaDailyAccum * 1.05;
+            }
         }
 
         XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
+        dataset.addSeries(uploadSeries.toXYSeries());
         dataset.addSeries(anytimeSeries.toXYSeries());
         dataset.addSeries(anytimeQuotaSeries.toXYSeries());
         return dataset;
@@ -107,7 +122,7 @@ public class StackedLineChart extends ChartBuilder {
 
     private XYMultipleSeriesDataset getPeakOffpeakSeriesDataset(DailyVolumeUsage[] usage) {
 
-        // Set daily average objects and initialise
+        // Set daily accum objects and initialise
         long peakDailyAccum = 0;
         long offpeakDailyAccum = 0;
         long uploadDailyAccum = 0;
@@ -178,11 +193,18 @@ public class StackedLineChart extends ChartBuilder {
     }
 
     private XYMultipleSeriesRenderer getPeakOffpeakSeriesRenderer() {
+
         // Set render object and initialise
         XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
 
         // Set series render object
         XYSeriesRenderer r = new XYSeriesRenderer();
+
+        /** Cannot get this one to work for depreciated call below
+         * FillOutsideLine fill = FillOutsideLine.BOUNDS_BELOW;
+         * fill.setColor(Color.MAGENTA);
+         * xyRenderer.addFillOutsideLine(fill);
+         */
 
         // Upload series render settings
         r.setColor(getUploadColor());
@@ -249,17 +271,27 @@ public class StackedLineChart extends ChartBuilder {
         XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
 
         // Set series render object
-        XYSeriesRenderer r = new XYSeriesRenderer();
+        XYSeriesRenderer r;
 
         // Anytime line chart
+        r = new XYSeriesRenderer();
         r.setColor(getPeakColor());
         r.setFillBelowLine(true);
-        r.setFillBelowLineColor(getPeakFillColor());
+        r.setFillBelowLineColor(getUploadColor());
         r.setFillPoints(false);
-        r.setLineWidth(1);
+        r.setLineWidth(0);
         renderer.addSeriesRenderer(r);
 
-        // Anytime quota
+        // Upload line chart
+        r = new XYSeriesRenderer();
+        r.setColor(getPeakColor());
+        r.setFillBelowLine(true);
+        r.setFillBelowLineColor(getPeakColor());
+        r.setFillPoints(false);
+        r.setLineWidth(0);
+        renderer.addSeriesRenderer(r);
+
+        // Quota line
         r = new XYSeriesRenderer();
         r.setColor(getPeakTrendColor());
         r.setFillBelowLine(false);

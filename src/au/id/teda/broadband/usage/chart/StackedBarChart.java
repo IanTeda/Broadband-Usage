@@ -71,19 +71,29 @@ public class StackedBarChart extends ChartBuilder {
         CategorySeries anytimeSeries = new CategorySeries(mContext.getString(R.string.chart_data_series_anytime));
         CategorySeries uploadsSeries = new CategorySeries(mContext.getString(R.string.chart_data_series_upload));
 
+        long dailyQuota = mAccountInfo.getAnyTimeQuotaDailyMb();
 
         for (DailyVolumeUsage volumeUsage : usage) {
 
-            Long uploadUsage = (volumeUsage.uploads / MB);
-            Long anytimeUsage = (volumeUsage.anytime / MB) - uploadUsage;
+            long upload = (volumeUsage.uploads / MB);
+            long anytime = (volumeUsage.anytime / MB);
+
+            long anytimeUsage = anytime - upload;
+            long uploadUsage = upload;
+
+            long anytimeUsageStaked = anytimeUsage;
+            long uploadUsageStaked = anytimeUsageStaked + uploadUsage;
 
             // Add current cursor values to data series
-            uploadsSeries.add(uploadUsage);
-            anytimeSeries.add(anytimeUsage);
+            uploadsSeries.add(uploadUsageStaked);
+            anytimeSeries.add(anytimeUsageStaked);
 
             // Set max data dev for rendering graph
-            if (max < uploadUsage) {
-                max = uploadUsage * 1.05;
+            if (max < uploadUsageStaked) {
+                max = uploadUsageStaked * 1.05;
+            }
+            if (max < dailyQuota) {
+                max = dailyQuota * 1.05;
             }
         }
 
@@ -99,22 +109,35 @@ public class StackedBarChart extends ChartBuilder {
         CategorySeries uploadsSeries = new CategorySeries(mContext.getString(R.string.chart_data_series_upload));
         CategorySeries offpeakSeries = new CategorySeries(mContext.getString(R.string.chart_data_series_offpeak));
 
+        long dailyQuota = mAccountInfo.getPeakQuotaDailyMb() + mAccountInfo.getOffpeakQuotaDailyMb();
+
         for (DailyVolumeUsage volumeUsage : usage) {
 
             // Get and set usage values
-            Long peakUsage = (volumeUsage.peak / MB);
-        	Long offpeakUsage = (volumeUsage.offpeak / MB) + peakUsage;
-            Long uploadUsage = (volumeUsage.uploads / MB) + offpeakUsage;
+            long peak = (volumeUsage.peak / MB);
+        	long offpeak = (volumeUsage.offpeak / MB);
+            long upload = (volumeUsage.uploads / MB);
+
+            long peakUsage = peak - peakUploadGuess(peak, offpeak, upload);
+            long offpeakUsage = offpeak - offpeakUploadGuess(peak, offpeak, upload);
+            long uploadUsage = upload;
+
+            long peakUsageStaked = peakUsage;
+            long offpeakUsageStaked = peakUsageStaked + offpeakUsage;
+            long uploadUsageStaked = offpeakUsageStaked + uploadUsage;
 
 			// Add current cursor values to data series
-			peakSeries.add(peakUsage);
-			offpeakSeries.add(offpeakUsage);
-            uploadsSeries.add(uploadUsage);
+			peakSeries.add(peakUsageStaked);
+			offpeakSeries.add(offpeakUsageStaked);
+            uploadsSeries.add(uploadUsageStaked);
 
 			// Set max data dev for rendering graph
-			if (max < uploadUsage) {
-				max = uploadUsage * 1.05;
+			if (max < uploadUsageStaked) {
+				max = uploadUsageStaked * 1.05;
 			}
+            if (max < dailyQuota) {
+                max = dailyQuota * 1.05;
+            }
         }
 
         XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
