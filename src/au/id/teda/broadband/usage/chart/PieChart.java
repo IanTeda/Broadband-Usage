@@ -16,9 +16,9 @@ public class PieChart extends ChartBuilder {
 	// Context for class
 	private Context mContext;
 	
-	private int mUploads;
-	private int mDownloads;
-	private int mRemaining;
+	private long mUploads;
+	private long mDownloads;
+	private long mRemaining;
 
 	/**
 	 * PieChart constructor
@@ -39,7 +39,7 @@ public class PieChart extends ChartBuilder {
 				getPieChartRenderer());
 	}
 	
-	public void setData(int uploads, int downloads, int quota){
+	public void setData(long uploads, long downloads, long quota){
 		mUploads = uploads;
 		mDownloads = downloads;
 		mRemaining = ( quota - uploads - downloads );
@@ -73,8 +73,7 @@ public class PieChart extends ChartBuilder {
 	 * @return pie chart renderer
 	 */
 	private DefaultRenderer getPieChartRenderer() {
-		//int[] colors = new int[] { getPeakColor(), getOffpeakColor(), getBackgroundColor()};
-		int[] colors = new int[] { Color.RED, Color.BLUE, Color.YELLOW};
+		int[] colors = new int[] { getPeakColor(), getOffpeakColor(), getUploadColor()};
 	    DefaultRenderer renderer = buildCategoryRenderer(colors);
 	    renderer.setApplyBackgroundColor(true);
 	    renderer.setBackgroundColor(Color.TRANSPARENT);

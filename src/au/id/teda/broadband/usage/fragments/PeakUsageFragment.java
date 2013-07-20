@@ -1,9 +1,11 @@
 package au.id.teda.broadband.usage.fragments;
 
+import au.id.teda.broadband.usage.chart.ChartBuilder;
 import au.id.teda.broadband.usage.chart.PieChart;
 import org.achartengine.GraphicalView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,13 +29,20 @@ public class PeakUsageFragment extends BaseFragment {
 	// Fragment page title
 	public static String PAGE_TITLE = "PEAK";
 
-	/**
+    private ChartBuilder mChartBuilder;
+
+    private int GB = 1000000000;
+
+
+    /**
 	* Called 3rd in the fragment life cycle
 	*/
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// Set fragment layout to be inflated
 		mFragmentView = inflater.inflate(R.layout.fragment_peak_usage, container, false);
+
+        mChartBuilder = new ChartBuilder(mContext);
 		
 		return mFragmentView;
 	}
@@ -56,10 +65,13 @@ public class PeakUsageFragment extends BaseFragment {
 		PieChart mPieChart = new PieChart(mContext);
 		
 		// Set chart values
-		int uploads =  (mAccountStatus.getUploadsDataUsedGb() / 2);
-		int downloads = mAccountStatus.getPeakDataUsedGb();
-		int quota = mAccountInfo.getPeakQuotaGb();
-		mPieChart.setData(uploads, downloads, quota);
+		long upload =  (mAccountStatus.getUploadsDataUsed());
+        long peak = mAccountStatus.getOffpeakDataUsed();
+		long offpeak = mAccountStatus.getPeakDataUsed();
+		long quota = mAccountInfo.getPeakQuota();
+
+        peak = peak - mChartBuilder.peakUploadGuess(peak, offpeak, upload);
+        mPieChart.setData(upload, peak, quota);
 	
 		// Set layout parameters for chart view
 		LayoutParams mChartViewParams = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
@@ -73,8 +85,8 @@ public class PeakUsageFragment extends BaseFragment {
 		TextView mUploadData = (TextView) mFragmentView.findViewById(R.id.fragment_peak_upload_download_upload_number);
 		TextView mDownloadData = (TextView) mFragmentView.findViewById(R.id.fragment_peak_upload_download_download_number);
 		
-		mUploadData.setText(mAccountStatus.getUploadsDataUsedGbString());
-		mDownloadData.setText(mAccountStatus.getPeakDataUsedLessUploadsGbString());
+		mUploadData.setText(dataToGbString(upload));
+		mDownloadData.setText(dataToGbString(peak));
 	}
 
 	private void loadDonughtChart() {
@@ -148,7 +160,7 @@ public class PeakUsageFragment extends BaseFragment {
 		}
 		
 		// Set chart data
-		mChart.setData(average, quota);
+		mChart.setData(2000, 2000);
 	
 		// Set layout parameters for chart view
 		LayoutParams mChartViewParams = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
@@ -163,4 +175,14 @@ public class PeakUsageFragment extends BaseFragment {
 		mDailyPeak.setText(IntUsageToString(mAccountStatus.getPeakDailyAverageUsedMb()));
 		mDailyPeakVariation.setText(IntUsageToString(mAccountStatus.getPeakAverageVariationMb()));
 	}
+
+    private String dataToGbString(long data){
+        long dataGb = (data / GB);
+
+        String used = Long.toString(dataGb);
+        if (dataGb < 10 ){
+            used = "0" + used;
+        }
+        return used;
+    }
 }

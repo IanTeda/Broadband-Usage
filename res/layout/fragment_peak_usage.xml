@@ -90,7 +90,6 @@
                 android:textStyle="bold" />
 
             <!-- Peak -->
-
             <RelativeLayout
                 android:id="@+id/fragment_peak_usage_daily_number_container"
                 style="@style/fragment_peak_usage_number_container" >
@@ -146,7 +145,6 @@
             </RelativeLayout>
 
             <!-- Upload / Download -->
-
             <RelativeLayout
                 android:id="@+id/fragment_peak_upload_download_container"
                 android:layout_width="fill_parent"
@@ -168,7 +166,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
                     android:layout_marginTop="6dp"
-                    android:text="@string/fragment_peak_upload_download_download_title" />
+                    android:text="@string/fragment_peak_upload_download_download_title"
+                    android:paddingRight="@dimen/margin"/>
 
                 <TextView
                     android:id="@+id/fragment_peak_upload_download_download_unit"
@@ -191,7 +190,9 @@
                     style="@style/fragment_peak_usage_number_description"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
-                    android:text="@string/fragment_peak_upload_download_upload_title" />
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/fragment_peak_upload_download_upload_title"
+                    android:paddingRight="@dimen/margin"/>
 
                 <TextView
                     android:id="@+id/fragment_peak_upload_download_upload_unit"

@@ -11,7 +11,7 @@
             <anniversary>16</anniversary>
             <days_so_far>18</days_so_far>
             <days_remaining>11</days_remaining>
-        </quota_reset>        
+        </quota_reset>
         <expected_traffic_types>
             <type classification="peak" used="14908175703">
                 <name>peak</name>
