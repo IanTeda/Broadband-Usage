@@ -34,7 +34,7 @@ public class DailyAverageChart extends View {
 	private Paint mLinePaint = new Paint();
 	
 	private int PADDING = 4;
-	private int LINE_WIDTH = 1;
+	private int LINE_WIDTH = 2;
 	private float padding;
 	private float lineWidth;
 	
@@ -79,54 +79,47 @@ public class DailyAverageChart extends View {
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 		
-		// Get view width and height
-		float width = (float)getWidth();
-		float height = (float)getHeight();
+		// Get width and height of canvas and cast to float
+		float width = (float) getWidth();
+		float height = (float) getHeight();
 
-        Log.d(DEBUG_TAG, "width:" + width);
-		
+        // Calculate co-ordinates for background rectangle
 		float left = 0 + padding;
 		float top = 0 + padding;
 		float right = width - padding;
 		float bottom = height - padding;
 
-        //Log.d(DEBUG_TAG, "left:" + left + " right:" + right);
-				
+        Log.d(DEBUG_TAG, "left:" + left + " right:" + right);
+
+        // Draw background rectangle
 		mDailyPaint.setColor(usageColorAlt);
-		mDailyPaint.setStrokeWidth(height);
-		mDailyPaint.setAntiAlias(true);
-		mDailyPaint.setStrokeCap(Paint.Cap.BUTT);
-		mDailyPaint.setStyle(Paint.Style.STROKE);
+		mDailyPaint.setStyle(Paint.Style.FILL);
 	    canvas.drawRect(left, top, right, bottom, mDailyPaint);
-	    
+
+        // Calculate co-ordinates for data usage rectangle
 		float fLeftData = left;
 		float fTopData = top;
-		float fRightData = (float) (fDataUsedPercentage * width);
+		float fRightData = (float) ((width) * fDataUsedPercentage);
 		float fBottomData = bottom;
 
-        //Log.d(DEBUG_TAG, "fLeftData:" + fLeftData + " fRightData:" + fRightData);
+        Log.d(DEBUG_TAG, "fLeftData:" + fLeftData + " fRightData:" + fRightData);
 
+        // Draw data usage rectangle
         mAveragePaint.setColor(usageColor);
-	    mAveragePaint.setStrokeWidth(height);
-	    mAveragePaint.setAntiAlias(true);
-	    mAveragePaint.setStrokeCap(Paint.Cap.BUTT);
-	    mAveragePaint.setStyle(Paint.Style.STROKE);
+	    mAveragePaint.setStyle(Paint.Style.FILL);
 	    canvas.drawRect(fLeftData, fTopData, fRightData, fBottomData, mAveragePaint);
 	    
-		float leftLine = (width / 2) - (lineWidth / 2);
+		float leftLine = (float) ((width * 0.5));
 		float topLine = 0;
-		float rightLine = (width / 2) + (lineWidth / 2);
+		float rightLine = (float) ((width * 0.5));
 		float bottomLine = height;
 
-        //Log.d(DEBUG_TAG, "leftLine:" + leftLine + " rightLine:" + rightLine);
+        Log.d(DEBUG_TAG, "leftLine:" + leftLine + " rightLine:" + rightLine);
 
-
+        // Draw the average line
         mLinePaint.setColor(accentColor);
-	    mLinePaint.setStrokeWidth(lineWidth);
-	    mLinePaint.setAntiAlias(true);
-	    mLinePaint.setStrokeCap(Paint.Cap.BUTT);
-	    mLinePaint.setStyle(Paint.Style.STROKE);
-	    canvas.drawRect(leftLine, topLine, rightLine, bottomLine, mLinePaint);
+        mLinePaint.setStrokeWidth(lineWidth);
+        canvas.drawLine(leftLine, topLine, leftLine, bottomLine, mLinePaint);
 		
 	}
 }
