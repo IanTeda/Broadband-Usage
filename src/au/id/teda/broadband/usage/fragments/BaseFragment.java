@@ -22,7 +22,7 @@ import com.actionbarsherlock.app.SherlockFragment;
 
 public abstract class BaseFragment extends SherlockFragment {
 
-	protected final static String DEBUG_TAG = BaseActivity.DEBUG_TAG;
+	//protected final static String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 			
 	// Helper classes
 	protected AccountInfoHelper mAccountInfo;

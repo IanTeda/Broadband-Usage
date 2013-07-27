@@ -47,7 +47,7 @@ public class NetworkUtilities {
     SharedPreferences sharedPrefs;
 
     // Used for testing
-    public static final boolean weTesting = true;
+    public static final boolean weTesting = false;
     private static int RAW_XML_TESTING_FILE = R.raw.naked_dsl_home_5;
     public static final String PERIOD_STRING = "200903";
     

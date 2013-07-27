@@ -19,7 +19,7 @@ import au.id.teda.broadband.usage.activity.BaseActivity;
 
 public class ChartBuilder {
 
-	protected static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
+	//protected static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 
 	private Context mContext;
 

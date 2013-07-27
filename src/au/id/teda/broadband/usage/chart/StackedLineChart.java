@@ -18,7 +18,7 @@ import au.id.teda.broadband.usage.R;
 public class StackedLineChart extends ChartBuilder {
 
     // Debug tag pulled from main activity
-    private final static String DEBUG_TAG = BaseActivity.DEBUG_TAG;
+    //private final static String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 
     // Helper classes
     private AccountInfoHelper mAccountInfo;
