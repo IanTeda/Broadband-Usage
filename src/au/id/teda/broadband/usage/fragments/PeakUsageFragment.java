@@ -153,14 +153,14 @@ public class PeakUsageFragment extends BaseFragment {
 		int average = mAccountStatus.getPeakDailyAverageUsedMb();
 		int quota = (int) mAccountInfo.getPeakQuotaDailyMb();
 		
-		// Check to make sure info status is set so we don't get divid by zero erros
+		// Check to make sure info status is set so we don't get divided by zero errors
 		if (!mAccountInfo.isInfoSet() || !mAccountStatus.isStatusSet()){
 			average = 2;
 			quota = 1;
 		}
 		
 		// Set chart data
-		mChart.setData(2000, 2000);
+		mChart.setData(average, quota);
 	
 		// Set layout parameters for chart view
 		LayoutParams mChartViewParams = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
