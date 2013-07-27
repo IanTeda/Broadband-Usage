@@ -158,7 +158,8 @@
                     android:layout_width="@dimen/touch"
                     android:layout_height="@dimen/touch"
                     android:layout_alignParentLeft="true"
-                    android:gravity="left|center_horizontal" />
+                    android:gravity="left|center_horizontal"
+                    android:orientation="vertical"/>
 
                 <TextView
                     android:id="@+id/fragment_peak_upload_download_download_title"

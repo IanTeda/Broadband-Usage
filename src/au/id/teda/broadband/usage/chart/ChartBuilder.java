@@ -12,12 +12,14 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
 import android.content.Context;
+import android.util.Log;
+
 import au.id.teda.broadband.usage.R;
 import au.id.teda.broadband.usage.activity.BaseActivity;
 
 public class ChartBuilder {
 
-	//protected static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
+	protected static final String DEBUG_TAG = BaseActivity.DEBUG_TAG;
 
 	private Context mContext;
 
@@ -260,15 +262,28 @@ public class ChartBuilder {
 	}
 
     // Calculate peak upload based on percentage value between peak & offpeak
-    public Long peakUploadGuess(Long peak, Long offpeak, Long upload){
-        Long peakUpload = peak / (peak + offpeak) * upload;
-        return  peakUpload;
+    public long peakUploadGuess(Long peak, Long offpeak, Long upload){
+        // Calculate floating point percentage of peak upload
+        float percentage = (float) peak / (float) (peak + offpeak);
+
+        // Cacluate peak upload from percentage
+        float peakUpload = upload * percentage;
+
+        // Cast to long and return peak upload
+        return  (long) peakUpload;
     }
 
     // Calculate offpeak upload based on percentage value between peak & offpeak
-    public Long offpeakUploadGuess(Long peak, Long offpeak, Long upload){
-        Long peakUpload = offpeak / (peak + offpeak) * upload;
-        return  peakUpload;
+    public long offpeakUploadGuess(Long peak, Long offpeak, Long upload){
+
+        // Calculate floating point percentage of peak upload
+        float percentage = (float) peak / (float) (peak + offpeak);
+
+        // Cacluate peak upload from percentage
+        float offpeakUpload = upload * percentage;
+
+        // Cast to long and return peak upload
+        return (long) offpeakUpload;
     }
 	
 

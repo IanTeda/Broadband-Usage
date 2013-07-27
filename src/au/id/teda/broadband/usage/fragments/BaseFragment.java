@@ -40,8 +40,11 @@ public abstract class BaseFragment extends SherlockFragment {
 			
 	// Activity context to be used
 	protected Context mContext;
-			
-	/**
+
+    protected int GB = 1000000000;
+
+
+    /**
 	 * Called 1st in the fragment life cycle
 	 */
 	@Override
@@ -116,6 +119,17 @@ public abstract class BaseFragment extends SherlockFragment {
 		return numberFormat.format(usage);
 		
 	}
+
+
+    protected String dataToGbString(long data){
+        long dataGb = (data / GB);
+
+        String used = Long.toString(dataGb);
+        if (dataGb < 10 ){
+            used = "0" + used;
+        }
+        return used;
+    }
 			
 	protected abstract void loadFragmentView();
 			

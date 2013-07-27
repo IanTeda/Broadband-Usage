@@ -167,6 +167,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_alignParentTop="true"
                         android:layout_marginTop="6dp"
+                        android:paddingRight="@dimen/margin"
                         android:text="@string/fragment_anytime_upload_download_download_title"/>
 
                 <TextView
@@ -190,6 +191,8 @@
                         style="@style/fragment_anytime_usage_number_description"
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentRight="true"
+                        android:paddingRight="@dimen/margin"
+                        android:layout_marginBottom="4dp"
                         android:text="@string/fragment_anytime_upload_download_upload_title"/>
 
                 <TextView

@@ -31,9 +31,6 @@ public class PeakUsageFragment extends BaseFragment {
 
     private ChartBuilder mChartBuilder;
 
-    private int GB = 1000000000;
-
-
     /**
 	* Called 3rd in the fragment life cycle
 	*/
@@ -70,8 +67,14 @@ public class PeakUsageFragment extends BaseFragment {
 		long offpeak = mAccountStatus.getPeakDataUsed();
 		long quota = mAccountInfo.getPeakQuota();
 
-        peak = peak - mChartBuilder.peakUploadGuess(peak, offpeak, upload);
-        mPieChart.setData(upload, peak, quota);
+        // Guestimate peak upload value
+        long peakUpload = mChartBuilder.peakUploadGuess(peak, offpeak, upload);
+
+        // Calculate download less estimate upload in peak
+        long download = peak - peakUpload;
+
+        // Set data for pie chart
+        mPieChart.setData(peakUpload, download, quota);
 	
 		// Set layout parameters for chart view
 		LayoutParams mChartViewParams = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
@@ -84,9 +87,10 @@ public class PeakUsageFragment extends BaseFragment {
 		// Set text view references
 		TextView mUploadData = (TextView) mFragmentView.findViewById(R.id.fragment_peak_upload_download_upload_number);
 		TextView mDownloadData = (TextView) mFragmentView.findViewById(R.id.fragment_peak_upload_download_download_number);
-		
-		mUploadData.setText(dataToGbString(upload));
-		mDownloadData.setText(dataToGbString(peak));
+
+        // Set text for view
+		mUploadData.setText(dataToGbString(peakUpload));
+		mDownloadData.setText(dataToGbString(download));
 	}
 
 	private void loadDonughtChart() {
@@ -176,13 +180,4 @@ public class PeakUsageFragment extends BaseFragment {
 		mDailyPeakVariation.setText(IntUsageToString(mAccountStatus.getPeakAverageVariationMb()));
 	}
 
-    private String dataToGbString(long data){
-        long dataGb = (data / GB);
-
-        String used = Long.toString(dataGb);
-        if (dataGb < 10 ){
-            used = "0" + used;
-        }
-        return used;
-    }
 }

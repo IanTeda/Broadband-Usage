@@ -22,9 +22,6 @@ public class AnytimeUsageFragment extends BaseFragment {
 	
 	// View inflated by fragment
 	private View mFragmentView;
-	
-	// Fragment page title
-	public static String PAGE_TITLE = "ANYTIME";
 
 	/**
 	* Called 3rd in the fragment life cycle

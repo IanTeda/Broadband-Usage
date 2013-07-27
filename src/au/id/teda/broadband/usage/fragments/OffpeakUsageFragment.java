@@ -1,5 +1,6 @@
 package au.id.teda.broadband.usage.fragments;
 
+import au.id.teda.broadband.usage.chart.ChartBuilder;
 import au.id.teda.broadband.usage.chart.PieChart;
 import org.achartengine.GraphicalView;
 
@@ -26,16 +27,20 @@ public class OffpeakUsageFragment extends BaseFragment {
 	
 	// Fragment page title
 	public static String PAGE_TITLE = "OFFPEAK";
-			
-	/**
+
+    private ChartBuilder mChartBuilder;
+
+    /**
 	* Called 3rd in the fragment life cycle
 	*/
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// Set fragment layout to be inflated
 		mFragmentView = inflater.inflate(R.layout.fragment_offpeak_usage, container, false);
-		
-		return mFragmentView;
+
+        mChartBuilder = new ChartBuilder(mContext);
+
+        return mFragmentView;
 	}
 	
 	@Override
@@ -54,12 +59,21 @@ public class OffpeakUsageFragment extends BaseFragment {
 
 		// Initialize chart class
 		PieChart mPieChart = new PieChart(mContext);
-		
-		// Set chart values
-		int uploads =  (mAccountStatus.getUploadsDataUsedGb() / 2);
-		int downloads = mAccountStatus.getOffpeakDataUsedGb();
-		int quota = mAccountInfo.getOffpeakQuotaGb();
-		mPieChart.setData(uploads, downloads, quota);
+
+        // Set chart values
+        long upload =  (mAccountStatus.getUploadsDataUsed());
+        long peak = mAccountStatus.getOffpeakDataUsed();
+        long offpeak = mAccountStatus.getPeakDataUsed();
+        long quota = mAccountInfo.getPeakQuota();
+
+        // Guestimate peak upload value
+        long offpeakUpload = mChartBuilder.peakUploadGuess(peak, offpeak, upload);
+
+        // Calculate offpeak less estimate upload in offpeak
+        long download = offpeak - offpeakUpload;
+
+        // Set data in pie chart
+        mPieChart.setData(upload, download, quota);
 	
 		// Set layout parameters for chart view
 		LayoutParams mChartViewParams = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
@@ -72,16 +86,15 @@ public class OffpeakUsageFragment extends BaseFragment {
 		// Set text view references
 		TextView mUploadData = (TextView) mFragmentView.findViewById(R.id.fragment_offpeak_upload_download_upload_number);
 		TextView mDownloadData = (TextView) mFragmentView.findViewById(R.id.fragment_offpeak_upload_download_download_number);
-		
-		mUploadData.setText(mAccountStatus.getUploadsDataUsedGbString());
-		mDownloadData.setText(mAccountStatus.getOffpeakDataUsedLessUploadsGbString());
+
+        mUploadData.setText(dataToGbString(offpeakUpload));
+        mDownloadData.setText(dataToGbString(download));
 	}
 
 	private void loadDonughtChart() {
 		// Set layout container for chart
 		final LinearLayout mContainerLayout = (LinearLayout) mFragmentView.findViewById(R.id.fragment_offpeak_usage_donught);
-		
-		
+
 		// Listen for view being inflated
 		ViewTreeObserver mViewTreeObserver = mContainerLayout.getViewTreeObserver();
 		mViewTreeObserver.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
@@ -124,12 +137,12 @@ public class OffpeakUsageFragment extends BaseFragment {
         });
 		
 		// Set text view references
-		TextView mPeakPercent = (TextView) mFragmentView.findViewById(R.id.fragment_offpeak_usage_donught_text_percent);
-		TextView mPeakUsed = (TextView) mFragmentView.findViewById(R.id.fragment_offpeak_usage_donught_text_period);
+		TextView mOffpeakPercent = (TextView) mFragmentView.findViewById(R.id.fragment_offpeak_usage_donught_text_percent);
+		TextView mOffpeakUsed = (TextView) mFragmentView.findViewById(R.id.fragment_offpeak_usage_donught_text_period);
 		
 		// Set text in text views
-		mPeakPercent.setText(mAccountStatus.getOffpeakDataUsedPercentString());
-		mPeakUsed.setText(mContext.getString(R.string.fragment_offpeak_usage_used));
+		mOffpeakPercent.setText(mAccountStatus.getOffpeakDataUsedPercentString());
+		mOffpeakUsed.setText(mContext.getString(R.string.fragment_offpeak_usage_used));
 	}
 
 	private void loadDailyAverageChart() {
